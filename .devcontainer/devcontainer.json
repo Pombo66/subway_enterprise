@@ -1,0 +1,16 @@
+{
+  "name": "subway-enterprise",
+  "dockerComposeFile": [
+    "../infra/docker/compose.dev.yaml"
+  ],
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

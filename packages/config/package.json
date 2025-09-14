@@ -1,0 +1,9 @@
+{
+  "name": "@subway/config",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "devDependencies": {
+    "typescript": "5.5.4"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@subway/admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3002",
+    "build": "next build",
+    "start": "next start -p 3002",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "axios": "1.7.2",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.544.0",
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "recharts": "^3.2.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.79",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "3.4.7",
+    "typescript": "5.5.4"
+  }
+}

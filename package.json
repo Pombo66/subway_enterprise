@@ -1,0 +1,22 @@
+{
+  "name": "subway-enterprise",
+  "private": true,
+  "packageManager": "pnpm@9.1.0",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:smoke": "node scripts/smoke.mjs",
+    "dev:all": "docker compose -f infra/docker/compose.dev.yaml up -d && pnpm -C apps/bff dev & pnpm -C apps/admin dev"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.2.2",
+    "turbo": "2.0.6",
+    "typescript": "5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

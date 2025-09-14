@@ -1,0 +1,28 @@
+{
+  "name": "@subway/bff",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "10.3.9",
+    "@nestjs/core": "10.3.9",
+    "@nestjs/platform-express": "10.3.9",
+    "@prisma/client": "5.18.0",
+    "@subway/config": "workspace:*",
+    "express": "4.19.2",
+    "dotenv": "^16.4.5",
+    "reflect-metadata": "^0.2.2",
+    "prisma": "5.18.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "10.3.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.3.3"
+  }
+}

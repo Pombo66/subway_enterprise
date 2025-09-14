@@ -1,0 +1,16 @@
+
+> @subway/admin@0.1.0 dev /Users/khalidgehlan/Documents/subway_enterprise/apps/admin
+> next dev -p 3002
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3002
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1569ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 4.3s (1979 modules)
+ GET /dashboard 200 in 4479ms
+ HEAD /dashboard 200 in 14ms
+ HEAD /dashboard 200 in 11ms
+[?25h
