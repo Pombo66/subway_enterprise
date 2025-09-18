@@ -1,0 +1,8 @@
+# Architecture & docs
+/docs/ @khalidgehlan
+/.github/ @khalidgehlan
+
+# Core boundaries require review
+/apps/ @khalidgehlan
+/packages/ @khalidgehlan
+/infra/ @khalidgehlan
