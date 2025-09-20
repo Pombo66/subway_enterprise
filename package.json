@@ -12,6 +12,9 @@
     "dev:all": "docker compose -f infra/docker/compose.dev.yaml up -d && pnpm -C apps/bff dev & pnpm -C apps/admin dev"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2",
     "reflect-metadata": "^0.2.2",
     "turbo": "2.0.6",
     "typescript": "5.3.3"
