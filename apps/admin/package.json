@@ -9,6 +9,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.7.0",
     "axios": "1.7.2",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.544.0",

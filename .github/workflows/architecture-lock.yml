@@ -1,0 +1,39 @@
+name: Architecture & Guardrails
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Diff summary
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          git fetch origin ${{ github.base_ref }} --depth=1
+          CHANGED=$(git diff --name-only "$BASE"... | tr '\n' ' ')
+          echo "Changed files:"
+          echo "$CHANGED"
+
+      - name: Enforce: ARCHITECTURE_LOCK edits require ADR
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          CHANGED=$(git diff --name-only "$BASE"...)
+          if echo "$CHANGED" | grep -q "^docs/ARCHITECTURE_LOCK.md$"; then
+            if ! echo "$CHANGED" | grep -q "^docs/adr/"; then
+              echo "::error ::ARCHITECTURE_LOCK.md changed but no ADR in this PR (docs/adr/*)."
+              exit 1
+            fi
+          fi
+
+      - name: Warn on big diffs (> 150 lines)
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          LINES=$(git diff --shortstat "$BASE"... | sed -n 's/.* \([0-9][0-9]*\) insertions*.*/\1/p')
+          LINES=${LINES:-0}
+          if [ "$LINES" -gt 150 ]; then
+            echo "::warning ::Diff has $LINES added lines (>150). Consider splitting."
+          fi

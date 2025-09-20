@@ -1,14 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { Filters } from './FilterBar';
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 type DailyPoint = { day: string; orders: number; revenue: number };
 type ChartPoint = { d: string; v: number };
 
 const BFF_BASE = process.env.NEXT_PUBLIC_BFF_URL || 'http://127.0.0.1:3001';
+const qs = (f: Filters) => {
+  const p = new URLSearchParams();
+  if (f.scope)   p.set('scope', f.scope);
+  if (f.storeId) p.set('storeId', f.storeId);
+  if (f.country) p.set('country', f.country);
+  if (f.region)  p.set('region', f.region);
+  const s = p.toString();
+  return s ? `?${s}` : '';
+};
 
-export default function TrendChart() {
+export default function TrendChart({ filters }: { filters: Filters }) {
   const [data, setData] = useState<ChartPoint[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +28,7 @@ export default function TrendChart() {
       try {
         setLoading(true);
         setErr(null);
-        const res = await fetch(`${BFF_BASE}/kpis/daily`, { cache: 'no-store' });
+        const res = await fetch(`${BFF_BASE}/kpis/daily${qs(filters)}` , { cache: 'no-store' });
         if (!res.ok) throw new Error(`/kpis/daily ${res.status}`);
         const json = (await res.json()) as DailyPoint[];
         // map to short weekday label + orders value
@@ -33,7 +43,7 @@ export default function TrendChart() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [filters]);
 
   return (
     <div className="card p-4">

@@ -1,0 +1,3 @@
+- Added themed navigation and server-rendered dashboard enhancements.
+- Introduced architecture guardrails with templates, workflow, and CODEOWNERS.
+- Created new theme stylesheet at apps/admin/app/styles/theme.css.
