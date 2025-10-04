@@ -1,0 +1,241 @@
+
+> @subway/admin@0.1.0 test /Users/khalidgehlan/subway_enterprise-1/apps/admin
+> jest
+
+FAIL app/menu/components/__tests__/ItemModifiersDrawer.test.tsx
+  ● Test suite failed to run
+
+    Cannot find module '../../../lib/api' from 'app/menu/components/__tests__/ItemModifiersDrawer.test.tsx'
+
+       5 |
+       6 | // Mock the API module
+    >  7 | jest.mock('../../../lib/api', () => ({
+         |      ^
+       8 |   bff: jest.fn(),
+       9 | }))
+      10 |
+
+      at Resolver._throwModNotFoundError (../../node_modules/.pnpm/jest-resolve@29.7.0/node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.mock (app/menu/components/__tests__/ItemModifiersDrawer.test.tsx:7:6)
+
+PASS lib/__tests__/telemetry.test.ts
+PASS app/components/__tests__/TelemetryDebug.test.tsx
+PASS app/components/__tests__/ToastProvider.test.tsx
+  ● Console
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+
+    console.error
+      Warning: An update to ToastProvider inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+          at children (/Users/khalidgehlan/subway_enterprise-1/apps/admin/app/components/ToastProvider.tsx:29:33)
+
+      60 |
+      61 |   const removeToast = useCallback((id: string) => {
+    > 62 |     setToasts(prev => prev.filter(toast => toast.id !== id));
+         |     ^
+      63 |   }, []);
+      64 |
+      65 |   const clearAllToasts = useCallback(() => {
+
+      at printWarning (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:86:30)
+      at error (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:60:7)
+      at warnIfUpdatesNotWrappedWithActDEV (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27628:9)
+      at scheduleUpdateOnFiber (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25547:5)
+      at dispatchSetState (../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:16708:7)
+      at setToasts (app/components/ToastProvider.tsx:62:5)
+      at onClose (app/components/Toast.tsx:41:9)
+      at callTimer (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:744:24)
+      at doTickInner (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1312:29)
+      at doTick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1393:20)
+      at Object.tick (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1401:20)
+      at Object.runToLast (../../node_modules/.pnpm/@sinonjs+fake-timers@10.3.0/node_modules/@sinonjs/fake-timers/src/fake-timers-src.js:1558:26)
+      at FakeTimers.runOnlyPendingTimers (../../node_modules/.pnpm/@jest+fake-timers@29.7.0/node_modules/@jest/fake-timers/build/modernFakeTimers.js:60:19)
+      at Object.runOnlyPendingTimers (app/components/__tests__/ToastProvider.test.tsx:23:10)
+

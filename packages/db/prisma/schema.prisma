@@ -36,9 +36,14 @@ model MenuItem {
   id        String   @id @default(cuid())
   storeId   String
   name      String
-  price     Decimal
+  price     Decimal  @db.Decimal(10, 2)
   active    Boolean  @default(true)
   Store     Store    @relation(fields: [storeId], references: [id])
+  modifiers MenuItemModifier[]
+  
+  @@index([storeId])
+  @@index([active])
+  @@index([storeId, active])
 }
 
 model Order {
@@ -58,8 +63,83 @@ enum OrderStatus {
   CANCELLED
 }
 
+model ModifierGroup {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  menuItems   MenuItemModifier[]
+  
+  @@index([active])
+}
+
+model MenuItemModifier {
+  id              String        @id @default(cuid())
+  menuItemId      String
+  modifierGroupId String
+  createdAt       DateTime      @default(now())
+  
+  // Relations
+  menuItem        MenuItem      @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  modifierGroup   ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
+  
+  @@unique([menuItemId, modifierGroupId])
+  @@index([menuItemId])
+  @@index([modifierGroupId])
+}
+
 enum Role {
   ADMIN
   MANAGER
   STAFF
+}
+
+model FeatureFlag {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  enabled     Boolean  @default(false)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([key])
+  @@index([enabled])
+}
+
+model TelemetryEvent {
+  id         String   @id @default(cuid())
+  eventType  String
+  userId     String?
+  sessionId  String?
+  properties Json?
+  timestamp  DateTime @default(now())
+  
+  @@index([eventType])
+  @@index([timestamp])
+  @@index([userId])
+}
+
+model Experiment {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  status      ExperimentStatus @default(DRAFT)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  @@index([status])
+  @@index([startDate])
+}
+
+enum ExperimentStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
 }

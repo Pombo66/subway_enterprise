@@ -1,5 +1,7 @@
 # Subway Enterprise Baseline
 
+[![CI](https://github.com/subway-enterprise/subway-enterprise/actions/workflows/ci.yml/badge.svg)](https://github.com/subway-enterprise/subway-enterprise/actions/workflows/ci.yml)
+
 ## Run order (after files are generated)
 1) corepack enable && pnpm install
 2) docker compose -f infra/docker/compose.dev.yaml up -d

@@ -1,3 +1,4 @@
+
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { parseScope, makeWhere } from '../util/scope';
@@ -23,7 +24,7 @@ function last7Days(): string[] {
 
 @Controller()
 export class MetricsController {
-  constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) {}
+  constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) { }
 
   @Get('/kpis/daily')
   async daily(@Query() q: Record<string, any>): Promise<DailyPoint[]> {

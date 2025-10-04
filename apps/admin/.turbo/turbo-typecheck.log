@@ -1,0 +1,4 @@
+
+> @subway/admin@0.1.0 typecheck /Users/khalidgehlan/subway_enterprise-1/apps/admin
+> tsc -p tsconfig.json
+

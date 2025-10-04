@@ -1,0 +1,1 @@
+// Global test setup - no mocking here since integration tests need real implementations

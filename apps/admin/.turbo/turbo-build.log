@@ -1,0 +1,241 @@
+
+> @subway/admin@0.1.0 build /Users/khalidgehlan/subway_enterprise-1/apps/admin
+> next build
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.5[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+ [32m[1m✓[22m[39m Compiled successfully
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G[1A[2K[1G[?25h
+[36m./app/components/FilterBar.tsx[39m
+[33m12[39m:[33m92[39m  [33m[1mWarning[22m[39m: React Hook useEffect has a missing dependency: 'onChange'. Either include it or remove the dependency array. If 'onChange' changes too often, find the parent component that defines it and wrap that definition in useCallback.  [90m[1mreact-hooks/exhaustive-deps[22m[39m
+
+[36m./app/menu/components/ItemModifiersDrawer.tsx[39m
+[33m57[39m:[33m6[39m  [33m[1mWarning[22m[39m: React Hook useEffect has a missing dependency: 'loadModifierData'. Either include it or remove the dependency array.  [90m[1mreact-hooks/exhaustive-deps[22m[39m
+
+[36m./app/menu/page.tsx[39m
+[33m38[39m:[33m6[39m  [33m[1mWarning[22m[39m: React Hook useEffect has a missing dependency: 'fetchMenuItems'. Either include it or remove the dependency array.  [90m[1mreact-hooks/exhaustive-deps[22m[39m
+
+[36minfo[39m  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Linting and checking validity of types     [32m[1m✓[22m[39m Linting and checking validity of types 
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
+[?25l [37m[1m [22m[39m Generating static pages (0/8)  [36m[    ][39mError: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304) {
+  digest: '2044499875'
+}
+
+Error occurred prerendering page "/menu". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304)
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304) {
+  digest: '2044499875'
+}
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304) {
+  digest: '2044499875'
+}
+
+Error occurred prerendering page "/stores". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304)
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304) {
+  digest: '2044499875'
+}
+
+Error occurred prerendering page "/_not-found". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304)
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304) {
+  digest: '2044499875'
+}
+
+Error occurred prerendering page "/dashboard". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304)
+
+Error occurred prerendering page "/orders". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 153 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:1:635)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at C (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:92913)
+    at rP (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:33974)
+    at nN (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62304)
+[2K[1G [37m[1m [22m[39m Generating static pages (5/8)  [36m[=   ][39mError: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 2169 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/app/login/page.js:1:2327)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:96668
+    at F._fromJSON (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:97106)
+    at JSON.parse (<anonymous>) {
+  digest: '2185009468'
+}
+
+Error occurred prerendering page "/login". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: @supabase/ssr: Your project's URL and API key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at tZ (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/695.js:21:90781)
+    at 9731 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/chunks/365.js:5:3046)
+    at t (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at 2169 (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/app/login/page.js:1:2327)
+    at Object.t [as require] (/Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js:1:128)
+    at require (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:18490)
+    at I (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:94362)
+    at /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:96668
+    at F._fromJSON (/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:97106)
+    at JSON.parse (<anonymous>)
+[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (8/8)
+
+> Export encountered errors on following paths:
+	/_not-found/page: /_not-found
+	/dashboard/page: /dashboard
+	/login/page: /login
+	/menu/page: /menu
+	/orders/page: /orders
+	/stores/page: /stores
+[?25h[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m

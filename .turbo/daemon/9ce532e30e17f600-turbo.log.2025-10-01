@@ -1,0 +1,447 @@
+2025-10-01T19:54:29.705173Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/.turbo-cookie"), AnchoredSystemPathBuf(".turbo/cookies/1.cookie")}
+2025-10-01T19:54:29.705183Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:54:29.806593Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache")}
+2025-10-01T19:54:29.806603Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:54:38.905811Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("turbo.json")}
+2025-10-01T19:54:38.905833Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2025-10-01T19:54:43.105855Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/2.cookie")}
+2025-10-01T19:54:43.105924Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:54:43.204763Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/.turbo"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf(".turbo/cookies/4.cookie"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf(".turbo/cookies/3.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo"), AnchoredSystemPathBuf("apps/bff/.turbo"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf(".turbo/cookies/5.cookie")}
+2025-10-01T19:54:43.204774Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T19:54:43.905509Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/.turbo/turbo-typecheck.log")}
+2025-10-01T19:54:43.905526Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T19:54:44.005719Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-typecheck.log")}
+2025-10-01T19:54:44.005729Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T19:55:09.209920Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/tsconfig.json")}
+2025-10-01T19:55:09.209962Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T19:55:13.705322Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/6.cookie")}
+2025-10-01T19:55:13.705358Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:55:13.806281Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/7.cookie"), AnchoredSystemPathBuf(".turbo/cookies/8.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf(".turbo/cookies/9.cookie")}
+2025-10-01T19:55:13.806307Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T19:55:16.303900Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache/bc85709d1bfc6b0e.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/bc85709d1bfc6b0e-meta.json"), AnchoredSystemPathBuf(".turbo/cookies/10.cookie"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-typecheck.log")}
+2025-10-01T19:55:16.303927Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:55:16.704124Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/11.cookie"), AnchoredSystemPathBuf(".turbo/cache/5d84042fbef31ad5.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/5d84042fbef31ad5-meta.json"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-typecheck.log"), AnchoredSystemPathBuf("apps/admin/tsconfig.tsbuildinfo")}
+2025-10-01T19:55:16.704134Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T19:55:17.104095Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache/47f6a958d50a171d-meta.json"), AnchoredSystemPathBuf(".turbo/cache/47f6a958d50a171d.tar.zst"), AnchoredSystemPathBuf(".turbo/cookies/12.cookie"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-typecheck.log")}
+2025-10-01T19:55:17.104107Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T19:55:28.403894Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/13.cookie")}
+2025-10-01T19:55:28.403905Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:55:40.804168Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/package.json")}
+2025-10-01T19:55:40.804179Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T19:55:51.603463Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/package.json")}
+2025-10-01T19:55:51.603479Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T19:55:56.502756Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/config/package.json")}
+2025-10-01T19:55:56.502770Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }}))
+2025-10-01T19:56:02.202316Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/package.json")}
+2025-10-01T19:56:02.202494Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T19:56:07.302571Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/14.cookie")}
+2025-10-01T19:56:07.302606Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T19:56:07.403392Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/17.cookie"), AnchoredSystemPathBuf("packages/config/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/18.cookie"), AnchoredSystemPathBuf(".turbo/cookies/16.cookie"), AnchoredSystemPathBuf("packages/config/.turbo"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-lint.log"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/15.cookie")}
+2025-10-01T19:56:07.403404Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T19:56:07.702140Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache/d95e5fe33aea2dd3-meta.json"), AnchoredSystemPathBuf(".turbo/cache/05269c222fb08cb6-meta.json"), AnchoredSystemPathBuf(".turbo/cookies/21.cookie"), AnchoredSystemPathBuf(".turbo/cache/24b397c593c8aabf.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/24b397c593c8aabf-meta.json"), AnchoredSystemPathBuf(".turbo/cache/d95e5fe33aea2dd3.tar.zst"), AnchoredSystemPathBuf(".turbo/cookies/19.cookie"), AnchoredSystemPathBuf(".turbo/cache/05269c222fb08cb6.tar.zst"), AnchoredSystemPathBuf(".turbo/cookies/20.cookie"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-lint.log")}
+2025-10-01T19:56:07.702150Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T19:56:07.888932Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/.turbo/turbo-lint.log"), AnchoredSystemPathBuf("packages/config/.turbo/turbo-lint.log")}
+2025-10-01T19:56:07.888941Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }}))
+2025-10-01T20:18:19.252452Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/22.cookie")}
+2025-10-01T20:18:19.252486Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:18:19.351973Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/24.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/25.cookie"), AnchoredSystemPathBuf("packages/config/.turbo/turbo-lint.log"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/23.cookie"), AnchoredSystemPathBuf(".turbo/cookies/26.cookie"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-lint.log")}
+2025-10-01T20:18:19.351984Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }}))
+2025-10-01T20:18:19.352048Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:18:19.652012Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache/0d7dc2c9b3993092-meta.json"), AnchoredSystemPathBuf(".turbo/cache/4d3032f2fc7177a8.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/0d7dc2c9b3993092.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/4d3032f2fc7177a8-meta.json"), AnchoredSystemPathBuf(".turbo/cache/dba31dac6a3e7030-meta.json"), AnchoredSystemPathBuf(".turbo/cache/dba31dac6a3e7030.tar.zst"), AnchoredSystemPathBuf(".turbo/cookies/27.cookie"), AnchoredSystemPathBuf(".turbo/cookies/28.cookie"), AnchoredSystemPathBuf("packages/config/.turbo/turbo-lint.log"), AnchoredSystemPathBuf("packages/db/.turbo/turbo-lint.log"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/29.cookie")}
+2025-10-01T20:18:19.652030Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T20:21:14.046181Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/30.cookie")}
+2025-10-01T20:21:14.046226Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:21:14.145366Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/31.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/36.cookie"), AnchoredSystemPathBuf(".turbo/cookies/35.cookie"), AnchoredSystemPathBuf("apps/bff/.turbo"), AnchoredSystemPathBuf("packages/config/.turbo"), AnchoredSystemPathBuf(".turbo/cookies/34.cookie"), AnchoredSystemPathBuf(".turbo/cookies/37.cookie"), AnchoredSystemPathBuf("apps/bff/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/32.cookie"), AnchoredSystemPathBuf("packages/db/.turbo"), AnchoredSystemPathBuf(".turbo/cookies/33.cookie"), AnchoredSystemPathBuf("packages/config/.turbo/turbo-lint.log")}
+2025-10-01T20:21:14.145378Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }, WorkspacePackage { name: Other("@subway/config"), path: AnchoredSystemPathBuf("packages/config") }}))
+2025-10-01T20:21:14.152970Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:21:14.153719Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:21:14.153744Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:21:14.155325Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:21:31.745136Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/38.cookie")}
+2025-10-01T20:21:31.745160Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:21:31.845479Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/39.cookie"), AnchoredSystemPathBuf(".turbo/cookies/42.cookie"), AnchoredSystemPathBuf(".turbo/cookies/40.cookie"), AnchoredSystemPathBuf(".turbo/cookies/41.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log")}
+2025-10-01T20:21:31.845488Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:21:31.860308Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:55:44.487898Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/43.cookie")}
+2025-10-01T20:55:44.487939Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:55:44.588659Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/45.cookie"), AnchoredSystemPathBuf(".turbo/cookies/46.cookie"), AnchoredSystemPathBuf(".turbo/cookies/44.cookie"), AnchoredSystemPathBuf(".turbo/cookies/47.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log")}
+2025-10-01T20:55:44.588670Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T20:55:44.588699Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:56:36.887208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/multi-phase-delivery-system/tasks.md")}
+2025-10-01T20:56:36.887268Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:56:48.086721Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/hooks"), AnchoredSystemPathBuf(".kiro/hooks/code-quality-analyzer.kiro.hook")}
+2025-10-01T20:56:48.086745Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:57:03.186695Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/48.cookie")}
+2025-10-01T20:57:03.186714Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:57:03.286605Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/49.cookie"), AnchoredSystemPathBuf(".turbo/cookies/51.cookie"), AnchoredSystemPathBuf(".turbo/cookies/50.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/52.cookie")}
+2025-10-01T20:57:03.286615Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:57:03.291479Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:58:24.883083Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/53.cookie")}
+2025-10-01T20:58:24.883105Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:58:24.984474Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/55.cookie"), AnchoredSystemPathBuf(".turbo/cookies/56.cookie"), AnchoredSystemPathBuf(".turbo/cookies/54.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/57.cookie")}
+2025-10-01T20:58:24.984485Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T20:58:24.984545Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:58:59.783550Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/59.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/62.cookie"), AnchoredSystemPathBuf(".turbo/cookies/60.cookie"), AnchoredSystemPathBuf(".turbo/cookies/58.cookie"), AnchoredSystemPathBuf(".turbo/cookies/61.cookie")}
+2025-10-01T20:58:59.783565Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:58:59.814802Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T20:59:53.680999Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/63.cookie")}
+2025-10-01T20:59:53.681020Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T20:59:53.782749Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/64.cookie"), AnchoredSystemPathBuf(".turbo/cookies/66.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/67.cookie"), AnchoredSystemPathBuf(".turbo/cookies/65.cookie")}
+2025-10-01T20:59:53.782761Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T20:59:53.782795Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:01:34.879375Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log")}
+2025-10-01T21:01:34.879459Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:01:34.931103Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:02:34.077705Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/68.cookie")}
+2025-10-01T21:02:34.078101Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:02:34.175487Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/69.cookie"), AnchoredSystemPathBuf(".turbo/cookies/71.cookie"), AnchoredSystemPathBuf(".turbo/cookies/72.cookie"), AnchoredSystemPathBuf("apps/admin/.turbo/turbo-lint.log"), AnchoredSystemPathBuf(".turbo/cookies/70.cookie")}
+2025-10-01T21:02:34.175506Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:02:34.220230Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:05:31.381199Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/multi-phase-delivery-system/tasks.md")}
+2025-10-01T21:05:31.382921Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:05:37.771162Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/multi-phase-delivery-system/tasks.md")}
+2025-10-01T21:05:37.771179Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:06:09.269561Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode"), AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx"), AnchoredSystemPathBuf("apps/admin/app/menu"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:06:09.269803Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:06:22.170792Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:06:22.170831Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:06:25.968837Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx"), AnchoredSystemPathBuf("apps/admin/app/menu/components"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:06:25.968859Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:06:38.370695Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:06:38.370723Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:06:42.669261Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:06:42.669279Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:06:42.769125Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:06:42.769134Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:06:58.568049Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:06:58.568066Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:07:15.168935Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/styles/theme.css")}
+2025-10-01T21:07:15.169057Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:09:57.789640Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/multi-phase-delivery-system/tasks.md")}
+2025-10-01T21:09:57.796562Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:12:11.767941Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/requirements.md"), AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry")}
+2025-10-01T21:12:11.769311Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:12:31.059595Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/requirements.md")}
+2025-10-01T21:12:31.059645Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:13:26.557275Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/design.md")}
+2025-10-01T21:13:26.557320Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:14:06.956219Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/design.md")}
+2025-10-01T21:14:06.956270Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:16:21.452026Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:16:21.452066Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:16:36.451997Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:16:36.452020Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:17:42.651357Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:17:42.651400Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:17:48.058636Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:17:48.058657Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:17:59.758466Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/schema.prisma")}
+2025-10-01T21:17:59.758638Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:17:59.849416Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/schema.prisma")}
+2025-10-01T21:17:59.849431Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:17:59.849448Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:18:06.047920Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/schema.prisma")}
+2025-10-01T21:18:06.047941Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:19:45.049826Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/migrations/migration_lock.toml"), AnchoredSystemPathBuf("packages/db/prisma/migrations/20251001211944_add_modifier_system"), AnchoredSystemPathBuf("packages/db/prisma/migrations/20251001211944_add_modifier_system/migration.sql")}
+2025-10-01T21:19:45.050505Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:20:21.646254Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:20:21.646306Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:20:33.146964Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:20:33.147270Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:20:39.346522Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:20:39.346598Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:21:41.045281Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:21:41.045329Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:21:56.163859Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:21:56.163894Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:22:23.743999Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:22:23.744024Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:22:42.347739Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:22:42.347762Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:22:50.342735Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/module.ts")}
+2025-10-01T21:22:50.342758Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:22:55.743317Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/schema.prisma")}
+2025-10-01T21:22:55.743373Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:22:55.843161Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/schema.prisma")}
+2025-10-01T21:22:55.843172Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-10-01T21:22:55.843186Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:22:58.643123Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/types.ts")}
+2025-10-01T21:22:58.643138Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:23:02.044546Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/types.ts")}
+2025-10-01T21:23:02.044566Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:23:06.443798Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:06.443910Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:06.541942Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:23:06.541961Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:23:11.243125Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:11.243157Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:11.449626Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:11.449637Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:21.641836Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:21.641864Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:21.942305Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:23:21.942317Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:31.941771Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:31.941815Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:32.041991Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:32.042009Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:32.242586Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:32.242610Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:38.141645Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:38.141686Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:38.356960Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:23:38.356971Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:23:38.441627Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:38.441640Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:46.847232Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:23:46.847277Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:47.041977Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:23:47.041997Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:49.842089Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:23:49.842116Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:23:56.541646Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:23:56.541663Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:04.440904Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:04.441030Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:08.441163Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:08.441179Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:09.439954Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:24:09.439972Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:24:15.143084Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx")}
+2025-10-01T21:24:15.144781Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:15.240229Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:15.240240Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:15.941075Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:15.941094Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:18.853027Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:18.853056Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:18.939274Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:18.939284Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:24:21.240687Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/dto/menu.dto.ts"), AnchoredSystemPathBuf("apps/bff/src/dto")}
+2025-10-01T21:24:21.240717Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:24.139551Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/dto/menu.dto.ts")}
+2025-10-01T21:24:24.139569Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:30.640421Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:30.640451Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:31.539785Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:31.539802Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:31.940438Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx")}
+2025-10-01T21:24:31.940447Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:35.839394Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:35.839466Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:38.639657Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:38.639681Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:38.739560Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:38.739604Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:38.940306Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:38.940330Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:24:42.039011Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:42.039048Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:47.239605Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:47.239616Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:24:51.938866Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:51.938881Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:52.355413Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx")}
+2025-10-01T21:24:52.355441Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:24:52.439724Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:24:52.439743Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:24:57.339310Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:24:57.339326Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:02.037829Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/types"), AnchoredSystemPathBuf("apps/bff/src/types/api-response.ts")}
+2025-10-01T21:25:02.037841Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:04.038401Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:25:04.038433Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:25:05.138863Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/types/api-response.ts")}
+2025-10-01T21:25:05.138873Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:11.339121Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:11.339158Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:16.137907Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/selectors"), AnchoredSystemPathBuf("apps/bff/src/selectors/menu.selectors.ts")}
+2025-10-01T21:25:16.137940Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:19.340564Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/selectors/menu.selectors.ts")}
+2025-10-01T21:25:19.340592Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:19.437759Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/selectors/menu.selectors.ts")}
+2025-10-01T21:25:19.437769Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:19.437788Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:25:25.738241Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:25.738274Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:31.841382Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:31.841410Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:37.238856Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:37.238874Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:44.138164Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:44.138193Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:51.237810Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:51.237837Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:25:58.137495Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:25:58.137527Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:03.936571Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:03.936601Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:10.336882Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:10.336900Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:14.737606Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:14.737623Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:26.237459Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:26.237490Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:38.436051Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:38.436081Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:42.935877Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:42.935897Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:26:52.236094Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:26:52.236105Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:27:09.735815Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:27:09.735842Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:27:15.635600Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:27:15.635611Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:27:23.135135Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:27:23.135158Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:27:28.835244Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/menu.ts")}
+2025-10-01T21:27:28.835261Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-10-01T21:28:00.234452Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:00.234497Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:07.833597Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:07.833618Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:27.133667Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:27.133737Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:30.333499Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:30.333524Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:33.433360Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:33.433378Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:33.532073Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:33.532096Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:36.532876Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:36.532911Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:36.633596Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:36.633620Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:38.432221Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:38.432245Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:40.333489Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:28:40.333513Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:28:44.932725Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemModifiersDrawer.tsx")}
+2025-10-01T21:28:44.932737Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:00.653257Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:29:00.653299Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:00.940211Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:29:00.940234Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:01.032782Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:29:01.032806Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:04.832171Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:29:04.832191Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:30.331446Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemModifiersDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:30.331481Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:29:37.231943Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:37.231995Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:37.330431Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx")}
+2025-10-01T21:29:37.330444Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:44.731674Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:44.731714Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:44.831218Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/MenuTable.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:44.831230Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:50.342549Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:50.342588Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:50.431140Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:29:50.431151Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:29:57.034102Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:57.034486Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:29:57.131186Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:29:57.131206Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:29:57.230382Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:29:57.230398Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:02.730526Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:02.730718Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:02.929615Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:02.929626Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:30:13.030194Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:13.030229Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:13.129786Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:30:13.129803Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:30:13.230086Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:13.230098Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:33.229614Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:33.229662Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:33.329443Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:33.329463Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:33.429188Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:33.429207Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:39.631667Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:39.632395Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:39.737599Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:39.739574Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:47.329286Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:30:47.329584Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:30:47.429359Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:30:47.429379Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:31:00.928996Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:31:00.929034Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:31:01.028099Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:31:01.028111Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:31:12.027760Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:31:12.027829Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:31:12.228819Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:31:12.228835Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:31:27.927404Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/tsconfig.tsbuildinfo")}
+2025-10-01T21:31:27.927437Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:31:58.234136Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/types.ts")}
+2025-10-01T21:31:58.235681Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:31:58.315658Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-10-01T21:32:19.427184Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/types.ts")}
+2025-10-01T21:32:19.427211Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:32:30.425251Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:32:30.425298Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:32:30.625210Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/page.tsx")}
+2025-10-01T21:32:30.625227Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:32:30.725665Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:32:30.725675Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:32:36.126107Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/tsconfig.tsbuildinfo")}
+2025-10-01T21:32:36.126127Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:38:47.622489Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:38:47.623730Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:39:00.015379Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:39:00.015446Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:39:05.014824Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:39:05.014844Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:04.620558Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:48:04.621681Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:13.303275Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:48:13.303306Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:20.098521Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".kiro/specs/menu-modifiers-and-telemetry/tasks.md")}
+2025-10-01T21:48:20.098558Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:37.299145Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:48:37.299506Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:37.397824Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:48:37.397837Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:43.698268Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:48:43.698300Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:43.996759Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:48:43.996776Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:48:55.097743Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:48:55.097778Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:48:55.397021Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:48:55.397033Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:04.998337Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:04.998393Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:05.196897Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:49:05.196918Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:05.296970Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:05.296988Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:18.697327Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:18.697359Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:18.996081Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:49:18.996104Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:19.107930Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:19.107940Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:26.796399Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:26.796486Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:26.996065Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:26.996075Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:35.696202Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:35.696261Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:36.095566Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx")}
+2025-10-01T21:49:36.095586Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:36.195716Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:36.195733Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:43.999917Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:43.999965Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-10-01T21:49:44.195902Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/menu/components/ItemDrawer.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-10-01T21:49:44.195912Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-10-01T21:49:54.596021Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/tsconfig.tsbuildinfo")}
+2025-10-01T21:49:54.596036Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))

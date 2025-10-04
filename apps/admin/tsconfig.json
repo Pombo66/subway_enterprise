@@ -10,6 +10,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["jest", "node", "@testing-library/jest-dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,

@@ -154,3 +154,61 @@
 }
 .seg a:hover { background:rgba(255,255,255,0.08); }
 .seg .on { background:#1d293d; color:var(--s-head); }
+
+/* Form controls */
+.s-input {
+  background: var(--s-panel);
+  border: 1px solid var(--s-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--s-text);
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+}
+.s-input:focus {
+  outline: none;
+  border-color: var(--s-accent);
+  box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.1);
+}
+.s-input::placeholder {
+  color: var(--s-muted);
+}
+
+.s-select {
+  background: var(--s-panel);
+  border: 1px solid var(--s-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--s-text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.s-select:focus {
+  outline: none;
+  border-color: var(--s-accent);
+  box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.1);
+}
+
+.s-btn {
+  background: var(--s-accent);
+  color: #0b1a13;
+  border: 1px solid var(--s-accent);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.s-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.s-btn:active {
+  transform: translateY(0);
+}

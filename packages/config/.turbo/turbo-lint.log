@@ -1,0 +1,17 @@
+
+> @subway/config@0.1.0 lint /Users/khalidgehlan/subway_enterprise-1/packages/config
+> eslint src --ext .ts --max-warnings=0
+
+=============
+
+WARNING: You are currently running a version of TypeScript which is not officially supported by @typescript-eslint/typescript-estree.
+
+You may find that it works just fine, or you may not.
+
+SUPPORTED TYPESCRIPT VERSIONS: >=4.3.5 <5.4.0
+
+YOUR TYPESCRIPT VERSION: 5.5.4
+
+Please only submit bug reports when using the officially supported version.
+
+=============
