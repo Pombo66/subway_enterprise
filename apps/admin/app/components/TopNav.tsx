@@ -34,9 +34,9 @@ export default function TopNav() {
         {user ? (
           <>
             <span className="text-sm opacity-80">{user.email}</span>
-            <button
+            <button 
               onClick={signOut}
-              className="text-sm px-2 py-1 rounded hover:bg-white/10 opacity-80"
+              className="s-btn s-btn--md text-sm px-2 py-1 rounded hover:bg-white/10 opacity-80"
             >
               Sign out
             </button>

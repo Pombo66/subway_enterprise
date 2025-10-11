@@ -29,7 +29,7 @@ export default function LoginPage() {
           <input
             type="email"
             value={email}
-            onChange={e=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             className="mt-1 w-full rounded bg-card border border-white/10 px-2 py-1"
             placeholder="you@example.com"
             required
@@ -40,16 +40,16 @@ export default function LoginPage() {
           <input
             type="password"
             value={password}
-            onChange={e=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             className="mt-1 w-full rounded bg-card border border-white/10 px-2 py-1"
             placeholder="••••••••"
             required
           />
         </label>
-        <button
+        <button 
           type="submit"
           disabled={loading}
-          className="w-full rounded bg-white/10 border border-white/20 px-3 py-2 text-sm hover:opacity-80"
+          className="s-btn s-btn--md w-full rounded bg-white/10 border border-white/20 px-3 py-2 text-sm hover:opacity-80"
         >
           {loading ? 'Signing in…' : 'Sign In'}
         </button>

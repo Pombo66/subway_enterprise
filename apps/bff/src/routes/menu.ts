@@ -21,7 +21,7 @@ export class MenuController {
     const where = makeWhere(parseScope(q)); // supports region/country/storeId
     const storeWhere: Record<string, unknown> = where.store ?? {};
     
-    return this.prisma.menuItem.findMany({
+    const results = await this.prisma.menuItem.findMany({
       where: {
         Store: storeWhere,
       },
@@ -29,6 +29,8 @@ export class MenuController {
       orderBy: { name: 'asc' },
       take: q.take || 100,
     });
+
+    return results.map(r => ({ ...r, price: Number(r.price ?? 0) }));
   }
 
   @Post('/menu/items')
@@ -53,7 +55,7 @@ export class MenuController {
       select: MENU_ITEM_SELECT
     });
 
-    return ApiResponseBuilder.success(item);
+    return ApiResponseBuilder.success({ ...item, price: Number(item.price ?? 0) });
   }
 
   @Get('/menu/modifier-groups')

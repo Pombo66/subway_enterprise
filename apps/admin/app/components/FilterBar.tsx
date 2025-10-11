@@ -14,7 +14,7 @@ export default function FilterBar({ onChange }: { onChange: (f: Filters)=>void }
   return (
     <div className="mb-4 flex flex-wrap items-end gap-3">
       <label className="text-sm">Scope
-        <select className="ml-2 rounded bg-card border border-white/10 px-2 py-1"
+        <select className="s-select ml-2 rounded bg-card border border-white/10 px-2 py-1"
                 value={f.scope}
                 onChange={e=>setF({ ...f, scope: e.target.value as Scope, /* reset */ storeId: undefined, country: undefined, region: undefined })}>
           <option value="global">Global</option>
@@ -24,14 +24,14 @@ export default function FilterBar({ onChange }: { onChange: (f: Filters)=>void }
       </label>
       {f.scope === 'region' && (
         <>
-          <input placeholder="Country (full name, e.g. France)" className="rounded bg-card border border-white/10 px-2 py-1"
+          <input placeholder="Country (full name, e.g. France)" className="s-input rounded bg-card border border-white/10 px-2 py-1"
                  value={f.country || ''} onChange={e=>setF({ ...f, country: e.target.value || undefined })}/>
-          <input placeholder="Region e.g. EMEA (optional)" className="rounded bg-card border border-white/10 px-2 py-1"
+          <input placeholder="Region e.g. EMEA (optional)" className="s-input rounded bg-card border border-white/10 px-2 py-1"
                  value={f.region || ''}  onChange={e=>setF({ ...f, region: e.target.value || undefined })}/>
         </>
       )}
       {f.scope === 'store' && (
-        <input placeholder="Store ID" className="rounded bg-card border border-white/10 px-2 py-1"
+        <input placeholder="Store ID" className="s-input rounded bg-card border border-white/10 px-2 py-1"
                value={f.storeId || ''} onChange={e=>setF({ ...f, storeId: e.target.value || undefined })}/>
       )}
     </div>

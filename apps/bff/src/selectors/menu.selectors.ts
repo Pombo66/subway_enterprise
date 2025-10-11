@@ -4,6 +4,8 @@ export const MENU_ITEM_SELECT = {
   price: true,
   active: true,
   storeId: true,
+  createdAt: true,
+  updatedAt: true,
   Store: {
     select: { 
       id: true, 
@@ -20,6 +22,7 @@ export const MODIFIER_GROUP_SELECT = {
   description: true,
   active: true,
   createdAt: true,
+  updatedAt: true,
 } as const;
 
 export const MENU_ITEM_WITH_MODIFIERS_SELECT = {

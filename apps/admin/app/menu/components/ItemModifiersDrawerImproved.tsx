@@ -88,20 +88,20 @@ const ItemModifiersDrawer = memo(function ItemModifiersDrawer({
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <button
+              <button 
                 onClick={handleRefresh}
                 disabled={state.loading}
-                className="p-2 hover:bg-gray-100 rounded-full disabled:opacity-50 transition-colors"
+                className="s-btn s-btn--md p-2 hover:bg-gray-100 rounded-full disabled:opacity-50 transition-colors"
                 aria-label="Refresh modifier data"
               >
                 <RefreshCw className={`w-4 h-4 ${state.loading ? 'animate-spin' : ''}`} />
               </button>
               <button
+         <button 
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="s-btn s-btn--md p-2 hover:bg-gray-100 rounded-full transition-colors"
                 aria-label="Close dialog"
-              >
-                <X className="w-5 h-5" />
+              ><X className="w-5 h-5" />
               </button>
             </div>
           </header>
@@ -113,11 +113,10 @@ const ItemModifiersDrawer = memo(function ItemModifiersDrawer({
                 <div className="flex items-center justify-between">
                   <p className="text-red-600 text-sm">{state.error}</p>
                   <button
+                    onClic<button 
                     onClick={handleRefresh}
-                    className="text-red-600 hover:text-red-800 text-sm underline transition-colors"
-                  >
-                    Try Again
-                  </button>
+                    className="s-btn s-btn--md text-red-600 hover:text-red-800 text-sm underline transition-colors"
+                  >               </button>
                 </div>
               </div>
             )}
@@ -160,11 +159,10 @@ const ItemModifiersDrawer = memo(function ItemModifiersDrawer({
               </span>
               <button
                 onClick={onClose}
-                className="s-btn"
-              >
-                Done
-              </button>
-            </div>
+         <button 
+                onClick={onClose}
+                className="s-btn s-btn--md"
+              >       </div>
           </footer>
         </div>
       </div>

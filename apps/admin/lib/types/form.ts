@@ -2,7 +2,7 @@
  * Enhanced form types with better type safety
  */
 
-import { CreateMenuItemData } from './index';
+import { CreateMenuItemData } from '../types';
 
 // More specific error types
 export type FormFieldName = keyof CreateMenuItemData | 'general';

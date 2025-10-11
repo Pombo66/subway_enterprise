@@ -23,7 +23,7 @@ export class TelemetryController {
           eventType: body.eventType.trim(),
           userId: body.userId,
           sessionId: body.sessionId,
-          properties: body.properties,
+          properties: body.properties ? JSON.stringify(body.properties) : null,
           timestamp: body.timestamp ? new Date(body.timestamp) : new Date(),
         },
         select: {

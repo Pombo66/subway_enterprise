@@ -1,6 +1,7 @@
 /**
  * Type definitions for menu-related API responses
  */
+import { Decimal } from '@prisma/client/runtime/library';
 
 export interface MenuItemResponse {
   id: string;
@@ -10,12 +11,18 @@ export interface MenuItemResponse {
   storeId: string;
   createdAt: Date;
   updatedAt: Date;
+  Store?: {
+    id: string;
+    name: string;
+    country: string | null;
+    region: string | null;
+  };
 }
 
 export interface ModifierGroupResponse {
   id: string;
   name: string;
-  description?: string;
+  description?: string | null;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;

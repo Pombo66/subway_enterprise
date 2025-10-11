@@ -61,7 +61,7 @@ export default function Toast({ id, type, message, duration = 5000, onClose }: T
         <p className="text-sm font-medium break-words">{message}</p>
       </div>
       
-      <button
+      <button 
         onClick={() => onClose(id)}
         className="flex-shrink-0 p-1 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
         aria-label="Close notification"

@@ -48,9 +48,9 @@ export class ErrorBoundary extends Component<Props, State> {
           <p className="text-gray-600 mb-4 max-w-md">
             {this.state.error?.message || 'An unexpected error occurred. Please try again.'}
           </p>
-          <button
+          <button 
             onClick={this.handleRetry}
-            className="s-btn flex items-center gap-2"
+            className="s-btn s-btn--md flex items-center gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again

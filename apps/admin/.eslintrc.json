@@ -1,3 +1,14 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": ["subway"],
+  "rules": {
+    "subway/design-consistency": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["./eslint-rules"]
+      }
+    }
+  }
 }

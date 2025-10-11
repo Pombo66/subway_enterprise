@@ -2,6 +2,9 @@
   "name": "@subway/db",
   "version": "0.1.0",
   "type": "module",
+  "prisma": {
+    "seed": "node prisma/seed.mjs"
+  },
   "scripts": {
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy || prisma migrate dev --name init",

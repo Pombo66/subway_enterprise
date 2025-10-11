@@ -1,5 +1,5 @@
-import './styles/theme.css';
 import './globals.css';
+import './styles/theme.css';
 import { Inter } from 'next/font/google';
 import Nav from '@/app/components/Nav';
 import Sidebar from '@/app/components/Sidebar';
@@ -7,6 +7,7 @@ import TopNav from './components/TopNav';
 import { AuthProvider } from './components/AuthProvider';
 import { ToastProvider } from './components/ToastProvider';
 import DebugToggle from './components/DebugToggle';
+import CommitBadge from './components/CommitBadge';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 

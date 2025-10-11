@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  role      Role     @default(STAFF)
+  role      String   @default("STAFF")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Orders    Order[]
@@ -36,8 +36,10 @@ model MenuItem {
   id        String   @id @default(cuid())
   storeId   String
   name      String
-  price     Decimal  @db.Decimal(10, 2)
+  price     Decimal
   active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
   Store     Store    @relation(fields: [storeId], references: [id])
   modifiers MenuItemModifier[]
   
@@ -51,17 +53,13 @@ model Order {
   storeId   String
   userId    String?
   total     Decimal
-  status    OrderStatus @default(PAID)
+  status    String      @default("PAID")
   createdAt DateTime    @default(now())
   Store     Store       @relation(fields: [storeId], references: [id])
   User      User?       @relation(fields: [userId], references: [id])
 }
 
-enum OrderStatus {
-  PAID
-  PENDING
-  CANCELLED
-}
+
 
 model ModifierGroup {
   id          String   @id @default(cuid())
@@ -92,11 +90,7 @@ model MenuItemModifier {
   @@index([modifierGroupId])
 }
 
-enum Role {
-  ADMIN
-  MANAGER
-  STAFF
-}
+
 
 model FeatureFlag {
   id          String   @id @default(cuid())
@@ -115,7 +109,7 @@ model TelemetryEvent {
   eventType  String
   userId     String?
   sessionId  String?
-  properties Json?
+  properties String?
   timestamp  DateTime @default(now())
   
   @@index([eventType])
@@ -127,7 +121,7 @@ model Experiment {
   id          String           @id @default(cuid())
   name        String           @unique
   description String?
-  status      ExperimentStatus @default(DRAFT)
+  status      String           @default("DRAFT")
   startDate   DateTime?
   endDate     DateTime?
   createdAt   DateTime         @default(now())
@@ -137,9 +131,4 @@ model Experiment {
   @@index([startDate])
 }
 
-enum ExperimentStatus {
-  DRAFT
-  ACTIVE
-  PAUSED
-  COMPLETED
-}
+

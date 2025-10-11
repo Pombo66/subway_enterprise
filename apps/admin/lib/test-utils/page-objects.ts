@@ -52,7 +52,7 @@ export class ItemDrawerPageObject {
       fireEvent.change(this.storeSelect, { target: { value: data.storeId } });
     }
     if (data.active !== undefined) {
-      if (data.active !== this.activeCheckbox.checked) {
+      if (data.active !== (this.activeCheckbox as HTMLInputElement).checked) {
         fireEvent.click(this.activeCheckbox);
       }
     }

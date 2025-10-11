@@ -6,6 +6,7 @@ type KPIs = {
   revenueToday: number;
   menuItems: number;
   pendingOrders: number;
+  totalStores?: number;
 };
 type Daily = { day: string; orders: number; revenue: number };
 type OrderRow = {
@@ -22,7 +23,22 @@ function money(n: number) {
 }
 
 export default async function DashboardPage() {
-  const kpis = await bff<KPIs>('/kpis');
+  let kpis: KPIs;
+  let dataError = false;
+  
+  try {
+    kpis = await bff<KPIs>('/kpis');
+  } catch (error) {
+    console.error('Failed to fetch KPIs:', error);
+    dataError = true;
+    kpis = {
+      ordersToday: 0,
+      revenueToday: 0,
+      menuItems: 0,
+      pendingOrders: 0,
+      totalStores: 0,
+    };
+  }
 
   let daily: Daily[] = [];
   try {
@@ -69,7 +85,14 @@ export default async function DashboardPage() {
       <div className="s-wrap">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <h1 className="s-h1">Subway Enterprise</h1>
-          <span className="s-badge">Scope: {kpis?.scopeApplied?.scope ?? 'global'}</span>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {dataError && (
+              <span className="s-badge" style={{ backgroundColor: '#f59e0b', color: 'white' }}>
+                Data temporarily unavailable
+              </span>
+            )}
+            <span className="s-badge">Scope: {kpis?.scopeApplied?.scope ?? 'global'}</span>
+          </div>
         </div>
 
         <section className="s-kpis">
@@ -148,6 +171,22 @@ export default async function DashboardPage() {
             <p className="s-v">£{(kpis?.ordersToday ? kpis.revenueToday / Math.max(1, kpis.ordersToday) : 0).toFixed(2)}</p>
             <p className="s-sub">Today only</p>
           </div>
+
+          <div className="s-card">
+            <div className="s-cardAccent s-accentBlue" />
+            <p className="s-k">
+              <span className="s-blob s-blob--b">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L2 7v10c0 5.55 3.84 10 9 11 1.66.34 3.34.34 5 0 5.16-1 9-5.45 9-11V7l-10-5z" />
+                </svg>
+              </span>
+              Total Stores
+            </p>
+            <p className="s-v">{kpis?.totalStores ?? '—'}</p>
+            <p className="s-sub">Active locations</p>
+          </div>
+
+
         </section>
 
         <section className="s-panGrid">
@@ -173,9 +212,9 @@ export default async function DashboardPage() {
           <div className="s-panelCard">
             <p className="s-panelT">Quick Actions</p>
             <div className="qa">
-              <a href="/items/new" className="btn btn-primary">Add New Item</a>
-              <a href="/orders" className="btn">View All Orders</a>
-              <a href="/categories" className="btn">Manage Categories</a>
+              <a href="/items/new" className="s-btn s-btn--sm">Add New Item</a>
+              <a href="/orders" className="s-btn s-btn--sm btn-secondary">View All Orders</a>
+              <a href="/categories" className="s-btn s-btn--sm btn-secondary">Manage Categories</a>
             </div>
           </div>
 

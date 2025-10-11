@@ -13,6 +13,7 @@ export interface PageViewProperties extends BaseEventProperties {
   referrer?: string;
   userAgent?: string;
   loadTime?: number;
+  [key: string]: unknown;
 }
 
 export interface UserActionProperties extends BaseEventProperties {
@@ -20,6 +21,7 @@ export interface UserActionProperties extends BaseEventProperties {
   component?: string;
   value?: string | number;
   metadata?: Record<string, string | number | boolean>;
+  [key: string]: unknown;
 }
 
 export interface ErrorEventProperties extends BaseEventProperties {

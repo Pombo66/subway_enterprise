@@ -52,7 +52,7 @@ export default function ModifierList({
                         </p>
                       )}
                     </div>
-                    <button
+                    <button 
                       onClick={() => onAction(group)}
                       disabled={isOperationInProgress}
                       className={`ml-2 p-1 text-${actionColor}-600 hover:text-${actionColor}-800 hover:bg-${actionColor}-50 rounded disabled:opacity-50`}

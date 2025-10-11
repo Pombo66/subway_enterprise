@@ -9,13 +9,21 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:smoke": "node scripts/smoke.mjs",
-    "dev:all": "docker compose -f infra/docker/compose.dev.yaml up -d && pnpm -C apps/bff dev & pnpm -C apps/admin dev"
+    "dev:all": "docker compose -f infra/docker/compose.dev.yaml up -d && pnpm -C apps/bff dev & pnpm -C apps/admin dev",
+    "design:audit": "pnpm --filter @subway/admin run lint:design",
+    "design:fix:dry": "ts-node scripts/codemods/add-subway-classes.ts",
+    "design:fix": "ts-node scripts/codemods/add-subway-classes.ts --write",
+    "design:test": "ts-node scripts/codemods/validate-codemod.ts",
+    "design:demo": "ts-node scripts/codemods/demo.ts"
   },
   "devDependencies": {
+    "glob": "^10.3.10",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6",
     "prettier": "^3.6.2",
     "reflect-metadata": "^0.2.2",
+    "ts-morph": "^21.0.1",
+    "ts-node": "^10.9.2",
     "turbo": "2.0.6",
     "typescript": "5.3.3"
   },

@@ -3,7 +3,7 @@
  */
 
 import { CreateMenuItemData } from '../types';
-import { MenuItemRepository } from '../repositories/menu-item.repository';
+import { MenuItemRepository, MenuItem } from '../repositories/menu-item.repository';
 import { ValidationError } from '../errors';
 import { ValidationStrategy, MenuItemValidationStrategy } from '../validation/strategies';
 
@@ -69,7 +69,13 @@ export class UpdateMenuItemCommand implements FormCommand {
     }
 
     try {
-      await this.repository.update(this.id, this.data);
+      // Convert CreateMenuItemData to MenuItem format
+      const updateData: Partial<MenuItem> = {};
+      if (this.data.name !== undefined) updateData.name = this.data.name;
+      if (this.data.active !== undefined) updateData.active = this.data.active;
+      if (this.data.storeId !== undefined) updateData.storeId = this.data.storeId;
+      if (this.data.price !== undefined) updateData.price = parseFloat(this.data.price);
+      await this.repository.update(this.id, updateData);
       this.onSuccess();
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';

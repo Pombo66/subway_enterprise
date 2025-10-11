@@ -48,9 +48,9 @@ function FormField({
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          rows={rows}
           className={textareaClasses}
           placeholder={placeholder}
+          rows={rows}
         />
       ) : (
         <input
@@ -214,7 +214,7 @@ export default function TelemetryDebug({ isVisible, onClose }: TelemetryDebugPro
       <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Telemetry Debug Panel</h2>
-          <button
+          <button 
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-xl font-bold"
           >
@@ -296,7 +296,7 @@ export default function TelemetryDebug({ isVisible, onClose }: TelemetryDebugPro
               onClick={resetForm}
               className="px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm hover:bg-gray-200"
             >
-              Reset Form
+              Reset
             </button>
           </div>
 

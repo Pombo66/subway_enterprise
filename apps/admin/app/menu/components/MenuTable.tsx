@@ -31,9 +31,9 @@ export default function MenuTable({ items, loading, error, onRefresh, onEditModi
             <p className="font-medium">Error loading menu items</p>
           </div>
           <p className="text-gray-600 text-sm mb-4">{error}</p>
-          <button
+          <button 
             onClick={onRefresh}
-            className="s-btn"
+            className="s-btn s-btn--md"
           >
             Try Again
           </button>
@@ -48,10 +48,10 @@ export default function MenuTable({ items, loading, error, onRefresh, onEditModi
         <div className="p-6 text-center">
           <p className="text-gray-600">No menu items found</p>
           <button
+   <button 
             onClick={onRefresh}
-            className="mt-2 text-blue-600 hover:text-blue-800"
-          >
-            Refresh
+            className="s-btn s-btn--md mt-2 text-blue-600 hover:text-blue-800"
+          >  Refresh
           </button>
         </div>
       </div>
@@ -122,19 +122,15 @@ export default function MenuTable({ items, loading, error, onRefresh, onEditModi
                 <div className="flex justify-center space-x-2">
                   {onEditModifiers && (
                     <button 
-                      onClick={() => onEditModifiers(item.id, item.name)}
+                   <button className="s-btn s-btn--md" onClick={() =>em.name)}
                       className="text-purple-600 hover:text-purple-900 text-sm"
                       data-testid="modifiers-button"
                     >
                       Modifiers
                     </button>
                   )}
-                  <button className="text-blue-600 hover:text-blue-900 text-sm">
-                    Edit
-                  </button>
-                  <button className="text-red-600 hover:text-red-900 text-sm">
-                    Delete
-                  </button>
+                  <button className="text-blue-600 <button  className="s-btn s-btn--md text-blue-600 hover:text-blue-900 text-sm">           </button>
+                  <button className="text-red-600 hover:text-red-900<button  className="s-btn s-btn--md text-red-600 hover:text-red-900 text-sm">tton>
                 </div>
               </td>
             </tr>
