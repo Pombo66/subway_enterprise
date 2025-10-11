@@ -27,16 +27,16 @@ export class MetricsController {
   constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) { }
 
   @Get('/kpis/daily')
-  async daily(@Query() q: Record<string, any>): Promise<DailyPoint[]> {
+  async daily(@Query() q: Record<string, unknown>): Promise<DailyPoint[]> {
     const scope = parseScope(q);
-    const whereBase: any = makeWhere(scope);
+    const whereBase: Record<string, unknown> = makeWhere(scope);
 
     // date window: last 7 days inclusive
     const start = new Date();
     start.setHours(0, 0, 0, 0);
     start.setDate(start.getDate() - 6);
 
-    const where: any = {
+    const where: Record<string, unknown> = {
       ...whereBase,
       createdAt: { gte: start },
     };

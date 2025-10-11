@@ -93,7 +93,7 @@ describe('Telemetry Integration', () => {
           eventType: 'menu_item_created',
           userId: 'user-1',
           sessionId: 'session-1',
-          properties: { itemName: 'Test Item', storeId: 'store-1' },
+          properties: JSON.stringify({ itemName: 'Test Item', storeId: 'store-1' }),
         }),
       })
     })
@@ -188,7 +188,7 @@ describe('Telemetry Integration', () => {
         .get('/feature-flags/non_existent')
         .expect(200)
 
-      expect(response.body).toBeNull()
+      expect(response.body).toEqual({})
     })
   })
 })

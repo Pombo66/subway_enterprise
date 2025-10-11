@@ -10,8 +10,9 @@ const mockBff = require('../api').bff;
 describe('Telemetry Utils', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    // Mock console.warn to avoid noise in tests
+    // Mock console methods to avoid noise in tests
     jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -29,7 +30,7 @@ describe('Telemetry Utils', () => {
       });
       
       expect(result).toBe(true);
-      expect(mockBff).toHaveBeenCalledWith('/telemetry', {
+      expect(mockBff).toHaveBeenCalledWith('/telemetry', undefined, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ describe('Telemetry Utils', () => {
       });
       
       expect(result).toBe(false);
-      expect(console.warn).toHaveBeenCalledWith('Telemetry submission error:', expect.any(Error));
+      expect(console.error).toHaveBeenCalledWith('Telemetry event submission:', expect.any(Error));
     });
 
     it('should validate event type', async () => {

@@ -2,6 +2,6 @@ export interface CreateTelemetryEventDto {
   eventType: string;
   userId?: string;
   sessionId?: string;
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
   timestamp?: string;
 }

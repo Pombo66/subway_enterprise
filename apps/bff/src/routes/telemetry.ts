@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Inject, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Inject, HttpCode, HttpStatus, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateTelemetryEventDto } from '../dto/telemetry.dto';
 
@@ -7,18 +7,18 @@ export class TelemetryController {
   constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   @Post('/telemetry')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   async createEvent(@Body() body: CreateTelemetryEventDto) {
     // Basic validation
     if (!body.eventType || typeof body.eventType !== 'string' || !body.eventType.trim()) {
-      return { 
-        ok: false, 
-        error: 'eventType is required and must be a non-empty string' 
-      };
+      throw new BadRequestException({ 
+        success: false, 
+        error: 'eventType is required and must be a non-empty string - validation failed' 
+      });
     }
 
     try {
-      const event = await this.prisma.telemetryEvent.create({
+      await this.prisma.telemetryEvent.create({
         data: {
           eventType: body.eventType.trim(),
           userId: body.userId,
@@ -26,20 +26,36 @@ export class TelemetryController {
           properties: body.properties ? JSON.stringify(body.properties) : null,
           timestamp: body.timestamp ? new Date(body.timestamp) : new Date(),
         },
-        select: {
-          id: true,
-          eventType: true,
-          timestamp: true,
-        },
       });
 
-      return { ok: true, event };
+      return { success: true };
     } catch (error) {
       return { 
-        ok: false, 
-        error: 'Failed to create telemetry event',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        success: false, 
+        error: 'Failed to record telemetry event'
       };
+    }
+  }
+
+  @Get('/feature-flags')
+  async getFeatureFlags() {
+    try {
+      const flags = await this.prisma.featureFlag.findMany();
+      return flags;
+    } catch (error) {
+      throw new InternalServerErrorException('Database error');
+    }
+  }
+
+  @Get('/feature-flags/:key')
+  async getFeatureFlag(@Param('key') key: string) {
+    try {
+      const flag = await this.prisma.featureFlag.findUnique({
+        where: { key },
+      });
+      return flag || null;
+    } catch (error) {
+      throw new InternalServerErrorException('Database error');
     }
   }
 }

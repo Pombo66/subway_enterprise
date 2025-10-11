@@ -1,6 +1,6 @@
 export type Scope = 'global' | 'region' | 'store';
 
-export function parseScope(q: Record<string, any>) {
+export function parseScope(q: Record<string, unknown>) {
   const scope = String(q.scope || 'global') as Scope;
   const storeId = q.storeId ? String(q.storeId) : undefined;
   const country = q.country ? String(q.country) : undefined;
@@ -10,13 +10,13 @@ export function parseScope(q: Record<string, any>) {
 
 // Prisma where for Order/MenuItem with optional Store relation filters
 // Returns a generic shape where `store` contains filters suitable for Store queries.
-export function makeWhere({ scope, storeId, country, region }: ReturnType<typeof parseScope>) {
-  if (scope === 'store' && storeId) return { storeId } as any;
+export function makeWhere({ scope, storeId, country, region }: ReturnType<typeof parseScope>): Record<string, unknown> {
+  if (scope === 'store' && storeId) return { storeId };
   if (scope === 'region' && (country || region)) {
-    const store: any = {};
+    const store: Record<string, unknown> = {};
     if (country) store.country = { equals: country, mode: 'insensitive' };
     if (region) store.region = { equals: region, mode: 'insensitive' };
-    return { store } as any;
+    return { store };
   }
-  return {} as any; // global
+  return {}; // global
 }

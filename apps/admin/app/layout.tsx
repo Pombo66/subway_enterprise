@@ -6,58 +6,59 @@ import Sidebar from '@/app/components/Sidebar';
 import TopNav from './components/TopNav';
 import { AuthProvider } from './components/AuthProvider';
 import { ToastProvider } from './components/ToastProvider';
+import { DesignGuardProvider } from './components/DesignGuardProvider';
 import DebugToggle from './components/DebugToggle';
-import CommitBadge from './components/CommitBadge';
+import ValidationTestingSetup from './components/ValidationTestingSetup';
+import { config } from '@/lib/config';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata = {
   title: 'Subway Admin',
-  description: 'Admin dashboard',
+  description: 'Admin dashboard for Subway Enterprise',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // DEV BYPASS: skip auth in development when flag is on
-  const devBypass =
-    process.env.NEXT_PUBLIC_DEV_AUTH_BYPASS === '1' ||
-    process.env.NODE_ENV !== 'production';
+interface LayoutContentProps {
+  children: React.ReactNode;
+  withAuth?: boolean;
+}
 
-  if (devBypass) {
-    return (
-      <html lang="en">
-        <body className={`${inter.className} s-page`}>
-          <ToastProvider>
+function LayoutContent({ children, withAuth = false }: LayoutContentProps) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} s-page`} style={{ background: '#0f1724', color: '#e6edf3', minHeight: '100vh' }}>
+        <ToastProvider>
+          <DesignGuardProvider enabled={config.isDevelopment}>
             <div className="shell">
               <Sidebar />
               <div className="shell-main">
                 <Nav />
-                {children}
+                {withAuth ? (
+                  <AuthProvider>
+                    <TopNav />
+                    <div className="container mx-auto flex-1">{children}</div>
+                  </AuthProvider>
+                ) : (
+                  children
+                )}
               </div>
             </div>
-            <DebugToggle />
-          </ToastProvider>
-        </body>
-      </html>
-    );
-  }
-
-  return (
-    <html lang="en">
-      <body className={`${inter.className} s-page`}>
-        <ToastProvider>
-          <div className="shell">
-            <Sidebar />
-            <div className="shell-main">
-              <Nav />
-              <AuthProvider>
-                <TopNav />
-                <div className="container mx-auto flex-1">{children}</div>
-              </AuthProvider>
-            </div>
-          </div>
-          <DebugToggle />
+            {config.isDebugMode && <DebugToggle />}
+            <ValidationTestingSetup />
+          </DesignGuardProvider>
         </ToastProvider>
       </body>
     </html>
+  );
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Use centralized configuration for auth bypass
+  const shouldBypassAuth = config.isDevAuthBypass;
+
+  return (
+    <LayoutContent withAuth={!shouldBypassAuth}>
+      {children}
+    </LayoutContent>
   );
 }

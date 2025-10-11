@@ -1,0 +1,60 @@
+# Page snapshot
+
+```yaml
+- generic [active]:
+  - alert [ref=e1]
+  - dialog "Server Error" [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - navigation [ref=e8]:
+          - button "previous" [disabled] [ref=e9]:
+            - img "previous" [ref=e10]
+          - button "next" [disabled] [ref=e12]:
+            - img "next" [ref=e13]
+          - generic [ref=e15]:
+            - generic [ref=e16]: "1"
+            - text: of
+            - generic [ref=e17]: "1"
+            - text: error
+          - generic [ref=e18]:
+            - generic "An outdated version detected (latest is 15.5.4), upgrade is highly recommended!" [ref=e20]: Next.js (14.2.5) is outdated
+            - link "(learn more)" [ref=e21] [cursor=pointer]:
+              - /url: https://nextjs.org/docs/messages/version-staleness
+        - heading "Server Error" [level=1] [ref=e22]
+        - paragraph [ref=e23]: "Error: Cannot find module './84.js' Require stack: - /Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/webpack-runtime.js - /Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/pages/_document.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/require.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/load-components.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/build/utils.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/dev/hot-middleware.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/dev/hot-reloader-webpack.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/lib/router-server.js - /Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/next@14.2.5_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/server/lib/start-server.js"
+        - generic [ref=e25]: This error happened while generating the page. Any console logs will be displayed in the terminal window.
+      - generic [ref=e26]:
+        - heading "Call Stack" [level=2] [ref=e27]
+        - group [ref=e28]:
+          - generic "Next.js" [ref=e29] [cursor=pointer]:
+            - img [ref=e30] [cursor=pointer]
+            - img [ref=e32] [cursor=pointer]
+            - text: Next.js
+        - generic [ref=e37]:
+          - heading "Array.reduce" [level=3] [ref=e38]
+          - generic [ref=e40]: <anonymous>
+        - group [ref=e41]:
+          - generic "Next.js" [ref=e42] [cursor=pointer]:
+            - img [ref=e43] [cursor=pointer]
+            - img [ref=e45] [cursor=pointer]
+            - text: Next.js
+        - generic [ref=e50]:
+          - heading "Array.map" [level=3] [ref=e51]
+          - generic [ref=e53]: <anonymous>
+        - group [ref=e54]:
+          - generic "Next.js" [ref=e55] [cursor=pointer]:
+            - img [ref=e56] [cursor=pointer]
+            - img [ref=e58] [cursor=pointer]
+            - text: Next.js
+        - generic [ref=e63]:
+          - heading "<unknown>" [level=3] [ref=e64]
+          - generic [ref=e66]: file:///Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/pages/_document.js (1:335)
+        - generic [ref=e67]:
+          - heading "Object.<anonymous>" [level=3] [ref=e68]
+          - generic [ref=e70]: file:///Users/khalidgehlan/subway_enterprise-1/apps/admin/.next/server/pages/_document.js (1:375)
+        - group [ref=e71]:
+          - generic "Next.js" [ref=e72] [cursor=pointer]:
+            - img [ref=e73] [cursor=pointer]
+            - img [ref=e75] [cursor=pointer]
+            - text: Next.js
+```

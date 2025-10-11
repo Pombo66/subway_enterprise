@@ -107,8 +107,8 @@ export const useEnhancedMenuItemForm = (onSuccess: () => void, onClose: () => vo
     if (ErrorHandler.isValidationError(error)) {
       setErrors({ [error.field]: error.message });
     } else {
-      formActions.setError(errorMessage);
-      setErrors(prev => ({ ...prev, general: errorMessage }));
+      formActions.setError(errorMessage.message);
+      setErrors(prev => ({ ...prev, general: errorMessage.message }));
     }
   }, [handleValidationError, formActions]);
 

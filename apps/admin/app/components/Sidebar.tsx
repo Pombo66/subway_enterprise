@@ -10,6 +10,7 @@ export default function Sidebar() {
 
   const I = {
     dash:  (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3Zm10 3h8v5h-8V6ZM3 13h8v8H3v-8Zm10 3h8v5h-8v-5Z"/></svg>),
+    analytics: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18v-2H5V3H3Zm4 14h2V9H7v8Zm4 0h2V7h-2v10Zm4 0h2V5h-2v12Z"/></svg>),
     menu:  (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4V6Zm0 5h16v2H4v-2Zm0 5h16v2H4v-2Z"/></svg>),
     cats:  (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 7v-7h7v7h-7Z"/></svg>),
     items: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10l3 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7l3-5Zm0 5h10l-1.5-3h-7L7 7Z"/></svg>),
@@ -33,13 +34,10 @@ export default function Sidebar() {
       <nav className="sb-nav">
         <Item href="/dashboard"  label="Dashboard"  svg={I.dash} />
         <Item href="/menu"       label="Menu"       svg={I.menu} />
-        <Item href="/categories" label="Categories" svg={I.cats} />
-        <Item href="/items"      label="Items"      svg={I.items} />
-        <Item href="/pricing"    label="Pricing"    svg={I.price} />
-        <Item href="/stores"     label="Stores"     svg={I.stores} />
         <Item href="/orders"     label="Orders"     svg={I.orders} />
-        <Item href="/users"      label="Users"      svg={I.users} />
-        <Item href="/audit"      label="Audit"      svg={I.audit} />
+        <Item href="/stores"     label="Stores"     svg={I.stores} />
+        <Item href="/analytics"  label="Analytics"  svg={I.analytics} />
+        <Item href="/settings"   label="Settings"   svg={I.users} />
       </nav>
     </aside>
   );

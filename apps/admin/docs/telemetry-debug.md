@@ -1,140 +1,156 @@
-# Telemetry Debug Tools
+# Telemetry Debug Tooling
 
-This document describes the telemetry development tools available in the admin interface.
+This document describes the development debug tooling for the telemetry system.
 
 ## Overview
 
-The telemetry debug tools provide a way to test and validate telemetry event submission during development. These tools are only available in development mode and include:
+The telemetry debug tooling provides developers with a way to test and validate telemetry event submission during development. It includes:
 
-1. **Hidden Debug Toggle** - A secret way to access debug tools
-2. **Telemetry Debug Panel** - A UI for testing telemetry event submission
-3. **Graceful Error Handling** - Robust error handling that won't break the user experience
+1. **Hidden Debug Toggle**: A development-only interface for accessing debug tools
+2. **Test Event Emission**: Functionality to emit test telemetry events
+3. **Graceful Error Handling**: Ensures telemetry failures don't affect user experience
+4. **Validation Tools**: Helps validate event structure and submission
 
 ## Accessing Debug Tools
 
 ### Method 1: Keyboard Shortcut
-- Press `Ctrl+Shift+D` (or `Cmd+Shift+D` on Mac) to toggle the debug panel
+- Press `Ctrl+Shift+D` (or `Cmd+Shift+D` on Mac) to toggle debug mode
+- Only works in development environment (`NODE_ENV=development`)
 
 ### Method 2: Secret Click Sequence
-- Click on the logo area (top-left corner) 5 times within 3 seconds
-- The debug tools panel will appear in the bottom-right corner
+- Click 5 times on the top-left corner of the page (logo area)
+- Only works in development environment
+
+### Method 3: Environment Variable
+- Set `NEXT_PUBLIC_DEBUG_MODE=true` in your `.env.local` file
+- Debug tools will be automatically available
 
 ## Using the Telemetry Debug Panel
 
-Once the debug tools are visible, click "Telemetry Debug" to open the telemetry testing panel.
+Once debug mode is enabled:
 
-### Quick Tests
-The panel includes pre-configured quick test buttons:
-- **Page View** - Simulates a page view event
-- **User Action** - Simulates a user interaction event  
-- **Error Event** - Simulates an error tracking event
+1. Click the "Telemetry Debug" button in the debug tools panel
+2. The debug panel will open with the following features:
+
+### Quick Test Buttons
+- **Page View**: Pre-fills a page view event
+- **User Action**: Pre-fills a user action event  
+- **Error Event**: Pre-fills an error event
 
 ### Manual Event Creation
-You can also create custom events by filling out the form:
+- **Event Type**: Required field for the event type
+- **User ID**: Optional user identifier
+- **Session ID**: Auto-generated debug session ID
+- **Properties**: JSON object with event properties
 
-- **Event Type** (required) - The type of event (e.g., 'page_view', 'user_action')
-- **User ID** (optional) - Identifier for the user
-- **Session ID** (optional) - Auto-generated if not provided
-- **Properties** (optional) - JSON object with additional event data
+### Event Submission
+- Click "Submit Event" to send the event to the telemetry endpoint
+- Results are displayed with success/error status
+- "Reset" button clears the form
 
-### Example Event
+## Error Handling
+
+The telemetry system is designed to fail gracefully:
+
+1. **Network Errors**: Logged to console, don't break user experience
+2. **Validation Errors**: Displayed in debug panel for development
+3. **Server Errors**: Handled gracefully with fallback behavior
+4. **JSON Parsing Errors**: Validated before submission
+
+## Environment Configuration
+
+Add to your `apps/admin/.env.local`:
+
+```bash
+# Enable debug mode
+NEXT_PUBLIC_DEBUG_MODE=true
+
+# BFF endpoint (should already be configured)
+NEXT_PUBLIC_BFF_URL=http://localhost:3001
+```
+
+## Testing Telemetry Events
+
+### Example Test Events
+
+**Page View Event:**
 ```json
 {
-  "eventType": "feature_usage",
-  "userId": "admin_123",
-  "sessionId": "session_1234567890",
+  "eventType": "page_view",
+  "userId": "user_123",
+  "sessionId": "debug_session_abc",
   "properties": {
-    "feature": "menu_management",
-    "action": "create_item",
+    "page": "/dashboard",
     "timestamp": "2023-01-01T00:00:00Z"
   }
 }
 ```
 
-## Error Handling
-
-The telemetry system is designed with graceful error handling:
-
-- **Network Failures** - Logged to console but don't break the UI
-- **Validation Errors** - Displayed in the debug panel with specific messages
-- **JSON Parsing Errors** - Caught and displayed with helpful error messages
-- **API Errors** - Server errors are displayed in the debug panel
-
-## Integration with Application Code
-
-### Using the Telemetry Hook
-
-```typescript
-import { useTelemetry } from '@/app/hooks/useTelemetry';
-
-function MyComponent() {
-  const { trackPageView, trackUserAction, trackError } = useTelemetry('user123');
-
-  useEffect(() => {
-    trackPageView('/my-page');
-  }, []);
-
-  const handleClick = () => {
-    trackUserAction('button_click', 'my_component');
-  };
-
-  // Error handling
-  try {
-    // some operation
-  } catch (error) {
-    trackError(error, 'my_component_operation');
+**User Action Event:**
+```json
+{
+  "eventType": "user_action", 
+  "userId": "user_123",
+  "sessionId": "debug_session_abc",
+  "properties": {
+    "action": "button_click",
+    "component": "menu_item",
+    "timestamp": "2023-01-01T00:00:00Z"
   }
 }
 ```
 
-### Using Telemetry Utilities Directly
-
-```typescript
-import { TelemetryHelpers, submitTelemetryEvent } from '@/lib/telemetry';
-
-// Fire and forget
-TelemetryHelpers.trackPageView('/dashboard', 'user123');
-
-// With result handling
-const success = await submitTelemetryEvent({
-  eventType: 'custom_event',
-  userId: 'user123',
-  properties: { custom: 'data' }
-});
-
-if (!success) {
-  console.log('Telemetry submission failed, but app continues normally');
+**Error Event:**
+```json
+{
+  "eventType": "error",
+  "userId": "user_123", 
+  "sessionId": "debug_session_abc",
+  "properties": {
+    "error": "Validation failed",
+    "context": "menu_creation",
+    "severity": "medium",
+    "timestamp": "2023-01-01T00:00:00Z"
+  }
 }
 ```
 
-## Development Notes
+## Production Considerations
 
-- Debug tools are only available when `NODE_ENV === 'development'`
-- All telemetry submissions fail gracefully - they never throw errors that could break the user experience
-- Console warnings are used for debugging but don't affect application functionality
-- The debug panel provides immediate feedback on submission success/failure
-- Session IDs are automatically generated for tracking user sessions
+- Debug tools are automatically disabled in production
+- Telemetry events continue to work normally in production
+- Error handling ensures no user experience impact
+- All debug-related code is tree-shaken in production builds
 
-## Testing
+## Troubleshooting
 
-The telemetry system includes comprehensive tests:
+### Debug Panel Not Appearing
+1. Verify `NODE_ENV=development`
+2. Check `NEXT_PUBLIC_DEBUG_MODE=true` in `.env.local`
+3. Try the keyboard shortcut `Ctrl+Shift+D`
 
-```bash
-# Run telemetry tests
-npm test -- --testPathPattern="telemetry|TelemetryDebug"
-```
+### Events Not Submitting
+1. Check BFF is running on port 3001
+2. Verify `NEXT_PUBLIC_BFF_URL` is correct
+3. Check browser network tab for request details
+4. Verify telemetry endpoint is implemented in BFF
 
-Tests cover:
-- Successful event submission
-- Error handling scenarios
-- JSON validation
-- UI interactions
-- Graceful failure modes
+### JSON Validation Errors
+1. Use the quick test buttons for valid examples
+2. Validate JSON syntax in properties field
+3. Check console for detailed error messages
 
-## Future Enhancements
+## API Endpoints
 
-When the telemetry backend (Task 7) is implemented, these tools will:
-- Actually submit events to the database
-- Provide real-time feedback on event processing
-- Allow testing of feature flags and experiments
-- Enable validation of the complete telemetry pipeline
+The debug tooling interacts with these BFF endpoints:
+
+- `POST /telemetry` - Submit telemetry events
+- `GET /feature-flags` - Retrieve feature flags
+- `GET /feature-flags/:key` - Get specific feature flag
+
+## Security Notes
+
+- Debug tools are development-only
+- No sensitive data should be included in test events
+- Production builds automatically exclude debug code
+- All telemetry data should follow privacy guidelines

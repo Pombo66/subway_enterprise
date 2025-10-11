@@ -1,1 +1,50 @@
-@tailwind base;@tailwind components;@tailwind utilities;body{background:#0f172a;color:white}.card{background:#1e293b;border-radius:.75rem;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+/* Tailwind CSS imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basic reset - let theme.css handle all styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure body uses theme variables */
+body {
+  background: var(--s-bg) !important;
+  color: var(--s-text) !important;
+}
+
+/* Debug: Force theme colors to ensure CSS is loading */
+.s-page {
+  background: #0f1724 !important;
+  color: #e6edf3 !important;
+  min-height: 100vh !important;
+}
+
+/* Debug: Ensure buttons have proper styling */
+.s-btn {
+  background: #00a651 !important;
+  color: #0b1a13 !important;
+  border: 1px solid #00a651 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+/* Loading spinner for map components */
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--s-border);
+  border-top: 2px solid var(--s-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

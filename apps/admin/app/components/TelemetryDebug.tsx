@@ -216,7 +216,7 @@ export default function TelemetryDebug({ isVisible, onClose }: TelemetryDebugPro
           <h2 className="text-xl font-bold">Telemetry Debug Panel</h2>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-xl font-bold"
+            className="s-btn s-btn--sm text-gray-500 hover:text-gray-700 text-xl font-bold"
           >
             ×
           </button>
@@ -229,19 +229,19 @@ export default function TelemetryDebug({ isVisible, onClose }: TelemetryDebugPro
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => handleQuickTest('page_view')}
-                className="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm hover:bg-blue-200"
+                className="s-btn s-btn--sm px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm hover:bg-blue-200"
               >
                 Page View
               </button>
               <button
                 onClick={() => handleQuickTest('user_action')}
-                className="px-3 py-1 bg-green-100 text-green-800 rounded text-sm hover:bg-green-200"
+                className="s-btn s-btn--sm px-3 py-1 bg-green-100 text-green-800 rounded text-sm hover:bg-green-200"
               >
                 User Action
               </button>
               <button
                 onClick={() => handleQuickTest('error_event')}
-                className="px-3 py-1 bg-red-100 text-red-800 rounded text-sm hover:bg-red-200"
+                className="s-btn s-btn--sm px-3 py-1 bg-red-100 text-red-800 rounded text-sm hover:bg-red-200"
               >
                 Error Event
               </button>
@@ -288,13 +288,13 @@ export default function TelemetryDebug({ isVisible, onClose }: TelemetryDebugPro
             <button
               onClick={handleSubmitEvent}
               disabled={isSubmitting || !eventType.trim()}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="s-btn s-btn--md px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Event'}
             </button>
             <button
               onClick={resetForm}
-              className="px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm hover:bg-gray-200"
+              className="s-btn s-btn--sm px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm hover:bg-gray-200"
             >
               Reset
             </button>

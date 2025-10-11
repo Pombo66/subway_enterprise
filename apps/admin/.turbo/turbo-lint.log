@@ -2,7 +2,62 @@
 > @subway/admin@0.1.0 lint /Users/khalidgehlan/subway_enterprise-1/apps/admin
 > next lint
 
-[1m[36m?[39m How would you like to configure ESLint? https://nextjs.org/docs/basic-features/eslint[22m
-[?25l[36m❯ [39m [1m[4m[36mStrict[39m[24m[22m[1m[33m (recommended)[39m[22m
-   Base
-   Cancel
+=============
+
+WARNING: You are currently running a version of TypeScript which is not officially supported by @typescript-eslint/typescript-estree.
+
+You may find that it works just fine, or you may not.
+
+SUPPORTED TYPESCRIPT VERSIONS: >=4.3.5 <5.4.0
+
+YOUR TYPESCRIPT VERSION: 5.5.4
+
+Please only submit bug reports when using the officially supported version.
+
+=============
+
+[36m./app/components/DesignGuardExample.tsx[39m
+[33m36[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+[33m39[39m:[33m11[39m  [33m[1mWarning[22m[39m: Input elements must include "s-input" class. Add className="s-input"  [90m[1msubway/design-consistency[22m[39m
+[33m40[39m:[33m11[39m  [33m[1mWarning[22m[39m: Select elements must include "s-select" class. Add className="s-select"  [90m[1msubway/design-consistency[22m[39m
+[33m48[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+[33m51[39m:[33m11[39m  [33m[1mWarning[22m[39m: Input elements must include "s-input" class. Add className="s-input"  [90m[1msubway/design-consistency[22m[39m
+[33m60[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/components/FilterBar.tsx[39m
+[33m12[39m:[33m92[39m  [33m[1mWarning[22m[39m: React Hook useEffect has a missing dependency: 'onChange'. Either include it or remove the dependency array. If 'onChange' changes too often, find the parent component that defines it and wrap that definition in useCallback.  [90m[1mreact-hooks/exhaustive-deps[22m[39m
+
+[36m./app/components/Toast.tsx[39m
+[33m64[39m:[33m7[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/dashboard/components/QuickActionsPanel.tsx[39m
+[33m77[39m:[33m38[39m  [31m[1mError[22m[39m: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  [90m[1mreact/no-unescaped-entities[22m[39m
+
+[36m./app/login/page.tsx[39m
+[33m29[39m:[33m11[39m  [33m[1mWarning[22m[39m: Input elements must include "s-input" class. Add className="s-input"  [90m[1msubway/design-consistency[22m[39m
+[33m40[39m:[33m11[39m  [33m[1mWarning[22m[39m: Input elements must include "s-input" class. Add className="s-input"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/menu/components/ItemDrawer.tsx[39m
+[33m15[39m:[33m9[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/menu/components/MenuTable.tsx[39m
+[33m112[39m:[33m19[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+[33m120[39m:[33m19[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/menu/page.tsx[39m
+[33m143[39m:[33m105[39m  [31m[1mError[22m[39m: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  [90m[1mreact/no-unescaped-entities[22m[39m
+[33m377[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+[33m577[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/stores/page.tsx[39m
+[33m275[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+[33m377[39m:[33m11[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./app/test-validation/page.tsx[39m
+[33m35[39m:[33m9[39m  [33m[1mWarning[22m[39m: Button elements must include "s-btn" class. Add className="s-btn s-btn--md"  [90m[1msubway/design-consistency[22m[39m
+
+[36m./lib/hooks/useEnhancedMenuItemForm.ts[39m
+[33m51[39m:[33m29[39m  [33m[1mWarning[22m[39m: React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead.  [90m[1mreact-hooks/exhaustive-deps[22m[39m
+
+[36minfo[39m  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m

@@ -24,10 +24,10 @@ The Subway Enterprise Multi-Phase Delivery System is a comprehensive enhancement
 #### Acceptance Criteria
 
 1. WHEN viewing the menu table THEN all columns SHALL be center-aligned except the first column which SHALL be left-aligned
-2. WHEN using header controls THEN category select, search input, and "Create Item" button SHALL be inline with 12-16px spacing
+2. WHEN using header controls THEN category select SHALL use "s-select" class, search input SHALL use "s-input" class, and "Create Item" button SHALL use "s-btn" class with 12-16px spacing
 3. WHEN opening the Create Item drawer THEN it SHALL slide from the right without pushing content down
 4. WHEN pressing ESC key THEN any open drawer SHALL close immediately
-5. WHEN managing item modifiers THEN the system SHALL display available and attached modifier groups with attach/detach functionality
+5. WHEN managing item modifiers THEN the system SHALL display available and attached modifier groups with attach/detach functionality using "s-btn" classes for buttons
 6. WHEN attaching/detaching modifiers THEN the UI SHALL update optimistically with fallback refresh on errors
 
 ### Requirement 3: Stores and Analytics Enhancement
@@ -49,10 +49,10 @@ The Subway Enterprise Multi-Phase Delivery System is a comprehensive enhancement
 #### Acceptance Criteria
 
 1. WHEN creating a menu item THEN the category SHALL default to the currently selected filter
-2. WHEN the item creation form opens THEN the Name field SHALL be auto-focused
-3. WHEN entering price data THEN the system SHALL validate decimal format and prevent invalid entries
+2. WHEN the item creation form opens THEN the Name field SHALL be auto-focused and use "s-input" class
+3. WHEN entering price data THEN the system SHALL validate decimal format using "s-input" class and prevent invalid entries
 4. WHEN successfully creating an item THEN the system SHALL show a success toast notification
-5. WHEN choosing "Create & add another" THEN the drawer SHALL remain open with form reset for rapid entry
+5. WHEN choosing "Create & add another" THEN the drawer SHALL remain open with form reset for rapid entry using "s-btn" class buttons
 
 ### Requirement 5: Testing and Seed Data Infrastructure
 
@@ -85,7 +85,9 @@ The Subway Enterprise Multi-Phase Delivery System is a comprehensive enhancement
 
 1. WHEN making any changes THEN the system SHALL pass typecheck, lint, and build processes
 2. WHEN UI changes are made THEN they SHALL not produce console errors in the admin interface
-3. WHEN pull requests are created THEN they SHALL include summary, screenshots for UI changes, and manual test notes
-4. WHEN possible THEN pull request diffs SHALL be ≤150 lines of code with larger work split into stacked PRs
-5. WHEN database changes are needed THEN proper Prisma migrations SHALL be created and documented
-6. WHEN new environment variables are added THEN they SHALL be documented in the PR and follow existing naming conventions
+3. WHEN creating UI components THEN all form elements SHALL use design system classes: button elements SHALL include "s-btn", input elements SHALL include "s-input", select elements SHALL include "s-select", textarea elements SHALL include "s-textarea"
+4. WHEN custom styling is required THEN components MAY use data-allow-unstyled={true} attribute to opt-out of design system enforcement
+5. WHEN pull requests are created THEN they SHALL include summary, screenshots for UI changes, and manual test notes
+6. WHEN possible THEN pull request diffs SHALL be ≤150 lines of code with larger work split into stacked PRs
+7. WHEN database changes are needed THEN proper Prisma migrations SHALL be created and documented
+8. WHEN new environment variables are added THEN they SHALL be documented in the PR and follow existing naming conventions

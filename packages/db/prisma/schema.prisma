@@ -11,67 +11,83 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   role      String   @default("STAFF")
+  firstName String?
+  lastName  String?
+  active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Orders    Order[]
 }
 
 model Store {
-  id        String   @id @default(uuid())
-  name      String
+  id             String          @id @default(uuid())
+  name           String
+  country        String?
+  region         String?
+  city           String?
+  latitude       Float?
+  longitude      Float?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  MenuItems      MenuItem[]
+  Orders         Order[]
+  PriceOverrides PriceOverride[]
 
-  // NEW
-  country   String?         // e.g. "GB", "FR" or full name if you prefer
-  region    String?         // e.g. "EMEA", "AMER", "APAC"
   @@index([country])
   @@index([region])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Orders    Order[]
-  MenuItems MenuItem[]
+  @@index([city])
+  @@index([latitude, longitude])
 }
 
 model MenuItem {
-  id        String   @id @default(cuid())
-  storeId   String
-  name      String
-  price     Decimal
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  Store     Store    @relation(fields: [storeId], references: [id])
-  modifiers MenuItemModifier[]
-  
-  @@index([storeId])
-  @@index([active])
-  @@index([storeId, active])
+  id             String               @id @default(cuid())
+  storeId        String
+  name           String
+  price          Decimal
+  basePrice      Decimal?
+  active         Boolean              @default(true)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @default(now()) @updatedAt
+  Store          Store                @relation(fields: [storeId], references: [id])
+  modifiers      MenuItemModifier[]
+  categories     MenuItemCategory[]
+  PriceOverrides PriceOverride[]
+
+  @@index([storeId, active, createdAt])
+  @@index([active, updatedAt])
+  @@index([name])
+  @@index([storeId, price])
 }
 
 model Order {
-  id        String      @id @default(cuid())
+  id        String   @id @default(cuid())
   storeId   String
   userId    String?
   total     Decimal
-  status    String      @default("PAID")
-  createdAt DateTime    @default(now())
-  Store     Store       @relation(fields: [storeId], references: [id])
-  User      User?       @relation(fields: [userId], references: [id])
+  status    String   @default("PAID")
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  Store     Store    @relation(fields: [storeId], references: [id])
+
+  @@index([storeId, createdAt])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+  @@index([createdAt])
 }
 
-
-
 model ModifierGroup {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relations
-  menuItems   MenuItemModifier[]
-  
+  id           String             @id @default(cuid())
+  name         String
+  description  String?
+  minSelection Int                @default(0)
+  maxSelection Int?
+  required     Boolean            @default(false)
+  active       Boolean            @default(true)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  menuItems    MenuItemModifier[]
+  modifiers    Modifier[]
+
   @@index([active])
 }
 
@@ -80,17 +96,13 @@ model MenuItemModifier {
   menuItemId      String
   modifierGroupId String
   createdAt       DateTime      @default(now())
-  
-  // Relations
-  menuItem        MenuItem      @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
   modifierGroup   ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
-  
+  menuItem        MenuItem      @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
   @@unique([menuItemId, modifierGroupId])
   @@index([menuItemId])
   @@index([modifierGroupId])
 }
-
-
 
 model FeatureFlag {
   id          String   @id @default(cuid())
@@ -99,7 +111,7 @@ model FeatureFlag {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   @@index([key])
   @@index([enabled])
 }
@@ -111,24 +123,93 @@ model TelemetryEvent {
   sessionId  String?
   properties String?
   timestamp  DateTime @default(now())
-  
+
   @@index([eventType])
   @@index([timestamp])
   @@index([userId])
 }
 
 model Experiment {
-  id          String           @id @default(cuid())
-  name        String           @unique
+  id          String    @id @default(cuid())
+  name        String    @unique
   description String?
-  status      String           @default("DRAFT")
+  status      String    @default("DRAFT")
   startDate   DateTime?
   endDate     DateTime?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
   @@index([status])
   @@index([startDate])
 }
 
+model Category {
+  id          String             @id @default(cuid())
+  name        String
+  description String?
+  sortOrder   Int                @default(0)
+  active      Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  items       MenuItemCategory[]
 
+  @@index([active, sortOrder])
+}
+
+model MenuItemCategory {
+  id         String   @id @default(cuid())
+  menuItemId String
+  categoryId String
+  createdAt  DateTime @default(now())
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([menuItemId, categoryId])
+  @@index([menuItemId])
+  @@index([categoryId])
+}
+
+model Modifier {
+  id              String        @id @default(cuid())
+  modifierGroupId String
+  name            String
+  priceAdjustment Decimal       @default(0)
+  active          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  modifierGroup   ModifierGroup @relation(fields: [modifierGroupId], references: [id], onDelete: Cascade)
+
+  @@index([modifierGroupId, active])
+}
+
+model PriceOverride {
+  id            String    @id @default(cuid())
+  storeId       String
+  menuItemId    String
+  price         Decimal
+  effectiveFrom DateTime  @default(now())
+  effectiveTo   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  store         Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  menuItem      MenuItem  @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, menuItemId, effectiveFrom])
+  @@index([storeId])
+  @@index([menuItemId])
+  @@index([effectiveFrom])
+}
+
+model AuditEntry {
+  id        String   @id @default(cuid())
+  actor     String
+  entity    String
+  entityId  String
+  action    String
+  diff      String?
+  timestamp DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([timestamp])
+  @@index([actor])
+}

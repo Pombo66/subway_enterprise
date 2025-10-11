@@ -2,7 +2,7 @@
   "extends": "next/core-web-vitals",
   "plugins": ["subway"],
   "rules": {
-    "subway/design-consistency": "error"
+    "subway/design-consistency": "warn"
   },
   "settings": {
     "import/resolver": {

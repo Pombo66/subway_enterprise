@@ -1,67 +1,107 @@
-/**
- * Centralized error handling hook
- */
+'use client';
 
 import { useCallback } from 'react';
-import { useToast } from '../../app/components/ToastProvider';
-import { ErrorHandler, ValidationError, NetworkError, ApiError } from '../errors';
+import { useToast } from '@/app/components/ToastProvider';
+import { ErrorHandler, ValidationError } from '../types/error.types';
 
-export const useErrorHandler = () => {
-  const { showError } = useToast();
-  
-  const handleError = useCallback((error: unknown, context?: string): string => {
-    let errorMessage: string;
-    
-    if (ErrorHandler.isValidationError(error)) {
-      errorMessage = error.message;
-    } else if (ErrorHandler.isNetworkError(error)) {
-      errorMessage = error.status >= 500 
-        ? 'Server error. Please try again later.'
-        : 'Network error. Please check your connection.';
-    } else if (ErrorHandler.isApiError(error)) {
-      errorMessage = error.message;
-    } else if (error instanceof Error) {
-      errorMessage = error.message;
-    } else if (typeof error === 'string') {
-      errorMessage = error;
-    } else {
-      errorMessage = 'An unexpected error occurred';
+interface UseErrorHandlerOptions {
+  showToast?: boolean;
+  logErrors?: boolean;
+}
+
+export function useErrorHandler(options: UseErrorHandlerOptions = {}) {
+  const { showToast = true, logErrors = true } = options;
+  const toast = useToast();
+
+  const handleError = useCallback((error: unknown, context?: string) => {
+    if (logErrors) {
+      console.error(`Error${context ? ` in ${context}` : ''}:`, error);
     }
-    
-    // Sanitize error message for security
-    errorMessage = sanitizeErrorMessage(errorMessage);
-    
-    if (context) {
-      console.error(`${context}:`, error);
+
+    const { message, details } = ErrorHandler.parseError(error);
+
+    if (showToast) {
+      if (details && details.length > 0) {
+        // Show validation errors
+        const fieldMessages = details.map(d => `${d.field}: ${d.message}`).join(', ');
+        toast.showError(`${message}. ${fieldMessages}`);
+      } else {
+        // Show general error
+        toast.showError(message);
+      }
     }
-    
-    showError(errorMessage);
-    return errorMessage;
-  }, [showError]);
-  
-  const handleAsyncError = useCallback(async <T>(
-    operation: () => Promise<T>,
-    context: string,
-    fallbackValue?: T
-  ): Promise<T | undefined> => {
+
+    return { message, details };
+  }, [showToast, logErrors, toast]);
+
+  const handleApiError = useCallback(async <T>(
+    apiCall: () => Promise<T>,
+    context?: string,
+    options?: {
+      showSuccessToast?: boolean;
+      successMessage?: string;
+      suppressErrorToast?: boolean;
+    }
+  ): Promise<{ success: true; data: T } | { success: false; error: string; details?: ValidationError[] }> => {
     try {
-      return await operation();
+      const data = await apiCall();
+      
+      if (options?.showSuccessToast && options?.successMessage) {
+        toast.showSuccess(options.successMessage);
+      }
+      
+      return { success: true, data };
     } catch (error) {
-      handleError(error, context);
-      return fallbackValue;
-    }
-  }, [handleError]);
-  
-  return { 
-    handleError, 
-    handleAsyncError 
-  };
-};
+      if (logErrors) {
+        console.error(`Error${context ? ` in ${context}` : ''}:`, error);
+      }
 
-// Security: Sanitize error messages to prevent XSS
-const sanitizeErrorMessage = (message: string): string => {
-  return message
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .substring(0, 200) // Limit length
-    .trim();
-};
+      const { message, details } = ErrorHandler.parseError(error);
+
+      if (showToast && !options?.suppressErrorToast) {
+        if (details && details.length > 0) {
+          // Show validation errors
+          const fieldMessages = details.map(d => `${d.field}: ${d.message}`).join(', ');
+          toast.showError(`${message}. ${fieldMessages}`);
+        } else {
+          // Show general error
+          toast.showError(message);
+        }
+      }
+      
+      return { success: false, error: message, details };
+    }
+  }, [showToast, logErrors, toast]);
+
+  const handleFormError = useCallback((error: unknown, context?: string) => {
+    const { message, details } = ErrorHandler.parseError(error);
+    
+    if (logErrors) {
+      console.error(`Form error${context ? ` in ${context}` : ''}:`, error);
+    }
+
+    // For form errors, we typically don't show toast notifications
+    // as the errors are displayed inline with the form fields
+    return { message, details };
+  }, [logErrors]);
+
+  const createErrorHandler = useCallback((context: string) => {
+    return (error: unknown) => handleError(error, context);
+  }, [handleError]);
+
+  const createApiErrorHandler = useCallback(<T>(context: string) => {
+    return (apiCall: () => Promise<T>, options?: {
+      showSuccessToast?: boolean;
+      successMessage?: string;
+      suppressErrorToast?: boolean;
+    }) => handleApiError(apiCall, context, options);
+  }, [handleApiError]);
+
+  return {
+    handleError,
+    handleApiError,
+    handleFormError,
+    createErrorHandler,
+    createApiErrorHandler,
+  };
+}

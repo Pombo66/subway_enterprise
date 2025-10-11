@@ -7,17 +7,17 @@ export class KpiController {
   constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   @Get('/kpis')
-  async kpis(@Query() q: Record<string, any>) {
+  async kpis(@Query() q: Record<string, unknown>) {
     try {
       const scopeParsed = parseScope(q);
-      const filt = makeWhere(scopeParsed) as any;
+      const filt = makeWhere(scopeParsed) as Record<string, unknown>;
       // Translate generic { store } filter into Prisma relation filters where needed
-      const orderWhere: any = { ...(filt || {}) };
+      const orderWhere: Record<string, unknown> = { ...(filt || {}) };
       if (orderWhere.store) {
         orderWhere.Store = { is: orderWhere.store };
         delete orderWhere.store;
       }
-      const menuWhere: any = { ...(filt || {}) };
+      const menuWhere: Record<string, unknown> = { ...(filt || {}) };
       if (menuWhere.store) {
         menuWhere.Store = { is: menuWhere.store };
         delete menuWhere.store;
@@ -26,7 +26,7 @@ export class KpiController {
         this.prisma.order.count({ where: orderWhere }),
         this.prisma.order.aggregate({ _sum: { total: true }, where: orderWhere }),
         this.prisma.menuItem.count({ where: menuWhere }),
-        this.prisma.order.count({ where: { ...orderWhere, status: 'PENDING' as any } }),
+        this.prisma.order.count({ where: { ...orderWhere, status: 'PENDING' } }),
       ]);
       return {
         scopeApplied: scopeParsed,

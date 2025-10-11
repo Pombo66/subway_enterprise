@@ -103,7 +103,7 @@ export async function submitTelemetryEvent(event: TelemetryEvent): Promise<boole
       }
 
       // Submit the event
-      const response = await bff<TelemetryResponse>('/telemetry', {
+      const response = await bff<TelemetryResponse>('/telemetry', undefined, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

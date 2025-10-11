@@ -1,9 +1,76 @@
-/**
- * Centralized configuration exports
- */
+interface AppConfig {
+  bff: {
+    baseUrl: string;
+  };
+  auth: {
+    devBypass: boolean;
+  };
+  features: {
+    debugMode: boolean;
+  };
+  environment: 'development' | 'production' | 'test';
+}
 
-export { APP_CONFIG, UI_CONFIG, FEATURE_FLAGS } from './enhanced-constants';
-export { FORM_MESSAGES } from './enhanced-constants';
+class ConfigService {
+  private config: AppConfig;
 
-// Re-export for backward compatibility
-export { UI_CONFIG as UI_CONSTANTS } from './enhanced-constants';
+  constructor() {
+    this.config = {
+      bff: {
+        baseUrl: this.getString('NEXT_PUBLIC_BFF_URL', 'http://localhost:3001'),
+      },
+      auth: {
+        devBypass: this.getBoolean('NEXT_PUBLIC_DEV_AUTH_BYPASS', false),
+      },
+      features: {
+        debugMode: this.getBoolean('NEXT_PUBLIC_DEBUG_MODE', false),
+      },
+      environment: this.getEnvironment(),
+    };
+  }
+
+  private getString(key: string, defaultValue: string): string {
+    return process.env[key] || defaultValue;
+  }
+
+  private getBoolean(key: string, defaultValue: boolean): boolean {
+    const value = process.env[key];
+    if (!value) return defaultValue;
+    
+    const normalized = value.toLowerCase();
+    return ['true', '1', 'yes', 'on'].includes(normalized);
+  }
+
+  private getEnvironment(): 'development' | 'production' | 'test' {
+    const env = process.env.NODE_ENV;
+    if (env === 'production' || env === 'test') return env;
+    return 'development';
+  }
+
+  get bffBaseUrl(): string {
+    return this.config.bff.baseUrl;
+  }
+
+  get isDevAuthBypass(): boolean {
+    return this.config.auth.devBypass || this.config.environment !== 'production';
+  }
+
+  get isDebugMode(): boolean {
+    return this.config.features.debugMode;
+  }
+
+  get isDevelopment(): boolean {
+    return this.config.environment === 'development';
+  }
+
+  get isProduction(): boolean {
+    return this.config.environment === 'production';
+  }
+
+  get environment(): string {
+    return this.config.environment;
+  }
+}
+
+export const config = new ConfigService();
+export type { AppConfig };

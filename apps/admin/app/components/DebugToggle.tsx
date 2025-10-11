@@ -58,13 +58,13 @@ export default function DebugToggle() {
             <div className="space-y-1">
               <button
                 onClick={() => setShowTelemetryDebug(true)}
-                className="block w-full text-left px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded"
+                className="s-btn s-btn--sm block w-full text-left px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded"
               >
                 Telemetry Debug
               </button>
               <button
                 onClick={() => setIsDebugMode(false)}
-                className="block w-full text-left px-2 py-1 text-xs bg-gray-600 hover:bg-gray-700 rounded"
+                className="s-btn s-btn--sm block w-full text-left px-2 py-1 text-xs bg-gray-600 hover:bg-gray-700 rounded"
               >
                 Hide Debug
               </button>

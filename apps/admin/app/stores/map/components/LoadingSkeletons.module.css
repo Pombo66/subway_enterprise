@@ -1,0 +1,132 @@
+/* Loading skeleton animations and styles */
+
+.skeleton-text {
+  background: linear-gradient(90deg, var(--s-bg-secondary) 25%, var(--s-border) 50%, var(--s-bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  height: 16px;
+}
+
+.skeleton-button {
+  background: linear-gradient(90deg, var(--s-bg-secondary) 25%, var(--s-border) 50%, var(--s-bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 6px;
+  height: 36px;
+}
+
+.skeleton-select {
+  background: linear-gradient(90deg, var(--s-bg-secondary) 25%, var(--s-border) 50%, var(--s-bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 6px;
+  height: 36px;
+}
+
+.skeleton-map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, var(--s-border) 2px, transparent 2px),
+    radial-gradient(circle at 60% 20%, var(--s-border) 2px, transparent 2px),
+    radial-gradient(circle at 80% 60%, var(--s-border) 2px, transparent 2px),
+    radial-gradient(circle at 30% 80%, var(--s-border) 2px, transparent 2px),
+    radial-gradient(circle at 70% 70%, var(--s-border) 2px, transparent 2px);
+  opacity: 0.3;
+  animation: skeleton-map-pulse 3s infinite;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--s-border);
+  border-top: 2px solid var(--s-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--s-border);
+  border-top: 2px solid var(--s-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes skeleton-map-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-text,
+  .skeleton-button,
+  .skeleton-select,
+  .skeleton-map-overlay {
+    animation: none;
+  }
+  
+  .loading-spinner,
+  .loading-spinner-small {
+    animation: none;
+    border-top-color: var(--s-border);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeleton-text,
+  .skeleton-button,
+  .skeleton-select {
+    background: var(--s-border);
+    border: 1px solid var(--s-text);
+  }
+  
+  .skeleton-map-overlay {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--s-border),
+      var(--s-border) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+  }
+}

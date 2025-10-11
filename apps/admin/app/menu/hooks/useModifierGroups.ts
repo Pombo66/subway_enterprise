@@ -77,7 +77,7 @@ export function useModifierGroups(itemId: string): UseModifierGroupsReturn {
     }));
 
     try {
-      const response = await bff<{ success: boolean; error?: string }>(`/menu/items/${itemId}/modifiers`, {
+      const response = await bff<{ success: boolean; error?: string }>(`/menu/items/${itemId}/modifiers`, undefined, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ modifierGroupId: modifierGroup.id })
@@ -112,7 +112,7 @@ export function useModifierGroups(itemId: string): UseModifierGroupsReturn {
     }));
 
     try {
-      const response = await bff<{ success: boolean; error?: string }>(`/menu/items/${itemId}/modifiers/${modifierGroup.id}`, {
+      const response = await bff<{ success: boolean; error?: string }>(`/menu/items/${itemId}/modifiers/${modifierGroup.id}`, undefined, {
         method: 'DELETE'
       });
 
