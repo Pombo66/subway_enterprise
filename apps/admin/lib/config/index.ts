@@ -7,6 +7,7 @@ interface AppConfig {
   };
   features: {
     debugMode: boolean;
+    subMind: boolean;
   };
   environment: 'development' | 'production' | 'test';
 }
@@ -24,6 +25,7 @@ class ConfigService {
       },
       features: {
         debugMode: this.getBoolean('NEXT_PUBLIC_DEBUG_MODE', false),
+        subMind: this.getBoolean('NEXT_PUBLIC_FEATURE_SUBMIND', true),
       },
       environment: this.getEnvironment(),
     };
@@ -69,6 +71,10 @@ class ConfigService {
 
   get environment(): string {
     return this.config.environment;
+  }
+
+  get isSubMindEnabled(): boolean {
+    return this.config.features.subMind;
   }
 }
 

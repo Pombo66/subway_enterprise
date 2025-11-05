@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { bff } from '../../lib/api';
-import CascadingFilters from './components/CascadingFilters';
+import CompactFilters from './components/CompactFilters';
 import TabNavigation from './components/TabNavigation';
+import UploadStoreData from './components/UploadStoreData';
+import UploadErrorBoundary from './components/UploadErrorBoundary';
 import { useToast } from '../components/ToastProvider';
+import { onStoresImported } from '../../lib/events/store-events';
 
 interface Store {
   id: string;
@@ -13,6 +16,9 @@ interface Store {
   country: string | null;
   region: string | null;
   city?: string | null;
+  status?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   createdAt: string;
   updatedAt?: string;
 }
@@ -21,84 +27,126 @@ interface FilterState {
   region?: string;
   country?: string;
   city?: string;
+  status?: string;
+  dataQuality?: 'all' | 'incomplete' | 'complete';
 }
 
 
 
-// Enhanced mock data with more realistic store information
-const mockStores: Store[] = [
-  { id: '1', name: 'Central Station', country: 'United States', region: 'AMER', city: 'New York', createdAt: new Date().toISOString() },
-  { id: '2', name: 'Riverside Mall', country: 'United Kingdom', region: 'EMEA', city: 'London', createdAt: new Date().toISOString() },
-  { id: '3', name: 'Downtown Plaza', country: 'Canada', region: 'AMER', city: 'Toronto', createdAt: new Date().toISOString() },
-  { id: '4', name: 'Tokyo Central', country: 'Japan', region: 'APAC', city: 'Tokyo', createdAt: new Date().toISOString() },
-  { id: '5', name: 'Paris Nord', country: 'France', region: 'EMEA', city: 'Paris', createdAt: new Date().toISOString() },
-  { id: '6', name: 'Berlin Hauptbahnhof', country: 'Germany', region: 'EMEA', city: 'Berlin', createdAt: new Date().toISOString() },
-  { id: '7', name: 'Sydney Harbour', country: 'Australia', region: 'APAC', city: 'Sydney', createdAt: new Date().toISOString() },
-  { id: '8', name: 'Los Angeles Downtown', country: 'United States', region: 'AMER', city: 'Los Angeles', createdAt: new Date().toISOString() },
-  { id: '9', name: 'Madrid Centro', country: 'Spain', region: 'EMEA', city: 'Madrid', createdAt: new Date().toISOString() },
-  { id: '10', name: 'Singapore Marina', country: 'Singapore', region: 'APAC', city: 'Singapore', createdAt: new Date().toISOString() },
-];
+// Start with empty stores - will be populated by uploads and API calls
 
 function StoresPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { showSuccess, showError } = useToast();
-  const [stores, setStores] = useState<Store[]>(mockStores);
+  const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [editingStore, setEditingStore] = useState<Store | null>(null);
   const [filters, setFilters] = useState<FilterState>({});
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(50);
+  const filtersRef = useRef<FilterState>({});
+  const isLoadingRef = useRef(false);
+  const hasInitialLoadRef = useRef(false);
 
 
-  // Fetch stores from API
+  // Fetch stores from API - simplified to prevent infinite loops
   const fetchStores = useCallback(async (currentFilters: FilterState = {}) => {
+    // Prevent multiple simultaneous requests
+    if (isLoadingRef.current) {
+      console.log('🔒 Fetch already in progress, skipping duplicate request');
+      return;
+    }
+
+    console.log('📡 Fetching stores with filters:', currentFilters);
     try {
+      isLoadingRef.current = true;
       setLoading(true);
       
-      // Use enhanced mock data with better filtering
-      let filteredStores = [...mockStores];
-      
-      // Apply region filter (exact match)
+      // Build query parameters
+      const params = new URLSearchParams();
       if (currentFilters.region) {
-        filteredStores = filteredStores.filter(store => 
-          store.region === currentFilters.region
-        );
+        params.append('region', currentFilters.region);
       }
-      
-      // Apply country filter (exact match)
       if (currentFilters.country) {
-        filteredStores = filteredStores.filter(store => 
-          store.country === currentFilters.country
-        );
+        params.append('country', currentFilters.country);
       }
-      
-      // Apply city filter (exact match, case-insensitive)
       if (currentFilters.city) {
-        filteredStores = filteredStores.filter(store => 
-          store.city?.toLowerCase() === currentFilters.city?.toLowerCase()
-        );
+        params.append('city', currentFilters.city);
+      }
+      if (currentFilters.status) {
+        params.append('status', currentFilters.status);
       }
       
-      setStores(filteredStores);
+      // Fetch from API
+      const queryString = params.toString();
+      const response = await fetch(`/api/stores${queryString ? `?${queryString}` : ''}`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch stores: ${response.status}`);
+      }
+      
+      const storesData = await response.json();
+      
+      // Handle different response formats
+      let stores: Store[] = [];
+      if (Array.isArray(storesData)) {
+        stores = storesData;
+      } else if (storesData.success && Array.isArray(storesData.data)) {
+        stores = storesData.data;
+      } else if (storesData.data && Array.isArray(storesData.data)) {
+        stores = storesData.data;
+      }
+      
+      setStores(stores);
     } catch (error) {
       console.error('Failed to fetch stores:', error);
-      showError('Failed to load stores. Please try again.');
+      // Show error without dependency - use custom event
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('show-toast', {
+          detail: { type: 'error', message: 'Failed to load stores. Please try again.' }
+        });
+        window.dispatchEvent(event);
+      }
+      setStores([]);
     } finally {
       setLoading(false);
+      isLoadingRef.current = false;
     }
-  }, [showError]);
+  }, []); // No dependencies - stable callback!
 
   // Handle filter changes from CascadingFilters component
   const handleFiltersChange = useCallback((newFilters: FilterState) => {
     setFilters(newFilters);
+    filtersRef.current = newFilters;
     setCurrentPage(1); // Reset pagination when filters change
     fetchStores(newFilters);
   }, [fetchStores]);
 
+  // Initial data load - only once
+  useEffect(() => {
+    if (!hasInitialLoadRef.current) {
+      hasInitialLoadRef.current = true;
+      const initialFilters = {};
+      filtersRef.current = initialFilters;
+      fetchStores(initialFilters);
+    }
+  }, [fetchStores]);
 
+  // Listen for store import events
+  useEffect(() => {
+    const unsubscribe = onStoresImported((event) => {
+      console.log('🔄 Stores imported, refreshing list view:', event.data);
+      // Refresh with current filters using ref to avoid dependency issues
+      fetchStores(filtersRef.current);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [fetchStores]);
 
   // Handle redirect from ?view=map parameter
   useEffect(() => {
@@ -138,12 +186,47 @@ function StoresPageContent() {
     showSuccess(`Store "${store.name}" created successfully!`);
   };
 
-  const handleEditStore = (updatedStore: Store) => {
-    setStores(prev => prev.map(store => 
-      store.id === updatedStore.id ? updatedStore : store
-    ));
-    setEditingStore(null);
-    showSuccess(`Store "${updatedStore.name}" updated successfully!`);
+  const handleEditStore = async (updatedStore: Store) => {
+    try {
+      // Save to database via API
+      const response = await fetch(`/api/stores/${updatedStore.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: updatedStore.name,
+          city: updatedStore.city,
+          country: updatedStore.country,
+          region: updatedStore.region,
+          status: updatedStore.status,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update store');
+      }
+
+      // Update local state
+      setStores(prev => prev.map(store => 
+        store.id === updatedStore.id ? updatedStore : store
+      ));
+      setEditingStore(null);
+      showSuccess(`Store "${updatedStore.name}" updated successfully!`);
+      
+      // Emit event to notify map of the update (single store, not full refetch)
+      if (typeof window !== 'undefined') {
+        const event = new CustomEvent('store-updated', {
+          detail: { store: updatedStore }
+        });
+        window.dispatchEvent(event);
+        
+        // Update store in cache
+        const { updateStoreInCache } = await import('../../lib/events/cache-events');
+        updateStoreInCache(updatedStore.id);
+      }
+    } catch (error) {
+      console.error('Failed to update store:', error);
+      showError('Failed to update store. Please try again.');
+    }
   };
 
   const handleDeleteStore = (storeId: string) => {
@@ -162,10 +245,113 @@ function StoresPageContent() {
     router.push('/stores/map');
   };
 
+  const handleUploadSuccess = (summary: any) => {
+    console.log('📊 Upload success summary:', summary);
+    
+    // Refresh the stores data after successful upload
+    fetchStores(filters);
+    
+    // Create detailed success message
+    const parts = [];
+    if (summary.inserted > 0) parts.push(`${summary.inserted} new`);
+    if (summary.updated > 0) parts.push(`${summary.updated} updated`);
+    if (summary.pendingGeocode > 0) parts.push(`${summary.pendingGeocode} pending geocode`);
+    
+    const message = parts.length > 0 
+      ? `Import completed! ${parts.join(', ')} stores.`
+      : 'Import completed successfully!';
+    
+    showSuccess(message);
+    
+    // Show warning if there were failures (but only if nothing succeeded)
+    if (summary.failed > 0) {
+      const totalSuccess = (summary.inserted || 0) + (summary.updated || 0);
+      
+      if (totalSuccess > 0) {
+        // Some rows succeeded, show as warning not error
+        setTimeout(() => {
+          showError(`Note: ${summary.failed} rows were skipped due to validation errors. ${totalSuccess} stores were imported successfully.`);
+        }, 1000);
+      } else {
+        // Nothing succeeded, show as error
+        setTimeout(() => {
+          showError(`${summary.failed} rows failed to import. Please check the data and try again.`);
+        }, 1000);
+      }
+    }
+  };
+
+  const handleRefreshData = () => {
+    fetchStores(filters);
+  };
+
+  const handleBulkDelete = async () => {
+    const count = searchFilteredStores.length;
+    const filterDesc = filters.region || filters.country || filters.city || 'all';
+    
+    if (!confirm(`⚠️ PERMANENT DELETE\n\nThis will permanently delete ${count} store(s) matching filter "${filterDesc}".\n\nThis action CANNOT be undone!\n\nAre you sure?`)) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Delete all filtered stores one by one
+      let successCount = 0;
+      let failCount = 0;
+      
+      for (const store of searchFilteredStores) {
+        try {
+          await fetch(`/api/stores/${store.id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          successCount++;
+        } catch (err) {
+          console.error(`Failed to delete store ${store.id}:`, err);
+          failCount++;
+        }
+      }
+      
+      if (successCount > 0) {
+        showSuccess(`Successfully deleted ${successCount} store(s)${failCount > 0 ? ` (${failCount} failed)` : ''}`);
+      }
+      
+      if (failCount > 0) {
+        showError(`Failed to delete ${failCount} store(s)`);
+      }
+      
+      fetchStores(filters);
+    } catch (error) {
+      console.error('Bulk delete error:', error);
+      showError('Failed to delete stores. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
-  // Filter stores based on search term (region/country filtering is handled by filters)
+
+  // Calculate stores with incomplete data
+  const storesWithMissingCoords = stores.filter(store => 
+    !store.latitude || !store.longitude || 
+    isNaN(store.latitude) || isNaN(store.longitude)
+  );
+
+  // Filter stores based on search term and data quality
   const searchFilteredStores = stores.filter(store => {
+    // Data quality filter
+    if (filters.dataQuality === 'incomplete') {
+      const hasIncompleteData = !store.latitude || !store.longitude || 
+        isNaN(store.latitude) || isNaN(store.longitude);
+      if (!hasIncompleteData) return false;
+    } else if (filters.dataQuality === 'complete') {
+      const hasIncompleteData = !store.latitude || !store.longitude || 
+        isNaN(store.latitude) || isNaN(store.longitude);
+      if (hasIncompleteData) return false;
+    }
+    
+    // Search term filter
     if (!searchTerm.trim()) return true;
     
     const searchLower = searchTerm.toLowerCase();
@@ -202,9 +388,31 @@ function StoresPageContent() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            {searchFilteredStores.length > 0 && (
+              <button 
+                onClick={handleBulkDelete}
+                className="s-btn s-btn--danger"
+                style={{ 
+                  background: 'var(--s-error, #dc3545)', 
+                  color: 'white',
+                  border: 'none'
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+                Delete All ({searchFilteredStores.length})
+              </button>
+            )}
+            <UploadErrorBoundary>
+              <UploadStoreData 
+                onUploadSuccess={handleUploadSuccess}
+                onRefreshData={handleRefreshData}
+              />
+            </UploadErrorBoundary>
             <button 
               onClick={() => setShowAddDrawer(true)}
-              className="s-btn menu-add-button-custom"
+              className="s-btn s-btn--primary"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
@@ -217,10 +425,40 @@ function StoresPageContent() {
         {/* Tab Navigation */}
         <TabNavigation activeTab="list" />
 
+        {/* Data Quality Warning */}
+        {storesWithMissingCoords.length > 0 && (
+          <button
+            onClick={() => setFilters({ ...filters, dataQuality: 'incomplete' })}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              margin: '16px 0',
+              fontSize: '14px',
+              color: 'white',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b">
+              <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+            </svg>
+            <span>
+              {storesWithMissingCoords.length} store{storesWithMissingCoords.length !== 1 ? 's' : ''} missing coordinates (add location to display on map)
+            </span>
+          </button>
+        )}
+
         {/* Filters Section */}
         <div className="filters-section">
           <Suspense fallback={<div>Loading filters...</div>}>
-            <CascadingFilters onFiltersChange={handleFiltersChange} />
+            <CompactFilters 
+              onFiltersChange={handleFiltersChange}
+              incompleteCount={storesWithMissingCoords.length}
+            />
           </Suspense>
           
           <div className="search-container">
@@ -248,17 +486,25 @@ function StoresPageContent() {
               )}
             </div>
             
-            <div className="stores-table">
-              <div className="stores-header">
+            <div className="stores-table" style={{ 
+              display: 'grid',
+              gridTemplateColumns: '2.5fr 0.7fr 0.8fr 0.8fr 0.7fr 1.8fr',
+              gap: '0',
+              rowGap: '8px'
+            }}>
+              <div className="stores-header" style={{ 
+                display: 'contents'
+              }}>
                 <div className="stores-cell">Name</div>
+                <div className="stores-cell">Status</div>
                 <div className="stores-cell">City</div>
                 <div className="stores-cell">Country</div>
                 <div className="stores-cell">Region</div>
                 <div className="stores-cell">Actions</div>
               </div>
-              <div className="stores-body">
+              <div className="stores-body" style={{ display: 'contents' }}>
                 {paginatedStores.length === 0 ? (
-                  <div className="stores-row">
+                  <div className="stores-row" style={{ display: 'contents' }}>
                     <div className="stores-cell" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '32px' }}>
                       <div style={{ color: 'var(--s-muted)' }}>
                         {searchTerm || filters.region || filters.country || filters.city 
@@ -270,15 +516,20 @@ function StoresPageContent() {
                   </div>
                 ) : (
                   paginatedStores.map((store) => (
-                    <div key={store.id} className="stores-row">
+                    <div key={store.id} className="stores-row" style={{ display: 'contents' }}>
                       <div className="stores-cell">
                         <button
                           onClick={() => handleViewStore(store.id)}
-                          className="store-name-link"
+                          className="store-name-button"
                           title="View store details"
                         >
                           {store.name}
                         </button>
+                      </div>
+                      <div className="stores-cell">
+                        <span className={`badge status-${store.status?.toLowerCase().replace(/\s+/g, '-')}`}>
+                          {store.status ?? '—'}
+                        </span>
                       </div>
                       <div className="stores-cell">
                         <span className="store-city">{store.city ?? '—'}</span>
@@ -335,6 +586,14 @@ function StoresPageContent() {
             {totalPages > 1 && (
               <div className="pagination-controls">
                 <button
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className="pagination-btn"
+                >
+                  First
+                </button>
+                
+                <button
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
                   className="pagination-btn"
@@ -374,6 +633,14 @@ function StoresPageContent() {
                 >
                   Next
                 </button>
+                
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className="pagination-btn"
+                >
+                  Last
+                </button>
               </div>
             )}
           </div>
@@ -407,6 +674,7 @@ function AddStoreDrawer({ isOpen, onClose, onAdd }: AddStoreDrawerProps) {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [region, setRegion] = useState('');
+  const [status, setStatus] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -417,6 +685,7 @@ function AddStoreDrawer({ isOpen, onClose, onAdd }: AddStoreDrawerProps) {
       city: city.trim() || null,
       country: country.trim() || null,
       region: region || null,
+      status: status || null,
     });
 
     // Reset form
@@ -424,6 +693,7 @@ function AddStoreDrawer({ isOpen, onClose, onAdd }: AddStoreDrawerProps) {
     setCity('');
     setCountry('');
     setRegion('');
+    setStatus('');
   };
 
   if (!isOpen) return null;
@@ -493,6 +763,21 @@ function AddStoreDrawer({ isOpen, onClose, onAdd }: AddStoreDrawerProps) {
             </select>
           </div>
 
+          <div className="form-group">
+            <label htmlFor="storeStatus" className="form-label">Status</label>
+            <select
+              id="storeStatus"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="s-select"
+            >
+              <option value="">Select status</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
+              <option value="Planned">Planned</option>
+            </select>
+          </div>
+
           <div className="drawer-actions">
             <button type="button" onClick={onClose} className="s-btn btn-secondary">
               Cancel
@@ -519,6 +804,7 @@ function EditStoreDrawer({ isOpen, store, onClose, onSave }: EditStoreDrawerProp
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [region, setRegion] = useState('');
+  const [status, setStatus] = useState('');
 
   // Update form when store changes
   useEffect(() => {
@@ -527,6 +813,7 @@ function EditStoreDrawer({ isOpen, store, onClose, onSave }: EditStoreDrawerProp
       setCity(store.city || '');
       setCountry(store.country || '');
       setRegion(store.region || '');
+      setStatus(store.status || '');
     }
   }, [store]);
 
@@ -540,6 +827,7 @@ function EditStoreDrawer({ isOpen, store, onClose, onSave }: EditStoreDrawerProp
       city: city.trim() || null,
       country: country.trim() || null,
       region: region || null,
+      status: status || null,
     });
   };
 
@@ -607,6 +895,21 @@ function EditStoreDrawer({ isOpen, store, onClose, onSave }: EditStoreDrawerProp
               <option value="EMEA">EMEA</option>
               <option value="AMER">AMER</option>
               <option value="APAC">APAC</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="editStoreStatus" className="form-label">Status</label>
+            <select
+              id="editStoreStatus"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="s-select"
+            >
+              <option value="">Select status</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
+              <option value="Planned">Planned</option>
             </select>
           </div>
 

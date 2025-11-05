@@ -14,16 +14,16 @@ async function createIfNotExists(model, where, data) {
 async function main(){
   console.log("🌱 Starting comprehensive seed data creation...");
 
-  // Create diverse stores across regions
+  // Create diverse stores across regions with realistic coordinates
   const storeData = [
-    { name: "Central Station", country: "US", region: "AMER", city: "New York" },
-    { name: "Riverside", country: "GB", region: "EMEA", city: "London" },
-    { name: "Downtown Plaza", country: "CA", region: "AMER", city: "Toronto" },
-    { name: "Mall Central", country: "AU", region: "APAC", city: "Sydney" },
-    { name: "City Center", country: "DE", region: "EMEA", city: "Berlin" },
-    { name: "Harbor View", country: "SG", region: "APAC", city: "Singapore" },
-    { name: "Airport Terminal", country: "US", region: "AMER", city: "Los Angeles" },
-    { name: "Shopping District", country: "FR", region: "EMEA", city: "Paris" }
+    { name: "Central Station", country: "US", region: "AMER", city: "New York", latitude: 40.7128, longitude: -74.0060 },
+    { name: "Riverside", country: "GB", region: "EMEA", city: "London", latitude: 51.5074, longitude: -0.1278 },
+    { name: "Downtown Plaza", country: "CA", region: "AMER", city: "Toronto", latitude: 43.6532, longitude: -79.3832 },
+    { name: "Mall Central", country: "AU", region: "APAC", city: "Sydney", latitude: -33.8688, longitude: 151.2093 },
+    { name: "City Center", country: "DE", region: "EMEA", city: "Berlin", latitude: 52.5200, longitude: 13.4050 },
+    { name: "Harbor View", country: "SG", region: "APAC", city: "Singapore", latitude: 1.3521, longitude: 103.8198 },
+    { name: "Airport Terminal", country: "US", region: "AMER", city: "Los Angeles", latitude: 34.0522, longitude: -118.2437 },
+    { name: "Shopping District", country: "FR", region: "EMEA", city: "Paris", latitude: 48.8566, longitude: 2.3522 }
   ];
 
   const stores = {};
@@ -635,6 +635,127 @@ async function main(){
 
   console.log(`📊 Created/verified ${telemetryEventData.length} telemetry events`);
 
+  // Create comprehensive trade area data for expansion predictor
+  const tradeAreaData = [
+    // AMER Region - Major metropolitan areas
+    { region: "AMER", country: "US", centroidLat: 40.7589, centroidLng: -73.9851, population: 125000, footfallIndex: 0.85, incomeIndex: 0.78, competitorIdx: 0.65, existingStoreDist: 2.5, isLive: true },
+    { region: "AMER", country: "US", centroidLat: 34.0522, centroidLng: -118.2437, population: 98000, footfallIndex: 0.72, incomeIndex: 0.82, competitorIdx: 0.58, existingStoreDist: 3.2, isLive: true },
+    { region: "AMER", country: "US", centroidLat: 41.8781, centroidLng: -87.6298, population: 87000, footfallIndex: 0.68, incomeIndex: 0.75, competitorIdx: 0.62, existingStoreDist: 2.8, isLive: false },
+    { region: "AMER", country: "US", centroidLat: 29.7604, centroidLng: -95.3698, population: 76000, footfallIndex: 0.71, incomeIndex: 0.69, competitorIdx: 0.45, existingStoreDist: 4.1, isLive: true },
+    { region: "AMER", country: "US", centroidLat: 33.4484, centroidLng: -112.0740, population: 65000, footfallIndex: 0.63, incomeIndex: 0.72, competitorIdx: 0.38, existingStoreDist: 5.2, isLive: false },
+    { region: "AMER", country: "CA", centroidLat: 43.6532, centroidLng: -79.3832, population: 92000, footfallIndex: 0.79, incomeIndex: 0.81, competitorIdx: 0.55, existingStoreDist: 2.9, isLive: true },
+    { region: "AMER", country: "CA", centroidLat: 45.5017, centroidLng: -73.5673, population: 78000, footfallIndex: 0.74, incomeIndex: 0.77, competitorIdx: 0.48, existingStoreDist: 3.6, isLive: false },
+    { region: "AMER", country: "CA", centroidLat: 49.2827, centroidLng: -123.1207, population: 85000, footfallIndex: 0.76, incomeIndex: 0.84, competitorIdx: 0.52, existingStoreDist: 3.1, isLive: true },
+    
+    // EMEA Region - European metropolitan areas
+    { region: "EMEA", country: "GB", centroidLat: 51.5074, centroidLng: -0.1278, population: 145000, footfallIndex: 0.88, incomeIndex: 0.85, competitorIdx: 0.72, existingStoreDist: 1.8, isLive: true },
+    { region: "EMEA", country: "GB", centroidLat: 53.4808, centroidLng: -2.2426, population: 67000, footfallIndex: 0.65, incomeIndex: 0.71, competitorIdx: 0.43, existingStoreDist: 4.2, isLive: false },
+    { region: "EMEA", country: "DE", centroidLat: 52.5200, centroidLng: 13.4050, population: 112000, footfallIndex: 0.82, incomeIndex: 0.79, competitorIdx: 0.68, existingStoreDist: 2.3, isLive: true },
+    { region: "EMEA", country: "DE", centroidLat: 48.1351, centroidLng: 11.5820, population: 89000, footfallIndex: 0.77, incomeIndex: 0.83, competitorIdx: 0.59, existingStoreDist: 3.4, isLive: false },
+    { region: "EMEA", country: "FR", centroidLat: 48.8566, centroidLng: 2.3522, population: 134000, footfallIndex: 0.86, incomeIndex: 0.81, competitorIdx: 0.74, existingStoreDist: 2.1, isLive: true },
+    { region: "EMEA", country: "FR", centroidLat: 45.7640, centroidLng: 4.8357, population: 72000, footfallIndex: 0.69, incomeIndex: 0.76, competitorIdx: 0.46, existingStoreDist: 3.8, isLive: false },
+    { region: "EMEA", country: "IT", centroidLat: 41.9028, centroidLng: 12.4964, population: 98000, footfallIndex: 0.73, incomeIndex: 0.74, competitorIdx: 0.61, existingStoreDist: 2.9, isLive: true },
+    { region: "EMEA", country: "ES", centroidLat: 40.4168, centroidLng: -3.7038, population: 87000, footfallIndex: 0.71, incomeIndex: 0.72, competitorIdx: 0.54, existingStoreDist: 3.2, isLive: false },
+    
+    // APAC Region - Asia-Pacific metropolitan areas
+    { region: "APAC", country: "AU", centroidLat: -33.8688, centroidLng: 151.2093, population: 102000, footfallIndex: 0.81, incomeIndex: 0.86, competitorIdx: 0.63, existingStoreDist: 2.7, isLive: true },
+    { region: "APAC", country: "AU", centroidLat: -37.8136, centroidLng: 144.9631, population: 94000, footfallIndex: 0.78, incomeIndex: 0.82, competitorIdx: 0.58, existingStoreDist: 3.1, isLive: false },
+    { region: "APAC", country: "SG", centroidLat: 1.3521, centroidLng: 103.8198, population: 156000, footfallIndex: 0.92, incomeIndex: 0.89, competitorIdx: 0.78, existingStoreDist: 1.5, isLive: true },
+    { region: "APAC", country: "JP", centroidLat: 35.6762, centroidLng: 139.6503, population: 187000, footfallIndex: 0.95, incomeIndex: 0.87, competitorIdx: 0.85, existingStoreDist: 1.2, isLive: true },
+    { region: "APAC", country: "JP", centroidLat: 34.6937, centroidLng: 135.5023, population: 123000, footfallIndex: 0.84, incomeIndex: 0.81, competitorIdx: 0.71, existingStoreDist: 2.0, isLive: false },
+    { region: "APAC", country: "KR", centroidLat: 37.5665, centroidLng: 126.9780, population: 145000, footfallIndex: 0.89, incomeIndex: 0.83, competitorIdx: 0.76, existingStoreDist: 1.7, isLive: true },
+    { region: "APAC", country: "NZ", centroidLat: -36.8485, centroidLng: 174.7633, population: 58000, footfallIndex: 0.62, incomeIndex: 0.78, competitorIdx: 0.35, existingStoreDist: 4.8, isLive: false },
+    { region: "APAC", country: "HK", centroidLat: 22.3193, centroidLng: 114.1694, population: 178000, footfallIndex: 0.97, incomeIndex: 0.91, competitorIdx: 0.88, existingStoreDist: 0.9, isLive: true }
+  ];
+
+  // Calculate gravity model scores for each trade area
+  const processedTradeAreas = tradeAreaData.map(area => {
+    // Normalize values to 0-1 range
+    const populationNorm = Math.min(area.population / 200000, 1.0);
+    const footfallNorm = area.footfallIndex;
+    const incomeNorm = area.incomeIndex;
+    const competitorNorm = area.competitorIdx;
+    const distanceNorm = Math.min(area.existingStoreDist / 10.0, 1.0);
+
+    // Calculate demand score
+    const demandScore = populationNorm * 0.5 + footfallNorm * 0.3 + incomeNorm * 0.2;
+    
+    // Calculate penalties
+    const existingStorePenalty = 1 / Math.max(area.existingStoreDist, 0.1);
+    const competitionPenalty = competitorNorm * 0.4;
+    const supplyPenalty = existingStorePenalty * 0.15;
+    
+    // Calculate final gravity score
+    const demandWeight = 0.6;
+    const compWeight = 0.25;
+    const supplyWeight = 0.15;
+    
+    const finalScore = Math.max(0, Math.min(1, 
+      demandWeight * demandScore - compWeight * competitionPenalty - supplyWeight * supplyPenalty
+    ));
+    
+    // Calculate confidence based on data variance (simplified)
+    const dataVariance = Math.abs(footfallNorm - incomeNorm) + Math.abs(populationNorm - footfallNorm);
+    const confidence = Math.max(0.3, Math.min(0.95, 1 - (dataVariance / 2)));
+    
+    return {
+      ...area,
+      demandScore: Number(demandScore.toFixed(3)),
+      supplyPenalty: Number(supplyPenalty.toFixed(3)),
+      competitionPenalty: Number(competitionPenalty.toFixed(3)),
+      finalScore: Number(finalScore.toFixed(3)),
+      confidence: Number(confidence.toFixed(3))
+    };
+  });
+
+  // Create trade areas if they don't exist
+  const tradeAreas = {};
+  for (const areaData of processedTradeAreas) {
+    const existing = await prisma.tradeArea.findFirst({
+      where: {
+        centroidLat: areaData.centroidLat,
+        centroidLng: areaData.centroidLng
+      }
+    });
+    
+    if (!existing) {
+      // Add scope-aware fields for new trade areas
+      const enhancedAreaData = {
+        ...areaData,
+        scope: areaData.country || areaData.region, // Use country as scope, fallback to region
+        scopeType: areaData.country ? 'country' : 'region',
+        customAreaPolygon: null, // No custom polygons for seeded data
+        dataMode: areaData.isLive ? 'live' : 'modelled',
+        modelVersion: 'v0.3',
+        dataSnapshotDate: new Date(),
+        cacheKey: `${areaData.region}-${areaData.country || 'unknown'}-${Date.now()}`
+      };
+      
+      tradeAreas[`${areaData.region}-${areaData.country}-${areaData.centroidLat}`] = await prisma.tradeArea.create({
+        data: enhancedAreaData
+      });
+    } else {
+      // Update existing trade areas with new scope fields if they don't have them
+      if (!existing.scope) {
+        await prisma.tradeArea.update({
+          where: { id: existing.id },
+          data: {
+            scope: existing.country || existing.region,
+            scopeType: existing.country ? 'country' : 'region',
+            customAreaPolygon: null,
+            dataMode: existing.isLive ? 'live' : 'modelled',
+            modelVersion: 'v0.3',
+            dataSnapshotDate: new Date(),
+            cacheKey: `${existing.region}-${existing.country || 'unknown'}-${Date.now()}`
+          }
+        });
+      }
+      tradeAreas[`${areaData.region}-${areaData.country}-${areaData.centroidLat}`] = existing;
+    }
+  }
+
+  console.log(`🗺️ Created/verified ${Object.keys(tradeAreas).length} trade areas for expansion predictor`);
+
   console.log("\n🎉 Comprehensive seed data creation completed successfully!");
   console.log("=".repeat(60));
   console.log(`📍 Stores: ${Object.keys(stores).length} across AMER, EMEA, and APAC regions`);
@@ -650,8 +771,9 @@ async function main(){
   console.log(`🚩 Feature Flags: ${Object.keys(featureFlags).length} for testing feature management`);
   console.log(`📋 Orders: ${orderData.length} for testing analytics and reporting`);
   console.log(`📊 Telemetry Events: ${telemetryEventData.length} for testing event tracking`);
+  console.log(`🗺️ Trade Areas: ${Object.keys(tradeAreas).length} for expansion predictor testing`);
   console.log("=".repeat(60));
-  console.log("✅ All seed data supports comprehensive testing of navigation consolidation features!");
+  console.log("✅ All seed data supports comprehensive testing of expansion predictor features!");
 }
 
 main().finally(() => prisma.$disconnect());

@@ -1,441 +1,322 @@
 /**
- * Custom hook for managing store data fetching and activity computation
- * Implements polling, filtering, and fallback logic for the Living Map feature
+ * Optimized useStores hook with caching, proper memoization and no render loops
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { bff, bffWithErrorHandling } from '../../../../lib/api';
-import { z } from 'zod';
-import { 
-  StoreWithActivity, 
-  FilterState, 
-  FilterOptions, 
-  UseStoresReturn,
-  RecentOrdersResponse 
-} from '../types';
-import { MapTelemetryHelpers, safeTrackEvent, getCurrentUserId } from '../telemetry';
-import { MapPerformanceHelpers } from '../performance';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { StoreWithActivity, FilterState, UseStoresReturn } from '../types';
+import { StoreCacheManager, ViewportBounds } from '../../../../lib/cache/store-cache';
+import { cacheEventBus } from '../../../../lib/events/cache-events';
 
-// Zod schemas for API validation
-const StoreSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  country: z.string().nullable(),
-  region: z.string().nullable(),
-  city: z.string().nullable(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-const StoresResponseSchema = z.array(StoreSchema);
-
-const RecentOrdersSchema = z.object({
-  orders: z.array(z.object({
-    id: z.string(),
-    storeId: z.string(),
-    createdAt: z.string(),
-    Store: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-  })),
-  pagination: z.object({
-    total: z.number(),
-  }),
-});
-
-// Constants
-const POLLING_INTERVAL = 15000; // 15 seconds
-const DEBOUNCE_DELAY = 500; // 500ms debounce for filter changes
-const ACTIVITY_THRESHOLD = 60 * 60 * 1000; // 60 minutes in milliseconds
-const MOCK_ACTIVITY_PERCENTAGE = 0.1; // 10% of stores get mock activity
-const ACTIVITY_CACHE_TTL = 30000; // 30 seconds cache for activity data
-
-// Activity cache interface
-interface ActivityCache {
-  data: Map<string, boolean>;
-  timestamp: number;
-  isMockData: boolean;
+export interface UseStoresOptions {
+  filters?: FilterState;
+  viewport?: ViewportBounds;
+  enableCache?: boolean; // Default: true
 }
 
+export type CacheStatus = 'hit' | 'miss' | 'stale' | 'disabled';
+
 /**
- * Custom hook for managing store data with activity indicators
+ * Hook for fetching and managing store data with caching support
+ * Prevents render loops through careful dependency management
  */
-export function useStores(filters: FilterState): UseStoresReturn {
-  const [stores, setStores] = useState<StoreWithActivity[]>([]);
-  const [loading, setLoading] = useState(true);
+export function useStores(filters: FilterState, options?: { enableCache?: boolean; viewport?: ViewportBounds }): UseStoresReturn & { cacheStatus: CacheStatus; invalidateCache: () => Promise<void> } {
+  const [rawStores, setRawStores] = useState<StoreWithActivity[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-  const [availableOptions, setAvailableOptions] = useState<FilterOptions>({
-    franchisees: [],
-    regions: [],
-    countries: [],
-  });
-
-  const maxRetries = 3;
-
-  // Refs for managing polling and debouncing
-  const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastFiltersRef = useRef<FilterState>(filters);
-  const activityCacheRef = useRef<ActivityCache | null>(null);
-
-  /**
-   * Fetches stores from the BFF API with current filters and retry logic
-   */
-  const fetchStores = useCallback(async (currentFilters: FilterState, attempt: number = 0): Promise<any[]> => {
-    // Build query parameters
-    const params = new URLSearchParams();
-    if (currentFilters.region) {
-      params.append('region', currentFilters.region);
+  const [cacheStatus, setCacheStatus] = useState<CacheStatus>('miss');
+  
+  // Use ref to track if we've fetched data to prevent unnecessary refetches
+  const hasFetchedRef = useRef(false);
+  
+  // Cache manager instance
+  const cacheManager = useMemo(() => {
+    if (options?.enableCache === false) {
+      return null;
     }
-    if (currentFilters.country) {
-      params.append('country', currentFilters.country);
-    }
-    // Note: franchiseeId is not supported by current BFF API
-    // This will be handled gracefully by ignoring the filter
-
-    const queryString = params.toString();
-    const endpoint = `/stores${queryString ? `?${queryString}` : ''}`;
-
-    console.log('🔍 Fetching stores:', {
-      endpoint,
-      queryString,
-      filters: currentFilters,
-      attempt: attempt + 1,
-      bffBaseUrl: typeof window !== 'undefined' ? 'client-side' : 'server-side'
-    });
-
-    try {
-
-      // Wrap API call with performance monitoring
-      const result = await MapPerformanceHelpers.wrapAPICall(
-        endpoint,
-        'GET',
-        () => bffWithErrorHandling(endpoint, StoresResponseSchema)
-      );
+    return new StoreCacheManager();
+  }, [options?.enableCache]);
+  
+  // Memoize filtered stores to prevent unnecessary recalculations
+  const filteredStores = useMemo(() => {
+    console.log('🔄 Filtering stores with filters:', filters);
+    
+    return rawStores.filter(store => {
+      // Filter out stores without valid coordinates for map display
+      // This prevents stores with null, undefined, 0, or invalid coordinates from showing on the map
+      const hasValidCoords = 
+        typeof store.latitude === 'number' && 
+        typeof store.longitude === 'number' &&
+        !isNaN(store.latitude) && 
+        !isNaN(store.longitude) &&
+        store.latitude !== 0 &&
+        store.longitude !== 0 &&
+        store.latitude >= -90 && store.latitude <= 90 &&
+        store.longitude >= -180 && store.longitude <= 180;
       
-      console.log('📊 API Result:', {
-        success: result.success,
-        dataLength: result.success ? result.data?.length : 0,
-        error: result.success ? null : result.error
-      });
-      
-      if (!result.success) {
-        throw new Error(result.error);
+      if (!hasValidCoords) {
+        console.log(`📍 Filtering out store without valid coordinates: ${store.name} (${store.latitude}, ${store.longitude})`);
+        return false;
       }
-
-      // Reset retry count on successful fetch
-      setRetryCount(0);
-      return result.data;
-    } catch (err) {
-      console.error(`Error fetching stores (attempt ${attempt + 1}):`, err);
-      console.error('Full error details:', {
-        message: err instanceof Error ? err.message : String(err),
-        stack: err instanceof Error ? err.stack : undefined,
-        endpoint,
-        filters: currentFilters,
-        attempt: attempt + 1,
-        maxRetries
-      });
       
-      // Track API failure with retry information
-      const monitor = MapPerformanceHelpers.getMonitor();
-      monitor.trackAPICall({
-        endpoint: `/stores`,
-        method: 'GET',
-        responseTime: 0, // Unknown for failed calls
-        success: false,
-        errorMessage: err instanceof Error ? err.message : String(err),
-        retryCount: attempt,
-      });
+      // Region/country/franchisee filters
+      if (filters.region && store.region !== filters.region) return false;
+      if (filters.country && store.country !== filters.country) return false;
+      if (filters.franchiseeId && store.franchiseeId !== filters.franchiseeId) return false;
       
-      // Retry logic with exponential backoff
-      if (attempt < maxRetries) {
-        const delay = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
-        console.log(`Retrying in ${delay}ms...`);
+      // Legacy single status filter (for list view compatibility)
+      if (filters.status && store.status !== filters.status) return false;
+      
+      // Multi-select status filters (for map view)
+      if (filters.statusFilters) {
+        const { showOpen, showClosed, showPlanned, showExpansions } = filters.statusFilters;
         
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return fetchStores(currentFilters, attempt + 1);
+        // Check if only expansions are enabled (all store types are disabled)
+        const onlyExpansionsEnabled = showOpen === false && showClosed === false && showPlanned === false && showExpansions !== false;
+        if (onlyExpansionsEnabled) {
+          // Hide all stores when only expansion suggestions should be visible
+          return false;
+        }
+        
+        // If all store types are undefined or true, show all stores
+        const allStoreTypesEnabled = showOpen !== false && showClosed !== false && showPlanned !== false;
+        if (allStoreTypesEnabled) return true;
+        
+        // Otherwise, check if this store's status is enabled
+        const storeStatus = store.status || 'Open'; // Default to Open if no status
+        if (storeStatus === 'Open' && showOpen === false) return false;
+        if (storeStatus === 'Closed' && showClosed === false) return false;
+        if (storeStatus === 'Planned' && showPlanned === false) return false;
       }
       
-      throw err;
-    }
-  }, [maxRetries]);
+      return true;
+    });
+  }, [rawStores, filters.region, filters.country, filters.franchiseeId, filters.status, filters.statusFilters]); // Explicit dependencies
 
-  /**
-   * Checks if activity cache is still valid
-   */
-  const isActivityCacheValid = useCallback((): boolean => {
-    if (!activityCacheRef.current) return false;
+  // Memoize available options to prevent unnecessary recalculations
+  const availableOptions = useMemo(() => {
+    const franchisees = Array.from(
+      new Set(rawStores.map(store => store.franchiseeId).filter(Boolean))
+    ).map(id => ({ id: id!, name: `Franchise ${id}` }));
     
-    const now = Date.now();
-    const cacheAge = now - activityCacheRef.current.timestamp;
-    return cacheAge < ACTIVITY_CACHE_TTL;
-  }, []);
+    const regions = Array.from(new Set(rawStores.map(store => store.region)));
+    const countries = Array.from(new Set(rawStores.map(store => store.country)));
+    
+    return { franchisees, regions, countries };
+  }, [rawStores]); // Only depends on rawStores
 
-  /**
-   * Attempts to fetch recent orders for activity computation
-   * Falls back to mock data if the endpoint is unavailable
-   * Implements caching to reduce API calls
-   */
-  const fetchRecentActivity = useCallback(async (storeIds: string[]): Promise<{ activityMap: Map<string, boolean>; isMockData: boolean }> => {
-    // Check cache first
-    if (isActivityCacheValid()) {
-      const cached = activityCacheRef.current!;
-      return { 
-        activityMap: new Map(cached.data), 
-        isMockData: cached.isMockData 
-      };
+  // Load stores from cache or API
+  const loadStores = useCallback(async () => {
+    if (!cacheManager) {
+      // Cache disabled, fetch directly from API
+      setCacheStatus('disabled');
+      await fetchFromAPI();
+      return;
     }
-
-    const activityMap = new Map<string, boolean>();
-    let isMockData = false;
 
     try {
-      // Try to fetch recent orders from the last hour
-      const params = new URLSearchParams({
-        dateRange: 'hour',
-        limit: '1000', // Get a large number to capture all recent activity
-      });
+      // Initialize cache
+      await cacheManager.initialize();
 
-      const result = await bffWithErrorHandling(`/orders/recent?${params}`, RecentOrdersSchema);
-      
-      if (result.success) {
-        // Process orders to determine which stores have recent activity
-        const now = Date.now();
-        const recentStoreIds = new Set<string>();
+      // Try cache first
+      const cached = await cacheManager.getAll();
+      if (cached.length > 0) {
+        console.log(`📦 Cache hit: ${cached.length} stores loaded from IndexedDB`);
+        const stores = cached.map(store => ({
+          ...store,
+          franchiseeId: store.id, // Use id as franchiseeId
+          recentActivity: false
+        })) as StoreWithActivity[];
+        
+        setRawStores(stores);
+        setCacheStatus('hit');
+        setLoading(false);
 
-        result.data.orders.forEach(order => {
-          const orderTime = new Date(order.createdAt).getTime();
-          if (now - orderTime <= ACTIVITY_THRESHOLD) {
-            recentStoreIds.add(order.Store.id);
-          }
-        });
-
-        // Set activity for stores with recent orders
-        recentStoreIds.forEach(storeId => {
-          activityMap.set(storeId, true);
-        });
-
-        // Cache the real activity data
-        activityCacheRef.current = {
-          data: new Map(activityMap),
-          timestamp: Date.now(),
-          isMockData: false,
-        };
-
-        console.log(`Found ${recentStoreIds.size} stores with recent activity from API`);
-        return { activityMap, isMockData: false };
+        // Check if cache is stale and refresh in background
+        const isStale = await cacheManager.isStale();
+        if (isStale) {
+          console.log('⏰ Cache is stale, refreshing in background...');
+          setCacheStatus('stale');
+          await refreshInBackground();
+        }
+      } else {
+        // Cache miss
+        console.log('📦 Cache miss: fetching from API');
+        setCacheStatus('miss');
+        await fetchFromAPI();
       }
-    } catch (err) {
-      console.warn('Failed to fetch recent orders, falling back to mock activity:', err);
+    } catch (error) {
+      console.error('Cache error, falling back to API:', error);
+      setCacheStatus('disabled');
+      await fetchFromAPI();
     }
+  }, [cacheManager]);
 
-    // Fallback to mock activity data
-    const mockActivityMap = generateMockActivity(storeIds);
+  // Fetch from API and update cache
+  const fetchFromAPI = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     
-    // Cache the mock activity data
-    activityCacheRef.current = {
-      data: new Map(mockActivityMap),
-      timestamp: Date.now(),
-      isMockData: true,
-    };
-
-    return { activityMap: mockActivityMap, isMockData: true };
-  }, [isActivityCacheValid]);
-
-  /**
-   * Generates mock activity for approximately 10% of stores
-   * Uses deterministic approach for consistency across renders
-   */
-  const generateMockActivity = useCallback((storeIds: string[]): Map<string, boolean> => {
-    const activityMap = new Map<string, boolean>();
-    const isDebugMode = process.env.NEXT_PUBLIC_DEBUG === 'true';
-
-    // Use a deterministic approach based on store ID to ensure consistency
-    storeIds.forEach(storeId => {
-      // Simple hash function to get consistent pseudo-random behavior
-      const hash = storeId.split('').reduce((acc, char) => {
-        return ((acc << 5) - acc + char.charCodeAt(0)) & 0xffffffff;
-      }, 0);
-      
-      const shouldHaveActivity = Math.abs(hash) % 100 < (MOCK_ACTIVITY_PERCENTAGE * 100);
-      
-      if (shouldHaveActivity) {
-        activityMap.set(storeId, true);
-      }
-    });
-
-    if (isDebugMode) {
-      console.log(`Generated mock activity for ${activityMap.size} out of ${storeIds.length} stores (MOCK DATA)`);
-    }
-
-    return activityMap;
-  }, []);
-
-  /**
-   * Combines store data with activity indicators
-   * Implements fallback logic and debug flag support
-   */
-  const combineStoresWithActivity = useCallback(async (rawStores: any[]): Promise<StoreWithActivity[]> => {
-    const storeIds = rawStores.map(store => store.id);
-    
-    // Get activity data with fallback logic
-    const { activityMap, isMockData } = await fetchRecentActivity(storeIds);
-
-    // Transform stores and add activity indicators
-    const storesWithActivity: StoreWithActivity[] = rawStores.map(store => {
-      const hasActivity = activityMap.has(store.id);
-      const isDebugMode = process.env.NEXT_PUBLIC_DEBUG === 'true';
-      
-      // Generate consistent coordinates based on store ID for demo purposes
-      // In a real implementation, these would come from the database
-      const hash = store.id.split('').reduce((acc: number, char: string) => {
-        return ((acc << 5) - acc + char.charCodeAt(0)) & 0xffffffff;
-      }, 0);
-      
-      const latOffset = (Math.abs(hash) % 2000 - 1000) / 100; // -10 to +10 degrees
-      const lngOffset = (Math.abs(hash * 2) % 4000 - 2000) / 100; // -20 to +20 degrees
-      
-      return {
-        id: store.id,
-        name: store.name,
-        latitude: 40.7128 + latOffset, // Spread around NYC
-        longitude: -74.0060 + lngOffset,
-        region: store.region || 'Unknown',
-        country: store.country || 'Unknown',
-        franchiseeId: undefined, // Not available in current schema
-        status: 'active' as const,
-        recentActivity: hasActivity,
-        __mockActivity: isDebugMode && isMockData && hasActivity,
-      };
-    });
-
-    // Log activity summary in debug mode
-    if (process.env.NEXT_PUBLIC_DEBUG === 'true') {
-      const activeCount = storesWithActivity.filter(s => s.recentActivity).length;
-      const mockCount = storesWithActivity.filter(s => s.__mockActivity).length;
-      console.log(`Activity Summary: ${activeCount}/${storesWithActivity.length} stores active, ${mockCount} using mock data`);
-    }
-
-    return storesWithActivity;
-  }, [fetchRecentActivity]);
-
-  /**
-   * Main function to fetch and process store data
-   */
-  const fetchStoresWithActivity = useCallback(async (currentFilters: FilterState) => {
     try {
-      setError(null);
+      const response = await fetch('/api/stores');
       
-      const rawStores = await fetchStores(currentFilters);
-      const storesWithActivity = await combineStoresWithActivity(rawStores);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch stores: ${response.status}`);
+      }
       
-      setStores(storesWithActivity);
+      const storesData = await response.json();
       
-      // Update available filter options based on current data
-      const regions = Array.from(new Set(storesWithActivity.map(s => s.region).filter(Boolean)));
-      const countries = Array.from(new Set(storesWithActivity.map(s => s.country).filter(Boolean)));
+      // Handle different response formats
+      let stores: StoreWithActivity[] = [];
+      if (Array.isArray(storesData)) {
+        stores = storesData.map(store => ({
+          ...store,
+          franchiseeId: store.franchiseeId || 'unknown',
+          status: store.status || 'active',
+          recentActivity: Math.random() < 0.3
+        }));
+      } else if (storesData.stores && Array.isArray(storesData.stores)) {
+        stores = storesData.stores.map(store => ({
+          ...store,
+          franchiseeId: store.franchiseeId || 'unknown',
+          status: store.status || 'active',
+          recentActivity: Math.random() < 0.3
+        }));
+      } else if (storesData.success && Array.isArray(storesData.data)) {
+        stores = storesData.data.map(store => ({
+          ...store,
+          franchiseeId: store.franchiseeId || 'unknown',
+          status: store.status || 'active',
+          recentActivity: Math.random() < 0.3
+        }));
+      }
       
-      setAvailableOptions({
-        franchisees: [], // Not available in current schema
-        regions: regions.sort(),
-        countries: countries.sort(),
-      });
+      setRawStores(stores);
       
-      // Track refresh tick telemetry
-      const activeStoreCount = storesWithActivity.filter(s => s.recentActivity).length;
-      safeTrackEvent(() => {
-        MapTelemetryHelpers.trackMapRefreshTick(
-          storesWithActivity.length, // visibleStoreCount (same as total after filtering)
-          storesWithActivity.length, // totalStoreCount (after filtering)
-          activeStoreCount,
-          currentFilters,
-          getCurrentUserId(),
-          {
-            hasError: false,
-            dataSource: 'api',
-          }
-        );
-      }, 'map_refresh_tick');
+      // Update cache
+      if (cacheManager && stores.length > 0) {
+        await cacheManager.set(stores.map(s => ({
+          id: s.id,
+          name: s.name,
+          latitude: s.latitude || 0,
+          longitude: s.longitude || 0,
+          country: s.country || '',
+          region: s.region || null,
+          address: s.city || null,
+          status: s.status || 'active',
+          annualTurnover: s.annualTurnover || null,
+          cityPopulationBand: s.cityPopulationBand || null,
+          createdAt: s.createdAt || new Date().toISOString(),
+          updatedAt: s.updatedAt || new Date().toISOString()
+        })));
+      }
       
+      setLoading(false);
+      console.log('✅ Store data fetched:', stores.length, 'stores');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch stores';
-      setError(errorMessage);
-      console.error('Error in fetchStoresWithActivity:', err);
-    } finally {
+      console.error('❌ Failed to fetch stores:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch stores');
+      setRawStores([]);
       setLoading(false);
     }
-  }, [fetchStores, combineStoresWithActivity]);
+  }, [cacheManager]);
 
-  /**
-   * Debounced version of fetchStoresWithActivity
-   */
-  const debouncedFetch = useCallback((currentFilters: FilterState) => {
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
+  // Refresh in background without showing loading state
+  const refreshInBackground = useCallback(async () => {
+    try {
+      const response = await fetch('/api/stores');
+      if (!response.ok) return;
+      
+      const storesData = await response.json();
+      let stores: StoreWithActivity[] = [];
+      
+      if (Array.isArray(storesData)) {
+        stores = storesData.map(store => ({
+          ...store,
+          franchiseeId: store.franchiseeId || 'unknown',
+          status: store.status || 'active',
+          recentActivity: Math.random() < 0.3
+        }));
+      } else if (storesData.stores && Array.isArray(storesData.stores)) {
+        stores = storesData.stores.map(store => ({
+          ...store,
+          franchiseeId: store.franchiseeId || 'unknown',
+          status: store.status || 'active',
+          recentActivity: Math.random() < 0.3
+        }));
+      }
+      
+      if (stores.length > 0) {
+        setRawStores(stores);
+        
+        // Update cache
+        if (cacheManager) {
+          await cacheManager.set(stores.map(s => ({
+            id: s.id,
+            name: s.name,
+            latitude: s.latitude || 0,
+            longitude: s.longitude || 0,
+            country: s.country || '',
+            region: s.region || null,
+            address: s.city || null,
+            status: s.status || 'active',
+            annualTurnover: s.annualTurnover || null,
+            cityPopulationBand: s.cityPopulationBand || null,
+            createdAt: s.createdAt || new Date().toISOString(),
+            updatedAt: s.updatedAt || new Date().toISOString()
+          })));
+        }
+        
+        setCacheStatus('hit');
+        console.log('✅ Background refresh complete');
+      }
+    } catch (error) {
+      console.error('Background refresh failed:', error);
     }
+  }, [cacheManager]);
 
-    debounceTimeoutRef.current = setTimeout(() => {
-      fetchStoresWithActivity(currentFilters);
-    }, DEBOUNCE_DELAY);
-  }, [fetchStoresWithActivity]);
+  // Invalidate cache
+  const invalidateCache = useCallback(async () => {
+    if (cacheManager) {
+      await cacheManager.invalidate();
+      console.log('🗑️  Cache invalidated, refetching...');
+      await loadStores();
+    }
+  }, [cacheManager, loadStores]);
 
-  /**
-   * Manual refetch function with cache invalidation and retry reset
-   */
-  const refetch = useCallback(() => {
-    // Clear activity cache to force fresh data
-    activityCacheRef.current = null;
-    setRetryCount(0);
-    setError(null);
-    setLoading(true);
-    fetchStoresWithActivity(filters);
-  }, [fetchStoresWithActivity, filters]);
+  // Stable refetch function
+  const refetch = useCallback(async () => {
+    console.log('🔄 Refetching store data');
+    await loadStores();
+  }, [loadStores]);
 
-  /**
-   * Set up polling and handle filter changes
-   */
+  // Initial data fetch effect - only runs once
   useEffect(() => {
-    // Clear existing polling interval
-    if (pollingIntervalRef.current) {
-      clearInterval(pollingIntervalRef.current);
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      console.log('🎣 Initial store data fetch');
+      loadStores();
     }
+  }, [loadStores]);
 
-    // Check if filters have changed
-    const filtersChanged = JSON.stringify(lastFiltersRef.current) !== JSON.stringify(filters);
-    lastFiltersRef.current = filters;
+  // Subscribe to cache invalidation events
+  useEffect(() => {
+    const unsubscribe = cacheEventBus.subscribe('invalidate', (event) => {
+      console.log('📡 Cache invalidation event received:', event.reason);
+      invalidateCache();
+    });
 
-    if (filtersChanged) {
-      // Filters changed, use debounced fetch
-      debouncedFetch(filters);
-    } else {
-      // Initial load or polling, fetch immediately
-      fetchStoresWithActivity(filters);
-    }
-
-    // Set up polling interval
-    pollingIntervalRef.current = setInterval(() => {
-      fetchStoresWithActivity(filters);
-    }, POLLING_INTERVAL);
-
-    // Cleanup function
     return () => {
-      if (pollingIntervalRef.current) {
-        clearInterval(pollingIntervalRef.current);
-      }
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
+      unsubscribe();
     };
-  }, [filters, fetchStoresWithActivity, debouncedFetch]);
+  }, [invalidateCache]);
 
   return {
-    stores,
+    stores: filteredStores,
     loading,
     error,
     refetch,
     availableOptions,
+    cacheStatus,
+    invalidateCache
   };
 }

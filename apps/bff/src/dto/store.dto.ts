@@ -20,8 +20,19 @@ export class UpdateStoreDto {
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   country?: string;
+
+  @IsOptional()
+  @IsString()
+  region?: string;
+
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
 }
 
 export class StoreQueryDto {
@@ -36,6 +47,10 @@ export class StoreQueryDto {
   @IsOptional()
   @IsString()
   city?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
 
   @IsOptional()
   @IsString()

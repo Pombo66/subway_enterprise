@@ -14,6 +14,13 @@ export interface FilterState {
   franchiseeId?: string;
   region?: string;
   country?: string;
+  status?: string; // Legacy single status filter (for list view)
+  statusFilters?: {
+    showOpen?: boolean;
+    showClosed?: boolean;
+    showPlanned?: boolean;
+    showExpansions?: boolean;
+  };
 }
 
 // Available filter options
@@ -31,8 +38,9 @@ export interface StoreWithActivity {
   longitude: number;
   region: string;
   country: string;
+  city?: string | null;
   franchiseeId?: string;
-  status?: 'active' | 'inactive';
+  status?: string | null; // 'Open', 'Closed', 'Planned', etc.
   recentActivity: boolean;
   __mockActivity?: boolean; // Debug flag for mock data
 }
@@ -94,6 +102,14 @@ export interface MapViewProps {
   viewport: MapViewport;
   onViewportChange: (viewport: MapViewport) => void;
   loading?: boolean;
+  expansionSuggestions?: Array<{
+    id: string;
+    lat: number;
+    lng: number;
+    confidence: number;
+    band: 'HIGH' | 'MEDIUM' | 'LOW' | 'INSUFFICIENT_DATA';
+  }>;
+  onSuggestionSelect?: (suggestion: any) => void;
 }
 
 export interface MapFiltersProps {
@@ -130,11 +146,11 @@ export interface UseStoresReturn {
   availableOptions: FilterOptions;
 }
 
-// Default values
+// Default values - Global view to show worldwide store distribution
 export const DEFAULT_VIEWPORT: MapViewport = {
-  latitude: 40.7128, // New York City as default center
-  longitude: -74.0060,
-  zoom: 4
+  latitude: 20, // Global center latitude (slightly north of equator)
+  longitude: 0, // Prime meridian
+  zoom: 2 // Global zoom level to show all continents
 };
 
 export const DEFAULT_FILTERS: FilterState = {};
@@ -160,6 +176,8 @@ export const isValidFilters = (filters: any): filters is FilterState => {
     typeof filters === 'object' &&
     (filters.franchiseeId === undefined || typeof filters.franchiseeId === 'string') &&
     (filters.region === undefined || typeof filters.region === 'string') &&
-    (filters.country === undefined || typeof filters.country === 'string')
+    (filters.country === undefined || typeof filters.country === 'string') &&
+    (filters.status === undefined || typeof filters.status === 'string') &&
+    (filters.statusFilters === undefined || typeof filters.statusFilters === 'object')
   );
 };

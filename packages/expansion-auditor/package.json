@@ -1,0 +1,30 @@
+{
+  "name": "@subway/expansion-auditor",
+  "version": "1.0.0",
+  "description": "Expansion system auditor for analyzing and optimizing expansion-related code",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "node -r ts-node/register src/test-audit.ts",
+    "audit": "node -r ts-node/register src/cli/audit-cli.ts"
+  },
+  "bin": {
+    "expansion-audit": "./dist/cli/audit-cli.js"
+  },
+  "dependencies": {
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

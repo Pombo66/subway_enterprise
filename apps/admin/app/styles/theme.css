@@ -797,8 +797,8 @@
 .region-amer { background: rgba(34,197,94,0.15); color: #4ade80; border-color: rgba(34,197,94,0.3); }
 .region-apac { background: rgba(168,85,247,0.15); color: #a78bfa; border-color: rgba(168,85,247,0.3); }
 
-/* Store Name Link */
-.store-name-link {
+/* Store Name Button - Plain text link style for table */
+.store-name-button {
   background: none;
   border: none;
   color: #f5f7fb;
@@ -808,8 +808,9 @@
   text-decoration: none;
   padding: 0;
   transition: color 0.2s ease;
+  text-align: left;
 }
-.store-name-link:hover {
+.store-name-button:hover {
   color: var(--s-accent);
   text-decoration: underline;
 }
@@ -825,9 +826,10 @@
   gap: 8px;
   align-items: center;
 }
+
 .stores-action-btn { 
   background: none; 
-  border: none; 
+  border: 1px solid transparent;
   padding: 6px 10px; 
   border-radius: 6px; 
   font-size: 12px; 
@@ -839,25 +841,28 @@
   gap: 4px;
   white-space: nowrap;
 }
+
 .stores-view { 
   color: var(--s-accent); 
-  border: 1px solid rgba(0,166,81,0.2);
+  border-color: rgba(0,166,81,0.2);
 }
 .stores-view:hover { 
   background: rgba(0,166,81,0.1); 
   border-color: rgba(0,166,81,0.3);
 }
+
 .stores-edit { 
   color: #60a5fa; 
-  border: 1px solid rgba(96,165,250,0.2);
+  border-color: rgba(96,165,250,0.2);
 }
 .stores-edit:hover { 
   background: rgba(96,165,250,0.1); 
   border-color: rgba(96,165,250,0.3);
 }
+
 .stores-delete { 
   color: #f87171; 
-  border: 1px solid rgba(248,113,113,0.2);
+  border-color: rgba(248,113,113,0.2);
 }
 .stores-delete:hover { 
   background: rgba(248,113,113,0.1); 
@@ -876,22 +881,20 @@
 
 .pagination-btn {
   background: none;
-  border: 1px solid var(--s-border);
+  border: none;
   color: var(--s-text);
-  border-radius: 6px;
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: color 0.2s ease;
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--s-muted);
+  color: var(--s-accent);
 }
 
 .pagination-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -902,25 +905,24 @@
 
 .pagination-number {
   background: none;
-  border: 1px solid var(--s-border);
+  border: none;
   color: var(--s-text);
-  border-radius: 6px;
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   min-width: 40px;
+  border-radius: 6px;
 }
 
 .pagination-number:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--s-muted);
+  color: var(--s-accent);
+  background: rgba(0, 166, 81, 0.1);
 }
 
 .pagination-number.active {
   background: var(--s-accent);
   color: #0b1a13;
-  border-color: var(--s-accent);
   font-weight: 600;
 }
 

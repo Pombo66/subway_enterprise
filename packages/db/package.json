@@ -10,6 +10,7 @@
     "prisma:migrate": "prisma migrate deploy || prisma migrate dev --name init",
     "prisma:seed": "node prisma/seed.mjs",
     "prisma:verify": "node verify-seed.mjs",
+    "prisma:clear-stores": "node prisma/clear-stores.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "echo 'No TypeScript files to lint in db package'"
   },

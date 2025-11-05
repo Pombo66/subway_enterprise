@@ -20,23 +20,33 @@ model User {
 }
 
 model Store {
-  id             String          @id @default(uuid())
-  name           String
-  country        String?
-  region         String?
-  city           String?
-  latitude       Float?
-  longitude      Float?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  MenuItems      MenuItem[]
-  Orders         Order[]
-  PriceOverrides PriceOverride[]
+  id                  String          @id @default(uuid())
+  name                String
+  address             String?
+  postcode            String?
+  country             String?
+  region              String?
+  city                String?
+  status              String?
+  ownerName           String?
+  latitude            Float?
+  longitude           Float?
+  annualTurnover      Float?
+  openedAt            DateTime?
+  cityPopulationBand  String?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  MenuItems           MenuItem[]
+  Orders              Order[]
+  PriceOverrides      PriceOverride[]
 
   @@index([country])
   @@index([region])
   @@index([city])
+  @@index([status])
   @@index([latitude, longitude])
+  @@index([annualTurnover])
+  @@index([postcode])
 }
 
 model MenuItem {
@@ -212,4 +222,366 @@ model AuditEntry {
   @@index([entity, entityId])
   @@index([timestamp])
   @@index([actor])
+}
+
+model TradeArea {
+  id                 String   @id @default(cuid())
+  region             String
+  country            String?
+  scope              String   @default("legacy") // scope identifier
+  scopeType          String   @default("region") // 'country', 'state', 'custom_area', 'region'
+  customAreaPolygon  String?  // GeoJSON polygon for custom areas (JSON as string)
+  centroidLat        Float
+  centroidLng        Float
+  population         Int
+  footfallIndex      Float
+  incomeIndex        Float
+  competitorIdx      Float
+  existingStoreDist  Float
+  demandScore        Float
+  supplyPenalty      Float
+  competitionPenalty Float
+  finalScore         Float
+  confidence         Float
+  dataMode           String   @default("live") // 'live' or 'modelled'
+  modelVersion       String   @default("v0.1") // e.g. "v0.3"
+  dataSnapshotDate   DateTime @default(now())
+  cacheKey           String   @default("") // hash(scope, intensity, model_version, data_mode)
+  isLive             Boolean  // kept for backward compatibility
+  updatedAt          DateTime @updatedAt
+
+  @@index([scope, scopeType, finalScore])
+  @@index([cacheKey])
+  @@index([dataMode, modelVersion])
+  @@index([region, finalScore])
+  @@index([confidence, isLive])
+}
+
+model ExpansionCache {
+  id           String   @id @default(cuid())
+  cacheKey     String   @unique
+  scope        String   // ScopeSelection object as JSON string
+  intensity    Int      // 0-100
+  dataMode     String   // 'live' or 'modelled'
+  modelVersion String
+  suggestions  String   // cached ExpansionSuggestion[] as JSON string
+  generatedAt  DateTime @default(now())
+  expiresAt    DateTime
+
+  @@index([cacheKey, expiresAt])
+}
+
+model ExpansionScenario {
+  id                String                @id @default(uuid())
+  label             String
+  regionFilter      String                // JSON string: { country?: string, state?: string, boundingBox?: {...} }
+  aggressionLevel   Int
+  populationBias    Float
+  proximityBias     Float
+  turnoverBias      Float
+  minDistanceM      Int
+  seed              Int
+  sourceDataVersion String
+  createdBy         String
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  suggestions       ExpansionSuggestion[]
+
+  @@index([createdBy, createdAt])
+  @@index([regionFilter])
+}
+
+model ExpansionSuggestion {
+  id                  String            @id @default(uuid())
+  scenarioId          String
+  lat                 Float
+  lng                 Float
+  confidence          Float
+  rationale           String            // JSON string: { population: 0.72, proximityGap: 0.61, ... }
+  rationaleText       String
+  band                String
+  status              String            @default("NEW")
+  urbanDensityIndex   Float?
+  roadDistanceM       Int?
+  buildingDistanceM   Int?
+  landuseType         String?
+  mapboxValidated     Boolean           @default(false)
+  aiRationaleCached   Boolean           @default(false)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  scenario            ExpansionScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@index([scenarioId, band])
+  @@index([status])
+  @@index([confidence])
+}
+
+model MapboxTilequeryCache {
+  id                 String   @id @default(cuid())
+  coordinateHash     String   @unique
+  lat                Float
+  lng                Float
+  landuseType        String?
+  roadDistanceM      Int?
+  buildingDistanceM  Int?
+  urbanDensityIndex  Float?
+  isSuitable         Boolean
+  rawResponse        String
+  createdAt          DateTime @default(now())
+  expiresAt          DateTime
+
+  @@index([coordinateHash])
+  @@index([expiresAt])
+}
+
+model OpenAIRationaleCache {
+  id               String   @id @default(cuid())
+  contextHash      String   @unique
+  lat              Float
+  lng              Float
+  rationaleText    String
+  factors          String?  // JSON: { population, proximity, turnover }
+  confidence       Float?
+  dataCompleteness Float?
+  model            String?  // e.g., "gpt-4o-mini"
+  temperature      Float?   // e.g., 0.2
+  tokensUsed       Int
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime
+
+  @@index([contextHash])
+  @@index([expiresAt])
+}
+
+model LandValidationCache {
+  id               String   @id @default(cuid())
+  coordinateHash   String   @unique
+  lat              Float
+  lng              Float
+  isOnLand         Boolean
+  distanceToCoastM Float?
+  landPolygonId    String?
+  rawResponse      String   // JSON response from Mapbox
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime
+
+  @@index([coordinateHash])
+  @@index([expiresAt])
+}
+
+model SnappingCache {
+  id              String   @id @default(cuid())
+  coordinateHash  String   @unique
+  originalLat     Float
+  originalLng     Float
+  snappedLat      Float?
+  snappedLng      Float?
+  snapTargetType  String?  // 'road' or 'building'
+  snapDistanceM   Float?
+  roadClass       String?  // e.g., 'primary', 'secondary', 'tertiary'
+  buildingType    String?  // e.g., 'residential', 'commercial'
+  rawResponse     String   // JSON response from Mapbox
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+
+  @@index([coordinateHash])
+  @@index([expiresAt])
+}
+
+model DemographicCache {
+  id                   String   @id @default(cuid())
+  coordinateHash       String   @unique
+  lat                  Float
+  lng                  Float
+  population           Int?
+  populationGrowthRate Float?
+  medianIncome         Float?
+  nationalMedianIncome Float?
+  incomeIndex          Float?
+  areaClassification   String?  // 'urban', 'suburban', 'rural'
+  dataSource           String   // 'csv', 'api', 'estimated'
+  createdAt            DateTime @default(now())
+  expiresAt            DateTime
+
+  @@index([coordinateHash])
+  @@index([expiresAt])
+  @@index([areaClassification])
+}
+
+model OSMPOICache {
+  id              String   @id @default(cuid())
+  coordinateHash  String   @unique
+  lat             Float
+  lng             Float
+  radius          Int
+  poiType         String   // 'transport', 'education', 'retail', 'service'
+  features        String   // JSON array of OSM features
+  featureCount    Int
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+
+  @@index([coordinateHash, poiType])
+  @@index([expiresAt])
+  @@index([poiType])
+}
+
+model PerformanceCluster {
+  id                String   @id @default(cuid())
+  region            String   // For regional cluster analysis
+  centroidLat       Float
+  centroidLng       Float
+  radius            Float
+  storeIds          String   // JSON array of store IDs
+  storeCount        Int
+  averageTurnover   Float
+  strength          Float
+  demographics      String   // JSON cluster demographics
+  anchorPatterns    String   // JSON array of common anchor types
+  calculatedAt      DateTime @default(now())
+  expiresAt         DateTime
+
+  @@index([region])
+  @@index([expiresAt])
+  @@index([strength])
+}
+
+model StrategyScoringCache {
+  id                String   @id @default(cuid())
+  coordinateHash    String   @unique
+  lat               Float
+  lng               Float
+  whiteSpaceScore   Float?
+  economicScore     Float?
+  anchorScore       Float?
+  clusterScore      Float?
+  strategyBreakdown String   // JSON detailed breakdown
+  dominantStrategy  String?
+  createdAt         DateTime @default(now())
+  expiresAt         DateTime
+
+  @@index([coordinateHash])
+  @@index([expiresAt])
+  @@index([dominantStrategy])
+}
+
+model OpenAIStrategyCache {
+  id            String   @id @default(cuid())
+  cacheKey      String   @unique
+  responseData  String   // JSON: StrategyResponse object
+  model         String   // e.g., "gpt-4"
+  temperature   Float    // e.g., 0.3
+  candidateCount Int     // Number of candidates analyzed
+  tokensUsed    Int      // Total tokens consumed
+  createdAt     DateTime @default(now())
+
+  @@index([cacheKey])
+  @@index([createdAt])
+  @@index([model])
+}
+
+model AIContextAnalysisCache {
+  id                   String   @id @default(cuid())
+  contextHash          String   @unique
+  lat                  Float
+  lng                  Float
+  marketAssessment     String
+  competitiveAdvantages String  // JSON array
+  riskFactors          String   // JSON array
+  demographicInsights  String
+  accessibilityAnalysis String
+  uniqueSellingPoints  String   // JSON array
+  confidenceScore      Float
+  model                String?  // e.g., "gpt-4o-mini"
+  temperature          Float?   // e.g., 0.3
+  tokensUsed           Int      @default(0)
+  createdAt            DateTime @default(now())
+  expiresAt            DateTime
+
+  @@index([contextHash])
+  @@index([expiresAt])
+  @@index([lat, lng])
+}
+
+model AIContextualInsightsCache {
+  id                      String   @id @default(cuid())
+  contextHash             String   @unique
+  lat                     Float
+  lng                     Float
+  primaryStrengths        String   // JSON array
+  marketOpportunities     String   // JSON array
+  potentialChallenges     String   // JSON array
+  recommendedPositioning  String
+  seasonalConsiderations  String   // JSON array
+  model                   String?  // e.g., "gpt-4o-mini"
+  temperature             Float?   // e.g., 0.3
+  tokensUsed              Int      @default(0)
+  createdAt               DateTime @default(now())
+  expiresAt               DateTime
+
+  @@index([contextHash])
+  @@index([expiresAt])
+  @@index([lat, lng])
+}
+
+model AIRationaleDiversityCache {
+  id                   String   @id @default(cuid())
+  contextHash          String   @unique
+  lat                  Float
+  lng                  Float
+  rationaleText        String
+  keyFactors           String   // JSON: { population, proximity, turnover }
+  uniquenessScore      Float
+  contextualElements   String   // JSON array
+  differentiators      String   // JSON array
+  aiGeneratedInsights  String   // JSON array
+  confidence           Float
+  dataCompleteness     Float
+  model                String?  // e.g., "gpt-4o-mini"
+  temperature          Float?   // e.g., 0.2
+  tokensUsed           Int      @default(0)
+  createdAt            DateTime @default(now())
+  expiresAt            DateTime
+
+  @@index([contextHash])
+  @@index([expiresAt])
+  @@index([uniquenessScore])
+  @@index([lat, lng])
+}
+
+model ExpansionJob {
+  id                String   @id @default(cuid())
+  idempotencyKey    String   @unique
+  status            String   @default("queued") // queued, running, completed, failed
+  userId            String
+  params            String   // JSON: GenerationParams
+  result            String?  // JSON: ExpansionResult
+  error             String?  // Error message if failed
+  tokenEstimate     Int?     // Estimated tokens before LLM call
+  tokensUsed        Int?     // Actual tokens used
+  costEstimate      Float?   // Estimated cost in currency units
+  actualCost        Float?   // Actual cost charged
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([idempotencyKey])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+}
+
+model IntelligenceDemographicCache {
+  id              String   @id @default(cuid())
+  lat             Float
+  lng             Float
+  radius          Int
+  demographicData String   // JSON: DemographicProfile object
+  dataSource      String   // 'census', 'commercial', 'ai_inferred'
+  confidence      Float    // 0-1 data confidence
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+
+  @@index([lat, lng, radius])
+  @@index([expiresAt])
+  @@index([dataSource])
 }

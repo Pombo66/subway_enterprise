@@ -44,6 +44,7 @@ export function useStoreKPIs(storeId: string | null) {
 
   /**
    * Formats a date into a relative time string
+   * Uses consistent formatting to prevent hydration mismatches
    */
   const formatRelativeTime = useCallback((dateString: string): string => {
     const date = new Date(dateString);
@@ -63,7 +64,12 @@ export function useStoreKPIs(storeId: string | null) {
     } else if (diffDays < 7) {
       return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
     } else {
-      return date.toLocaleDateString();
+      // Use ISO date format to prevent hydration mismatches
+      // Format as YYYY-MM-DD to be consistent across server/client
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
   }, []);
 

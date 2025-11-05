@@ -21,6 +21,7 @@ export class StoresController {
         region: scope.region,
         country: scope.country,
         city: query.city,
+        status: query.status,
         storeId: scope.storeId,
         limit: query.take ? Number(query.take) : undefined,
         offset: query.skip ? Number(query.skip) : undefined,

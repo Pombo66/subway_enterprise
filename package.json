@@ -4,6 +4,8 @@
   "packageManager": "pnpm@9.1.0",
   "scripts": {
     "dev": "turbo run dev --parallel",
+    "dev:safe": "node dev-safe.mjs",
+    "safety-check": "node safety-check.mjs",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",

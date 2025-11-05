@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { runFinalValidation, generateFinalValidationReport, type FinalValidationResults } from '../../lib/test-utils/final-validation-runner';
 
 export default function TestValidationPage() {
@@ -117,13 +118,13 @@ export default function TestValidationPage() {
             >
               Test Menu Page
             </a>
-            <a 
+            <Link 
               href="/stores" 
               className="s-btn"
               style={{ textDecoration: 'none' }}
             >
               Test Store Page
-            </a>
+            </Link>
           </div>
           <p style={{ color: '#94a3b8', fontSize: '0.875rem', marginTop: '1rem' }}>
             Navigate to each page and run validation tests in the browser console using:

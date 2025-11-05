@@ -41,7 +41,7 @@ export class StoreService {
     return this.storeRepository.create(storeData);
   }
 
-  async updateStore(id: string, updates: Partial<CreateStoreRequest>): Promise<Store> {
+  async updateStore(id: string, updates: any): Promise<Store> {
     // Check if store exists
     const existingStore = await this.storeRepository.findById(id);
     if (!existingStore) {
@@ -53,7 +53,7 @@ export class StoreService {
       this.validateStoreName(updates.name);
     }
 
-    const updateData: Partial<CreateStoreData> = {};
+    const updateData: any = {};
 
     if (updates.name) {
       updateData.name = updates.name.trim();
@@ -66,6 +66,27 @@ export class StoreService {
       }
       updateData.country = countryMatch.name;
       updateData.region = 'EMEA';
+    }
+
+    // Allow updating city, region, status, address, and postcode
+    if (updates.city !== undefined) {
+      updateData.city = updates.city;
+    }
+
+    if (updates.region !== undefined) {
+      updateData.region = updates.region;
+    }
+
+    if (updates.status !== undefined) {
+      updateData.status = updates.status;
+    }
+
+    if (updates.address !== undefined) {
+      updateData.address = updates.address;
+    }
+
+    if (updates.postcode !== undefined) {
+      updateData.postcode = updates.postcode;
     }
 
     return this.storeRepository.update(id, updateData);

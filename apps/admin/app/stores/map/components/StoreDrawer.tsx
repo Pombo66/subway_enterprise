@@ -6,6 +6,7 @@ import { X, ExternalLink, MapPin, Building, Globe, TrendingUp, Clock, DollarSign
 import { StoreDrawerProps } from '../types';
 import { useStoreKPIs } from '../hooks/useStoreKPIs';
 import { DrawerLoadingSkeleton, ErrorStateWithRetry } from './LoadingSkeletons';
+import ClientTimeDisplay from './ClientTimeDisplay';
 import styles from './StoreDrawer.module.css';
 
 /**
@@ -291,7 +292,7 @@ export default function StoreDrawer({
                 aria-label="Store performance metrics for today"
               >
                 <div className={styles['kpi-card']} role="listitem">
-                  <div className={styles['kpi-icon']} aria-hidden="true">
+                  <div className={styles['kpi-icon']} aria-hidden="true" style={{ color: '#f97316' }}>
                     <TrendingUp size={20} />
                   </div>
                   <div className={styles['kpi-content']}>
@@ -305,7 +306,7 @@ export default function StoreDrawer({
                   </div>
                 </div>  
                 <div className={styles['kpi-card']} role="listitem">
-                  <div className={styles['kpi-icon']} aria-hidden="true">
+                  <div className={styles['kpi-icon']} aria-hidden="true" style={{ color: '#10b981' }}>
                     <DollarSign size={20} />
                   </div>
                   <div className={styles['kpi-content']}>
@@ -319,16 +320,22 @@ export default function StoreDrawer({
                   </div>
                 </div>
                 <div className={styles['kpi-card']} role="listitem">
-                  <div className={styles['kpi-icon']} aria-hidden="true">
+                  <div className={styles['kpi-icon']} aria-hidden="true" style={{ color: '#3b82f6' }}>
                     <Clock size={20} />
                   </div>
                   <div className={styles['kpi-content']}>
-                    <div 
-                      className={styles['kpi-value']}
-                      aria-label={`Last order was ${kpis.lastOrderRelative}`}
-                    >
-                      {kpis.lastOrderRelative}
-                    </div>
+                    <ClientTimeDisplay fallback={
+                      <div className={styles['kpi-value']}>
+                        Loading...
+                      </div>
+                    }>
+                      <div 
+                        className={styles['kpi-value']}
+                        aria-label={`Last order was ${kpis.lastOrderRelative}`}
+                      >
+                        {kpis.lastOrderRelative}
+                      </div>
+                    </ClientTimeDisplay>
                     <div className={styles['kpi-label']}>Last Order</div>
                   </div>
                 </div>

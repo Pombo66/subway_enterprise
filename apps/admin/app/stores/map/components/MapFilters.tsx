@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { FilterState, FilterOptions, MapFiltersProps } from '../types';
 import { MapTelemetryHelpers, safeTrackEvent, getCurrentUserId } from '../telemetry';
 import { InlineLoadingIndicator } from './LoadingSkeletons';
@@ -18,6 +18,9 @@ export default function MapFilters({
   
   // Keep track of previous filters for telemetry
   const previousFiltersRef = useRef<FilterState>(filters);
+  
+  // State for collapsible visibility section
+  const [showVisibilityToggles, setShowVisibilityToggles] = useState(true);
   
   // Handle individual filter changes
   const handleFilterChange = useCallback((key: keyof FilterState, value: string | undefined) => {
@@ -248,6 +251,126 @@ export default function MapFilters({
             </div>
           )}
         </div>
+
+        {/* Visibility Toggles */}
+        <div className="map-filter-group map-filter-group-full">
+          <div 
+            className="map-filter-label-toggle"
+            onClick={() => setShowVisibilityToggles(!showVisibilityToggles)}
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <label className="map-filter-label" style={{ cursor: 'pointer', margin: 0 }}>
+              Show on Map
+            </label>
+            <svg 
+              width="16" 
+              height="16" 
+              viewBox="0 0 24 24" 
+              fill="currentColor"
+              style={{ 
+                transform: showVisibilityToggles ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease'
+              }}
+            >
+              <path d="M7 10l5 5 5-5z"/>
+            </svg>
+          </div>
+          {showVisibilityToggles && (
+            <div className="map-filter-checkboxes">
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showOpen !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showOpen: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-open"></span>
+                Open Stores
+              </span>
+            </label>
+
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showClosed !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showClosed: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-closed"></span>
+                Closed Stores
+              </span>
+            </label>
+
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showPlanned !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showPlanned: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-planned"></span>
+                Planned Stores
+              </span>
+            </label>
+
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showExpansions !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showExpansions: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-expansion"></span>
+                Expansion Suggestions
+              </span>
+            </label>
+          </div>
+          )}
+        </div>
       </div>
 
       <style jsx>{`
@@ -320,12 +443,82 @@ export default function MapFilters({
           min-width: 200px;
         }
 
+        .map-filter-group-full {
+          flex: 1 1 100%;
+          min-width: 100%;
+        }
+
         .map-filter-label {
           display: block;
           font-size: 14px;
           font-weight: 500;
           color: var(--s-text);
-          margin-bottom: 4px;
+          margin-bottom: 8px;
+        }
+
+        .map-filter-checkboxes {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          padding: 8px 0;
+        }
+
+        .map-filter-checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          user-select: none;
+          padding: 4px;
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+        }
+
+        .map-filter-checkbox-label:hover {
+          background: var(--s-hover);
+        }
+
+        .map-filter-checkbox {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: var(--s-primary);
+        }
+
+        .map-filter-checkbox:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .map-filter-checkbox-text {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: var(--s-text);
+        }
+
+        .status-indicator {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          display: inline-block;
+        }
+
+        .status-open {
+          background: #10b981;
+        }
+
+        .status-closed {
+          background: #6b7280;
+        }
+
+        .status-planned {
+          background: #f59e0b;
+        }
+
+        .status-expansion {
+          background: #8b5cf6;
         }
 
         .map-filter-select {

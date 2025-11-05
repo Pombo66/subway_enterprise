@@ -6,6 +6,7 @@ export interface StoreFilters {
   region?: string;
   country?: string;
   city?: string;
+  status?: string;
   storeId?: string;
   limit?: number;
   offset?: number;
@@ -34,23 +35,34 @@ export class PrismaStoreRepository extends BaseRepository implements StoreReposi
 
   async findMany(filters: StoreFilters): Promise<Store[]> {
     const where = this.buildWhereClause(filters);
-    const pagination = this.buildPaginationOptions(filters.limit, filters.offset);
+    
+    // Only apply pagination if explicitly requested
+    const paginationOptions = (filters.limit !== undefined || filters.offset !== undefined)
+      ? this.buildPaginationOptions(filters.limit, filters.offset)
+      : {};
 
     return this.prisma.store.findMany({
       where,
       select: {
         id: true,
         name: true,
+        address: true,
+        postcode: true,
         country: true,
         region: true,
         city: true,
+        status: true,
+        ownerName: true,
         latitude: true,
         longitude: true,
+        annualTurnover: true,
+        openedAt: true,
+        cityPopulationBand: true,
         createdAt: true,
         updatedAt: true,
       },
       orderBy: { createdAt: 'desc' },
-      ...pagination,
+      ...paginationOptions,
     });
   }
 
@@ -60,11 +72,18 @@ export class PrismaStoreRepository extends BaseRepository implements StoreReposi
       select: {
         id: true,
         name: true,
+        address: true,
+        postcode: true,
         country: true,
         region: true,
         city: true,
+        status: true,
+        ownerName: true,
         latitude: true,
         longitude: true,
+        annualTurnover: true,
+        openedAt: true,
+        cityPopulationBand: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -77,11 +96,18 @@ export class PrismaStoreRepository extends BaseRepository implements StoreReposi
       select: {
         id: true,
         name: true,
+        address: true,
+        postcode: true,
         country: true,
         region: true,
         city: true,
+        status: true,
+        ownerName: true,
         latitude: true,
         longitude: true,
+        annualTurnover: true,
+        openedAt: true,
+        cityPopulationBand: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -95,11 +121,18 @@ export class PrismaStoreRepository extends BaseRepository implements StoreReposi
       select: {
         id: true,
         name: true,
+        address: true,
+        postcode: true,
         country: true,
         region: true,
         city: true,
+        status: true,
+        ownerName: true,
         latitude: true,
         longitude: true,
+        annualTurnover: true,
+        openedAt: true,
+        cityPopulationBand: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -141,6 +174,13 @@ export class PrismaStoreRepository extends BaseRepository implements StoreReposi
     if (filters.city) {
       where.city = {
         equals: filters.city,
+        mode: 'insensitive',
+      };
+    }
+
+    if (filters.status) {
+      where.status = {
+        equals: filters.status,
         mode: 'insensitive',
       };
     }

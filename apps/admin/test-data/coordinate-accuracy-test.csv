@@ -1,0 +1,6 @@
+name,address,city,postcode,country,expected_lat,expected_lng,tolerance
+Big Ben,Westminster,London,SW1A 0AA,United Kingdom,51.5007,-0.1246,0.001
+Eiffel Tower,5 Avenue Anatole France,Paris,75007,France,48.8584,2.2945,0.001
+Statue of Liberty,Liberty Island,New York,10004,United States,40.6892,-74.0445,0.001
+Sydney Opera House,Bennelong Point,Sydney,2000,Australia,-33.8568,151.2153,0.001
+Tokyo Tower,4 Chome-2-8 Shibakoen,Tokyo,105-0011,Japan,35.6586,139.7454,0.001

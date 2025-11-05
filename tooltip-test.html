@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tooltip Test</title>
+    <style>
+        .test-marker {
+            width: 20px;
+            height: 20px;
+            background-color: #22c55e;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+            position: relative;
+            margin: 50px;
+            display: inline-block;
+        }
+
+        .test-marker:hover {
+            transform: scale(1.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .test-marker[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: pre-line;
+            z-index: 10000;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 250px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .test-marker[title]:hover::before {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+            z-index: 10001;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tooltip Test</h1>
+    <p>Hover over the markers below to test tooltips:</p>
+    
+    <div class="test-marker" title="📍 Test Store 1
+🌍 United States
+🟢 Recent activity
+
+Click for details"></div>
+    
+    <div class="test-marker" title="📍 Test Store 2
+🌍 Canada
+🔵 Inactive
+
+Click for details"></div>
+    
+    <script>
+        document.querySelectorAll('.test-marker').forEach((marker, index) => {
+            marker.addEventListener('click', () => {
+                alert(`Clicked marker ${index + 1}!`);
+            });
+        });
+    </script>
+</body>
+</html>

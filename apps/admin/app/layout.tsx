@@ -7,6 +7,7 @@ import TopNav from './components/TopNav';
 import { AuthProvider } from './components/AuthProvider';
 import { ToastProvider } from './components/ToastProvider';
 import { DesignGuardProvider } from './components/DesignGuardProvider';
+import { SubMindProvider } from './components/submind/SubMindProvider';
 import DebugToggle from './components/DebugToggle';
 import ValidationTestingSetup from './components/ValidationTestingSetup';
 import { config } from '@/lib/config';
@@ -29,22 +30,24 @@ function LayoutContent({ children, withAuth = false }: LayoutContentProps) {
       <body className={`${inter.className} s-page`} style={{ background: '#0f1724', color: '#e6edf3', minHeight: '100vh' }}>
         <ToastProvider>
           <DesignGuardProvider enabled={config.isDevelopment}>
-            <div className="shell">
-              <Sidebar />
-              <div className="shell-main">
-                <Nav />
-                {withAuth ? (
-                  <AuthProvider>
-                    <TopNav />
-                    <div className="container mx-auto flex-1">{children}</div>
-                  </AuthProvider>
-                ) : (
-                  children
-                )}
+            <SubMindProvider>
+              <div className="shell">
+                <Sidebar />
+                <div className="shell-main">
+                  <Nav />
+                  {withAuth ? (
+                    <AuthProvider>
+                      <TopNav />
+                      <div className="container mx-auto flex-1">{children}</div>
+                    </AuthProvider>
+                  ) : (
+                    children
+                  )}
+                </div>
               </div>
-            </div>
-            {config.isDebugMode && <DebugToggle />}
-            <ValidationTestingSetup />
+              {config.isDebugMode && <DebugToggle />}
+              <ValidationTestingSetup />
+            </SubMindProvider>
           </DesignGuardProvider>
         </ToastProvider>
       </body>

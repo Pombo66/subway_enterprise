@@ -1,5 +1,26 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  env: {
+    // Force these environment variables to be available
+    NEXT_PUBLIC_ENABLE_JOB_PROCESSING: 'true',
+    NEXT_PUBLIC_ENABLE_OPENAI_CALLS: 'true',
+  },
+  publicRuntimeConfig: {
+    NEXT_PUBLIC_ENABLE_JOB_PROCESSING: 'true',
+    NEXT_PUBLIC_ENABLE_OPENAI_CALLS: 'true',
+  },
+  webpack: (config, { isServer }) => {
+    // Fix for MapLibre GL JS
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+      };
+    }
+    return config;
+  },
   async redirects() {
     return [
       {

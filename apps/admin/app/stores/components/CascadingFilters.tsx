@@ -7,6 +7,8 @@ interface FilterState {
   region?: string;
   country?: string;
   city?: string;
+  status?: string;
+  dataQuality?: 'all' | 'incomplete' | 'complete';
 }
 
 interface CascadingFiltersProps {
@@ -93,34 +95,38 @@ const CITIES_BY_COUNTRY: Record<string, Array<{ value: string; label: string }>>
 export default function CascadingFilters({ onFiltersChange }: CascadingFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const [filters, setFilters] = useState<FilterState>({
     region: searchParams.get('region') || '',
     country: searchParams.get('country') || '',
     city: searchParams.get('city') || '',
+    status: searchParams.get('status') || '',
+    dataQuality: (searchParams.get('dataQuality') as 'all' | 'incomplete' | 'complete') || 'all',
   });
 
   // Get available countries based on selected region
-  const availableCountries = filters.region 
+  const availableCountries = filters.region
     ? COUNTRIES_BY_REGION[filters.region] || []
     : [];
 
   // Get available cities based on selected country
-  const availableCities = filters.country 
+  const availableCities = filters.country
     ? CITIES_BY_COUNTRY[filters.country] || []
     : [];
 
   // Update URL query parameters when filters change
   const updateQueryParams = (newFilters: FilterState) => {
     const params = new URLSearchParams();
-    
+
     if (newFilters.region) params.set('region', newFilters.region);
     if (newFilters.country) params.set('country', newFilters.country);
     if (newFilters.city) params.set('city', newFilters.city);
-    
+    if (newFilters.status) params.set('status', newFilters.status);
+    if (newFilters.dataQuality && newFilters.dataQuality !== 'all') params.set('dataQuality', newFilters.dataQuality);
+
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : '/stores';
-    
+
     router.replace(newUrl, { scroll: false });
   };
 
@@ -131,7 +137,7 @@ export default function CascadingFilters({ onFiltersChange }: CascadingFiltersPr
       country: undefined, // Reset country when region changes
       city: undefined, // Reset city when region changes
     };
-    
+
     setFilters(newFilters);
     updateQueryParams(newFilters);
     onFiltersChange(newFilters);
@@ -144,7 +150,7 @@ export default function CascadingFilters({ onFiltersChange }: CascadingFiltersPr
       country: country || undefined,
       city: undefined, // Reset city when country changes
     };
-    
+
     setFilters(newFilters);
     updateQueryParams(newFilters);
     onFiltersChange(newFilters);
@@ -156,23 +162,51 @@ export default function CascadingFilters({ onFiltersChange }: CascadingFiltersPr
       ...filters,
       city: city || undefined,
     };
-    
+
     setFilters(newFilters);
     updateQueryParams(newFilters);
     onFiltersChange(newFilters);
   };
 
-  // Initialize filters from URL on component mount
+  // Handle status change
+  const handleStatusChange = (status: string) => {
+    const newFilters: FilterState = {
+      ...filters,
+      status: status || undefined,
+    };
+
+    setFilters(newFilters);
+    updateQueryParams(newFilters);
+    onFiltersChange(newFilters);
+  };
+
+  // Handle data quality change
+  const handleDataQualityChange = (quality: string) => {
+    const newFilters: FilterState = {
+      ...filters,
+      dataQuality: (quality as 'all' | 'incomplete' | 'complete') || 'all',
+    };
+
+    setFilters(newFilters);
+    updateQueryParams(newFilters);
+    onFiltersChange(newFilters);
+  };
+
+  // Initialize filters from URL on component mount - ONLY ONCE
+  // Do NOT call onFiltersChange here - let parent handle initial data load
   useEffect(() => {
     const initialFilters: FilterState = {
       region: searchParams.get('region') || undefined,
       country: searchParams.get('country') || undefined,
       city: searchParams.get('city') || undefined,
+      status: searchParams.get('status') || undefined,
     };
-    
+
     setFilters(initialFilters);
-    onFiltersChange(initialFilters);
-  }, [searchParams]); // Remove onFiltersChange from dependencies to prevent infinite re-renders
+    // Removed onFiltersChange call to prevent duplicate API calls
+    // Parent component handles initial data load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty array - only run on mount, not when searchParams changes
 
   return (
     <div className="cascading-filters">
@@ -218,6 +252,29 @@ export default function CascadingFilters({ onFiltersChange }: CascadingFiltersPr
             {city.label}
           </option>
         ))}
+      </select>
+
+      {/* Status Filter */}
+      <select
+        value={filters.status || ''}
+        onChange={(e) => handleStatusChange(e.target.value)}
+        className="s-select"
+      >
+        <option value="">All Statuses</option>
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+        <option value="Planned">Planned</option>
+      </select>
+
+      {/* Data Quality Filter */}
+      <select
+        value={filters.dataQuality || 'all'}
+        onChange={(e) => handleDataQualityChange(e.target.value)}
+        className="s-select"
+      >
+        <option value="all">All Stores</option>
+        <option value="complete">Complete Data</option>
+        <option value="incomplete">Missing Coordinates</option>
       </select>
     </div>
   );

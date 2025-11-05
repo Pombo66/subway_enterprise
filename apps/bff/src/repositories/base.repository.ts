@@ -5,7 +5,7 @@ export abstract class BaseRepository {
 
   protected buildPaginationOptions(take?: number, skip?: number) {
     return {
-      take: Math.min(take || 50, 100), // Max 100 items
+      take: Math.min(take || 50, 5000), // Max 5000 items (increased for store listings)
       skip: skip || 0,
     };
   }

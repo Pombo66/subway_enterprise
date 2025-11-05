@@ -1,0 +1,26 @@
+
+> @subway/location-generator@1.0.0 typecheck /Users/khalidgehlan/subway_enterprise-1/packages/location-generator
+> tsc --noEmit
+
+[96msrc/api/LocationGeneratorAPI.ts[0m:[93m80[0m:[93m18[0m - [91merror[0m[90m TS2339: [0mProperty 'selected' does not exist on type 'GenerationResult'.
+
+[7m80[0m       if (result.selected && result.selected.length > 0) {
+[7m  [0m [91m                 ~~~~~~~~[0m
+
+[96msrc/api/LocationGeneratorAPI.ts[0m:[93m80[0m:[93m37[0m - [91merror[0m[90m TS2339: [0mProperty 'selected' does not exist on type 'GenerationResult'.
+
+[7m80[0m       if (result.selected && result.selected.length > 0) {
+[7m  [0m [91m                                    ~~~~~~~~[0m
+
+[96msrc/services/impl/AIService.ts[0m:[93m485[0m:[93m31[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string' is not assignable to parameter of type 'CachedResult'.
+
+[7m485[0m       this.cache.set(testKey, testValue);
+[7m   [0m [91m                              ~~~~~~~~~[0m
+
+
+Found 3 errors in 2 files.
+
+Errors  Files
+     2  src/api/LocationGeneratorAPI.ts[90m:80[0m
+     1  src/services/impl/AIService.ts[90m:485[0m
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 2.[39m

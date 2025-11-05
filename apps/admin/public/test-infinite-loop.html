@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Loop Detector</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        .status.good {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .timestamp {
+            color: #6c757d;
+            margin-right: 10px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Infinite Loop Detector</h1>
+        <p>This tool monitors API requests to detect infinite refresh loops.</p>
+        
+        <div id="status" class="status good">
+            ✅ Monitoring started - No issues detected
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalRequests">0</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="requestsPerSecond">0</div>
+                <div class="stat-label">Requests/Second</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="maxBurst">0</div>
+                <div class="stat-label">Max Burst</div>
+            </div>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <button onclick="testAPI()">Test API Call</button>
+            <button onclick="clearLog()">Clear Log</button>
+            <button onclick="window.location.href='/stores'">Go to Stores Page</button>
+        </div>
+
+        <h3>Request Log</h3>
+        <div id="log" class="log">
+            <div class="log-entry">
+                <span class="timestamp">Ready</span>
+                <span>Monitoring /api/stores requests...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let requestCount = 0;
+        let requestTimes = [];
+        let maxBurst = 0;
+        const BURST_WINDOW = 1000; // 1 second
+        const LOOP_THRESHOLD = 5; // 5 requests in 1 second = likely a loop
+
+        function updateStats() {
+            const now = Date.now();
+            // Remove old requests outside the burst window
+            requestTimes = requestTimes.filter(time => now - time < BURST_WINDOW);
+            
+            const currentBurst = requestTimes.length;
+            if (currentBurst > maxBurst) {
+                maxBurst = currentBurst;
+                document.getElementById('maxBurst').textContent = maxBurst;
+            }
+
+            document.getElementById('totalRequests').textContent = requestCount;
+            document.getElementById('requestsPerSecond').textContent = currentBurst;
+
+            // Update status
+            const statusEl = document.getElementById('status');
+            if (currentBurst >= LOOP_THRESHOLD) {
+                statusEl.className = 'status error';
+                statusEl.textContent = `🚨 INFINITE LOOP DETECTED! ${currentBurst} requests in 1 second`;
+            } else if (currentBurst >= 3) {
+                statusEl.className = 'status warning';
+                statusEl.textContent = `⚠️ High request rate: ${currentBurst} requests in 1 second`;
+            } else {
+                statusEl.className = 'status good';
+                statusEl.textContent = '✅ Normal operation - No issues detected';
+            }
+        }
+
+        function addLog(message, isError = false) {
+            const logEl = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const timestamp = new Date().toLocaleTimeString('en-US', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                fractionalSecondDigits: 3
+            });
+            
+            entry.innerHTML = `
+                <span class="timestamp">${timestamp}</span>
+                <span style="color: ${isError ? '#dc3545' : '#28a745'}">${message}</span>
+            `;
+            
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = `
+                <div class="log-entry">
+                    <span class="timestamp">Ready</span>
+                    <span>Log cleared - Monitoring /api/stores requests...</span>
+                </div>
+            `;
+            requestCount = 0;
+            requestTimes = [];
+            maxBurst = 0;
+            updateStats();
+        }
+
+        async function testAPI() {
+            addLog('Manual test: Calling /api/stores...');
+            try {
+                const response = await fetch('/api/stores');
+                if (response.ok) {
+                    const data = await response.json();
+                    const count = Array.isArray(data) ? data.length : 'unknown';
+                    addLog(`✅ Success: Received ${count} stores`);
+                } else {
+                    addLog(`❌ Error: HTTP ${response.status}`, true);
+                }
+            } catch (error) {
+                addLog(`❌ Error: ${error.message}`, true);
+            }
+        }
+
+        // Intercept fetch calls
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            const url = args[0];
+            
+            if (typeof url === 'string' && url.includes('/api/stores')) {
+                requestCount++;
+                requestTimes.push(Date.now());
+                updateStats();
+                addLog(`Fetch: ${url}`);
+            }
+            
+            return originalFetch.apply(this, args);
+        };
+
+        // Monitor XMLHttpRequest too
+        const originalXHROpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+            if (typeof url === 'string' && url.includes('/api/stores')) {
+                requestCount++;
+                requestTimes.push(Date.now());
+                updateStats();
+                addLog(`XHR: ${method} ${url}`);
+            }
+            return originalXHROpen.apply(this, [method, url, ...rest]);
+        };
+
+        // Update stats every 100ms
+        setInterval(updateStats, 100);
+
+        addLog('✅ Monitoring initialized');
+    </script>
+</body>
+</html>

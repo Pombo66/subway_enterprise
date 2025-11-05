@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import ToastContainer from './ToastContainer';
 import { ToastType } from './Toast';
 
@@ -65,6 +65,20 @@ export function ToastProvider({ children }: ToastProviderProps) {
   const clearAllToasts = useCallback(() => {
     setToasts([]);
   }, []);
+
+  // Listen for custom toast events from components that can't use context
+  useEffect(() => {
+    const handleCustomToast = (event: Event) => {
+      const customEvent = event as CustomEvent<{ type: ToastType; message: string; duration?: number }>;
+      const { type, message, duration } = customEvent.detail;
+      showToast(type, message, duration);
+    };
+
+    window.addEventListener('show-toast', handleCustomToast);
+    return () => {
+      window.removeEventListener('show-toast', handleCustomToast);
+    };
+  }, [showToast]);
 
   const contextValue: ToastContextType = {
     showToast,
