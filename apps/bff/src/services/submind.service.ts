@@ -50,7 +50,7 @@ export class SubMindService {
       
       // Call OpenAI API
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-5-mini',
         messages: [
           {
             role: 'system',
@@ -112,7 +112,7 @@ export class SubMindService {
       
       // Call OpenAI API with expansion-specific system prompt
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-5-mini',
         messages: [
           {
             role: 'system',
@@ -186,7 +186,7 @@ export class SubMindService {
       
       // Call OpenAI API with enhanced system prompt
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-5-mini',
         messages: [
           {
             role: 'system',

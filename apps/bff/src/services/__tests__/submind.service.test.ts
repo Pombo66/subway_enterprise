@@ -82,7 +82,7 @@ describe('SubMindService', () => {
       expect(result.meta?.tokens).toBe(50);
       expect(result.meta?.latencyMs).toBeGreaterThan(0);
       expect(mockOpenAI.chat.completions.create).toHaveBeenCalledWith({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-5-mini',
         messages: [
           {
             role: 'system',

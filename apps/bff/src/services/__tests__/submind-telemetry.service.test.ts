@@ -66,7 +66,7 @@ describe('SubMindTelemetryService', () => {
               country: 'UK',
             },
             latencyMs: 1200,
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-5-mini',
             tokens: 50,
             clientIp: expect.any(String), // Hashed IP
             timestamp: expect.any(String),

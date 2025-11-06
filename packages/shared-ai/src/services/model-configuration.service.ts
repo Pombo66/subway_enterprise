@@ -39,7 +39,7 @@ export class ModelConfigurationManager {
   private initializeDefaultConfigs(): void {
     // Optimized configurations based on requirements
     this.modelConfigs.set(AIOperationType.RATIONALE_GENERATION, {
-      model: 'gpt-5-turbo',
+      model: 'gpt-4o',
       maxTokens: 250, // Reduced from 1000 to 250
       reasoningEffort: 'low',
       textVerbosity: 'low',
@@ -47,7 +47,7 @@ export class ModelConfigurationManager {
     });
 
     this.modelConfigs.set(AIOperationType.MARKET_ANALYSIS, {
-      model: 'gpt-5-turbo',
+      model: 'gpt-4o',
       maxTokens: 4000, // Reduced from 16000 to 4000
       reasoningEffort: 'medium', // Reduced from high to medium
       textVerbosity: 'medium',
@@ -55,7 +55,7 @@ export class ModelConfigurationManager {
     });
 
     this.modelConfigs.set(AIOperationType.STRATEGIC_SCORING, {
-      model: 'gpt-5-mini',
+      model: 'gpt-4o',
       maxTokens: 2000,
       reasoningEffort: 'medium',
       textVerbosity: 'medium',
@@ -63,7 +63,7 @@ export class ModelConfigurationManager {
     });
 
     this.modelConfigs.set(AIOperationType.LOCATION_DISCOVERY, {
-      model: 'gpt-5-nano',
+      model: 'gpt-4o',
       maxTokens: 1500,
       reasoningEffort: 'low',
       textVerbosity: 'low',
@@ -71,7 +71,7 @@ export class ModelConfigurationManager {
     });
 
     this.modelConfigs.set(AIOperationType.COMPETITIVE_ANALYSIS, {
-      model: 'gpt-5-turbo',
+      model: 'gpt-4o',
       maxTokens: 3000,
       reasoningEffort: 'medium',
       textVerbosity: 'medium',
@@ -79,7 +79,7 @@ export class ModelConfigurationManager {
     });
 
     this.modelConfigs.set(AIOperationType.VIABILITY_SCORING, {
-      model: 'gpt-5-mini',
+      model: 'gpt-4o',
       maxTokens: 1000,
       reasoningEffort: 'low',
       textVerbosity: 'low',
@@ -95,7 +95,7 @@ export class ModelConfigurationManager {
     const config = this.modelConfigs.get(operationType);
     if (!config) {
       console.warn(`No model configuration found for operation: ${operation}, using default`);
-      return 'gpt-5-turbo';
+      return 'gpt-4o';
     }
     return config.model;
   }
@@ -109,7 +109,7 @@ export class ModelConfigurationManager {
     if (!config) {
       console.warn(`No configuration found for operation: ${operation}, using default`);
       return {
-        model: 'gpt-5-turbo',
+        model: 'gpt-4o',
         maxTokens: 2000,
         reasoningEffort: 'medium',
         textVerbosity: 'medium',

@@ -49,7 +49,7 @@ export class SubMindTelemetryService {
           screen: query.context?.screen,
           scope: query.context?.scope,
           latencyMs,
-          model: 'gpt-3.5-turbo', // Current model being used
+          model: 'gpt-5-mini', // Current model being used
           tokens: response.meta?.tokens,
           clientIp: this.hashIp(clientIp),
           timestamp: new Date().toISOString(),
