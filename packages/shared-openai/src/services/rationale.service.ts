@@ -516,7 +516,7 @@ export class OpenAIRationaleService implements IRationaleService {
           dataCompleteness: output.dataCompleteness,
           model: this.modelConfigManager.getModelForOperation('RATIONALE_GENERATION'),
           tokensUsed: estimatedTokens,
-          seed: seedResult.seed, // Store seed value for reproducibility
+          // seed field not in schema - stored in seedMetadata instead
           seedMetadata: JSON.stringify(seedMetadata), // Store complete seed metadata
           expiresAt
         }

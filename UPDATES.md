@@ -100,3 +100,19 @@
 **Verification**: Run `git pull origin main`, then build the packages with `pnpm run build --filter="@subway/shared-openai" --filter="@subway/shared-ai" --filter="@subway/shared-expansion"`. All should build without errors. Then restart your dev server.
 
 ---
+
+## Update 6 - 2025-11-06 23:00 UTC
+
+**Changed**: Fixed Prisma schema error in rationale service
+
+**Files modified**:
+- `packages/shared-openai/src/services/rationale.service.ts` - Removed invalid seed field from Prisma create operation
+
+**What was fixed**:
+- Removed `seed` field from OpenAIRationaleCache creation (field doesn't exist in Prisma schema)
+- Seed value is still stored in `seedMetadata` JSON field
+- All three shared packages now build successfully without errors
+
+**Verification**: Run `git pull origin main`, then build with `pnpm run build --filter="@subway/shared-openai" --filter="@subway/shared-ai" --filter="@subway/shared-expansion"`. All should build cleanly. Restart dev servers and test.
+
+---
