@@ -14,6 +14,13 @@ import { ExpansionController } from './routes/expansion.controller';
 import { StoreService } from './services/store.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
+import { MarketAnalysisService } from './services/ai/market-analysis.service';
+import { StrategicZoneIdentificationService } from './services/ai/strategic-zone-identification.service';
+import { LocationDiscoveryService } from './services/ai/location-discovery.service';
+import { StrategicZoneGuidedGenerationService } from './services/ai/strategic-zone-guided-generation.service';
+import { ViabilityScoringValidationService } from './services/ai/viability-scoring-validation.service';
+import { StrategicScoringService } from './services/ai/strategic-scoring.service';
+import { ModelConfigurationManager } from './services/ai/model-configuration.service';
 import { SubMindService } from './services/submind.service';
 import { SubMindRateLimitService } from './services/submind.rate-limit';
 import { SubMindTelemetryService } from './services/submind-telemetry.service';
@@ -44,6 +51,14 @@ const prisma = new PrismaClient();
     { provide: PrismaClient, useValue: prisma },
     PrismaStoreRepository,
     StoreService,
+    // AI Pipeline Services
+    ModelConfigurationManager,
+    MarketAnalysisService,
+    StrategicZoneIdentificationService,
+    LocationDiscoveryService,
+    StrategicZoneGuidedGenerationService,
+    ViabilityScoringValidationService,
+    StrategicScoringService,
     AIPipelineController,
     {
       provide: ExpansionService,
