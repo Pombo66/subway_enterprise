@@ -1,0 +1,4 @@
+
+> @subway/expansion-auditor@1.0.0 typecheck /Users/khalidgehlan/subway_enterprise-1/packages/expansion-auditor
+> tsc --noEmit
+

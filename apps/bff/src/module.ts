@@ -47,10 +47,10 @@ const prisma = new PrismaClient();
     AIPipelineController,
     {
       provide: ExpansionService,
-      useFactory: (prisma: PrismaClient, aiPipelineController: AIPipelineController) => {
-        return new ExpansionService(prisma, aiPipelineController);
+      useFactory: (prisma: PrismaClient, locationIntelligenceService: LocationIntelligenceService, geographicValidationService: GeographicValidationService) => {
+        return new ExpansionService(prisma, locationIntelligenceService, geographicValidationService);
       },
-      inject: [PrismaClient, AIPipelineController],
+      inject: [PrismaClient, LocationIntelligenceService, GeographicValidationService],
     },
     SubMindService,
     SubMindRateLimitService,
