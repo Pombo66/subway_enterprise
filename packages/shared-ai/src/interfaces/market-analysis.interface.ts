@@ -44,6 +44,7 @@ export interface MarketAnalysis {
   recommendations: string[];
   confidence: number;
   analysisDate: Date;
+  tokensUsed?: number;
 }
 
 export interface MarketSaturation {

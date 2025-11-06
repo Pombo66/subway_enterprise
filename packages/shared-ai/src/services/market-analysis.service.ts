@@ -258,7 +258,7 @@ export class MarketAnalysisService implements IMarketAnalysisService {
     } catch (error) {
       clearTimeout(timeoutId);
       
-      if (error.name === 'AbortError') {
+      if ((error as Error).name === 'AbortError') {
         throw new Error(`Market analysis timed out after ${this.config.timeoutSeconds} seconds`);
       }
       
