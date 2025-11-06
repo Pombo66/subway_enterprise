@@ -13,6 +13,7 @@ import { ExpansionController } from './routes/expansion.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { ExpansionService } from './services/expansion.service';
+import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { SubMindService } from './services/submind.service';
 import { SubMindRateLimitService } from './services/submind.rate-limit';
 import { SubMindTelemetryService } from './services/submind-telemetry.service';
@@ -43,12 +44,13 @@ const prisma = new PrismaClient();
     { provide: PrismaClient, useValue: prisma },
     PrismaStoreRepository,
     StoreService,
+    AIPipelineController,
     {
       provide: ExpansionService,
-      useFactory: (prisma: PrismaClient, intelligenceService: LocationIntelligenceService, geoValidationService: GeographicValidationService) => {
-        return new ExpansionService(prisma, intelligenceService, geoValidationService);
+      useFactory: (prisma: PrismaClient, aiPipelineController: AIPipelineController) => {
+        return new ExpansionService(prisma, aiPipelineController);
       },
-      inject: [PrismaClient, LocationIntelligenceService, GeographicValidationService],
+      inject: [PrismaClient, AIPipelineController],
     },
     SubMindService,
     SubMindRateLimitService,

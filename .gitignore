@@ -4,3 +4,6 @@ node_modules
 apps/**/.next
 dist
 coverage
+
+# Local database files
+*.db

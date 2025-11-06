@@ -8,6 +8,7 @@ import {
   IExpansionService
 } from '../interfaces/expansion.interface';
 import { ExpansionUtils } from '../utils/expansion.utils';
+import { AIPipelineController, PipelineExecutionRequest } from '@subway/bff/src/services/ai/ai-pipeline-controller.service';
 
 /**
  * Consolidated Expansion Service
@@ -18,6 +19,7 @@ export class ExpansionService implements IExpansionService {
 
   constructor(
     private readonly prisma: PrismaClient,
+    private readonly aiPipelineController: AIPipelineController,
     config: Partial<ExpansionConfig> = {}
   ) {
     this.config = {
@@ -60,16 +62,15 @@ export class ExpansionService implements IExpansionService {
       } catch (error) {
         console.error('❌ AI Pipeline failed:', error);
         
-        if (!this.config.fallbackEnabled) {
-          throw error;
-        }
-        
-        console.log('🔄 Falling back to basic generation');
+        // Per user request, if the AI pipeline fails, we throw the error instead of falling back.
+        // This is to force debugging of the AI pipeline.
+        throw error;
       }
     }
 
-    // Fallback to basic generation
-    return this.generateFallbackSuggestions(targetCount, params.region);
+    // If AI rationale is not enabled, we still need to return something.
+    // Since the user wants to force AI usage, we will throw an error if AI is not enabled.
+    throw new Error('AI Rationale is not enabled. Please enable it to run the expansion pipeline.');
   }
 
   // Alias for backward compatibility
@@ -83,7 +84,7 @@ export class ExpansionService implements IExpansionService {
     existingStores: any[],
     countryBounds: any
   ): Promise<ExpansionJobResult> {
-    const pipelineRequest = {
+    const pipelineRequest: PipelineExecutionRequest = {
       region: ExpansionUtils.normalizeCountryName(params.region.country || 'Germany'),
       bounds: countryBounds,
       existingStores: existingStores.map(store => ({
@@ -93,43 +94,22 @@ export class ExpansionService implements IExpansionService {
       })),
       targetCandidates: targetCount,
       businessObjectives: {
-        riskTolerance: 'MEDIUM' as const,
-        expansionSpeed: params.aggression > 0.5 ? 'AGGRESSIVE' as const : 'MODERATE' as const,
+        riskTolerance: 'MEDIUM',
+        expansionSpeed: params.aggression > 0.5 ? 'AGGRESSIVE' : 'MODERATE',
         marketPriorities: ['population_density', 'market_gaps', 'competitive_advantage']
       }
     };
 
-    console.log('🤖 Calling BFF AI Pipeline: Market Analysis → Zone Identification → Location Discovery → Strategic Scoring');
+    console.log('🤖 Executing Local AI Pipeline: Market Analysis → Zone Identification → Location Discovery → Strategic Scoring');
     
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.config.timeoutMs);
-
     try {
-      const response = await fetch(`${this.config.bffUrl}/ai/pipeline/execute`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(pipelineRequest),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`BFF AI Pipeline failed: ${response.status} ${response.statusText}`);
-      }
-
-      const pipelineResult = await response.json();
+      // DIRECT CALL: Replacing the unreliable HTTP fetch with a direct method call
+      const pipelineResult = await this.aiPipelineController.executePipeline(pipelineRequest);
+      
       return this.convertPipelineResultToSuggestions(pipelineResult, params);
 
     } catch (error) {
-      clearTimeout(timeoutId);
-      
-      if (error.name === 'AbortError') {
-        throw new Error(`AI Pipeline timed out after ${this.config.timeoutMs / 1000} seconds`);
-      }
-      
+      console.error('❌ Local AI Pipeline execution failed:', error);
       throw error;
     }
   }

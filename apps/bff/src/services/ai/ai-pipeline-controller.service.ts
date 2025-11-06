@@ -108,7 +108,7 @@ export class AIPipelineController {
           stagesExecuted.push('Market Analysis');
           successfulStages++;
         } catch (error) {
-          this.logger.error('Market Analysis stage failed:', error);
+          this.logger.error('Market Analysis stage failed:', error instanceof Error ? error.stack : error);
           failedStages++;
         }
       }
@@ -125,7 +125,7 @@ export class AIPipelineController {
           stagesExecuted.push('Strategic Zone Identification');
           successfulStages++;
         } catch (error) {
-          this.logger.error('Strategic Zone Identification stage failed:', error);
+          this.logger.error('Strategic Zone Identification stage failed:', error instanceof Error ? error.stack : error);
           failedStages++;
         }
       }
@@ -144,7 +144,7 @@ export class AIPipelineController {
           stagesExecuted.push('Location Discovery');
           successfulStages++;
         } catch (error) {
-          this.logger.error('Location Discovery stage failed:', error);
+          this.logger.error('Location Discovery stage failed:', error instanceof Error ? error.stack : error);
           failedStages++;
         }
       }
@@ -164,7 +164,7 @@ export class AIPipelineController {
           stagesExecuted.push('Viability Validation');
           successfulStages++;
         } catch (error) {
-          this.logger.error('Viability Validation stage failed:', error);
+          this.logger.error('Viability Validation stage failed:', error instanceof Error ? error.stack : error);
           failedStages++;
         }
       }
@@ -184,7 +184,7 @@ export class AIPipelineController {
           stagesExecuted.push('Strategic Scoring');
           successfulStages++;
         } catch (error) {
-          this.logger.error('Strategic Scoring stage failed:', error);
+          this.logger.error('Strategic Scoring stage failed:', error instanceof Error ? error.stack : error);
           failedStages++;
         }
       }
