@@ -2,8 +2,3 @@
 > @subway/shared-ai@1.0.0 build /home/ubuntu/subway_enterprise/packages/shared-ai
 > tsc
 
-src/services/market-analysis.service.ts(16,55): error TS2307: Cannot find module '@subway/shared-openai' or its corresponding type declarations.
-src/services/market-analysis.service.ts(95,30): error TS2339: Property 'tokensUsed' does not exist on type 'MarketAnalysis'.
-src/services/market-analysis.service.ts(261,11): error TS18046: 'error' is of type 'unknown'.
-src/services/market-analysis.service.ts(441,32): error TS2339: Property 'tokensUsed' does not exist on type 'MarketAnalysis'.
- ELIFECYCLE  Command failed with exit code 2.

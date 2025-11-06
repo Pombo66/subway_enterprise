@@ -2,5 +2,3 @@
 > @subway/shared-expansion@1.0.0 build /home/ubuntu/subway_enterprise/packages/shared-expansion
 > tsc
 
-src/services/expansion.service.ts(11,65): error TS2307: Cannot find module '@subway/shared-ai' or its corresponding type declarations.
- ELIFECYCLE  Command failed with exit code 2.

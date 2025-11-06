@@ -78,7 +78,7 @@ export class MessageBuilderUtil {
    * Validate message structure against Responses API specification
    * Requirement 2.4: Validate message structure against Responses API specification
    */
-  static validateMessageStructure(messages: StructuredMessage[]): ValidationResult {
+  static validateMessageStructure(messages: StructuredMessage[]): MessageValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -182,7 +182,7 @@ export class MessageBuilderUtil {
   /**
    * Create a message validation error with detailed information
    */
-  static createValidationError(validationResult: ValidationResult): Error {
+  static createValidationError(validationResult: MessageValidationResult): Error {
     const errorMessage = [
       'Message structure validation failed:',
       ...validationResult.errors.map(error => `  - ${error}`)
@@ -247,7 +247,7 @@ export class MessageBuilderUtil {
   }
 }
 
-export interface ValidationResult {
+export interface MessageValidationResult {
   isValid: boolean;
   errors: string[];
   warnings: string[];

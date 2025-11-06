@@ -384,10 +384,11 @@ export class MarketAnalysisOptimizerService {
 
     let iterations = 0;
     const maxIterations = 10;
+    let clusters: Array<{ points: Array<{ lat: number; lng: number }> }> = [];
 
     while (iterations < maxIterations) {
       // Assign points to nearest centroid
-      const clusters = centroids.map(() => ({ points: [] as Array<{ lat: number; lng: number }> }));
+      clusters = centroids.map(() => ({ points: [] as Array<{ lat: number; lng: number }> }));
       
       for (const point of points) {
         let nearestCentroidIndex = 0;
