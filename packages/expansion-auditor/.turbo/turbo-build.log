@@ -1,0 +1,18 @@
+
+> @subway/expansion-auditor@1.0.0 build /home/ubuntu/subway_enterprise/packages/expansion-auditor
+> tsc
+
+src/index.ts(8,1): error TS2308: Module './interfaces/expansion-system-auditor.interface' has already exported a member named 'CodeOccurrence'. Consider explicitly re-exporting to resolve the ambiguity.
+src/index.ts(8,1): error TS2308: Module './interfaces/expansion-system-auditor.interface' has already exported a member named 'FunctionalityOverlap'. Consider explicitly re-exporting to resolve the ambiguity.
+src/index.ts(8,1): error TS2308: Module './interfaces/expansion-system-auditor.interface' has already exported a member named 'MethodOverlap'. Consider explicitly re-exporting to resolve the ambiguity.
+src/index.ts(8,1): error TS2308: Module './interfaces/expansion-system-auditor.interface' has already exported a member named 'ServiceDuplicate'. Consider explicitly re-exporting to resolve the ambiguity.
+src/services/audit-report-generator.service.ts(877,12): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ high: number; medium: number; low: number; }'.
+src/services/audit-report-generator.service.ts(882,12): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ low: string; medium: string; high: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ low: string; medium: string; high: string; }'.
+src/services/expansion-system-auditor.service.ts(29,29): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'typeof import("/home/ubuntu/subway_enterprise/node_modules/.pnpm/glob@10.4.5/node_modules/glob/dist/commonjs/index")' is not assignable to parameter of type 'Function'.
+      Type 'typeof import("/home/ubuntu/subway_enterprise/node_modules/.pnpm/glob@10.4.5/node_modules/glob/dist/commonjs/index")' is missing the following properties from type 'Function': apply, call, bind, prototype, and 5 more.
+src/services/expansion-system-auditor.service.ts(843,39): error TS2339: Property 'basename' does not exist on type 'string[]'.
+src/test-audit.ts(44,9): error TS18046: 'error' is of type 'unknown'.
+ ELIFECYCLE  Command failed with exit code 2.

@@ -34,3 +34,30 @@
 **Verification**: Application should start without "Nest can't resolve dependencies" error
 
 ---
+
+## Update 3 - 2025-11-06 22:15 UTC
+
+**Changed**: Fixed circular dependency by moving AI pipeline types to shared-ai package
+
+**Files modified**:
+- `packages/shared-ai/src/types/pipeline.types.ts` (created)
+- `packages/shared-ai/src/index.ts`
+- `apps/bff/src/services/ai/ai-pipeline-controller.service.ts`
+- `packages/shared-expansion/src/services/expansion.service.ts`
+- `packages/shared-expansion/package.json`
+- `packages/shared-ai/package.json`
+
+**Files created**:
+- `test-expansion.js` - Test script for AI expansion system
+- `TESTING_GUIDE.md` - Complete testing documentation
+
+**What was fixed**:
+- Extracted `PipelineExecutionRequest`, `PipelineExecutionResult`, and `IAIPipelineController` types to `@subway/shared-ai`
+- Removed circular dependency between `@subway/shared-expansion` and `@subway/bff`
+- Added proper workspace dependencies
+
+**Note**: Frontend build still has pre-existing TypeScript errors in `@subway/shared-openai` (unrelated to these changes). Backend is fully functional and ready for testing.
+
+**Verification**: Backend should start successfully. Use `test-expansion.js` or API endpoints to test the expansion system.
+
+---

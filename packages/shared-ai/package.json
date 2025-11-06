@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^5.0.0"
+    "@prisma/client": "^5.0.0",
+    "@subway/shared-openai": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

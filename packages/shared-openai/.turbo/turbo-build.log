@@ -1,0 +1,68 @@
+
+> @subway/shared-openai@1.0.0 build /home/ubuntu/subway_enterprise/packages/shared-openai
+> tsc
+
+[96msrc/index.ts[0m:[93m22[0m:[93m1[0m - [91merror[0m[90m TS2308: [0mModule './services/deterministic-controls.service' has already exported a member named 'ValidationResult'. Consider explicitly re-exporting to resolve the ambiguity.
+
+[7m22[0m export * from './utils/message-builder.util';
+[7m  [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/services/concurrency-manager.service.ts[0m:[93m277[0m:[93m11[0m - [91merror[0m[90m TS2774: [0mThis condition will always return true since this function is always defined. Did you mean to call it instead?
+
+[7m277[0m       if (task.operation) {
+[7m   [0m [91m          ~~~~~~~~~~~~~~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m390[0m:[93m13[0m - [91merror[0m[90m TS7022: [0m'clusters' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m390[0m       const clusters = centroids.map(() => ({ points: [] as Array<{ lat: number; lng: number }> }));
+[7m   [0m [91m            ~~~~~~~~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m415[0m:[93m17[0m - [91merror[0m[90m TS7022: [0m'newLat' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+
+[7m415[0m           const newLat = clusters[i].points.reduce((sum, p) => sum + p.lat, 0) / clusters[i].points.length;
+[7m   [0m [91m                ~~~~~~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m415[0m:[93m53[0m - [91merror[0m[90m TS7006: [0mParameter 'sum' implicitly has an 'any' type.
+
+[7m415[0m           const newLat = clusters[i].points.reduce((sum, p) => sum + p.lat, 0) / clusters[i].points.length;
+[7m   [0m [91m                                                    ~~~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m415[0m:[93m58[0m - [91merror[0m[90m TS7006: [0mParameter 'p' implicitly has an 'any' type.
+
+[7m415[0m           const newLat = clusters[i].points.reduce((sum, p) => sum + p.lat, 0) / clusters[i].points.length;
+[7m   [0m [91m                                                         ~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m416[0m:[93m53[0m - [91merror[0m[90m TS7006: [0mParameter 'sum' implicitly has an 'any' type.
+
+[7m416[0m           const newLng = clusters[i].points.reduce((sum, p) => sum + p.lng, 0) / clusters[i].points.length;
+[7m   [0m [91m                                                    ~~~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m416[0m:[93m58[0m - [91merror[0m[90m TS7006: [0mParameter 'p' implicitly has an 'any' type.
+
+[7m416[0m           const newLng = clusters[i].points.reduce((sum, p) => sum + p.lng, 0) / clusters[i].points.length;
+[7m   [0m [91m                                                         ~[0m
+
+[96msrc/services/market-analysis-optimizer.service.ts[0m:[93m431[0m:[93m15[0m - [91merror[0m[90m TS2304: [0mCannot find name 'clusters'.
+
+[7m431[0m       points: clusters[i].points
+[7m   [0m [91m              ~~~~~~~~[0m
+
+[96msrc/services/performance-monitor.service.ts[0m:[93m357[0m:[93m36[0m - [91merror[0m[90m TS2683: [0m'this' implicitly has type 'any' because it does not have a type annotation.
+
+[7m357[0m     comparison?: ReturnType<typeof this.compareWithBaseline>;
+[7m   [0m [91m                                   ~~~~[0m
+
+  [96msrc/services/performance-monitor.service.ts[0m:[93m357[0m:[93m5[0m
+    [7m357[0m     comparison?: ReturnType<typeof this.compareWithBaseline>;
+    [7m   [0m [96m    ~~~~~~~~~~[0m
+    An outer value of 'this' is shadowed by this container.
+
+
+Found 10 errors in 4 files.
+
+Errors  Files
+     1  src/index.ts[90m:22[0m
+     1  src/services/concurrency-manager.service.ts[90m:277[0m
+     7  src/services/market-analysis-optimizer.service.ts[90m:390[0m
+     1  src/services/performance-monitor.service.ts[90m:357[0m
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 2.[39m

@@ -7,63 +7,17 @@ import { StrategicZoneGuidedGenerationService } from './strategic-zone-guided-ge
 import { ViabilityScoringValidationService } from './viability-scoring-validation.service';
 import { StrategicScoringService } from './strategic-scoring.service';
 import { ModelConfigurationManager } from './model-configuration.service';
+import { 
+  PipelineExecutionRequest, 
+  PipelineExecutionResult,
+  IAIPipelineController 
+} from '@subway/shared-ai';
 
-export interface PipelineExecutionRequest {
-  region: string;
-  bounds: {
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  };
-  existingStores: {
-    lat: number;
-    lng: number;
-    performance?: number;
-  }[];
-  targetCandidates: number;
-  businessObjectives: {
-    targetRevenue?: number;
-    riskTolerance: 'LOW' | 'MEDIUM' | 'HIGH';
-    expansionSpeed: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE';
-    marketPriorities: string[];
-  };
-  pipelineConfig?: {
-    enableMarketAnalysis: boolean;
-    enableZoneIdentification: boolean;
-    enableLocationDiscovery: boolean;
-    enableViabilityValidation: boolean;
-    enableStrategicScoring: boolean;
-    qualityThreshold: number;
-  };
-}
-
-export interface PipelineExecutionResult {
-  finalCandidates: any[];
-  pipelineStages: {
-    marketAnalysis?: any;
-    strategicZones?: any[];
-    locationCandidates?: any[];
-    validatedCandidates?: any[];
-    scoredCandidates?: any[];
-  };
-  metadata: {
-    totalExecutionTime: number;
-    stagesExecuted: string[];
-    totalTokensUsed: number;
-    totalCost: number;
-    successfulStages: number;
-    failedStages: number;
-  };
-  qualityMetrics: {
-    candidateQuality: number;
-    pipelineEfficiency: number;
-    costEffectiveness: number;
-  };
-}
+// Re-export types for backward compatibility
+export type { PipelineExecutionRequest, PipelineExecutionResult };
 
 @Injectable()
-export class AIPipelineController {
+export class AIPipelineController implements IAIPipelineController {
   private readonly logger = new Logger(AIPipelineController.name);
   private readonly modelConfigManager: ModelConfigurationManager;
 

@@ -8,7 +8,7 @@ import {
   IExpansionService
 } from '../interfaces/expansion.interface';
 import { ExpansionUtils } from '../utils/expansion.utils';
-import { AIPipelineController, PipelineExecutionRequest } from '@subway/bff/src/services/ai/ai-pipeline-controller.service';
+import { IAIPipelineController, PipelineExecutionRequest } from '@subway/shared-ai';
 
 /**
  * Consolidated Expansion Service
@@ -19,7 +19,7 @@ export class ExpansionService implements IExpansionService {
 
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly aiPipelineController: AIPipelineController,
+    private readonly aiPipelineController: IAIPipelineController,
     config: Partial<ExpansionConfig> = {}
   ) {
     this.config = {
