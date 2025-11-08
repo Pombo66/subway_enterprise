@@ -217,7 +217,7 @@ export default function MapFilters({
           )}
         </div>
 
-        {/* Franchisee Filter - Currently not supported by API but included for future use */}
+        {/* Franchisee Filter */}
         <div className="map-filter-group">
           <label 
             className="map-filter-label"
@@ -228,28 +228,20 @@ export default function MapFilters({
           <select
             id="franchisee-filter"
             className="s-select map-filter-select"
-            value={filters.franchiseeId || ''}
-            onChange={(e) => handleFilterChange('franchiseeId', e.target.value || undefined)}
-            disabled={loading || availableOptions.franchisees.length === 0}
-            aria-describedby="franchisee-note"
-            aria-label={`Filter stores by franchisee. ${availableOptions.franchisees.length === 0 ? 'Currently unavailable' : filters.franchiseeId ? `Currently filtered to ${availableOptions.franchisees.find(f => f.id === filters.franchiseeId)?.name || 'selected franchisee'}` : 'showing all franchisees'}`}
+            value={filters.ownerName || ''}
+            onChange={(e) => handleFilterChange('ownerName', e.target.value || undefined)}
+            disabled={loading}
+            aria-label={`Filter stores by franchisee. Currently ${filters.ownerName ? `filtered to ${filters.ownerName}` : 'showing all franchisees'}`}
           >
-            <option value="">All franchisees</option>
-            {availableOptions.franchisees.map((franchisee) => (
-              <option key={franchisee.id} value={franchisee.id}>
-                {franchisee.name}
+            <option value="">
+              {loading ? 'Loading franchisees...' : 'All franchisees'}
+            </option>
+            {availableOptions.ownerNames?.map((ownerName) => (
+              <option key={ownerName} value={ownerName}>
+                {ownerName}
               </option>
             ))}
           </select>
-          {availableOptions.franchisees.length === 0 && (
-            <div 
-              id="franchisee-note"
-              className="map-filter-note"
-              role="status"
-            >
-              Franchisee filtering not available
-            </div>
-          )}
         </div>
 
         {/* Visibility Toggles */}
@@ -458,8 +450,9 @@ export default function MapFilters({
 
         .map-filter-checkboxes {
           display: flex;
-          flex-direction: column;
-          gap: 12px;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 16px;
           padding: 8px 0;
         }
 

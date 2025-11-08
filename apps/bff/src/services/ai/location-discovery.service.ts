@@ -160,6 +160,9 @@ export class LocationDiscoveryService implements ILocationDiscoveryService {
       const model = this.modelConfigManager.getModelForOperation(AIOperationType.LOCATION_DISCOVERY);
       const prompt = this.buildLocationDiscoveryPrompt(request);
 
+      // Import utilities and schema
+      const { LocationDiscoveryJSONSchema, extractText, safeParseJSONWithSchema, extractJSON, LocationDiscoveryResponseSchema } = await import('@subway/shared-ai');
+      
       const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
@@ -168,10 +171,17 @@ export class LocationDiscoveryService implements ILocationDiscoveryService {
         },
         body: JSON.stringify({
           model,
-          input: `System: You are a location discovery specialist for restaurant expansion. Generate viable location candidates within specified zones, focusing on accessibility, foot traffic, and market potential. Always respond with valid JSON.\n\nUser: ${prompt}`,
+          input: `System: You are a location discovery specialist for restaurant expansion. Generate viable location candidates within specified zones, focusing on accessibility, foot traffic, and market potential. Always respond with valid JSON matching the provided schema.\n\nUser: ${prompt}`,
           max_output_tokens: this.MAX_TOKENS,
           reasoning: { effort: 'low' }, // Location discovery uses low reasoning for speed
-          text: { verbosity: 'low' } // Concise output for high-volume generation
+          text: { 
+            verbosity: 'low', // Concise output for high-volume generation
+            format: {
+              type: 'json_schema',
+              name: LocationDiscoveryJSONSchema.name,
+              schema: LocationDiscoveryJSONSchema.schema
+            }
+          }
         })
       });
 
@@ -183,33 +193,16 @@ export class LocationDiscoveryService implements ILocationDiscoveryService {
       const data = await response.json();
       const tokensUsed = data.usage?.total_tokens || 0;
       
-      // Debug: Log the actual response structure
-      console.log('🔍 Location Discovery OpenAI Response Debug:', {
-        hasOutput: !!data.output,
-        outputType: Array.isArray(data.output) ? 'array' : typeof data.output,
-        outputLength: data.output?.length,
-        outputTypes: data.output?.map((item: any) => item.type),
-        responsePreview: JSON.stringify(data, null, 2).substring(0, 300)
-      });
-
-      // Handle incomplete responses
-      if (data.status === 'incomplete') {
-        console.warn('⚠️ Location Discovery OpenAI response was incomplete, using partial content');
-      }
-
-      // For GPT-5, prefer reasoning output, but fall back to message if reasoning is empty
-      let contentOutput = data.output?.find((item: any) => item.type === 'reasoning');
+      // Use extractText utility to handle various response formats
+      const textContent = extractText(data);
+      const jsonContent = extractJSON(textContent);
+      const parseResult = safeParseJSONWithSchema(jsonContent, LocationDiscoveryResponseSchema);
       
-      // If reasoning is empty or missing, use message output
-      if (!contentOutput || !contentOutput.content || !contentOutput.content[0] || !contentOutput.content[0].text) {
-        contentOutput = data.output?.find((item: any) => item.type === 'message');
+      if (!parseResult.success) {
+        throw new Error(`Location discovery response validation failed: ${parseResult.error}`);
       }
       
-      if (!contentOutput || !contentOutput.content || !contentOutput.content[0] || !contentOutput.content[0].text) {
-        throw new Error(`No usable content in OpenAI response. Outputs: ${data.output?.map((o: any) => `${o.type}:${o.content?.length || 0}`).join(', ')}`);
-      }
-      
-      const aiResponse = JSON.parse(contentOutput.content[0].text);
+      const aiResponse = parseResult.data;
       const candidates = this.parseLocationCandidates(aiResponse, request, model, tokensUsed);
       
       const processingTime = Date.now() - startTime;

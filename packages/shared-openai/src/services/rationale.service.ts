@@ -499,12 +499,6 @@ export class OpenAIRationaleService implements IRationaleService {
 
       const estimatedTokens = Math.ceil(output.text.length / 4);
       
-      // Store seed values alongside cached rationales for debugging (Requirement 3.5)
-      const seedMetadata = SeedManagerUtil.createSeedMetadata(seedResult, {
-        contextLat: context.lat,
-        contextLng: context.lng
-      });
-
       await this.prisma.openAIRationaleCache.create({
         data: {
           contextHash: hash,
@@ -516,8 +510,6 @@ export class OpenAIRationaleService implements IRationaleService {
           dataCompleteness: output.dataCompleteness,
           model: this.modelConfigManager.getModelForOperation('RATIONALE_GENERATION'),
           tokensUsed: estimatedTokens,
-          // seed field not in schema - stored in seedMetadata instead
-          seedMetadata: JSON.stringify(seedMetadata), // Store complete seed metadata
           expiresAt
         }
       });

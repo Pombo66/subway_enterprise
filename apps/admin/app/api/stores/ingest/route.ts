@@ -242,12 +242,9 @@ export async function POST(request: NextRequest) {
               region: store.region,
               city: store.city,
               status: store.status,
+              ownerName: store.ownerName,
               latitude: hasValidCoordinates ? store.latitude : null,
-              longitude: hasValidCoordinates ? store.longitude : null,
-              // Note: Current schema doesn't have these fields, so we'll omit them
-              // ownerName: store.ownerName,
-              // externalId: store.externalId,
-              // geocodeStatus: store.latitude && store.longitude ? 'success' : 'pending'
+              longitude: hasValidCoordinates ? store.longitude : null
             };
 
             if (existingStore) {

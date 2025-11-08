@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as glob from 'glob';
+import { glob } from 'glob';
 import { promisify } from 'util';
 import {
   IExpansionSystemAuditor,
@@ -26,7 +26,6 @@ import {
   MethodOverlap
 } from '../interfaces/expansion-system-auditor.interface';
 
-const globAsync = promisify(glob);
 const readFileAsync = promisify(fs.readFile);
 
 /**
@@ -129,7 +128,7 @@ export class ExpansionSystemAuditorService implements IExpansionSystemAuditor {
     const allFiles: string[] = [];
     
     for (const pattern of this.expansionPatterns) {
-      const files = await globAsync(pattern, {
+      const files = await glob(pattern, {
         cwd: this.workspaceRoot,
         ignore: ['**/node_modules/**', '**/dist/**', '**/.next/**']
       });
@@ -833,11 +832,11 @@ export class ExpansionSystemAuditorService implements IExpansionSystemAuditor {
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
 
-    const dfs = (nodeId: string, path: string[]): void => {
+    const dfs = (nodeId: string, pathArray: string[]): void => {
       if (recursionStack.has(nodeId)) {
         // Found a cycle
-        const cycleStart = path.indexOf(nodeId);
-        const cycle = path.slice(cycleStart).concat([nodeId]);
+        const cycleStart = pathArray.indexOf(nodeId);
+        const cycle = pathArray.slice(cycleStart).concat([nodeId]);
         
         circular.push({
           cycle: cycle.map(id => path.basename(id)),
@@ -854,7 +853,7 @@ export class ExpansionSystemAuditorService implements IExpansionSystemAuditor {
 
       const outgoingEdges = edges.filter(e => e.from === nodeId);
       for (const edge of outgoingEdges) {
-        dfs(edge.to, [...path, nodeId]);
+        dfs(edge.to, [...pathArray, nodeId]);
       }
 
       recursionStack.delete(nodeId);

@@ -21,7 +21,7 @@ export default function SuggestionInfoCard({
 
   return (
     <div style={{
-      position: 'absolute',
+      position: 'fixed',
       top: '20px',
       left: '20px',
       width: '400px',

@@ -41,7 +41,7 @@ async function testAudit() {
     console.error('❌ Test failed:', error);
     
     // Provide helpful debugging information
-    if (error.message.includes('ENOENT')) {
+    if (error instanceof Error && error.message.includes('ENOENT')) {
       console.log('\n💡 This might be because some service directories don\'t exist yet.');
       console.log('   The auditor will handle missing directories gracefully in production.');
     }

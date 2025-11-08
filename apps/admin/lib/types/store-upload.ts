@@ -148,7 +148,7 @@ export const HEADER_SYNONYMS = {
   // Removed latitude and longitude - will be geocoded from address
   externalId: ['external_id', 'store_id', 'id', 'external_store_id', 'ref_id', 'restaurant'], // Restaurant ID goes here
   status: ['status', 'state', 'condition', 'store_status', 'restaurant_status', 'restaurant status'],
-  ownerName: ['owner_name', 'owner', 'franchisee', 'primary_owner_name', 'primary owner name', 'franchise_owner']
+  ownerName: ['owner_name', 'owner', 'franchisee', 'primary_owner_name', 'primary owner name', 'primary owner', 'franchise_owner']
 } as const;
 
 export type HeaderSynonym = keyof typeof HEADER_SYNONYMS;

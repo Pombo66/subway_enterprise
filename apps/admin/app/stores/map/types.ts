@@ -12,6 +12,7 @@ export interface MapViewport {
 // Filter state for store visibility
 export interface FilterState {
   franchiseeId?: string;
+  ownerName?: string; // Filter by franchisee/owner name
   region?: string;
   country?: string;
   status?: string; // Legacy single status filter (for list view)
@@ -26,6 +27,7 @@ export interface FilterState {
 // Available filter options
 export interface FilterOptions {
   franchisees: Array<{ id: string; name: string }>;
+  ownerNames: string[]; // List of unique owner names for filtering
   regions: string[];
   countries: string[];
 }
@@ -40,6 +42,7 @@ export interface StoreWithActivity {
   country: string;
   city?: string | null;
   franchiseeId?: string;
+  ownerName?: string | null;
   status?: string | null; // 'Open', 'Closed', 'Planned', etc.
   recentActivity: boolean;
   __mockActivity?: boolean; // Debug flag for mock data

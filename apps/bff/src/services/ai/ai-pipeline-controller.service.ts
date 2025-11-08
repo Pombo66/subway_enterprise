@@ -254,9 +254,9 @@ export class AIPipelineController implements IAIPipelineController {
       candidates,
       existingStores: request.existingStores,
       constraints: {
-        minDistanceFromExisting: 1000,
-        maxDistanceFromRoad: 500,
-        minPopulationDensity: 1000
+        minDistanceFromExisting: 500, // 500m minimum between stores
+        maxDistanceFromRoad: 1000, // Placeholder (not enforced - trusting GPT)
+        minPopulationDensity: 1000 // Placeholder (not enforced - trusting GPT)
       },
       escalationThreshold: 0.6,
       qualityThreshold
@@ -341,7 +341,7 @@ export class AIPipelineController implements IAIPipelineController {
       enableLocationDiscovery: true,
       enableViabilityValidation: true,
       enableStrategicScoring: true,
-      qualityThreshold: 0.4
+      qualityThreshold: 0.25 // Lower threshold to allow more candidates through
     };
   }
 

@@ -479,7 +479,10 @@ export class AIService implements IAIService {
     try {
       // Simple cache availability check
       const testKey = 'cache_health_check';
-      const testValue = Date.now().toString();
+      const testValue: CachedResult = {
+        timestamp: Date.now(),
+        tokenCost: 0
+      };
       
       // Try to set and get a test value
       this.cache.set(testKey, testValue);

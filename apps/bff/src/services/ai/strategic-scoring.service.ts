@@ -19,8 +19,10 @@ export class StrategicScoringService implements IStrategicScoringService {
   private readonly logger = new Logger(StrategicScoringService.name);
   private readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   private readonly MAX_TOKENS = 3500;
-  private readonly REASONING_EFFORT: 'minimal' | 'low' | 'medium' | 'high' = 'high'; // Strategic scoring needs high reasoning
-  private readonly TEXT_VERBOSITY: 'low' | 'medium' | 'high' = 'medium'; // Balanced output
+  // NOTE: GPT-5 reasoning models can produce empty reasoning outputs
+  // Using 'low' effort to ensure we get actual text output
+  private readonly REASONING_EFFORT: 'minimal' | 'low' | 'medium' | 'high' = 'low';
+  private readonly TEXT_VERBOSITY: 'low' | 'medium' | 'high' = 'high'; // High verbosity to ensure output
   
   private readonly modelConfigManager: ModelConfigurationManager;
   
@@ -222,7 +224,10 @@ export class StrategicScoringService implements IStrategicScoringService {
           input: `System: You are a senior strategic analyst specializing in restaurant expansion. Provide comprehensive strategic scoring with detailed analysis of market context, competitive positioning, and business value. Always respond with valid JSON.\n\nUser: ${prompt}`,
           max_output_tokens: this.MAX_TOKENS,
           reasoning: { effort: this.REASONING_EFFORT },
-          text: { verbosity: this.TEXT_VERBOSITY }
+          text: { 
+            verbosity: this.TEXT_VERBOSITY,
+            format: { type: 'json_object' } // Force JSON output
+          }
         })
       });
 
@@ -232,19 +237,25 @@ export class StrategicScoringService implements IStrategicScoringService {
 
       const data = await response.json();
       const tokensUsed = data.usage?.total_tokens || 0;
-      // For GPT-5, prefer reasoning output, but fall back to message if reasoning is empty
-      let contentOutput = data.output.find((item: any) => item.type === 'reasoning');
       
-      // If reasoning is empty or missing, use message output
-      if (!contentOutput || !contentOutput.content || !contentOutput.content[0] || !contentOutput.content[0].text) {
-        contentOutput = data.output.find((item: any) => item.type === 'message');
+      // Extract text using utility function
+      let textContent: string;
+      
+      // Try message output first (most reliable for structured JSON)
+      const messageOutput = data.output?.find((item: any) => item.type === 'message');
+      if (messageOutput?.content?.[0]?.text) {
+        textContent = messageOutput.content[0].text;
+      } else {
+        // Fall back to reasoning output
+        const reasoningOutput = data.output?.find((item: any) => item.type === 'reasoning');
+        if (reasoningOutput?.content?.[0]?.text) {
+          textContent = reasoningOutput.content[0].text;
+        } else {
+          throw new Error(`No usable content in OpenAI response. Available outputs: ${data.output?.map((o: any) => `${o.type}:${o.content?.length || 0}`).join(', ') || 'none'}`);
+        }
       }
       
-      if (!contentOutput || !contentOutput.content || !contentOutput.content[0] || !contentOutput.content[0].text) {
-        throw new Error(`No usable content in OpenAI response. Available outputs: ${data.output.map((o: any) => `${o.type}:${o.content?.length || 0}`).join(', ')}`);
-      }
-      
-      const aiResponse = JSON.parse(contentOutput.content[0].text);
+      const aiResponse = JSON.parse(textContent);
 
       const scoredCandidate = this.parseAIScoringResponse(
         aiResponse,

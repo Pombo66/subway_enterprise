@@ -873,12 +873,12 @@ ${report.estimatedImpact.qualityImprovements.map(improvement => `- ${improvement
   }
 
   private calculatePriority(opportunity: any): number {
-    const priorityMap = { high: 0.9, medium: 0.6, low: 0.3 };
+    const priorityMap: Record<string, number> = { high: 0.9, medium: 0.6, low: 0.3 };
     return priorityMap[opportunity.priority] || 0.5;
   }
 
   private estimateTimeline(complexity: string): string {
-    const timelineMap = { low: '1-2 weeks', medium: '2-3 weeks', high: '3-4 weeks' };
+    const timelineMap: Record<string, string> = { low: '1-2 weeks', medium: '2-3 weeks', high: '3-4 weeks' };
     return timelineMap[complexity] || '2-3 weeks';
   }
 

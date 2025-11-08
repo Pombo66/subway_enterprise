@@ -40,32 +40,12 @@ function Nav() {
       <div style={navStyles.accent} />
       <div className="s-navwrap" style={navStyles.wrapper}>
         <div style={navStyles.leftSection}>
-          {/* Brand wordmark (brand-aligned, not official trademark logo) */}
-          <div style={navStyles.brandContainer}>
-            <svg width="110" height="24" viewBox="0 0 110 24" aria-label="Subway Admin" role="img">
-              <rect x="0" y="8" width="18" height="8" rx="2" fill="var(--s-accent)" />
-              <rect x="20" y="8" width="18" height="8" rx="2" fill="var(--s-accent-2)" />
-              <text 
-                x="44" 
-                y="17" 
-                fontSize="12" 
-                fontWeight="800" 
-                fill="#ffffff" 
-                style={navStyles.textStyle}
-              >
-                Subway Admin
-              </text>
-            </svg>
-          </div>
-
           {navLinks.map(({ href, label }) => (
             <Link key={href} href={href} className="s-link">
               {label}
             </Link>
           ))}
         </div>
-        
-        <CommitBadge />
       </div>
     </nav>
   );

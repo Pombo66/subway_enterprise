@@ -7,3 +7,8 @@ export * from './interfaces/market-analysis.interface';
 export * from './services/market-analysis.service';
 export * from './services/model-configuration.service';
 export * from './types/pipeline.types';
+export * from './utils/openai-response.util';
+export * from './utils/json-parser.util';
+export * from './schemas/zone-identification.schema';
+export * from './schemas/location-discovery.schema';
+export * from './schemas/viability-validation.schema';

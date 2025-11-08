@@ -145,30 +145,8 @@ export class MarketAnalysisService implements IMarketAnalysisService {
   }
 
   async getCachedAnalysis(region: string): Promise<MarketAnalysis | null> {
-    try {
-      const hash = this.hashRegion(region);
-      const cached = await this.prisma.marketAnalysisCache.findUnique({
-        where: { regionHash: hash }
-      });
-
-      if (!cached) {
-        return null;
-      }
-
-      // Check if expired
-      if (cached.expiresAt < new Date()) {
-        await this.prisma.marketAnalysisCache.delete({
-          where: { id: cached.id }
-        });
-        return null;
-      }
-
-      // Parse cached analysis
-      return JSON.parse(cached.analysisData);
-    } catch (error) {
-      console.error('Cache lookup error:', error);
-      return null;
-    }
+    // Cache functionality disabled - table not in schema
+    return null;
   }
 
   getServiceStats(): ServiceStats {
@@ -428,23 +406,7 @@ export class MarketAnalysisService implements IMarketAnalysisService {
   }
 
   private async cacheAnalysis(analysis: MarketAnalysis): Promise<void> {
-    try {
-      const hash = this.hashRegion(analysis.region);
-      const expiresAt = new Date();
-      expiresAt.setDate(expiresAt.getDate() + this.config.cacheTtlDays);
-
-      await this.prisma.marketAnalysisCache.create({
-        data: {
-          regionHash: hash,
-          region: analysis.region,
-          analysisData: JSON.stringify(analysis),
-          tokensUsed: analysis.tokensUsed || 0,
-          expiresAt
-        }
-      });
-    } catch (error) {
-      console.error('Cache write error:', error);
-    }
+    // Cache functionality disabled - table not in schema
   }
 
   /**

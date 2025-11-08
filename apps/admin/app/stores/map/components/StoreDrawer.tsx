@@ -179,17 +179,15 @@ export default function StoreDrawer({
                   </div>
                 </div>
               </div>           
-              {store.franchiseeId && (
-                <div className={styles['metadata-item']} role="listitem">
-                  <Building size={16} aria-hidden="true" />
-                  <div>
-                    <div className={styles['metadata-label']}>Franchisee</div>
-                    <div className={styles['metadata-value']} aria-label={`Franchisee: ${store.franchiseeId}`}>
-                      {store.franchiseeId}
-                    </div>
+              <div className={styles['metadata-item']} role="listitem">
+                <Building size={16} aria-hidden="true" />
+                <div>
+                  <div className={styles['metadata-label']}>Franchisee</div>
+                  <div className={styles['metadata-value']} aria-label={`Franchisee: ${store.ownerName || 'Not available'}`}>
+                    {store.ownerName || '-'}
                   </div>
                 </div>
-              )}
+              </div>
               <div className={styles['metadata-item']} role="listitem">
                 <MapPin size={16} aria-hidden="true" />
                 <div>

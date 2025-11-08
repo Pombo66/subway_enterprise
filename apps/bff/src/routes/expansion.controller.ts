@@ -416,19 +416,23 @@ export class ExpansionController {
   @Post('/ai/pipeline/execute')
   async executeAIPipeline(@Body() body: {
     region: string;
-    bounds: {
+    bounds?: {
       north: number;
       south: number;
       east: number;
       west: number;
     };
     existingStores: {
+      name?: string;
+      city?: string;
       lat: number;
       lng: number;
       performance?: number;
+      revenue?: number;
     }[];
     targetCandidates: number;
-    businessObjectives: {
+    useSimpleApproach?: boolean;
+    businessObjectives?: {
       riskTolerance: 'LOW' | 'MEDIUM' | 'HIGH';
       expansionSpeed: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE';
       marketPriorities: string[];
@@ -438,10 +442,72 @@ export class ExpansionController {
       console.info('POST /ai/pipeline/execute called', {
         region: body.region,
         targetCandidates: body.targetCandidates,
-        existingStores: body.existingStores.length
+        existingStores: body.existingStores.length,
+        useSimpleApproach: body.useSimpleApproach
       });
 
       const startTime = Date.now();
+
+      // Check if simple approach is requested
+      if (body.useSimpleApproach) {
+        console.log('🎯 Using simple single-call expansion approach');
+        
+        const { SimpleExpansionService } = await import('../services/ai/simple-expansion.service');
+        const simpleService = new SimpleExpansionService(this.prisma);
+
+        const result = await simpleService.generateSuggestions({
+          region: body.region,
+          existingStores: body.existingStores.map(store => ({
+            name: store.name || 'Unknown',
+            city: store.city || 'Unknown',
+            lat: store.lat,
+            lng: store.lng,
+            revenue: store.revenue || store.performance
+          })),
+          targetCount: body.targetCandidates
+        });
+
+        const latencyMs = Date.now() - startTime;
+
+        // Emit telemetry event
+        await this.prisma.telemetryEvent.create({
+          data: {
+            eventType: 'ai.simple_expansion_executed',
+            properties: JSON.stringify({
+              region: body.region,
+              targetCandidates: body.targetCandidates,
+              suggestionsGenerated: result.suggestions.length,
+              tokensUsed: result.metadata.tokensUsed,
+              cost: result.metadata.cost,
+              latencyMs
+            }),
+            timestamp: new Date()
+          }
+        });
+
+        return {
+          finalCandidates: result.suggestions.map((s, i) => ({
+            id: `simple-${i + 1}`,
+            lat: s.lat,
+            lng: s.lng,
+            name: s.city,
+            city: s.city,
+            address: s.address,
+            viabilityScore: s.confidence,
+            confidence: s.confidence,
+            rationale: s.rationale,
+            estimatedRevenue: s.estimatedRevenue,
+            distanceToNearestStore: s.distanceToNearestStore
+          })),
+          metadata: {
+            stagesExecuted: 1,
+            totalTokensUsed: result.metadata.tokensUsed,
+            totalCost: result.metadata.cost,
+            totalProcessingTimeMs: result.metadata.processingTimeMs,
+            latencyMs
+          }
+        };
+      }
 
       // Import AI Pipeline Controller
       const { AIPipelineController } = await import('../services/ai/ai-pipeline-controller.service');
@@ -470,8 +536,18 @@ export class ExpansionController {
         strategicScoringService
       );
 
-      // Execute AI Pipeline
-      const pipelineResult = await pipelineController.executePipeline(body);
+      // Execute AI Pipeline (complex 5-stage approach)
+      const pipelineRequest = {
+        ...body,
+        bounds: body.bounds || { north: 0, south: 0, east: 0, west: 0 },
+        businessObjectives: body.businessObjectives || {
+          riskTolerance: 'MEDIUM' as const,
+          expansionSpeed: 'MODERATE' as const,
+          marketPriorities: []
+        }
+      };
+      
+      const pipelineResult = await pipelineController.executePipeline(pipelineRequest);
 
       const latencyMs = Date.now() - startTime;
 
@@ -504,6 +580,94 @@ export class ExpansionController {
       if (error instanceof ValidationError) {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
       }
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('/stores/geocode-missing')
+  async geocodeMissingStores(@Body() body: { country?: string }) {
+    try {
+      console.info('POST /stores/geocode-missing called', {
+        country: body.country
+      });
+
+      const startTime = Date.now();
+
+      // Import GeocodingService dynamically
+      const { GeocodingService } = await import('../services/geocoding.service');
+      const geocodingService = new GeocodingService(this.prisma);
+
+      // Get count before geocoding
+      const missingCount = await geocodingService.getMissingCoordinatesCount(body.country);
+
+      if (missingCount === 0) {
+        return {
+          message: 'No stores with missing coordinates found',
+          processed: 0,
+          successful: 0,
+          failed: 0,
+          results: []
+        };
+      }
+
+      // Perform geocoding
+      const result = await geocodingService.geocodeMissingStores(body.country);
+
+      const latencyMs = Date.now() - startTime;
+
+      // Emit telemetry event
+      await this.prisma.telemetryEvent.create({
+        data: {
+          eventType: 'stores.geocoded',
+          properties: JSON.stringify({
+            country: body.country,
+            processed: result.processed,
+            successful: result.successful,
+            failed: result.failed,
+            latencyMs
+          }),
+          timestamp: new Date()
+        }
+      });
+
+      return {
+        message: `Geocoded ${result.successful} of ${result.processed} stores`,
+        ...result,
+        metadata: {
+          country: body.country,
+          latencyMs
+        }
+      };
+
+    } catch (error) {
+      console.error('Error in POST /stores/geocode-missing:', error);
+      if (error instanceof ValidationError) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('/stores/missing-coordinates')
+  async getMissingCoordinatesCount(@Query() query: { country?: string }) {
+    try {
+      console.info('GET /stores/missing-coordinates called', {
+        country: query.country
+      });
+
+      // Import GeocodingService dynamically
+      const { GeocodingService } = await import('../services/geocoding.service');
+      const geocodingService = new GeocodingService(this.prisma);
+
+      const count = await geocodingService.getMissingCoordinatesCount(query.country);
+
+      return {
+        count,
+        country: query.country || 'all'
+      };
+
+    } catch (error) {
+      console.error('Error in GET /stores/missing-coordinates:', error);
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

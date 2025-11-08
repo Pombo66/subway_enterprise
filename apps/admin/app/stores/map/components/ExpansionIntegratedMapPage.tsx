@@ -19,7 +19,6 @@ import { onStoresImported } from '../../../../lib/events/store-events';
 import { ExpansionJobRecovery } from '../../../../lib/utils/expansion-job-recovery';
 import NetworkStatusIndicator from './NetworkStatusIndicator';
 import JobStatusIndicator from './JobStatusIndicator';
-import DevelopmentSafetyWarning from './DevelopmentSafetyWarning';
 
 
 export default function ExpansionIntegratedMapPage() {
@@ -47,6 +46,17 @@ export default function ExpansionIntegratedMapPage() {
       ExpansionJobRecovery.showRecoveryNotification(recoverableJobs);
     }
   }, []);
+
+  // Fix map viewport when suggestion card opens/closes
+  useEffect(() => {
+    // Small delay to ensure DOM has updated
+    const timer = setTimeout(() => {
+      // Trigger a window resize event to make Mapbox recalculate its viewport
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [selectedSuggestion]); // Re-run when suggestion selection changes
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -401,7 +411,6 @@ export default function ExpansionIntegratedMapPage() {
 
   return (
     <div className="s-wrap">
-      <DevelopmentSafetyWarning />
       <NetworkStatusIndicator />
       <JobStatusIndicator 
         isLoading={expansionLoading}

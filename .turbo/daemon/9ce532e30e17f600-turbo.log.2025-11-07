@@ -1,0 +1,990 @@
+2025-11-07T08:10:49.723859Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/.turbo-cookie"), AnchoredSystemPathBuf(".turbo/cookies/1.cookie")}
+2025-11-07T08:10:49.723875Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:10:49.923748Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/2.cookie"), AnchoredSystemPathBuf(".turbo/cookies/5.cookie"), AnchoredSystemPathBuf(".turbo/cookies/4.cookie"), AnchoredSystemPathBuf("packages/shared-openai/.turbo"), AnchoredSystemPathBuf("packages/shared-ai/.turbo"), AnchoredSystemPathBuf(".turbo/cookies/3.cookie"), AnchoredSystemPathBuf("packages/shared-openai/.turbo/turbo-build.log"), AnchoredSystemPathBuf("packages/shared-ai/.turbo/turbo-build.log")}
+2025-11-07T08:10:49.923759Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/shared-openai"), path: AnchoredSystemPathBuf("packages/shared-openai") }, WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T08:10:50.023953Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/6.cookie"), AnchoredSystemPathBuf("packages/shared-expansion/.turbo/turbo-build.log")}
+2025-11-07T08:10:50.024012Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:10:52.239857Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cache/5020ac8b75bc3ecc.tar.zst"), AnchoredSystemPathBuf(".turbo/cache/5020ac8b75bc3ecc-meta.json"), AnchoredSystemPathBuf(".turbo/cookies/7.cookie"), AnchoredSystemPathBuf("packages/shared-expansion/.turbo/turbo-build.log")}
+2025-11-07T08:10:52.239876Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T08:13:29.816997Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/tsconfig.tsbuildinfo")}
+2025-11-07T08:13:29.817088Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:46:19.894960Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:46:19.898662Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:46:20.374268Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:46:20.374936Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:46:20.960175Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:46:20.960245Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:46:20.962442Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T08:46:54.471888Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:46:54.471974Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:46:55.072182Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:46:55.072194Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:50:49.170335Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:50:49.171394Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:50:49.663904Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:50:49.664282Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:51:05.265424Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:05.265485Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:05.462133Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:51:05.462144Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:51:05.617534Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:05.617552Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:19.862208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:19.862236Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:20.261951Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:51:20.261973Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:30.462149Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:30.462169Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:30.762062Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:51:30.762076Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:51:30.861723Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:30.861745Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:40.761594Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:40.761625Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:51:40.961220Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T08:51:40.961239Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:51:41.061576Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:51:41.061589Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:52:20.159744Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:52:20.159802Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T08:52:20.360880Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T08:52:20.360901Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T08:56:43.554826Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T08:56:43.555880Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:02:24.838599Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/8.cookie")}
+2025-11-07T09:02:24.838918Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:02:29.238229Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/location-generator/tsconfig.tsbuildinfo")}
+2025-11-07T09:02:29.238258Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/location-generator"), path: AnchoredSystemPathBuf("packages/location-generator") }}))
+2025-11-07T09:02:55.835208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/9.cookie")}
+2025-11-07T09:02:55.835257Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:06:28.928862Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/10.cookie")}
+2025-11-07T09:06:28.929065Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:09:05.264660Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/11.cookie")}
+2025-11-07T09:09:05.264821Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:10:32.794438Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/location-generator/src/api/LocationGeneratorAPI.ts")}
+2025-11-07T09:10:32.796881Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/location-generator"), path: AnchoredSystemPathBuf("packages/location-generator") }}))
+2025-11-07T09:10:34.062185Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/location-generator/tsconfig.tsbuildinfo")}
+2025-11-07T09:10:34.062216Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/location-generator"), path: AnchoredSystemPathBuf("packages/location-generator") }}))
+2025-11-07T09:10:37.486886Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/location-generator/src/services/impl/AIService.ts")}
+2025-11-07T09:10:37.486940Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/location-generator"), path: AnchoredSystemPathBuf("packages/location-generator") }}))
+2025-11-07T09:10:38.363750Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/location-generator/tsconfig.tsbuildinfo")}
+2025-11-07T09:10:38.363768Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/location-generator"), path: AnchoredSystemPathBuf("packages/location-generator") }}))
+2025-11-07T09:10:59.664508Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/index.ts")}
+2025-11-07T09:10:59.665150Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:11:29.860850Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/audit-report-generator.service.ts")}
+2025-11-07T09:11:29.860948Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:11:50.459393Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:11:50.459422Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:12:03.161931Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:12:03.162927Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:12:32.460763Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:12:32.460818Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:12:53.359247Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:12:53.359340Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:13:11.658066Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:13:11.658090Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:13:36.656653Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/test-audit.ts")}
+2025-11-07T09:13:36.656674Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:14:05.756498Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/expansion-auditor/src/services/expansion-system-auditor.service.ts")}
+2025-11-07T09:14:05.756590Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/expansion-auditor"), path: AnchoredSystemPathBuf("packages/expansion-auditor") }}))
+2025-11-07T09:14:58.855166Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/12.cookie")}
+2025-11-07T09:14:58.855191Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:15:20.477875Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:15:20.480374Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:15:20.530597Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:15:48.566739Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:15:48.570218Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:15:48.681311Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:15:48.681755Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:15:48.681761Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:15:48.681812Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:17:26.560461Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:17:26.561789Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:17:26.953457Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:17:26.953502Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:17:34.167765Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:17:34.169098Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:17:34.551648Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:17:34.551675Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:17:34.678172Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:17:34.678205Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:17:50.551671Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:17:50.551787Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:17:52.751254Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:17:52.751284Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:18:33.049770Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/13.cookie")}
+2025-11-07T09:18:33.049834Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:18:51.853057Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:18:51.856682Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:18:51.903929Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:20:16.552422Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:20:16.553863Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:20:16.846623Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:20:16.846644Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:20:16.969742Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:20:16.969751Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:21:42.549117Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:21:42.550103Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:21:42.945292Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:21:42.945301Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:23:08.543347Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/14.cookie")}
+2025-11-07T09:23:08.543669Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:23:26.553795Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:23:26.554712Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:23:26.556194Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:24:10.255665Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:24:10.256773Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:24:14.245400Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:24:14.245673Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:24:14.525368Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:24:14.525475Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:24:14.525479Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:24:14.525498Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:24:16.641572Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:24:16.642179Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:25:33.158107Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:25:33.160385Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:25:35.441643Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:25:35.442425Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:26:46.537958Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:26:46.538063Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:26:46.616766Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:26:46.636724Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:26:46.636735Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:26:46.636759Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:27:15.335839Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/15.cookie")}
+2025-11-07T09:27:15.335869Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:27:50.756857Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:27:50.761553Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:27:50.803717Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:29:20.947448Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:29:20.948591Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:29:21.835347Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:29:21.836598Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:29:22.943781Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T09:29:22.943833Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:29:26.234978Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json"), AnchoredSystemPathBuf("apps/admin/app/stores/map/components/WorkingMapView.tsx")}
+2025-11-07T09:29:26.235087Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }, WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:29:49.337233Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:29:49.337606Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:29:49.352078Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:31:56.033603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/prisma"), AnchoredSystemPathBuf("packages/db/prisma/prisma/prisma/dev.db-journal")}
+2025-11-07T09:31:56.034558Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:31:56.128523Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/prisma/dev.db-journal")}
+2025-11-07T09:31:56.128540Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:31:56.128625Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:32:52.826548Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/16.cookie")}
+2025-11-07T09:32:52.826693Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:34:55.256169Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:34:55.257162Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:34:55.257372Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:35:36.650935Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:35:36.650965Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:35:36.662891Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:36:18.650253Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:36:18.650278Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:36:18.650331Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:36:45.949255Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:36:45.949306Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:36:45.992247Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:37:02.948872Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:37:02.948896Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:37:02.948943Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:40:17.093883Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:40:17.095329Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:40:18.051883Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:40:18.051961Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:40:33.244550Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:40:33.244577Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:40:33.286632Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:44:52.344612Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:44:52.345058Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:44:52.400867Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:44:52.440232Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:44:52.440243Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:44:52.440268Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:47:36.753051Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T09:47:36.754506Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:53:40.641454Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T09:53:40.642522Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:54:12.630020Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T09:54:12.630065Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T09:56:15.726564Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/17.cookie")}
+2025-11-07T09:56:15.726899Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T09:56:34.434035Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:56:34.436942Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:56:34.563978Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T09:56:51.925336Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T09:56:51.925366Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T09:56:51.996165Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:01:53.626760Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:01:53.627957Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:01:53.716011Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:07:30.619241Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils"), AnchoredSystemPathBuf("packages/shared-ai/src/utils/openai-response.util.ts")}
+2025-11-07T10:07:30.619672Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:07:43.513087Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/openai-response.util.ts")}
+2025-11-07T10:07:43.513117Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:07:51.736488Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/json-parser.util.ts")}
+2025-11-07T10:07:51.736511Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:08:07.421616Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/json-parser.util.ts")}
+2025-11-07T10:08:07.421690Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:08:21.220916Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/index.ts")}
+2025-11-07T10:08:21.220939Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:08:41.515768Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T10:08:41.515803Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T10:09:04.010747Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/main.ts")}
+2025-11-07T10:09:04.010770Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:09:42.011167Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:09:42.011193Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:10:21.509887Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:10:21.509907Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:10:45.910914Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:10:45.910950Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:11:08.809345Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:11:08.809411Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:11:42.872511Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:11:42.872620Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:12:27.707780Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas"), AnchoredSystemPathBuf("packages/shared-ai/src/schemas/zone-identification.schema.ts")}
+2025-11-07T10:12:27.707824Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:12:35.808754Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/zone-identification.schema.ts")}
+2025-11-07T10:12:35.808814Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:12:44.907194Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/location-discovery.schema.ts")}
+2025-11-07T10:12:44.907242Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:12:53.408282Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/location-discovery.schema.ts")}
+2025-11-07T10:12:53.408335Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:13:01.608171Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/viability-validation.schema.ts")}
+2025-11-07T10:13:01.608195Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:13:08.007972Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/viability-validation.schema.ts")}
+2025-11-07T10:13:08.008058Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:13:25.007250Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/index.ts")}
+2025-11-07T10:13:25.007429Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:13:42.706989Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:13:42.707046Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:14:02.006224Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:14:02.006270Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:14:37.906192Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/location-discovery.service.ts")}
+2025-11-07T10:14:37.906220Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:18:24.906520Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/viability-validation.schema.ts")}
+2025-11-07T10:18:24.909414Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:19:37.592572Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:19:37.592706Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:19:58.090532Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:19:58.090628Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:20:14.690234Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:20:14.690250Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:21:03.297910Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/zone-identification.schema.ts")}
+2025-11-07T10:21:03.298690Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T10:22:05.085513Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:22:05.085553Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:22:17.085615Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:22:17.085653Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:24:51.794863Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:24:51.796443Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:25:09.378355Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:25:09.378766Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:25:31.392771Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:25:31.396826Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:25:50.581271Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/expansion.controller.ts")}
+2025-11-07T10:25:50.581401Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:26:31.074183Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:26:31.074920Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:26:40.078467Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:26:40.078598Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:26:49.873082Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:26:49.873105Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:26:49.972601Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/geocoding.service.ts")}
+2025-11-07T10:26:49.972613Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:26:49.973497Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:27:19.571379Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:27:19.572985Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:27:34.171203Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:27:34.171264Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:27:53.771101Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:27:53.771137Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:28:02.369130Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-geocoding.sh")}
+2025-11-07T10:28:02.369164Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:28:08.575991Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-geocoding.sh")}
+2025-11-07T10:28:08.576051Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:28:59.289064Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-geocoding.sh")}
+2025-11-07T10:28:59.291011Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:29:21.186916Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("EXPANSION_FIXES_APPLIED.md")}
+2025-11-07T10:29:21.187169Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:30:51.061529Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/18.cookie")}
+2025-11-07T10:30:51.061556Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:34:20.469735Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:34:20.470675Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:34:32.370332Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:34:32.371324Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:34:42.951219Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:34:42.951281Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:35:00.557568Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:35:00.557604Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:35:00.650616Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:35:00.650625Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:35:00.650671Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:35:21.853828Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/tsconfig.json")}
+2025-11-07T10:35:21.853880Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:36:57.852731Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/package.json")}
+2025-11-07T10:36:57.854972Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:36:57.944525Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/package.json")}
+2025-11-07T10:36:57.944538Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:37:05.545212Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(""), AnchoredSystemPathBuf("_tmp_1725_fe7e2f3274f3853f6ba3b8aea341efe1")}
+2025-11-07T10:37:05.545397Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:37:09.650731Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/eslint-rules")}
+2025-11-07T10:37:09.650777Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T10:37:10.069420Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:37:10.074434Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2025-11-07T10:37:10.074445Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
+2025-11-07T10:37:10.152026Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("")}
+2025-11-07T10:37:10.152038Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({}))
+2025-11-07T10:37:11.545104Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("pnpm-lock.yaml.3727802496"), AnchoredSystemPathBuf("pnpm-lock.yaml")}
+2025-11-07T10:37:11.545128Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:43:57.020264Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/19.cookie")}
+2025-11-07T10:43:57.020449Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:44:26.431075Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:44:26.432118Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:44:26.474268Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:45:20.037122Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:45:20.038146Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:45:20.115687Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:45:20.919473Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:45:20.919542Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:45:20.938562Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:46:39.346618Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/location-discovery.service.ts")}
+2025-11-07T10:46:39.348294Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:47:11.523753Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:47:11.525010Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:47:35.615476Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:47:35.615517Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:47:58.114452Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:47:58.114506Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:51:39.645275Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("GPT5_API_MIGRATION.md")}
+2025-11-07T10:51:39.651175Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:52:01.115208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("GPT5_API_MIGRATION.md")}
+2025-11-07T10:52:01.115916Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:53:49.114122Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/20.cookie")}
+2025-11-07T10:53:49.114487Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:54:31.321700Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:54:31.323035Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:54:31.358908Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:54:36.209019Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:54:36.210438Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:54:36.348985Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:54:48.206396Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:54:48.206461Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:54:48.263456Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:54:49.710734Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T10:54:49.710755Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T10:54:49.735366Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T10:56:40.809090Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/location-discovery.service.ts")}
+2025-11-07T10:56:40.810028Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:57:31.809802Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T10:57:31.810553Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:57:52.908216Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:57:52.908256Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:58:12.603011Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T10:58:12.603099Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T10:59:00.101341Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("test-json-schema-fix.mjs")}
+2025-11-07T10:59:00.101388Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:59:06.501635Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("test-json-schema-fix.mjs")}
+2025-11-07T10:59:06.501659Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:59:06.600956Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("test-json-schema-fix.mjs")}
+2025-11-07T10:59:06.600974Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:59:47.754197Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T10:59:47.754346Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T10:59:58.301556Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T10:59:58.301839Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:02:51.297337Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/21.cookie")}
+2025-11-07T11:02:51.297526Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:03:32.328737Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:03:32.331359Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:03:32.336783Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:03:46.095894Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:03:46.095927Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:03:46.140673Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:03:46.795263Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:03:46.795281Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:03:46.813435Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:04:31.739690Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/location-discovery.service.ts")}
+2025-11-07T11:04:31.741541Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T11:04:44.393001Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-zone-identification.service.ts")}
+2025-11-07T11:04:44.393040Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T11:04:58.394505Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T11:04:58.394527Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T11:05:09.692985Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T11:05:09.693136Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T11:05:25.295686Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:05:25.295861Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:05:35.993410Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:05:35.993438Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:05:46.103334Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:05:46.103359Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:05:46.192259Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:05:46.192268Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:05:57.094323Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:05:57.095279Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:06:08.091303Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:06:08.091346Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:06:40.491307Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("test-json-schema-fix.mjs")}
+2025-11-07T11:06:40.491338Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:16:05.361182Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/22.cookie")}
+2025-11-07T11:16:05.361486Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:16:18.685883Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:16:18.688669Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:16:18.813490Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:16:35.368360Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:16:35.370351Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:16:35.571711Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:16:46.360054Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:16:46.360104Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:16:46.487831Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:16:47.259374Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:16:47.259390Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:16:47.259414Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:17:38.261390Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/location-discovery.schema.ts")}
+2025-11-07T11:17:38.261562Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T11:17:56.958808Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/schemas/zone-identification.schema.ts")}
+2025-11-07T11:17:56.958837Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T11:18:43.566150Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("JSON_SCHEMA_FORMAT_FIX.md")}
+2025-11-07T11:18:43.566329Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:54:39.471821Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/23.cookie")}
+2025-11-07T11:54:39.472062Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T11:55:03.889615Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:55:03.890565Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:55:03.941788Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:55:17.270968Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:55:17.271726Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:55:17.394941Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:56:31.076108Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T11:56:31.076898Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T11:56:31.077092Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T11:57:55.856670Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/openai-response.util.ts")}
+2025-11-07T11:57:55.858385Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T11:58:41.037085Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/24.cookie")}
+2025-11-07T11:58:41.037335Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:02:44.735634Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/25.cookie")}
+2025-11-07T12:02:44.735845Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:02:56.035256Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/26.cookie")}
+2025-11-07T12:02:56.035307Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:03:15.341859Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:03:15.345494Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:03:15.508091Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:03:27.434805Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:03:27.434833Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:03:27.463331Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:08:28.437390Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:08:28.438279Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:08:28.514050Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:11:11.777280Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T12:11:11.778709Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T12:11:24.538870Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T12:11:24.540144Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T12:12:06.768410Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T12:12:06.791304Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T12:12:26.132643Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("TIMEOUT_AND_PERFORMANCE_FIX.md")}
+2025-11-07T12:12:26.132682Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:12:38.829990Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("TIMEOUT_AND_PERFORMANCE_FIX.md")}
+2025-11-07T12:12:38.830016Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:13:22.330306Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/27.cookie")}
+2025-11-07T12:13:22.330547Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T12:13:42.003585Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:13:42.019066Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:13:42.241055Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:13:53.232018Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:13:53.232058Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:13:53.283514Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:18:54.530194Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:18:54.530429Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:18:54.530910Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:21:52.725616Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T12:21:52.725643Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T12:21:52.725685Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T12:23:04.575314Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T12:23:04.576068Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T12:24:29.780774Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T12:24:29.781995Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T12:24:42.371117Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/ai-pipeline-controller.service.ts")}
+2025-11-07T12:24:42.371149Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T12:25:05.473362Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T12:25:05.473667Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T12:25:50.075525Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("TIMEOUT_AND_PERFORMANCE_FIX.md")}
+2025-11-07T12:25:50.075553Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:02:23.907754Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/28.cookie")}
+2025-11-07T13:02:23.907789Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:03:15.007106Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/29.cookie")}
+2025-11-07T13:03:15.008061Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:03:37.118869Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:03:37.123538Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:03:37.181699Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:06:02.013893Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:06:02.018983Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:06:02.175772Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:11:03.099798Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:11:03.100420Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:11:03.167250Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:12:29.824636Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T13:12:29.833389Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T13:12:50.803194Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T13:12:50.804381Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T13:15:16.899067Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:15:16.900176Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:15:16.964827Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:15:31.492040Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T13:15:31.492141Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T13:15:47.091546Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T13:15:47.091609Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T13:15:59.094022Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T13:15:59.094084Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T13:16:12.891322Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:16:12.891408Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:17:27.989626Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("TIMEOUT_AND_PERFORMANCE_FIX.md")}
+2025-11-07T13:17:27.989771Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:20:24.588539Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:20:24.588586Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:21:13.586920Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/30.cookie")}
+2025-11-07T13:21:13.587035Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:21:38.452797Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:21:38.461957Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:21:38.534724Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:21:50.784688Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:21:50.784716Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:21:50.788778Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:27:48.979601Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:27:48.980408Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:27:49.058528Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:28:56.313497Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-scoring.service.ts")}
+2025-11-07T13:28:56.314687Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:30:01.671191Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/openai-response.util.ts")}
+2025-11-07T13:30:01.671396Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T13:30:15.671155Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-ai/src/utils/json-parser.util.ts")}
+2025-11-07T13:30:15.671178Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-ai"), path: AnchoredSystemPathBuf("packages/shared-ai") }}))
+2025-11-07T13:33:51.578271Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/ai-pipeline-controller.service.ts")}
+2025-11-07T13:33:51.580175Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:34:20.518646Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:34:20.520758Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:34:34.265645Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:34:34.265842Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:35:06.484928Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/ai-pipeline-controller.service.ts")}
+2025-11-07T13:35:06.486894Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:35:06.607674Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/ai-pipeline-controller.service.ts")}
+2025-11-07T13:35:06.607684Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:35:06.607858Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:36:15.480297Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:36:15.482562Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:36:20.168667Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/viability-scoring-validation.service.ts")}
+2025-11-07T13:36:20.168776Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:36:21.964958Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/ai-pipeline-controller.service.ts")}
+2025-11-07T13:36:21.965016Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T13:37:19.661999Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/31.cookie")}
+2025-11-07T13:37:19.662034Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T13:42:12.773051Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:42:12.776932Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:42:12.820974Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:42:24.257268Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:42:24.257310Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:42:24.307369Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T13:48:24.435004Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T13:48:24.435814Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T13:48:24.497972Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:00:17.120802Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-scoring.service.ts")}
+2025-11-07T14:00:17.122485Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:00:32.528468Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/strategic-scoring.service.ts")}
+2025-11-07T14:00:32.530310Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:09:11.317700Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:09:11.318957Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:09:48.514374Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:09:48.516264Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:10:17.697286Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:10:17.697364Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:10:43.697178Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:10:43.697335Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:11:08.991698Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:11:08.991855Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:11:23.088475Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:11:23.088504Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:11:37.990437Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/expansion.controller.ts")}
+2025-11-07T14:11:37.990467Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:12:01.185346Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/expansion.controller.ts")}
+2025-11-07T14:12:01.185898Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:12:25.385568Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:12:25.385666Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:12:39.083591Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/routes/expansion.controller.ts")}
+2025-11-07T14:12:39.083622Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:13:31.381763Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:13:31.381829Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:13:56.686600Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("SIMPLE_EXPANSION_IMPLEMENTATION.md")}
+2025-11-07T14:13:56.686777Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T14:14:28.287639Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("SIMPLE_EXPANSION_IMPLEMENTATION.md")}
+2025-11-07T14:14:28.287974Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T14:17:52.086095Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:17:52.087342Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:17:52.186826Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:17:55.375883Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:17:55.375924Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:17:55.481748Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:18:27.574551Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/32.cookie")}
+2025-11-07T14:18:27.574609Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T14:18:57.782024Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:18:57.782875Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:18:57.844166Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:19:13.373298Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:19:13.373344Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:19:13.390460Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:19:36.171697Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:19:36.171729Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:19:36.240962Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:21:57.377294Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:21:57.378410Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:22:23.768807Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:22:23.768840Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:22:37.167295Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:22:37.167318Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:22:49.875263Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:22:49.875318Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:22:50.030125Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:22:50.030177Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:22:50.030570Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:25:11.886851Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:25:11.888732Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:25:23.570158Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:25:23.571346Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:25:36.362782Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T14:25:36.362911Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T14:26:16.161496Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:26:16.161787Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:32:29.950761Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/33.cookie")}
+2025-11-07T14:32:29.950807Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T14:32:51.766208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:32:51.766932Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:32:51.839580Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:33:01.349858Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:33:01.349895Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:33:01.423718Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:33:01.450281Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:33:01.450325Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:33:01.450357Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:35:25.055189Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T14:35:25.055684Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T14:36:02.546401Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/34.cookie")}
+2025-11-07T14:36:02.546666Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T14:36:31.392842Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:36:31.394299Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:36:31.395920Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:36:40.444165Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:36:40.444206Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:36:40.447583Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:37:43.952191Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T14:37:43.955667Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T14:37:43.956503Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T14:41:35.846624Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/lib/services/expansion-generation.service.ts")}
+2025-11-07T14:41:35.848319Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T15:00:26.956821Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/35.cookie")}
+2025-11-07T15:00:26.956993Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T15:00:49.670373Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:00:49.673215Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:00:49.674135Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:01:08.462285Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:01:08.463444Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:01:08.505389Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:02:05.367215Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:02:05.369693Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:02:05.467207Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:02:05.467603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:02:05.467608Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:02:05.467622Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:04:08.662779Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared-expansion/src/services/expansion.service.ts")}
+2025-11-07T15:04:08.664187Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/shared-expansion"), path: AnchoredSystemPathBuf("packages/shared-expansion") }}))
+2025-11-07T15:05:23.661049Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/36.cookie")}
+2025-11-07T15:05:23.662019Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T15:05:53.582003Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:05:53.589186Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:05:53.687450Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:06:04.658614Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:06:04.658675Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:06:04.741138Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:07:03.752230Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:07:03.753388Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:07:03.813081Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T15:07:03.845994Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T15:07:03.846004Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T15:07:03.846027Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T20:18:40.021624Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T20:18:40.023585Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T20:18:40.202087Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T20:19:05.400670Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T20:19:05.400705Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T20:19:05.438032Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T20:19:45.406912Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T20:19:45.408080Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T20:19:45.444397Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T20:40:01.153000Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T20:40:01.156375Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:00:31.758173Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T21:00:31.759461Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T21:00:35.643467Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/ExpansionIntegratedMapPage.tsx")}
+2025-11-07T21:00:35.643915Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T21:00:35.783270Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T21:00:35.783292Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T21:02:43.956757Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:02:43.958538Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:03:00.236867Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:03:00.236917Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:03:13.936258Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:03:13.936294Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:04:31.232071Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/37.cookie")}
+2025-11-07T21:04:31.232098Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T21:05:04.645315Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:05:04.647635Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:05:04.648025Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:05:19.040379Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:05:19.040624Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:05:19.120956Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:08:36.629104Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:08:36.630913Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:08:36.716798Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:08:36.720899Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:08:36.720911Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:08:36.720936Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:12:52.815685Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:12:52.816902Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:12:52.967702Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:13:27.707361Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:13:27.707547Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:13:27.707922Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:13:57.706471Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:13:57.706493Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:13:57.706529Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:14:28.308800Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:14:28.309302Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:14:28.337265Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:15:20.318431Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:15:20.320502Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:15:20.654630Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:15:27.805009Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:15:27.805233Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:15:27.923276Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:16:08.536236Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:16:08.536333Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:16:08.537099Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:16:27.700413Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:16:27.700437Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:16:27.705014Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:16:57.699768Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:16:57.699802Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:16:57.699863Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:17:27.696440Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:17:27.696464Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:17:27.696500Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:19:35.496180Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:19:35.500727Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:19:35.763026Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:19:57.690871Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:19:57.690904Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:19:57.712146Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:20:27.793038Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:20:27.793071Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:20:27.873675Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:20:57.687939Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:20:57.687970Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:20:57.688040Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:21:27.686067Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:21:27.686088Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:21:27.687466Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:21:57.685960Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:21:57.686967Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:21:57.687515Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:22:27.749495Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:22:27.749516Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:22:27.762317Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:22:57.749023Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:22:57.749052Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:22:57.757635Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:23:27.748754Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:23:27.748784Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:23:27.748828Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:23:31.147072Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:23:31.147081Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:23:31.170294Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:23:57.747137Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:23:57.747161Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:23:57.751000Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:24:36.760761Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:24:36.762600Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:24:37.007168Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:25:51.695497Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:25:51.699676Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:25:51.848870Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:25:57.744574Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:25:57.744610Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:25:57.744653Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:28:18.468950Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:28:18.471761Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:28:18.613971Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:28:28.448037Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T21:28:28.448697Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T21:28:28.448728Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T21:58:20.240812Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:58:20.241702Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:58:37.235030Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:58:37.235115Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:59:03.139159Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:59:03.139185Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T21:59:31.835387Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T21:59:31.835806Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:00:34.334363Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:00:34.334400Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:01:00.733066Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("GEOCODING_ENHANCEMENT.md")}
+2025-11-07T22:01:00.733127Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:01:24.033264Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("GEOCODING_ENHANCEMENT.md")}
+2025-11-07T22:01:24.033290Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:03:46.729164Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/38.cookie")}
+2025-11-07T22:03:46.729238Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:04:09.852651Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:04:09.856907Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:04:10.012245Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:04:13.832866Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:04:13.832923Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:04:13.911692Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:04:26.629283Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:04:26.629311Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:04:26.629347Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:07:09.631151Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:07:09.631752Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:07:09.674789Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:16:53.162234Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:16:53.163649Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:16:53.260856Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:17:10.943905Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:17:10.943934Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:17:10.943960Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:17:27.843521Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:17:27.843577Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:17:27.952999Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:17:57.842733Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:17:57.842765Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:17:57.998903Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:27:20.467974Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:27:20.473709Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:27:39.951688Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:27:39.954809Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:27:59.739885Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:27:59.740004Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:28:18.939065Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:28:18.939090Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:28:39.638673Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:28:39.638696Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:31:03.736968Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/39.cookie")}
+2025-11-07T22:31:03.737417Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:31:41.857336Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:31:41.861136Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:31:41.922094Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:31:45.635922Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:31:45.636551Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:31:45.736257Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:31:57.336974Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:31:57.337139Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:31:57.337180Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:34:56.642619Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:34:56.643400Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:34:56.705506Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:34:56.736973Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T22:34:56.736980Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T22:34:56.737002Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:49:13.774934Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:49:13.780059Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:49:14.015604Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:49:14.015623Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:49:14.016138Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T22:49:29.049806Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T22:49:29.049860Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T22:49:46.141985Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-verification.sh")}
+2025-11-07T22:49:46.142011Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:49:51.441786Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-verification.sh")}
+2025-11-07T22:49:51.441815Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:50:28.841949Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-verification.sh")}
+2025-11-07T22:50:28.841971Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:53:39.550529Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-verification.sh")}
+2025-11-07T22:53:39.551750Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:54:08.541613Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_VERIFICATION_ENHANCEMENT.md")}
+2025-11-07T22:54:08.541648Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T22:54:27.247400Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_VERIFICATION_ENHANCEMENT.md")}
+2025-11-07T22:54:27.247429Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:00:49.066371Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T23:00:49.069041Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T23:00:58.043358Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T23:00:58.043403Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T23:01:01.438838Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T23:01:01.438911Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T23:01:16.438572Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/bff/src/services/ai/simple-expansion.service.ts")}
+2025-11-07T23:01:16.438614Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/bff"), path: AnchoredSystemPathBuf("apps/bff") }}))
+2025-11-07T23:01:41.568138Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_VERIFICATION_ENHANCEMENT.md")}
+2025-11-07T23:01:41.568220Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:01:46.938492Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_VERIFICATION_ENHANCEMENT.md")}
+2025-11-07T23:01:46.938532Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:00.940805Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_VERIFICATION_ENHANCEMENT.md")}
+2025-11-07T23:02:00.941096Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:08.739037Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-fallback.sh")}
+2025-11-07T23:02:08.739105Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:17.437846Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-fallback.sh")}
+2025-11-07T23:02:17.437891Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:17.638398Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-fallback.sh")}
+2025-11-07T23:02:17.638407Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:51.037606Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("scripts/test-city-fallback.sh")}
+2025-11-07T23:02:51.037647Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:02:59.939332Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_FALLBACK_IMPLEMENTATION.md")}
+2025-11-07T23:02:59.939435Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:03:26.937997Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("CITY_FALLBACK_IMPLEMENTATION.md")}
+2025-11-07T23:03:26.938017Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:05:08.937585Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo/cookies/40.cookie")}
+2025-11-07T23:05:08.937607Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:05:29.643603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T23:05:29.644554Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T23:05:29.706446Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T23:05:39.337164Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T23:05:39.337216Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T23:05:39.422172Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T23:09:42.444576Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T23:09:42.445881Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T23:09:42.543907Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T23:09:42.544409Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T23:09:42.544414Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T23:09:42.544436Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T23:24:35.025834Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:24:35.030009Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:24:36.681668Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/SuggestionInfoCard.tsx")}
+2025-11-07T23:24:36.681989Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T23:24:37.204832Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:24:37.204847Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:26:47.311362Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:26:47.316669Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:26:47.994154Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/ExpansionIntegratedMapPage.tsx")}
+2025-11-07T23:26:47.994570Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T23:26:48.320796Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:26:48.320806Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:26:53.395022Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:26:53.395068Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:26:54.631645Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/ExpansionIntegratedMapPage.tsx")}
+2025-11-07T23:26:54.631735Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T23:26:54.996623Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:26:54.997068Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:29:04.891585Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/db/prisma/prisma/dev.db-journal")}
+2025-11-07T23:29:04.893251Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/db"), path: AnchoredSystemPathBuf("packages/db") }}))
+2025-11-07T23:29:05.111765Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-07T23:31:13.898994Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:31:13.900624Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:31:14.390526Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/JobStatusIndicator.tsx"), AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:31:14.390552Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:32:14.689809Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:32:14.689844Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:32:17.789931Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/stores/map/components/JobStatusIndicator.tsx")}
+2025-11-07T23:32:17.790226Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T23:32:17.888886Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:32:17.888930Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:35:25.899345Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:35:25.900398Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:35:26.185917Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/components/Nav.tsx")}
+2025-11-07T23:35:26.186111Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))
+2025-11-07T23:35:26.400737Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".vscode/settings.json")}
+2025-11-07T23:35:26.400747Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-07T23:37:07.601462Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps/admin/app/styles/theme.css")}
+2025-11-07T23:37:07.605957Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@subway/admin"), path: AnchoredSystemPathBuf("apps/admin") }}))

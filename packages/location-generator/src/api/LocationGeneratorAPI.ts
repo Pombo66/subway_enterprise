@@ -76,8 +76,8 @@ export class LocationGeneratorAPI {
       // Check for degradation in AI services
       let degraded = !cacheAvailable;
       
-      // If we have selected sites, check rationale generation for degradation
-      if (result.selected && result.selected.length > 0) {
+      // If we have sites, check rationale generation for degradation
+      if (result.sites && result.sites.length > 0) {
         // Mock rationale check - in real implementation would call AI service
         const aiService = new AIService();
         try {

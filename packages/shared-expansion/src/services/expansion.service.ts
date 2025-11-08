@@ -31,7 +31,7 @@ export class ExpansionService implements IExpansionService {
   }
 
   async generate(params: GenerationParams): Promise<ExpansionJobResult> {
-    console.log('🚀 Starting AI-powered expansion generation pipeline');
+    console.log('🚀 Starting AI-powered expansion generation');
     console.log('🔍 Service received params:', {
       enableAIRationale: params.enableAIRationale,
       aggression: params.aggression,
@@ -47,6 +47,12 @@ export class ExpansionService implements IExpansionService {
     // Calculate target count based on aggression
     const targetCount = params.targetCount || ExpansionUtils.calculateTargetCount(params.aggression);
     
+    console.log('📊 Target count calculation:', {
+      aggression: params.aggression,
+      providedTargetCount: params.targetCount,
+      calculatedTargetCount: targetCount
+    });
+    
     // Get existing stores for the region
     const existingStores = await this.getExistingStores(params.region);
     
@@ -55,21 +61,24 @@ export class ExpansionService implements IExpansionService {
       ExpansionUtils.normalizeCountryName(params.region.country || 'Germany')
     );
 
-    // Try AI pipeline first if enabled
+    // Feature flag: Use simple single-call approach (default) or complex pipeline
+    const useSimpleApproach = process.env.USE_SIMPLE_EXPANSION !== 'false';
+
     if (params.enableAIRationale) {
       try {
-        return await this.generateWithAIPipeline(params, targetCount, existingStores, countryBounds);
+        if (useSimpleApproach) {
+          console.log('🎯 Using SIMPLE single-call expansion approach');
+          return await this.generateWithSimpleAI(params, targetCount, existingStores);
+        } else {
+          console.log('🔧 Using COMPLEX 5-stage pipeline approach (legacy)');
+          return await this.generateWithAIPipeline(params, targetCount, existingStores, countryBounds);
+        }
       } catch (error) {
-        console.error('❌ AI Pipeline failed:', error);
-        
-        // Per user request, if the AI pipeline fails, we throw the error instead of falling back.
-        // This is to force debugging of the AI pipeline.
+        console.error('❌ AI generation failed:', error);
         throw error;
       }
     }
 
-    // If AI rationale is not enabled, we still need to return something.
-    // Since the user wants to force AI usage, we will throw an error if AI is not enabled.
     throw new Error('AI Rationale is not enabled. Please enable it to run the expansion pipeline.');
   }
 
@@ -78,6 +87,100 @@ export class ExpansionService implements IExpansionService {
     return this.generate(params);
   }
 
+  /**
+   * Generate suggestions using simple single-call approach
+   * NOTE: This calls the BFF service via the AI pipeline controller
+   */
+  private async generateWithSimpleAI(
+    params: GenerationParams,
+    targetCount: number,
+    existingStores: any[]
+  ): Promise<ExpansionJobResult> {
+    // Use the AI pipeline controller to call the simple expansion service
+    // This avoids import issues between packages
+    const simpleRequest = {
+      region: ExpansionUtils.normalizeCountryName(params.region.country || 'Germany'),
+      existingStores: existingStores.map(store => ({
+        name: store.name || 'Unknown',
+        city: store.city || 'Unknown',
+        lat: store.latitude || 0,
+        lng: store.longitude || 0,
+        revenue: store.annualTurnover
+      })),
+      targetCandidates: targetCount, // BFF expects 'targetCandidates' not 'targetCount'
+      useSimpleApproach: true
+    };
+
+    const result = await this.aiPipelineController.executePipeline(simpleRequest as any);
+
+    console.log('🔍 Pipeline result:', {
+      hasFinalCandidates: !!result.finalCandidates,
+      finalCandidatesLength: result.finalCandidates?.length || 0,
+      resultKeys: Object.keys(result),
+      firstCandidate: result.finalCandidates?.[0]
+    });
+
+    // Convert to ExpansionJobResult format
+    const suggestions: ExpansionSuggestionData[] = (result.finalCandidates || []).map((suggestion: any, index: number) => ({
+      id: `simple-ai-${index + 1}`,
+      lat: suggestion.lat,
+      lng: suggestion.lng,
+      region: suggestion.city,
+      country: ExpansionUtils.normalizeCountryName(params.region.country || 'Germany'),
+      finalScore: suggestion.confidence,
+      confidence: suggestion.confidence,
+      isLive: true,
+      aiRecommended: true,
+      demandScore: suggestion.confidence,
+      competitionPenalty: 0.1,
+      supplyPenalty: 0.1,
+      population: 100000,
+      footfallIndex: 0.7,
+      incomeIndex: 0.7,
+      predictedAUV: suggestion.estimatedRevenue || 450000,
+      paybackPeriod: 18,
+      cacheKey: ExpansionUtils.generateCacheKey({ ...params, index }),
+      modelVersion: 'v4.0-simple-ai',
+      dataSnapshotDate: new Date().toISOString(),
+      rationaleText: suggestion.rationale,
+      hasAIAnalysis: true,
+      aiProcessingRank: index + 1,
+      distanceToNearestStore: suggestion.distanceToNearestStore,
+      // Add structured rationale for UI compatibility
+      rationale: {
+        population: suggestion.confidence * 0.8, // Use confidence as proxy for population score
+        proximityGap: suggestion.distanceToNearestStore ? Math.min(1, suggestion.distanceToNearestStore / 2000) : 0.7,
+        turnoverGap: suggestion.estimatedRevenue ? suggestion.estimatedRevenue / 2000000 : 0.7,
+        notes: suggestion.rationale || 'AI-generated location'
+      }
+    }));
+
+    console.log(`✅ Simple AI generated ${suggestions.length} suggestions`);
+
+    return {
+      suggestions,
+      metadata: {
+        generationTimeMs: result.metadata?.totalExecutionTime || 0,
+        enhancedRationaleEnabled: true,
+        diversificationEnabled: false,
+        aiCostLimitingEnabled: false,
+        aiCandidatesCount: suggestions.length,
+        totalCandidatesCount: suggestions.length,
+        aiPercentage: 100,
+        pipelineStages: ['simple-ai-single-call'],
+        aiPipelineUsed: true
+      },
+      statistics: {
+        tokensUsed: result.metadata?.totalTokensUsed || 0,
+        totalCost: result.metadata?.totalCost || 0,
+        generationTimeMs: result.metadata?.totalExecutionTime || 0
+      }
+    };
+  }
+
+  /**
+   * Generate suggestions using complex 5-stage pipeline (LEGACY - kept for fallback)
+   */
   private async generateWithAIPipeline(
     params: GenerationParams,
     targetCount: number,
@@ -268,7 +371,6 @@ export class ExpansionService implements IExpansionService {
         name: true,
         annualTurnover: true,
         country: true,
-        state: true,
         city: true
       }
     });

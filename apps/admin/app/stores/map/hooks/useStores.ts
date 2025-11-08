@@ -62,6 +62,7 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
       if (filters.region && store.region !== filters.region) return false;
       if (filters.country && store.country !== filters.country) return false;
       if (filters.franchiseeId && store.franchiseeId !== filters.franchiseeId) return false;
+      if (filters.ownerName && store.ownerName !== filters.ownerName) return false;
       
       // Legacy single status filter (for list view compatibility)
       if (filters.status && store.status !== filters.status) return false;
@@ -90,7 +91,7 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
       
       return true;
     });
-  }, [rawStores, filters.region, filters.country, filters.franchiseeId, filters.status, filters.statusFilters]); // Explicit dependencies
+  }, [rawStores, filters.region, filters.country, filters.franchiseeId, filters.ownerName, filters.status, filters.statusFilters]); // Explicit dependencies
 
   // Memoize available options to prevent unnecessary recalculations
   const availableOptions = useMemo(() => {
@@ -98,10 +99,14 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
       new Set(rawStores.map(store => store.franchiseeId).filter(Boolean))
     ).map(id => ({ id: id!, name: `Franchise ${id}` }));
     
+    const ownerNames = Array.from(
+      new Set(rawStores.map(store => store.ownerName).filter(Boolean))
+    ).sort() as string[];
+    
     const regions = Array.from(new Set(rawStores.map(store => store.region)));
     const countries = Array.from(new Set(rawStores.map(store => store.country)));
     
-    return { franchisees, regions, countries };
+    return { franchisees, ownerNames, regions, countries };
   }, [rawStores]); // Only depends on rawStores
 
   // Load stores from cache or API

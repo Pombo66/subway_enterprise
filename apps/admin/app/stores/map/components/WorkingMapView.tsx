@@ -16,13 +16,19 @@ export default function WorkingMapView({
   expansionSuggestions = [],
   onSuggestionSelect
 }: MapViewProps) {
-  const [mounted, setMounted] = useState(false);
+  console.log('🎨 WorkingMapView component rendering with props:', {
+    storesLength: stores?.length,
+    loading,
+    expansionSuggestionsLength: expansionSuggestions?.length
+  });
+
   const [mapLoaded, setMapLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const hasAutoFittedRef = useRef(false);
   const storesRef = useRef<typeof stores>([]);
+  const initializingRef = useRef(false);
 
   // Keep stores ref updated
   storesRef.current = stores;
@@ -166,7 +172,6 @@ export default function WorkingMapView({
   };
 
   console.log('🗺️ WorkingMapView render:', {
-    mounted,
     mapLoaded,
     error,
     storesCount: stores.length,
@@ -174,34 +179,26 @@ export default function WorkingMapView({
     storesSample: stores.slice(0, 2).map(s => ({ name: s.name, lat: s.latitude, lng: s.longitude }))
   });
 
-  // Only run on client side
+  // Initialize map once on mount
   useEffect(() => {
-    console.log('🗺️ WorkingMapView mounting...');
-    setMounted(true);
-  }, []);
-
-  // Initialize MapLibre after component mounts - only once
-  useEffect(() => {
+    console.log('🗺️ Map initialization effect triggered!');
     console.log('🗺️ MapLibre initialization effect:', {
-      mounted,
       hasMapRef: !!mapRef.current,
-      hasMapInstance: !!mapInstanceRef.current
+      hasMapInstance: !!mapInstanceRef.current,
+      initializing: initializingRef.current,
+      mapRefElement: mapRef.current
     });
 
-    if (!mounted || !mapRef.current) {
-      console.log('🗺️ Skipping initialization:', { mounted, hasMapRef: !!mapRef.current });
-      return;
-    }
-
     // Prevent multiple map instances
-    if (mapInstanceRef.current) {
-      console.log('🗺️ Map already exists, skipping initialization');
+    if (mapInstanceRef.current || initializingRef.current) {
+      console.log('🗺️ Map already exists or initializing, skipping');
       return;
     }
 
     console.log('🗺️ Starting Mapbox GL initialization...');
 
     const initializeMap = async () => {
+      initializingRef.current = true;
       try {
         console.log('🔄 Starting Mapbox GL import...');
 
@@ -221,8 +218,19 @@ export default function WorkingMapView({
         // Get Mapbox token from environment
         const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
         
+        console.log('🔑 Mapbox token check:', {
+          hasToken: !!mapboxToken,
+          tokenLength: mapboxToken?.length,
+          tokenPrefix: mapboxToken?.substring(0, 10),
+          allEnvVars: Object.keys(process.env).filter(k => k.includes('MAPBOX'))
+        });
+        
         if (!mapboxToken) {
-          throw new Error('NEXT_PUBLIC_MAPBOX_TOKEN is required for Mapbox GL JS');
+          throw new Error('NEXT_PUBLIC_MAPBOX_TOKEN is required for Mapbox GL JS. Found env vars: ' + Object.keys(process.env).filter(k => k.includes('MAPBOX')).join(', '));
+        }
+        
+        if (!mapboxToken.startsWith('pk.')) {
+          throw new Error('Invalid Mapbox token format. Token must start with "pk." for public access.');
         }
         
         // Set Mapbox access token
@@ -231,6 +239,7 @@ export default function WorkingMapView({
         console.log('🔧 Map configuration:', {
           hasMapboxToken: !!mapboxToken,
           tokenType: mapboxToken.startsWith('pk.') ? 'public' : 'invalid',
+          tokenValid: mapboxToken.length > 50,
           usingMapboxStreets: true,
           styleType: 'Mapbox Streets v11 (with font fix)'
         });
@@ -247,7 +256,17 @@ export default function WorkingMapView({
 
         console.log('✅ Mapbox GL instance created successfully');
 
+        // Add timeout to detect if map never loads
+        const loadTimeout = setTimeout(() => {
+          if (!mapLoaded) {
+            console.error('⏱️ Map load timeout - map did not fire load event within 10 seconds');
+            setError('Map loading timeout. Please check your internet connection and Mapbox token.');
+            initializingRef.current = false;
+          }
+        }, 10000);
+
         map.on('load', () => {
+          clearTimeout(loadTimeout);
           console.log('✅ Map loaded successfully');
           console.log('🎨 Beautiful Mapbox style loaded:', {
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -653,7 +672,17 @@ export default function WorkingMapView({
             type: e.type,
             target: e.target
           });
-          setError(`Map error: ${e.error?.message || 'Unknown error'}`);
+          
+          // Check for common errors
+          let errorMessage = e.error?.message || 'Unknown error';
+          if (errorMessage.includes('401') || errorMessage.includes('Unauthorized')) {
+            errorMessage = 'Invalid Mapbox token. Please check NEXT_PUBLIC_MAPBOX_TOKEN in .env.local';
+          } else if (errorMessage.includes('style')) {
+            errorMessage = 'Failed to load map style. Check your internet connection.';
+          }
+          
+          setError(`Map error: ${errorMessage}`);
+          initializingRef.current = false;
         });
 
         mapInstanceRef.current = map;
@@ -669,7 +698,19 @@ export default function WorkingMapView({
       }
     };
 
-    initializeMap();
+    // Call initializeMap immediately - no timeout needed
+    if (mapRef.current) {
+      console.log('✅ Map container found, calling initializeMap');
+      initializeMap().catch(err => {
+        console.error('❌ initializeMap promise rejected:', err);
+        setError(err instanceof Error ? err.message : 'Map initialization failed');
+        initializingRef.current = false;
+      });
+    } else {
+      console.error('🗺️ Map container not available');
+      setError('Map container not found');
+      initializingRef.current = false;
+    }
 
     return () => {
       if (mapInstanceRef.current) {
@@ -677,8 +718,9 @@ export default function WorkingMapView({
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
+      initializingRef.current = false;
     };
-  }, [mounted]); // Only depend on mounted state
+  }, []); // Run once on mount
 
   // Separate effect to update store data when filters change
   useEffect(() => {
@@ -813,7 +855,7 @@ export default function WorkingMapView({
     );
   }
 
-  const showLoading = !mounted || loading || !mapLoaded;
+  const showLoading = loading || !mapLoaded;
 
   return (
     <div style={{
@@ -844,14 +886,27 @@ export default function WorkingMapView({
           justifyContent: 'center',
           zIndex: 1000
         }}>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', maxWidth: '400px', padding: '20px' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🗺️</div>
             <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--s-text)', marginBottom: '8px' }}>
-              {!mounted ? 'Mounting...' : loading ? 'Loading stores...' : 'Initializing map...'}
+              {loading ? 'Loading stores...' : 'Initializing map...'}
             </div>
-            <div style={{ fontSize: '14px', color: 'var(--s-muted)' }}>
-              {stores.length > 0 && `${stores.length} stores ready`}
+            <div style={{ fontSize: '14px', color: 'var(--s-muted)', marginBottom: '16px' }}>
+              {stores.length > 0 ? `${stores.length} stores ready` : 'Map will load without store data'}
             </div>
+            {!mapLoaded && !loading && (
+              <div style={{ 
+                fontSize: '12px', 
+                color: 'var(--s-muted)', 
+                marginTop: '16px',
+                padding: '12px',
+                background: 'rgba(59, 130, 246, 0.1)',
+                borderRadius: '6px',
+                border: '1px solid rgba(59, 130, 246, 0.2)'
+              }}>
+                💡 If the map doesn't load, check the browser console (F12) for errors or try refreshing the page.
+              </div>
+            )}
           </div>
         </div>
       )}

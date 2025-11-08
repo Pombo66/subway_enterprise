@@ -31,10 +31,14 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ErrorInterceptor());
   
   const port = configService.port;
-  await app.listen(port);
+  const server = await app.listen(port);
+  
+  // Set server timeout to 6 minutes for long-running AI operations
+  server.setTimeout(360000); // 6 minutes
   
   console.log(`🚀 BFF listening on http://localhost:${port}`);
   console.log(`📊 Environment: ${configService.nodeEnv}`);
+  console.log(`⏱️  Server timeout: 360s`);
 }
 
 bootstrap().catch(error => {

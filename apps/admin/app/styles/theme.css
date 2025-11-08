@@ -47,7 +47,7 @@
 .sb-txt { font-size:14px; }
 
 /* Top navigation */
-.s-nav { position:sticky; top:0; z-index:40; background:transparent; border-bottom:none; padding:8px 14px; }
+.s-nav { position:sticky; top:0; z-index:40; background:#0f1724; border-bottom:none; padding:8px 14px; }
 .s-navwrap { max-width:1200px; margin:0 auto; display:flex; gap:12px; align-items:center; }
 .s-brand, .s-link { color:#e6edf3; }
 .s-link { position:relative; text-decoration:none; font-size:14px; opacity:.95; padding:6px 8px; border-radius:8px; }
