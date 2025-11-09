@@ -108,7 +108,8 @@ export class ExpansionService implements IExpansionService {
         revenue: store.annualTurnover
       })),
       targetCandidates: targetCount, // BFF expects 'targetCandidates' not 'targetCount'
-      useSimpleApproach: true
+      useSimpleApproach: true,
+      model: params.model // Pass through model selection (gpt-5 or gpt-5-mini)
     };
 
     const result = await this.aiPipelineController.executePipeline(simpleRequest as any);
@@ -157,6 +158,12 @@ export class ExpansionService implements IExpansionService {
 
     console.log(`✅ Simple AI generated ${suggestions.length} suggestions`);
 
+    // Capture strategic analysis if available
+    const analysis = (result as any).analysis;
+    if (analysis) {
+      console.log(`📊 Strategic analysis available: Market Gaps & Recommendations`);
+    }
+
     return {
       suggestions,
       metadata: {
@@ -168,7 +175,8 @@ export class ExpansionService implements IExpansionService {
         totalCandidatesCount: suggestions.length,
         aiPercentage: 100,
         pipelineStages: ['simple-ai-single-call'],
-        aiPipelineUsed: true
+        aiPipelineUsed: true,
+        strategicAnalysis: analysis // Pass through strategic analysis
       },
       statistics: {
         tokensUsed: result.metadata?.totalTokensUsed || 0,

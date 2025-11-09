@@ -13,6 +13,7 @@ export interface ExpansionParams {
   turnoverBias?: number;
   minDistanceM?: number;
   seed: number;
+  model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection
 }
 
 export interface ExpansionControlsProps {
@@ -53,6 +54,7 @@ export default function ExpansionControls({
   
   const [country, setCountry] = useState('Germany');
   const [aggression, setAggression] = useState(50); // Changed default to 50 (Balanced)
+  const [model, setModel] = useState<'gpt-5' | 'gpt-5-mini'>('gpt-5-mini'); // Default to mini
   // Use proven defaults - no need to expose these to users
   const populationBias = 0.5;
   const proximityBias = 0.3;
@@ -81,7 +83,8 @@ export default function ExpansionControls({
       proximityBias,
       turnoverBias,
       minDistanceM: minDistance,
-      seed
+      seed,
+      model
     };
 
     await onGenerate(params);
@@ -147,6 +150,34 @@ export default function ExpansionControls({
           <option value="France">France</option>
           <option value="Netherlands">Netherlands</option>
         </select>
+      </div>
+
+      {/* AI Model Selection */}
+      <div style={{ marginBottom: '16px' }}>
+        <label htmlFor="model-select" style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: 500 }}>
+          🤖 AI Model
+        </label>
+        <select
+          id="model-select"
+          value={model}
+          onChange={(e) => setModel(e.target.value as 'gpt-5' | 'gpt-5-mini')}
+          disabled={loading}
+          aria-label="Select AI model for expansion analysis"
+          style={{
+            width: '100%',
+            padding: '8px',
+            borderRadius: '4px',
+            border: '1px solid #ddd',
+            color: '#1f2937',
+            fontSize: '14px'
+          }}
+        >
+          <option value="gpt-5-mini">GPT-5 Mini (Fast & Cost-effective)</option>
+          <option value="gpt-5">GPT-5 (Premium Quality)</option>
+        </select>
+        <div style={{ fontSize: '12px', color: 'var(--s-muted, #666)', marginTop: '4px' }}>
+          {model === 'gpt-5-mini' ? '⚡ Optimized for speed and cost' : '💎 Maximum reasoning capability'}
+        </div>
       </div>
 
       {/* Expansion Intensity */}
@@ -415,13 +446,52 @@ export default function ExpansionControls({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {/* AI SUGGESTION (NEW) */}
+          {/* High Confidence Suggestion */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ position: 'relative' }}>
+              <div style={{
+                width: '14px',
+                height: '14px',
+                borderRadius: '50%',
+                background: '#8b5cf6',
+                border: '2px solid white',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                flexShrink: 0
+              }} />
+              {/* Sparkle Badge */}
+              <div style={{
+                position: 'absolute',
+                top: '-2px',
+                right: '-2px',
+                width: '8px',
+                height: '8px',
+                background: '#f59e0b',
+                border: '1px solid white',
+                borderRadius: '50%',
+                fontSize: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                ✨
+              </div>
+            </div>
+            <span style={{ 
+              fontSize: '13px',
+              lineHeight: '1.3',
+              fontWeight: 500
+            }}>
+              High confidence (&gt;75%)
+            </span>
+          </div>
+
+          {/* Standard Suggestion */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
               width: '14px',
               height: '14px',
               borderRadius: '50%',
-              background: '#06b6d4',
+              background: '#8b5cf6',
               border: '2px solid white',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
               flexShrink: 0
@@ -431,7 +501,7 @@ export default function ExpansionControls({
               lineHeight: '1.3',
               fontWeight: 500
             }}>
-              AI suggestion (NEW)
+              Standard confidence (≤75%)
             </span>
           </div>
         </div>

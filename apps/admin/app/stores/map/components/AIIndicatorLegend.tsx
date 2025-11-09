@@ -31,22 +31,20 @@ export default function AIIndicatorLegend({
 
       {/* Legend Items */}
       <div className="space-y-3">
-        {/* AI Enhanced Marker */}
+        {/* High Confidence Marker */}
         <div className="flex items-center gap-3">
           <div className="relative">
-            {/* AI Ring */}
-            <div className="w-6 h-6 border-2 border-amber-400 rounded-full absolute -top-1 -left-1 opacity-60"></div>
             {/* Main Marker */}
             <div className="w-4 h-4 bg-purple-500 rounded-full border-2 border-white relative">
-              {/* AI Badge */}
+              {/* Sparkle Badge */}
               <div className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 rounded-full border border-white flex items-center justify-center text-xs">
                 ✨
               </div>
             </div>
           </div>
           <div>
-            <div className="text-sm font-medium text-gray-800">AI-Enhanced Analysis</div>
-            <div className="text-xs text-gray-600">Top {percentageWithAI.toFixed(0)}% candidates with full AI insights</div>
+            <div className="text-sm font-medium text-gray-800">High Confidence (>75%)</div>
+            <div className="text-xs text-gray-600">Strong expansion candidates with high viability scores</div>
           </div>
         </div>
 
@@ -54,8 +52,8 @@ export default function AIIndicatorLegend({
         <div className="flex items-center gap-3">
           <div className="w-4 h-4 bg-purple-500 rounded-full border-2 border-white"></div>
           <div>
-            <div className="text-sm font-medium text-gray-800">Standard Analysis</div>
-            <div className="text-xs text-gray-600">Algorithmic analysis with cost optimization</div>
+            <div className="text-sm font-medium text-gray-800">Standard Confidence</div>
+            <div className="text-xs text-gray-600">Viable expansion candidates (≤75% confidence)</div>
           </div>
         </div>
       </div>

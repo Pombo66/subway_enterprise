@@ -208,7 +208,8 @@ export async function POST(request: NextRequest) {
       ...validation.params!,
       enableMapboxFiltering: config.features.mapboxFiltering &&
         (validation.params!.enableMapboxFiltering !== false),
-      enableAIRationale: true // TEMPORARY: Force enable for testing AI indicators
+      enableAIRationale: true, // TEMPORARY: Force enable for testing AI indicators
+      model: body.model // Pass through model selection (gpt-5 or gpt-5-mini)
     };
 
     // 8. Check cost estimate and enforce limits

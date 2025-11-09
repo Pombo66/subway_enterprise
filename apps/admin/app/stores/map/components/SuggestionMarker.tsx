@@ -79,13 +79,13 @@ const SuggestionMarker = React.memo(({ suggestion, onClick, selected }: Suggesti
 
   const color = getColor(suggestion.band);
   const size = selected ? 16 : 12;
-  const hasAI = suggestion.hasAIAnalysis;
+  const isHighConfidence = suggestion.confidence > 0.75;
 
-  // Create title with AI indicator
-  const baseTitle = `${suggestion.band} confidence - ${(suggestion.confidence * 100).toFixed(0)}%`;
-  const aiTitle = hasAI 
-    ? `🤖 AI Enhanced (Top ${suggestion.aiProcessingRank || '20'}%) - ${baseTitle}`
-    : `📊 Standard Analysis - ${baseTitle}`;
+  // Create title with confidence indicator
+  const confidencePercent = (suggestion.confidence * 100).toFixed(0);
+  const title = isHighConfidence
+    ? `✨ High Confidence (${confidencePercent}%) - ${suggestion.band}`
+    : `${suggestion.band} confidence - ${confidencePercent}%`;
 
   return (
     <div
@@ -98,25 +98,8 @@ const SuggestionMarker = React.memo(({ suggestion, onClick, selected }: Suggesti
         cursor: 'pointer',
         zIndex: selected ? 1000 : 100
       }}
-      title={aiTitle}
+      title={title}
     >
-      {/* AI Enhancement Ring */}
-      {hasAI && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '-3px',
-            left: '-3px',
-            width: `${size + 6}px`,
-            height: `${size + 6}px`,
-            border: '2px solid #FFD700', // true gold ring for AI
-            borderRadius: '50%',
-            animation: selected ? 'pulse 2s infinite' : 'none',
-            boxShadow: '0 0 12px rgba(255, 215, 0, 0.6)'
-          }}
-        />
-      )}
-      
       {/* Main Marker */}
       <div
         style={{
@@ -130,8 +113,8 @@ const SuggestionMarker = React.memo(({ suggestion, onClick, selected }: Suggesti
           position: 'relative'
         }}
       >
-        {/* AI Badge */}
-        {hasAI && (
+        {/* High Confidence Badge */}
+        {isHighConfidence && (
           <div
             style={{
               position: 'absolute',
@@ -174,7 +157,7 @@ const SuggestionMarker = React.memo(({ suggestion, onClick, selected }: Suggesti
 }, (prev, next) => 
   prev.suggestion.id === next.suggestion.id &&
   prev.selected === next.selected &&
-  prev.suggestion.hasAIAnalysis === next.suggestion.hasAIAnalysis
+  prev.suggestion.confidence === next.suggestion.confidence
 );
 
 SuggestionMarker.displayName = 'SuggestionMarker';

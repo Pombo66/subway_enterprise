@@ -15,6 +15,7 @@ import ExpansionControls, { ExpansionParams } from './ExpansionControls';
 import SuggestionMarker, { ExpansionSuggestion } from './SuggestionMarker';
 import SuggestionInfoCard from './SuggestionInfoCard';
 import AIIndicatorLegend from './AIIndicatorLegend';
+import StrategicAnalysisPanel from './StrategicAnalysisPanel';
 import { onStoresImported } from '../../../../lib/events/store-events';
 import { ExpansionJobRecovery } from '../../../../lib/utils/expansion-job-recovery';
 import NetworkStatusIndicator from './NetworkStatusIndicator';
@@ -37,6 +38,7 @@ export default function ExpansionIntegratedMapPage() {
   const [currentJobEstimate, setCurrentJobEstimate] = useState<{ tokens: number; cost: number } | null>(null);
   const [scenarios, setScenarios] = useState<Array<{ id: string; label: string; createdAt: Date }>>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [strategicAnalysis, setStrategicAnalysis] = useState<{ marketGaps: string; recommendations: string } | null>(null);
 
   // Check for recoverable jobs on page load
   useEffect(() => {
@@ -168,6 +170,12 @@ export default function ExpansionIntegratedMapPage() {
       if (result) {
         setSuggestions(result.suggestions || []);
 
+        // Capture strategic analysis if available
+        if (result.metadata?.strategicAnalysis) {
+          setStrategicAnalysis(result.metadata.strategicAnalysis);
+          console.log('📊 Strategic analysis captured:', result.metadata.strategicAnalysis);
+        }
+
         // Show success message with metadata
         const { metadata } = result;
         const isCountryWideResult = metadata.generationMode?.isCountryWide;
@@ -179,7 +187,8 @@ export default function ExpansionIntegratedMapPage() {
           landMaskApplied: metadata.generationMode?.landMaskApplied,
           enhancedValidation: metadata.generationMode?.enhancedValidation,
           acceptanceRate: metadata.expansionStats?.acceptanceRate,
-          cacheHitRate: metadata.cacheHitRate
+          cacheHitRate: metadata.cacheHitRate,
+          hasStrategicAnalysis: !!metadata.strategicAnalysis
         });
 
         // Debug: Log the first suggestion to see its structure
@@ -676,7 +685,13 @@ export default function ExpansionIntegratedMapPage() {
         />
       )}
 
-
+      {/* Strategic Analysis Panel */}
+      {strategicAnalysis && !isFullscreen && (
+        <StrategicAnalysisPanel
+          analysis={strategicAnalysis}
+          onClose={() => setStrategicAnalysis(null)}
+        />
+      )}
 
       {/* Add CSS for loading states */}
       <style jsx global>{`

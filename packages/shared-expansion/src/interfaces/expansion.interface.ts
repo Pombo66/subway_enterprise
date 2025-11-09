@@ -7,6 +7,7 @@ export interface GenerationParams {
   aggression: number;
   targetCount?: number;
   region: RegionFilter;
+  model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection
 }
 
 export interface RegionFilter {
@@ -64,6 +65,10 @@ export interface ExpansionJobResult {
     aiPercentage: number;
     pipelineStages?: string[];
     aiPipelineUsed?: boolean;
+    strategicAnalysis?: {
+      marketGaps: string;
+      recommendations: string;
+    };
   };
 }
 

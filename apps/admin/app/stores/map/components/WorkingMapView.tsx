@@ -36,6 +36,9 @@ export default function WorkingMapView({
   // Helper function to add expansion suggestions layer
   const addExpansionLayer = (map: any, suggestions: any[], onSelect?: (suggestion: any) => void) => {
     // Remove existing layers if they exist
+    if (map.getLayer('expansion-suggestions-sparkle')) {
+      map.removeLayer('expansion-suggestions-sparkle');
+    }
     if (map.getLayer('expansion-suggestions-ai-glow')) {
       map.removeLayer('expansion-suggestions-ai-glow');
     }
@@ -132,6 +135,29 @@ export default function WorkingMapView({
         'circle-opacity': 0.9       // Slightly more opaque for better visibility
       }
     });
+
+    // Add sparkle badge for high confidence suggestions (>0.75)
+    map.addLayer({
+      id: 'expansion-suggestions-sparkle',
+      type: 'symbol',
+      source: 'expansion-suggestions',
+      filter: ['>', ['get', 'confidence'], 0.75],
+      layout: {
+        'text-field': '✨',
+        'text-size': 14,
+        'text-offset': [0.8, -0.8],
+        'text-anchor': 'center',
+        'text-allow-overlap': true,
+        'icon-allow-overlap': true
+      },
+      paint: {
+        'text-color': '#f59e0b',
+        'text-halo-color': '#ffffff',
+        'text-halo-width': 1
+      }
+    });
+    
+    console.log(`✨ Sparkle layer added for high confidence suggestions (>0.75)`);
 
     // Add click handler for suggestions (both layers)
     if (onSelect) {
@@ -811,6 +837,12 @@ export default function WorkingMapView({
       } else {
         console.log('🗑️ Removing expansion layer (no suggestions)');
         // Remove layer if no suggestions
+        if (mapInstanceRef.current.getLayer('expansion-suggestions-sparkle')) {
+          mapInstanceRef.current.removeLayer('expansion-suggestions-sparkle');
+        }
+        if (mapInstanceRef.current.getLayer('expansion-suggestions-ai-glow')) {
+          mapInstanceRef.current.removeLayer('expansion-suggestions-ai-glow');
+        }
         if (mapInstanceRef.current.getLayer('expansion-suggestions')) {
           mapInstanceRef.current.removeLayer('expansion-suggestions');
         }

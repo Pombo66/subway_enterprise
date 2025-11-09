@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { fetch, Agent } from 'undici';
 
 export interface SimpleExpansionRequest {
   region: string;
@@ -11,6 +12,7 @@ export interface SimpleExpansionRequest {
     revenue?: number;
   }[];
   targetCount: number;
+  model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection, defaults to gpt-5-mini
 }
 
 export interface ExpansionSuggestion {
@@ -41,6 +43,10 @@ export interface SimpleExpansionResult {
     cost: number;
     existingStoresAnalyzed: number;
   };
+  analysis?: {
+    marketGaps: string;
+    recommendations: string;
+  };
 }
 
 /**
@@ -51,11 +57,11 @@ export interface SimpleExpansionResult {
 export class SimpleExpansionService {
   private readonly logger = new Logger(SimpleExpansionService.name);
   private readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  private readonly MODEL = 'gpt-5-mini'; // Upgraded for better geographic reasoning
-  private readonly MAX_TOKENS = 16000;
+  private readonly DEFAULT_MODEL = 'gpt-5-mini'; // Default model
+  private readonly MAX_OUTPUT_TOKENS = 64000; // High limit to handle large responses
 
   constructor(private readonly prisma: PrismaClient) {
-    this.logger.log('Simple Expansion Service initialized with GPT-5-mini');
+    this.logger.log('Simple Expansion Service initialized (supports GPT-5 and GPT-5-mini)');
   }
 
   /**
@@ -73,14 +79,25 @@ export class SimpleExpansionService {
       throw new Error('targetCount must be provided and greater than 0');
     }
 
+    // Use requested model or default to gpt-5-mini
+    const model = request.model || this.DEFAULT_MODEL;
+
     this.logger.log(`Generating ${request.targetCount} suggestions for ${request.region}`);
+    this.logger.log(`Using model: ${model}`);
     this.logger.log(`Analyzing ${request.existingStores.length} existing stores`);
 
     try {
       // Build the prompt with all store data
       const prompt = this.buildPrompt(request);
 
-      // Single API call to GPT
+      // Create custom agent with extended timeouts
+      const agent = new Agent({
+        headersTimeout: 600000, // 10 minutes
+        bodyTimeout: 600000,    // 10 minutes
+        connectTimeout: 60000   // 1 minute for initial connection
+      });
+
+      // Single API call to GPT with extended timeout
       const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
@@ -88,33 +105,60 @@ export class SimpleExpansionService {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: this.MODEL,
+          model: model,
           input: prompt,
-          max_output_tokens: this.MAX_TOKENS,
+          max_output_tokens: this.MAX_OUTPUT_TOKENS,
           reasoning: { effort: 'low' }, // Low effort for speed
           text: { 
             verbosity: 'high',
             format: { type: 'json_object' }
           }
-        })
+        }),
+        dispatcher: agent // Use custom agent with extended timeouts
       });
 
       if (!response.ok) {
         const errorText = await response.text();
+        this.logger.error(`OpenAI API error: ${response.status}`);
+        this.logger.error(`Response body: ${errorText}`);
         throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
       }
 
-      const data = await response.json();
+      const data: any = await response.json();
       const tokensUsed = data.usage?.total_tokens || 0;
+      const outputTokens = data.usage?.output_tokens || 0;
 
       // Extract the response
       const messageOutput = data.output?.find((item: any) => item.type === 'message');
       if (!messageOutput?.content?.[0]?.text) {
+        this.logger.error('No message output from GPT. Full response:', JSON.stringify(data, null, 2));
         throw new Error('No message output from GPT');
       }
 
       const textContent = messageOutput.content[0].text;
-      const aiResponse = JSON.parse(textContent);
+      this.logger.log(`Response length: ${textContent.length} chars, Output tokens: ${outputTokens}`);
+      
+      // Check if response was truncated
+      if (!textContent.trim().endsWith('}')) {
+        this.logger.warn('⚠️ Response appears truncated - does not end with }');
+      }
+      
+      // Try to parse JSON with better error handling
+      let aiResponse;
+      try {
+        aiResponse = JSON.parse(textContent);
+      } catch (parseError) {
+        this.logger.error('❌ JSON parsing failed. Raw text length:', textContent.length);
+        this.logger.error('First 1000 chars:', textContent.substring(0, 1000));
+        this.logger.error('Last 500 chars:', textContent.substring(Math.max(0, textContent.length - 500)));
+        
+        // Check if it looks like truncation
+        if (!textContent.trim().endsWith('}')) {
+          throw new Error(`Response was truncated (hit token limit). Try requesting fewer stores. Current limit: ${this.MAX_OUTPUT_TOKENS}`);
+        }
+        
+        throw new Error(`Failed to parse GPT response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
+      }
 
       // Validate and format suggestions (with geocoding)
       const suggestions = await this.parseSuggestions(aiResponse, request);
@@ -125,19 +169,45 @@ export class SimpleExpansionService {
       this.logger.log(`Generated ${suggestions.length} suggestions in ${processingTime}ms`);
       this.logger.log(`Tokens used: ${tokensUsed}, Cost: £${cost.toFixed(4)}`);
 
+      // Capture strategic analysis if provided
+      const analysis = aiResponse.analysis ? {
+        marketGaps: aiResponse.analysis.marketGaps || '',
+        recommendations: aiResponse.analysis.recommendations || ''
+      } : undefined;
+
+      if (analysis) {
+        this.logger.log(`📊 Strategic analysis captured: ${analysis.marketGaps.substring(0, 100)}...`);
+      }
+
       return {
         suggestions,
         metadata: {
-          model: this.MODEL,
+          model: model,
           tokensUsed,
           processingTimeMs: processingTime,
           cost,
           existingStoresAnalyzed: request.existingStores.length
-        }
+        },
+        analysis
       };
 
     } catch (error) {
       this.logger.error('Simple expansion generation failed:', error);
+      
+      // Log more details for fetch errors
+      if (error instanceof Error && error.message === 'fetch failed') {
+        this.logger.error('Fetch failed - possible causes:');
+        this.logger.error('1. Network connectivity issue');
+        this.logger.error('2. Invalid API endpoint or SSL certificate issue');
+        this.logger.error('3. Request timeout');
+        this.logger.error('4. Firewall or proxy blocking the request');
+        
+        // Check if there's a cause
+        if ('cause' in error && error.cause) {
+          this.logger.error('Underlying cause:', error.cause);
+        }
+      }
+      
       throw new Error(`Expansion generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
@@ -221,6 +291,27 @@ LOCATION SPECIFICITY REQUIREMENTS:
   ❌ "City center, Munich"
   ❌ "Near university, Heidelberg"
 
+CONFIDENCE SCORING GUIDELINES:
+Rate each suggestion's confidence (0.0-1.0) based on these criteria:
+
+HIGH CONFIDENCE (0.76-1.0): ✨ Premium locations
+- Major city center or transportation hub
+- Population >100k with low store density
+- >5km from nearest store
+- Strong demographic indicators (students, commuters, tourists)
+- Proven retail corridor or shopping district
+
+MEDIUM CONFIDENCE (0.51-0.75): Standard opportunities
+- Mid-sized cities or suburban centers
+- Population 50k-100k
+- 3-5km from nearest store
+- Moderate foot traffic
+
+LOW CONFIDENCE (0.0-0.50): Experimental locations
+- Smaller towns or emerging areas
+- <3km from nearest store (requires strong justification)
+- Limited demographic data
+
 OUTPUT FORMAT (JSON):
 {
   "suggestions": [
@@ -233,7 +324,7 @@ OUTPUT FORMAT (JSON):
         "location": "<city or area of nearest store>"
       },
       "rationale": "<detailed explanation that MUST reference nearest existing store and justify the new location>",
-      "confidence": <0.0-1.0>,
+      "confidence": <0.0-1.0 - use scoring guidelines above>,
       "estimatedRevenue": <annual revenue estimate in euros>
     }
   ],
@@ -243,7 +334,7 @@ OUTPUT FORMAT (JSON):
   }
 }
 
-Provide ${request.targetCount} strategically diverse suggestions with context-aware rationale.`;
+Provide ${request.targetCount} strategically diverse suggestions with context-aware rationale. Aim for at least 30% of suggestions to have HIGH confidence (>0.75) if the market supports it.`;
   }
 
   /**
@@ -374,7 +465,7 @@ Provide ${request.targetCount} strategically diverse suggestions with context-aw
         throw new Error(`Mapbox API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data: any = await response.json();
       
       if (data.features && data.features.length > 0) {
         const feature = data.features[0];

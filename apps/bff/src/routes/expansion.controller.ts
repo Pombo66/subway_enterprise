@@ -432,6 +432,7 @@ export class ExpansionController {
     }[];
     targetCandidates: number;
     useSimpleApproach?: boolean;
+    model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection
     businessObjectives?: {
       riskTolerance: 'LOW' | 'MEDIUM' | 'HIGH';
       expansionSpeed: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE';
@@ -450,7 +451,8 @@ export class ExpansionController {
 
       // Check if simple approach is requested
       if (body.useSimpleApproach) {
-        console.log('🎯 Using simple single-call expansion approach');
+        const modelName = body.model || 'gpt-5-mini';
+        console.log(`🎯 Using simple single-call expansion approach with ${modelName}`);
         
         const { SimpleExpansionService } = await import('../services/ai/simple-expansion.service');
         const simpleService = new SimpleExpansionService(this.prisma);
@@ -464,7 +466,8 @@ export class ExpansionController {
             lng: store.lng,
             revenue: store.revenue || store.performance
           })),
-          targetCount: body.targetCandidates
+          targetCount: body.targetCandidates,
+          model: body.model
         });
 
         const latencyMs = Date.now() - startTime;
@@ -475,6 +478,7 @@ export class ExpansionController {
             eventType: 'ai.simple_expansion_executed',
             properties: JSON.stringify({
               region: body.region,
+              model: result.metadata.model,
               targetCandidates: body.targetCandidates,
               suggestionsGenerated: result.suggestions.length,
               tokensUsed: result.metadata.tokensUsed,
@@ -505,7 +509,8 @@ export class ExpansionController {
             totalCost: result.metadata.cost,
             totalProcessingTimeMs: result.metadata.processingTimeMs,
             latencyMs
-          }
+          },
+          analysis: result.analysis // Pass through strategic analysis
         };
       }
 
