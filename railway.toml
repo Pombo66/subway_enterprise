@@ -1,3 +1,4 @@
 [build]
 builder = "railpack"
 packageManager = "pnpm"
+installCommand = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install"
