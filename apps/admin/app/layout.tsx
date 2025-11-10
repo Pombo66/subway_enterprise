@@ -34,15 +34,10 @@ function LayoutContent({ children, withAuth = false }: LayoutContentProps) {
               <div className="shell">
                 <Sidebar />
                 <div className="shell-main">
-                  <Nav />
-                  {withAuth ? (
-                    <AuthProvider>
-                      <TopNav />
-                      <div className="container mx-auto flex-1">{children}</div>
-                    </AuthProvider>
-                  ) : (
-                    children
-                  )}
+                  <AuthProvider>
+                    <Nav />
+                    <div className="container mx-auto flex-1">{children}</div>
+                  </AuthProvider>
                 </div>
               </div>
               {config.isDebugMode && <DebugToggle />}

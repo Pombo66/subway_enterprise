@@ -4,6 +4,7 @@ import { ExpansionService } from '../services/expansion.service';
 import { ExpansionRecommendationsDto, ExpansionRecomputeDto, ScopeExpansionDto, ScopeRecomputeDto, CapacityEstimateDto } from '../dto/expansion.dto';
 import { ValidationError } from '../errors/validation.error';
 import { validateScopeExpansionParams, validateScope } from '../utils/scopeValidation';
+import { CurrentUser } from '../decorators/current-user.decorator';
 
 @Controller()
 export class ExpansionController {

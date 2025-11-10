@@ -113,6 +113,12 @@ export interface MapViewProps {
     band: 'HIGH' | 'MEDIUM' | 'LOW' | 'INSUFFICIENT_DATA';
   }>;
   onSuggestionSelect?: (suggestion: any) => void;
+  storeAnalyses?: Array<{
+    storeId: string;
+    locationQualityScore: number;
+    performanceGapPercent: number;
+    recommendationPriority: 'HIGH' | 'MEDIUM' | 'LOW';
+  }>;
 }
 
 export interface MapFiltersProps {

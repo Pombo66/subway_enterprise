@@ -262,7 +262,8 @@ export class StoreCacheManager {
 
   async invalidate(): Promise<void> {
     if (!this.db) {
-      throw new Error('Database not initialized');
+      console.warn('⚠️  Cache database not initialized, skipping invalidation');
+      return Promise.resolve();
     }
 
     return new Promise((resolve, reject) => {

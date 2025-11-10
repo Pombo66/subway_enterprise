@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
-
-// In API routes, NEXT_PUBLIC_ variables are available at build time
-// For runtime, we need to use a server-side env var or default
-const BFF_BASE_URL = process.env.BFF_BASE_URL || process.env.NEXT_PUBLIC_BFF_URL || 'http://localhost:3001';
+import { createServerApiClient } from '@/lib/server-api-client';
 
 export async function GET(request: Request) {
     try {
@@ -27,22 +24,16 @@ export async function GET(request: Request) {
         // Note: BFF doesn't support pagination yet, so we don't send page/limit
         
         const queryString = params.toString();
-        const bffUrl = `${BFF_BASE_URL}/stores${queryString ? `?${queryString}` : ''}`;
+        const endpoint = `/stores${queryString ? `?${queryString}` : ''}`;
         
-        console.log('🔄 Proxying stores request to BFF:', bffUrl);
+        console.log('🔄 Proxying stores request to BFF:', endpoint);
         
-        // Fetch from BFF
-        const response = await fetch(bffUrl, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        // Create authenticated API client
+        const apiClient = await createServerApiClient();
         
-        if (!response.ok) {
-            throw new Error(`BFF request failed: ${response.status} ${response.statusText}`);
-        }
-        
-        const bffData = await response.json();
+        // Fetch from BFF with authentication
+        const bffData = await apiClient.get<any>(endpoint);
+
         
         // BFF returns {success: true, data: [...]} format
         // Extract the data array for the frontend

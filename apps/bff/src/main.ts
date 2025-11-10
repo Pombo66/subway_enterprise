@@ -14,10 +14,22 @@ async function bootstrap() {
   
   // Configure CORS
   if (configService.corsEnabled) {
+    const corsOrigin = configService.corsOrigin;
+    
+    // In production, never allow wildcard
+    if (configService.isProduction && corsOrigin === '*') {
+      console.error('❌ CORS_ORIGIN cannot be "*" in production. Please set a specific origin.');
+      process.exit(1);
+    }
+    
     app.enableCors({
-      origin: configService.corsOrigin === '*' ? true : configService.corsOrigin,
+      origin: corsOrigin === '*' ? true : corsOrigin.split(',').map(o => o.trim()),
       credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
     });
+    
+    console.log(`🔒 CORS enabled for: ${corsOrigin}`);
   }
   
   // Global validation pipe
@@ -39,6 +51,8 @@ async function bootstrap() {
   console.log(`🚀 BFF listening on http://localhost:${port}`);
   console.log(`📊 Environment: ${configService.nodeEnv}`);
   console.log(`⏱️  Server timeout: 360s`);
+  console.log(`🔐 Authentication: ${process.env.SUPABASE_URL ? 'Enabled' : 'Disabled (dev mode)'}`);
+  console.log(`🛡️  Rate limiting: 100 requests/minute`);
 }
 
 bootstrap().catch(error => {

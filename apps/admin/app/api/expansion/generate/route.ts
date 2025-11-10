@@ -260,7 +260,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 9. Create or retrieve job with idempotency
+    // 9. Create job in database (BFF worker will process it)
     const { jobId, isReused } = await jobService.createJob(
       idempotencyKey,
       authContext.userId,
@@ -270,6 +270,7 @@ export async function POST(request: NextRequest) {
     ExpansionLogger.logGenerationStart(params);
 
     // 10. Return job ID immediately (202 Accepted)
+    // Note: Job processing now handled by BFF background worker
     return NextResponse.json(
       {
         jobId,

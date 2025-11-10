@@ -526,32 +526,58 @@ export default function ExpansionControls({
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0,0,0,0.5)',
+          background: 'rgba(0,0,0,0.7)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 2000
+          zIndex: 2000,
+          backdropFilter: 'blur(4px)'
         }}>
           <div style={{
-            background: 'white',
+            background: 'var(--s-panel, white)',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '12px',
             width: '400px',
-            maxWidth: '90%'
+            maxWidth: '90%',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            border: '1px solid var(--s-border, #e5e7eb)'
           }}>
-            <h4 style={{ margin: '0 0 16px 0' }}>Save Scenario</h4>
+            <h4 style={{ 
+              margin: '0 0 8px 0',
+              fontSize: '18px',
+              fontWeight: 600,
+              color: 'var(--s-text, #1f2937)'
+            }}>
+              Save Scenario
+            </h4>
+            <p style={{
+              margin: '0 0 16px 0',
+              fontSize: '13px',
+              color: 'var(--s-muted, #6b7280)',
+              lineHeight: '1.5'
+            }}>
+              Save your expansion suggestions to review or share later
+            </p>
             <input
               type="text"
-              placeholder="Enter scenario label..."
+              placeholder="Enter scenario name (e.g., 'Q4 2025 Expansion')..."
               value={scenarioLabel}
               onChange={(e) => setScenarioLabel(e.target.value)}
+              autoFocus
               style={{
                 width: '100%',
-                padding: '8px',
-                borderRadius: '4px',
-                border: '1px solid #ddd',
-                marginBottom: '16px'
+                padding: '10px 12px',
+                borderRadius: '6px',
+                border: '1px solid var(--s-border, #d1d5db)',
+                marginBottom: '20px',
+                fontSize: '14px',
+                color: 'var(--s-text, #1f2937)',
+                background: 'var(--s-panel, white)',
+                outline: 'none',
+                transition: 'border-color 0.2s'
               }}
+              onFocus={(e) => e.target.style.borderColor = '#0070f3'}
+              onBlur={(e) => e.target.style.borderColor = 'var(--s-border, #d1d5db)'}
             />
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
               <button
@@ -560,11 +586,21 @@ export default function ExpansionControls({
                   setScenarioLabel('');
                 }}
                 style={{
-                  padding: '8px 16px',
-                  background: 'white',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
+                  padding: '10px 20px',
+                  background: 'transparent',
+                  border: '1px solid var(--s-border, #d1d5db)',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: 'var(--s-text, #374151)',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--s-panel-alt, #f9fafb)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
                 }}
               >
                 Cancel
@@ -573,15 +609,29 @@ export default function ExpansionControls({
                 onClick={handleSave}
                 disabled={!scenarioLabel.trim()}
                 style={{
-                  padding: '8px 16px',
-                  background: scenarioLabel.trim() ? '#0070f3' : '#ccc',
+                  padding: '10px 20px',
+                  background: scenarioLabel.trim() ? '#0070f3' : '#9ca3af',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '4px',
-                  cursor: scenarioLabel.trim() ? 'pointer' : 'not-allowed'
+                  borderRadius: '6px',
+                  cursor: scenarioLabel.trim() ? 'pointer' : 'not-allowed',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  transition: 'all 0.2s',
+                  opacity: scenarioLabel.trim() ? 1 : 0.6
+                }}
+                onMouseEnter={(e) => {
+                  if (scenarioLabel.trim()) {
+                    e.currentTarget.style.background = '#0051cc';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (scenarioLabel.trim()) {
+                    e.currentTarget.style.background = '#0070f3';
+                  }
                 }}
               >
-                Save
+                Save Scenario
               </button>
             </div>
           </div>

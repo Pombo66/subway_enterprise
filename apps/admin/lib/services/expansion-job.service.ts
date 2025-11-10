@@ -58,12 +58,8 @@ export class ExpansionJobService {
       }
     });
 
-    // Start processing in background (don't await)
-    this.processJobAsync(job.id).catch(error => {
-      ExpansionLogger.logDetailedError(error, {
-        endpoint: 'background_processing'
-      });
-    });
+    // Job will be picked up by BFF background worker
+    // No processing here - just create the job and return
 
     return { jobId: job.id, isReused: false };
   }
@@ -99,8 +95,10 @@ export class ExpansionJobService {
 
   /**
    * Process job asynchronously
+   * NOTE: This method is no longer used - job processing moved to BFF background worker
+   * Kept for reference only
    */
-  private async processJobAsync(jobId: string): Promise<void> {
+  private async processJobAsync_DEPRECATED(jobId: string): Promise<void> {
     // SAFETY: Temporarily disabled for testing - job processing enabled
     const jobProcessingEnabled = true; // Force enable for testing
     if (process.env.NODE_ENV === 'development' && !jobProcessingEnabled) {

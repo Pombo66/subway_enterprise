@@ -570,6 +570,71 @@ model ExpansionJob {
   @@index([userId, createdAt])
 }
 
+model StoreAnalysisJob {
+  id                String   @id @default(cuid())
+  idempotencyKey    String   @unique
+  status            String   @default("queued") // queued, processing, completed, failed
+  userId            String
+  params            String   // JSON: { region, storeIds?, analysisType }
+  result            String?  // JSON: StoreAnalysisResult[]
+  error             String?
+  storesAnalyzed    Int?
+  tokensUsed        Int?
+  actualCost        Float?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([idempotencyKey])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+}
+
+model StoreAnalysis {
+  id                    String   @id @default(cuid())
+  storeId               String
+  analysisDate          DateTime @default(now())
+  
+  // Location Quality
+  locationQualityScore  Int      // 0-100
+  locationRating        String   // EXCELLENT, GOOD, FAIR, POOR
+  locationStrengths     String   // JSON array
+  locationWeaknesses    String   // JSON array
+  
+  // Performance Analysis
+  expectedRevenue       Float?
+  actualRevenue         Float?
+  performanceGap        Float?   // actual - expected
+  performanceGapPercent Float?   // (actual - expected) / expected * 100
+  
+  // Root Cause
+  primaryFactor         String   // LOCATION, FRANCHISEE, MARKET, BALANCED
+  
+  // Franchisee Analysis
+  franchiseeRating      String?  // EXCELLENT, GOOD, FAIR, POOR
+  franchiseeStrengths   String?  // JSON array
+  franchiseeConcerns    String?  // JSON array
+  
+  // Recommendations
+  recommendationPriority String  // HIGH, MEDIUM, LOW
+  recommendations       String   // JSON array
+  estimatedImpact       Float?   // potential revenue increase
+  
+  // AI Metadata
+  model                 String   // gpt-5, gpt-5-mini
+  tokensUsed            Int?
+  analysisVersion       String   @default("1.0")
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([storeId, analysisDate])
+  @@index([locationQualityScore])
+  @@index([primaryFactor])
+  @@index([recommendationPriority])
+}
+
 model IntelligenceDemographicCache {
   id              String   @id @default(cuid())
   lat             Float

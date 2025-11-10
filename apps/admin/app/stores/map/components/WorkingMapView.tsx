@@ -14,7 +14,8 @@ export default function WorkingMapView({
   onViewportChange,
   loading = false,
   expansionSuggestions = [],
-  onSuggestionSelect
+  onSuggestionSelect,
+  storeAnalyses = []
 }: MapViewProps) {
   console.log('🎨 WorkingMapView component rendering with props:', {
     storesLength: stores?.length,
@@ -68,9 +69,21 @@ export default function WorkingMapView({
       }))
     };
 
-    // Debug AI features
+    // Debug AI features and confidence
     const aiFeatures = geojsonData.features.filter(f => f.properties.hasAIAnalysis === true);
+    const highConfidenceFeatures = geojsonData.features.filter(f => f.properties.confidence > 0.75);
+    
     console.log(`🗺️ Map: Adding ${suggestions.length} suggestions, ${aiFeatures.length} with AI analysis`);
+    console.log(`✨ High confidence (>0.75): ${highConfidenceFeatures.length} suggestions`);
+    
+    if (highConfidenceFeatures.length > 0) {
+      console.log(`✨ High confidence samples:`, highConfidenceFeatures.slice(0, 3).map(f => ({
+        id: f.properties.id,
+        confidence: f.properties.confidence,
+        band: f.properties.band
+      })));
+    }
+    
     if (aiFeatures.length > 0) {
       console.log(`🤖 AI features sample:`, aiFeatures.slice(0, 2).map(f => ({
         id: f.properties.id,
@@ -144,20 +157,24 @@ export default function WorkingMapView({
       filter: ['>', ['get', 'confidence'], 0.75],
       layout: {
         'text-field': '✨',
-        'text-size': 14,
-        'text-offset': [0.8, -0.8],
+        'text-size': 16,
+        'text-offset': [0.9, -0.9],
         'text-anchor': 'center',
         'text-allow-overlap': true,
-        'icon-allow-overlap': true
+        'icon-allow-overlap': true,
+        'symbol-placement': 'point',
+        'text-ignore-placement': true
       },
       paint: {
-        'text-color': '#f59e0b',
+        'text-color': '#fbbf24',
         'text-halo-color': '#ffffff',
-        'text-halo-width': 1
+        'text-halo-width': 2,
+        'text-opacity': 1
       }
     });
     
-    console.log(`✨ Sparkle layer added for high confidence suggestions (>0.75)`);
+    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.75).length;
+    console.log(`✨ Sparkle layer added for ${highConfCount} high confidence suggestions (>0.75)`);
 
     // Add click handler for suggestions (both layers)
     if (onSelect) {
@@ -447,15 +464,41 @@ export default function WorkingMapView({
             filter: ['!', ['has', 'point_count']],
             paint: {
               'circle-color': [
-                'match',
-                ['get', 'status'],
-                'Open', '#22c55e',    // Green for Open
-                'Closed', '#6b7280',  // Grey for Closed
-                'Planned', '#a855f7', // Purple for Planned
-                '#3b82f6'             // Blue as default fallback
+                'case',
+                // Analysis mode colors (performance-based)
+                ['get', 'hasAnalysis'],
+                [
+                  'case',
+                  ['==', ['get', 'priority'], 'HIGH'],
+                  '#ef4444',  // Red - critical issues
+                  ['>', ['get', 'performanceGap'], 10],
+                  '#10b981',  // Green - overperforming
+                  ['>', ['get', 'performanceGap'], -10],
+                  '#f59e0b',  // Yellow - on target
+                  '#f97316'   // Orange - underperforming
+                ],
+                // Default status colors
+                [
+                  'match',
+                  ['get', 'status'],
+                  'Open', '#22c55e',    // Green for Open
+                  'Closed', '#6b7280',  // Grey for Closed
+                  'Planned', '#a855f7', // Purple for Planned
+                  '#3b82f6'             // Blue as default fallback
+                ]
               ],
-              'circle-radius': 12,
-              'circle-stroke-width': 2,
+              'circle-radius': [
+                'case',
+                ['get', 'hasAnalysis'],
+                14,  // Larger for analyzed stores
+                12   // Default size
+              ],
+              'circle-stroke-width': [
+                'case',
+                ['get', 'hasAnalysis'],
+                3,  // Thicker stroke for analyzed stores
+                2   // Default stroke
+              ],
               'circle-stroke-color': '#ffffff'
             }
           });
@@ -780,15 +823,22 @@ export default function WorkingMapView({
 
       console.log(`📊 Valid stores for update: ${validStores.length}/${stores.length}`);
 
+      // Create analysis lookup map
+      const analysisMap = new Map(storeAnalyses.map(a => [a.storeId, a]));
+
       const geojsonData = {
         type: 'FeatureCollection' as const,
         features: validStores.map(store => {
           const status = store.status || 'Unknown';
+          const analysis = analysisMap.get(store.id);
+          
           console.log(`📍 UPDATE: Store "${store.name}" status:`, { 
             raw: store.status, 
             final: status,
-            type: typeof store.status 
+            type: typeof store.status,
+            hasAnalysis: !!analysis
           });
+          
           return {
             type: 'Feature' as const,
             properties: {
@@ -800,7 +850,12 @@ export default function WorkingMapView({
               country: store.country,
               city: store.city || '',
               latitude: store.latitude,
-              longitude: store.longitude
+              longitude: store.longitude,
+              // Analysis data
+              hasAnalysis: !!analysis,
+              locationQuality: analysis?.locationQualityScore || 0,
+              performanceGap: analysis?.performanceGapPercent || 0,
+              priority: analysis?.recommendationPriority || 'NONE'
             },
             geometry: {
               type: 'Point' as const,

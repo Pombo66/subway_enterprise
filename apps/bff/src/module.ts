@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { PrismaClient } from '@prisma/client';
 import { HealthController } from './routes/health';
 import { KpiController } from './routes/kpis';
@@ -24,15 +26,24 @@ import { ModelConfigurationManager } from './services/ai/model-configuration.ser
 import { SubMindService } from './services/submind.service';
 import { SubMindRateLimitService } from './services/submind.rate-limit';
 import { SubMindTelemetryService } from './services/submind-telemetry.service';
+import { ExpansionJobWorkerService } from './services/expansion-job-worker.service';
 // import { GeocodeService } from './services/geocode.service';
 import { PrismaStoreRepository } from './repositories/store.repository';
 import { ConfigService } from './config/config.service';
+import { AuthGuard } from './guards/auth.guard';
 import { IntelligenceModule, LocationIntelligenceService, GeographicValidationService } from './services/intelligence/intelligence.module';
 
 const prisma = new PrismaClient();
 
 @Module({
-  imports: [IntelligenceModule],
+  imports: [
+    IntelligenceModule,
+    // Rate limiting: 100 requests per minute per IP
+    ThrottlerModule.forRoot([{
+      ttl: 60000, // 60 seconds
+      limit: 100, // 100 requests
+    }]),
+  ],
   controllers: [
     HealthController,
     KpiController,
@@ -70,7 +81,18 @@ const prisma = new PrismaClient();
     SubMindService,
     SubMindRateLimitService,
     SubMindTelemetryService,
+    ExpansionJobWorkerService, // Background worker for expansion jobs
     // GeocodeService,
+    // Apply authentication globally
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    // Apply rate limiting globally
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

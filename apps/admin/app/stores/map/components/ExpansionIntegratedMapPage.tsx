@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMapState } from '../hooks/useMapState';
 import { useStores } from '../hooks/useStores';
@@ -16,6 +16,10 @@ import SuggestionMarker, { ExpansionSuggestion } from './SuggestionMarker';
 import SuggestionInfoCard from './SuggestionInfoCard';
 import AIIndicatorLegend from './AIIndicatorLegend';
 import StrategicAnalysisPanel from './StrategicAnalysisPanel';
+import QuadrantSelector, { Quadrant } from './QuadrantSelector';
+import StoreAnalysisControls, { StoreAnalysisParams } from './StoreAnalysisControls';
+import StoreAnalysisResults from './StoreAnalysisResults';
+import { filterStoresByQuadrant, countStoresByQuadrant, getQuadrantBounds } from '../utils/quadrant-utils';
 import { onStoresImported } from '../../../../lib/events/store-events';
 import { ExpansionJobRecovery } from '../../../../lib/utils/expansion-job-recovery';
 import NetworkStatusIndicator from './NetworkStatusIndicator';
@@ -39,6 +43,15 @@ export default function ExpansionIntegratedMapPage() {
   const [scenarios, setScenarios] = useState<Array<{ id: string; label: string; createdAt: Date }>>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [strategicAnalysis, setStrategicAnalysis] = useState<{ marketGaps: string; recommendations: string } | null>(null);
+  
+  // Store analysis state
+  const [analysisMode, setAnalysisMode] = useState(false);
+  const [storeAnalyses, setStoreAnalyses] = useState<any[]>([]);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [currentAnalysisJobId, setCurrentAnalysisJobId] = useState<string | null>(null);
+  
+  // Quadrant view state
+  const [selectedQuadrant, setSelectedQuadrant] = useState<Quadrant>('ALL');
 
   // Check for recoverable jobs on page load
   useEffect(() => {
@@ -364,6 +377,68 @@ export default function ExpansionIntegratedMapPage() {
     }
   }, [selectedSuggestion]);
 
+  // Store Analysis Functions
+  const handleAnalyzeStores = useCallback(async (params: StoreAnalysisParams) => {
+    try {
+      setAnalysisLoading(true);
+      console.log('🔍 Starting store analysis:', params);
+
+      const response = await fetch('/api/store-analysis/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Analysis failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setCurrentAnalysisJobId(result.jobId);
+      
+      console.log('✅ Analysis job created:', result.jobId);
+      
+      // Start polling for results
+      pollAnalysisJob(result.jobId);
+      
+    } catch (error) {
+      console.error('❌ Analysis failed:', error);
+      setAnalysisLoading(false);
+      alert('Failed to start analysis. Please try again.');
+    }
+  }, []);
+
+  const pollAnalysisJob = useCallback(async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/store-analysis/jobs/${jobId}`);
+      const job = await response.json();
+
+      console.log(`📊 Analysis job ${jobId} status: ${job.status}`);
+
+      if (job.status === 'completed') {
+        setAnalysisLoading(false);
+        setCurrentAnalysisJobId(null);
+        
+        if (job.result?.analyses) {
+          setStoreAnalyses(job.result.analyses);
+          console.log(`✅ Analysis completed: ${job.result.analyses.length} stores analyzed`);
+        }
+      } else if (job.status === 'failed') {
+        setAnalysisLoading(false);
+        setCurrentAnalysisJobId(null);
+        console.error('❌ Analysis job failed:', job.error);
+        alert(`Analysis failed: ${job.error}`);
+      } else {
+        // Still processing, poll again
+        setTimeout(() => pollAnalysisJob(jobId), 3000);
+      }
+    } catch (error) {
+      console.error('❌ Error polling analysis job:', error);
+      setAnalysisLoading(false);
+      setCurrentAnalysisJobId(null);
+    }
+  }, []);
+
   // Store selection handlers
   const handleStoreSelect = (store: any) => {
     setSelectedStoreId(store.id);
@@ -376,6 +451,16 @@ export default function ExpansionIntegratedMapPage() {
   const handleNavigateToDetails = (storeId: string) => {
     router.push(`/stores/${storeId}`);
   };
+
+  // Filter stores by quadrant
+  const filteredStores = useMemo(() => {
+    return filterStoresByQuadrant(stores, selectedQuadrant, filters.country);
+  }, [stores, selectedQuadrant, filters.country]);
+
+  // Count stores in each quadrant
+  const quadrantCounts = useMemo(() => {
+    return countStoresByQuadrant(stores, filters.country);
+  }, [stores, filters.country]);
 
   // Find the selected store
   const selectedStore = selectedStoreId ? stores.find(s => s.id === selectedStoreId) || null : null;
@@ -452,42 +537,145 @@ export default function ExpansionIntegratedMapPage() {
               <button
                 onClick={() => invalidateCache()}
                 className="s-btn"
-                title="Refresh store data"
+                title="Refresh store data (expansion suggestions will be preserved)"
                 disabled={storesLoading}
-              >
-                🔄 Refresh
-              </button>
-              {expansionMode && suggestions.length > 0 && (
-                <button
-                  onClick={() => {
-                    setSuggestions([]);
-                    setSelectedSuggestion(null);
-                    console.log('🧹 Cleared expansion suggestions cache');
-                  }}
-                  className="s-btn"
-                  title="Clear cached expansion suggestions"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    background: '#ef4444',
-                    color: 'white'
-                  }}
-                >
-                  🗑️ Clear Suggestions ({suggestions.length})
-                </button>
-              )}
-              <button
-                onClick={() => setExpansionMode(!expansionMode)}
-                className="s-btn s-btnPrimary"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
+                  padding: '6px 12px',
+                  fontSize: '13px',
+                  opacity: 0.8
                 }}
               >
-                {expansionMode ? '✓ Expansion Mode' : 'Enable Expansion Mode'}
+                Refresh
               </button>
+              {expansionMode && suggestions.length > 0 && (
+                <>
+                  <button
+                    onClick={() => {
+                      setSuggestions([]);
+                      setSelectedSuggestion(null);
+                      setStrategicAnalysis(null);
+                      console.log('🧹 Cleared expansion suggestions');
+                    }}
+                    className="s-btn"
+                    title="Clear expansion suggestions (they will be lost unless saved as a scenario)"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      background: '#ef4444',
+                      color: 'white'
+                    }}
+                  >
+                    🗑️ Clear Suggestions ({suggestions.length})
+                  </button>
+                  <div style={{ 
+                    fontSize: '11px', 
+                    color: '#f59e0b', 
+                    padding: '4px 8px',
+                    background: '#fef3c7',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    ⚠️ Suggestions will be lost on page refresh - save as scenario to keep them
+                  </div>
+                </>
+              )}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={() => {
+                    setExpansionMode(false);
+                    setAnalysisMode(false);
+                  }}
+                  style={{
+                    background: !expansionMode && !analysisMode ? 'rgba(0,166,81,0.1)' : 'none',
+                    border: `1px solid ${!expansionMode && !analysisMode ? 'rgba(0,166,81,0.3)' : 'rgba(0,166,81,0.2)'}`,
+                    color: 'var(--s-accent)',
+                    padding: '6px 12px',
+                    fontSize: '13px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!(!expansionMode && !analysisMode)) {
+                      e.currentTarget.style.background = 'rgba(0,166,81,0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(0,166,81,0.25)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!(!expansionMode && !analysisMode)) {
+                      e.currentTarget.style.background = 'none';
+                      e.currentTarget.style.borderColor = 'rgba(0,166,81,0.2)';
+                    }
+                  }}
+                >
+                  Stores
+                </button>
+                <button
+                  onClick={() => {
+                    setExpansionMode(true);
+                    setAnalysisMode(false);
+                    setStoreAnalyses([]);
+                  }}
+                  style={{
+                    background: expansionMode ? 'rgba(96,165,250,0.1)' : 'none',
+                    border: `1px solid ${expansionMode ? 'rgba(96,165,250,0.3)' : 'rgba(96,165,250,0.2)'}`,
+                    color: '#60a5fa',
+                    padding: '6px 12px',
+                    fontSize: '13px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!expansionMode) {
+                      e.currentTarget.style.background = 'rgba(96,165,250,0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(96,165,250,0.25)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!expansionMode) {
+                      e.currentTarget.style.background = 'none';
+                      e.currentTarget.style.borderColor = 'rgba(96,165,250,0.2)';
+                    }
+                  }}
+                >
+                  Expansion
+                </button>
+                <button
+                  onClick={() => {
+                    setAnalysisMode(true);
+                    setExpansionMode(false);
+                    setSuggestions([]);
+                  }}
+                  style={{
+                    background: analysisMode ? 'rgba(168,85,247,0.1)' : 'none',
+                    border: `1px solid ${analysisMode ? 'rgba(168,85,247,0.3)' : 'rgba(168,85,247,0.2)'}`,
+                    color: '#a855f7',
+                    padding: '6px 12px',
+                    fontSize: '13px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!analysisMode) {
+                      e.currentTarget.style.background = 'rgba(168,85,247,0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(168,85,247,0.25)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!analysisMode) {
+                      e.currentTarget.style.background = 'none';
+                      e.currentTarget.style.borderColor = 'rgba(168,85,247,0.2)';
+                    }
+                  }}
+                >
+                  Analysis
+                </button>
+              </div>
             </div>
           </div>
 
@@ -573,7 +761,7 @@ export default function ExpansionIntegratedMapPage() {
             >
               <WorkingMapView
                 key="main-map"
-                stores={stores}
+                stores={filteredStores}
                 onStoreSelect={handleStoreSelect}
                 viewport={viewport}
                 onViewportChange={setViewport}
@@ -593,8 +781,18 @@ export default function ExpansionIntegratedMapPage() {
                       }), [])
                 }
                 onSuggestionSelect={setSelectedSuggestion}
+                storeAnalyses={analysisMode ? storeAnalyses : []}
               />
             </SimpleErrorBoundary>
+
+            {/* Quadrant Selector */}
+            {!isFullscreen && (
+              <QuadrantSelector
+                selected={selectedQuadrant}
+                onSelect={setSelectedQuadrant}
+                storeCounts={quadrantCounts}
+              />
+            )}
 
             {/* Fullscreen toggle button */}
             <button
@@ -646,6 +844,34 @@ export default function ExpansionIntegratedMapPage() {
                 loading={expansionLoading}
                 scenarios={scenarios}
               />
+            )}
+
+            {/* Store Analysis controls sidebar */}
+            {analysisMode && (
+              <div style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                zIndex: 10,
+                maxWidth: '400px',
+                maxHeight: 'calc(100vh - 200px)',
+                overflowY: 'auto'
+              }}>
+                <StoreAnalysisControls
+                  onAnalyze={handleAnalyzeStores}
+                  loading={analysisLoading}
+                  selectedStoreIds={[]}
+                  currentRegion={filters.country || 'Germany'}
+                />
+                
+                {storeAnalyses.length > 0 && (
+                  <StoreAnalysisResults
+                    analyses={storeAnalyses}
+                    onStoreSelect={setSelectedStoreId}
+                    selectedStoreId={selectedStoreId || undefined}
+                  />
+                )}
+              </div>
             )}
 
             {/* AI Indicator Legend - show when we have suggestions */}

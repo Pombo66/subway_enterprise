@@ -1,6 +1,7 @@
+'use client';
 import { memo } from 'react';
 import Link from 'next/link';
-import CommitBadge from './CommitBadge';
+import { useAuth } from './AuthProvider';
 
 // Extract styles to prevent recreation on each render
 const navStyles = {
@@ -15,13 +16,26 @@ const navStyles = {
     alignItems: 'center', 
     gap: 10 
   } as const,
-  brandContainer: { 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: 10 
+  rightSection: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    fontSize: '13px',
+    opacity: 0.8
   } as const,
-  textStyle: {
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial'
+  emailText: {
+    color: 'var(--s-muted)',
+  } as const,
+  signOutButton: {
+    background: 'none',
+    border: 'none',
+    color: 'inherit',
+    cursor: 'pointer',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    fontSize: '13px',
+    opacity: 0.8,
+    transition: 'opacity 0.2s, background 0.2s',
   } as const,
 };
 
@@ -34,6 +48,8 @@ const navLinks = [
 ] as const;
 
 function Nav() {
+  const { user, signOut } = useAuth();
+
   return (
     <nav className="s-nav">
       {/* Yellow accent bar */}
@@ -46,6 +62,26 @@ function Nav() {
             </Link>
           ))}
         </div>
+        
+        {user && (
+          <div style={navStyles.rightSection}>
+            <span style={navStyles.emailText}>{user.email}</span>
+            <button 
+              onClick={signOut}
+              style={navStyles.signOutButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '0.8';
+                e.currentTarget.style.background = 'none';
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );
