@@ -991,7 +991,7 @@ export default function WorkingMapView({
                 borderRadius: '6px',
                 border: '1px solid rgba(59, 130, 246, 0.2)'
               }}>
-                💡 If the map doesn&apos;t load, check the browser console (F12) for errors or try refreshing the page.
+                💡 If the map doesn{'\''}t load, check the browser console (F12) for errors or try refreshing the page.
               </div>
             )}
           </div>
