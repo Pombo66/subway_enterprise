@@ -4,4 +4,4 @@ builder = "railpack"
 [railpack]
 packageManager = "pnpm"
 installCommand = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install"
-buildCommand = "pnpm -C packages/db prisma:generate && turbo run build --filter=@subway/admin"
+buildCommand = "pnpm -C packages/db prisma:generate && DISABLE_ESLINT_PLUGIN=true turbo run build --filter=@subway/admin"
