@@ -5,8 +5,8 @@ import {
 } from '../../types/intelligence.types';
 import { PrismaClient } from '@prisma/client';
 
-// Infer Store type from Prisma client
-type Store = Awaited<ReturnType<PrismaClient['store']['findUnique']>>;
+// Infer Store type from Prisma client (non-nullable)
+type Store = NonNullable<Awaited<ReturnType<PrismaClient['store']['findUnique']>>>;
 
 interface GeometricPattern {
   type: 'grid' | 'linear' | 'radial' | 'cluster';
