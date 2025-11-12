@@ -197,7 +197,7 @@ export class StrategicZoneIdentificationService {
       const parseResult = safeParseJSONWithSchema(jsonContent, EnhancedZonesResponseSchema);
       
       if (!parseResult.success) {
-        this.logger.warn(`Schema validation failed: ${parseResult.error}`);
+        this.logger.warn(`Schema validation failed: ${(parseResult as any).error}`);
         return request.marketAnalysis.strategicZones;
       }
       

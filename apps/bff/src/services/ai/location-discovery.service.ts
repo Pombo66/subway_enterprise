@@ -199,7 +199,7 @@ export class LocationDiscoveryService implements ILocationDiscoveryService {
       const parseResult = safeParseJSONWithSchema(jsonContent, LocationDiscoveryResponseSchema);
       
       if (!parseResult.success) {
-        throw new Error(`Location discovery response validation failed: ${parseResult.error}`);
+        throw new Error(`Location discovery response validation failed: ${(parseResult as any).error}`);
       }
       
       const aiResponse = parseResult.data;

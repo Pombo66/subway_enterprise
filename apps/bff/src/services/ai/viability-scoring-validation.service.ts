@@ -474,7 +474,7 @@ export class ViabilityScoringValidationService {
       const parseResult = safeParseJSONWithSchema(jsonContent, BasicViabilityAssessmentSchema);
       
       if (!parseResult.success) {
-        throw new Error(`Schema validation failed: ${parseResult.error}`);
+        throw new Error(`Schema validation failed: ${(parseResult as any).error}`);
       }
       
       const aiResponse = parseResult.data;
@@ -551,7 +551,7 @@ export class ViabilityScoringValidationService {
       const parseResult = safeParseJSONWithSchema(jsonContent, EnhancedViabilityAssessmentSchema);
       
       if (!parseResult.success) {
-        throw new Error(`Schema validation failed: ${parseResult.error}`);
+        throw new Error(`Schema validation failed: ${(parseResult as any).error}`);
       }
       
       const aiResponse = parseResult.data;
