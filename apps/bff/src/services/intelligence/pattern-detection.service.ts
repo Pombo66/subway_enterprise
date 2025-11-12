@@ -58,7 +58,7 @@ export class PatternDetectionService {
       // Convert stores to locations within analysis radius
       const nearbyLocations = this.filterLocationsByRadius(
         existingStores
-          .filter(store => store.latitude !== null && store.longitude !== null)
+          .filter((store): store is NonNullable<typeof store> => store !== null && store.latitude !== null && store.longitude !== null)
           .map(store => ({ 
             lat: store.latitude!, 
             lng: store.longitude!, 

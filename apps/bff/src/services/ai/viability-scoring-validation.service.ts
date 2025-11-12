@@ -92,8 +92,8 @@ export class ViabilityScoringValidationService {
 
     try {
       const CONCURRENCY_LIMIT = 10; // Process 10 candidates at a time for faster throughput
-      const validationResults = [];
-      const assessedCandidates = [];
+      const validationResults: any[] = [];
+      const assessedCandidates: any[] = [];
       let totalTokensUsed = 0;
       let escalatedCount = 0;
 

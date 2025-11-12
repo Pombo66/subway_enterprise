@@ -455,7 +455,7 @@ export class CompetitiveAnalysisService implements ICompetitiveAnalysisService {
     description: string;
   }>> {
     // Simplified gap analysis - in reality would use sophisticated spatial analysis
-    const gaps = [];
+    const gaps: Array<{ lat: number; lng: number; gapType: string; description: string }> = [];
     
     // Create a grid and analyze each cell for gaps
     const gridSize = 0.01; // Roughly 1km

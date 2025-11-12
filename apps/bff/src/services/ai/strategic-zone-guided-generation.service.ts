@@ -226,7 +226,16 @@ export class StrategicZoneGuidedGenerationService {
     request: ZoneGuidedGenerationRequest,
     distribution: Map<string, number>
   ) {
-    const results = [];
+    type ZoneResult = {
+      zoneId: string;
+      zoneName: string;
+      candidates: any[];
+      targetCount: number;
+      actualCount: number;
+      averageQuality: number;
+      reasoning: string[];
+    };
+    const results: ZoneResult[] = [];
 
     for (const zone of request.strategicZones) {
       const targetCount = distribution.get(zone.id) || 0;

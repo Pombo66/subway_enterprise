@@ -630,7 +630,7 @@ Focus on strategic business value, competitive positioning, and alignment with b
   }
 
   private identifyCompetitiveThreats(candidate: LocationCandidate, marketAnalysis: MarketAnalysis): string[] {
-    const threats = [];
+    const threats: string[] = [];
     
     if (marketAnalysis.marketSaturation.level === 'HIGH') {
       threats.push('High market saturation');
@@ -644,7 +644,7 @@ Focus on strategic business value, competitive positioning, and alignment with b
   }
 
   private identifyCompetitiveAdvantages(candidate: LocationCandidate, marketAnalysis: MarketAnalysis): string[] {
-    const advantages = [];
+    const advantages: string[] = [];
     
     if (marketAnalysis.marketSaturation.level === 'LOW') {
       advantages.push('Low competition market');
