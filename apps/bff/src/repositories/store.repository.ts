@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { BaseRepository } from './base.repository';
 
-type Store = Prisma.StoreGetPayload<{}>;
+// Infer Store type from Prisma client
+type Store = Awaited<ReturnType<PrismaClient['store']['findUnique']>>;
 
 export interface StoreFilters {
   region?: string;

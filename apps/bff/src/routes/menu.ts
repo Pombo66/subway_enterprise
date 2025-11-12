@@ -80,7 +80,7 @@ export class MenuController {
       skip: q.skip || 0,
     });
 
-    return results.map(r => ({ ...r, price: Number(r.price ?? 0) }));
+    return results.map((r: any) => ({ ...r, price: Number(r.price ?? 0) }));
   }
 
   @Post('/menu/items')

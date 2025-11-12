@@ -3,9 +3,10 @@ import {
   Location,
   AlternativeLocation
 } from '../../types/intelligence.types';
-import { Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-type Store = Prisma.StoreGetPayload<{}>;
+// Infer Store type from Prisma client
+type Store = Awaited<ReturnType<PrismaClient['store']['findUnique']>>;
 
 interface GeometricPattern {
   type: 'grid' | 'linear' | 'radial' | 'cluster';
