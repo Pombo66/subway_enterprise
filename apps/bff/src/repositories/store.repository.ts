@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient, Store } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { BaseRepository } from './base.repository';
+
+type Store = Prisma.StoreGetPayload<{}>;
 
 export interface StoreFilters {
   region?: string;

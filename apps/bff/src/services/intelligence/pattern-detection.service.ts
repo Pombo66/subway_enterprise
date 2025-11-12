@@ -3,7 +3,9 @@ import {
   Location,
   AlternativeLocation
 } from '../../types/intelligence.types';
-import { Store } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+
+type Store = Prisma.StoreGetPayload<{}>;
 
 interface GeometricPattern {
   type: 'grid' | 'linear' | 'radial' | 'cluster';

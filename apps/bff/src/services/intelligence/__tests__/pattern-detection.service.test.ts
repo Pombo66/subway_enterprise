@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PatternDetectionService } from '../pattern-detection.service';
 import { Location } from '../../../types/intelligence.types';
-import { Store } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+
+type Store = Prisma.StoreGetPayload<{}>;
 
 describe('PatternDetectionService', () => {
   let service: PatternDetectionService;

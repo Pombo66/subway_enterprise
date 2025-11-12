@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Store } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { StoreRepository, StoreFilters, CreateStoreData, PrismaStoreRepository } from '../repositories/store.repository';
+
+type Store = Prisma.StoreGetPayload<{}>;
 import { findEmeaCountry } from '../util/emea';
 import { ValidationError } from '../errors/validation.error';
 
