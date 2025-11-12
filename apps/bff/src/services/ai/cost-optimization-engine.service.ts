@@ -401,7 +401,14 @@ export class CostOptimizationEngine {
    * Create implementation plan
    */
   private createImplementationPlan(optimizedConfig: any, projectedSavings: any) {
-    const plan = [];
+    type CostPhase = {
+      phase: number;
+      description: string;
+      estimatedSavings: number;
+      implementationTime: string;
+      riskLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+    };
+    const plan: CostPhase[] = [];
 
     if (Object.keys(optimizedConfig.recommendedModelChanges).length > 0) {
       plan.push({

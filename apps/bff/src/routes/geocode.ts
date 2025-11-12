@@ -161,7 +161,8 @@ export class GeocodeController {
   async healthCheck() {
     try {
       // Test both providers if configured
-      const tests = [];
+      type GeocodeTestResult = { success: boolean; message: string; responseTime?: number };
+      const tests: Promise<GeocodeTestResult>[] = [];
       
       if (process.env.NOMINATIM_URL || true) { // Nominatim is always available
         tests.push(this.geocodeService.testProvider(GeocodeProvider.NOMINATIM));

@@ -50,7 +50,7 @@ export class StoresController {
         entity: 'Store',
         entityId: store.id,
         action: 'CREATE',
-        newData: store,
+        newData: store as any,
         metadata: { source: 'admin_dashboard' }
       }, {
         eventType: 'store_created',
@@ -90,7 +90,7 @@ export class StoresController {
         entityId: id,
         action: 'UPDATE',
         oldData: existingStore || undefined,
-        newData: store,
+        newData: store as any,
         metadata: { source: 'admin_dashboard' }
       }, {
         eventType: 'store_updated',
