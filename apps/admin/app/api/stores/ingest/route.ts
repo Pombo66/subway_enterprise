@@ -137,7 +137,9 @@ export async function POST(request: NextRequest) {
 
     // Step 2: Detect duplicates
     const duplicates = validationService.detectDuplicates(validStores);
-    console.log(`🔍 [${ingestId}] Found ${duplicates.length} potential duplicates`);
+    if (DEBUG_LOGGING) {
+      console.log(`🔍 [${ingestId}] Found ${duplicates.length} potential duplicates`);
+    }
 
     // Step 3: Geocode addresses that need it
     const geocodeRequests: GeocodeRequest[] = [];
