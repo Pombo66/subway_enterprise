@@ -79,9 +79,9 @@ export class UploadConfigManager {
 
   private loadGeocodingConfig(): GeocodingConfig {
     return {
-      mapboxToken: process.env.MAPBOX_TOKEN,
+      mapboxToken: process.env.MAPBOX_TOKEN || process.env.MAPBOX_ACCESS_TOKEN,
       googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
-      enableNominatim: true,
+      enableNominatim: process.env.ENABLE_NOMINATIM !== 'false',
       userAgent: 'Subway-Enterprise-Admin/1.0'
     };
   }
