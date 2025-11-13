@@ -11,6 +11,8 @@ import { invalidateStoreCache } from '../../../../lib/events/cache-events';
 import prisma from '../../../../lib/db';
 import crypto from 'crypto';
 
+const DEBUG_LOGGING = process.env.DEBUG_INGEST_LOGGING === 'true';
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
   let ingestId: string | undefined;
@@ -54,9 +56,11 @@ export async function POST(request: NextRequest) {
       return rowObj;
     });
 
-    console.log(`📊 [${ingestId}] Converted ${rows.length} array rows to objects`);
-    console.log(`📊 [${ingestId}] Headers:`, headers);
-    console.log(`📊 [${ingestId}] First row sample:`, rows[0]);
+    if (DEBUG_LOGGING) {
+      console.log(`📊 [${ingestId}] Converted ${rows.length} array rows to objects`);
+      console.log(`📊 [${ingestId}] Headers:`, headers);
+      console.log(`📊 [${ingestId}] First row sample:`, rows[0]);
+    }
 
     // Validate row count
     if (rows.length > config.maxRowsPerUpload) {
@@ -66,13 +70,17 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(`📊 [${ingestId}] Retrieved ${rows.length} rows from upload cache`);
-    console.log(`📊 [${ingestId}] Column mapping:`, JSON.stringify(mapping, null, 2));
-    console.log(`📊 [${ingestId}] Inferred country: ${inferredCountry}`);
+    if (DEBUG_LOGGING) {
+      console.log(`📊 [${ingestId}] Column mapping:`, JSON.stringify(mapping, null, 2));
+      console.log(`📊 [${ingestId}] Inferred country: ${inferredCountry}`);
+    }
 
     // Step 1: Validate and normalize all rows with performance tracking
-    console.log(`🔍 Starting validation with inferred country: ${inferredCountry}`);
-    console.log(`🔍 Mapping:`, mapping);
-    console.log(`🔍 First row sample:`, rows[0]);
+    if (DEBUG_LOGGING) {
+      console.log(`🔍 Starting validation with inferred country: ${inferredCountry}`);
+      console.log(`🔍 Mapping:`, mapping);
+      console.log(`🔍 First row sample:`, rows[0]);
+    }
 
     const { validationResults, normalizedStores } = await trackPhase(ingestId, 'validate', async () => {
       const validationResults = validationService.validateBatch(rows, mapping, inferredCountry);
@@ -116,7 +124,8 @@ export async function POST(request: NextRequest) {
     }
 
     console.log(`✅ [${ingestId}] Validation complete: ${validStores.length} valid, ${invalidCount} invalid`);
-    console.log(`📊 [${ingestId}] Sample valid store:`, validStores[0] ? {
+    if (DEBUG_LOGGING && validStores[0]) {
+      console.log(`📊 [${ingestId}] Sample valid store:`, {
       name: validStores[0].name,
       address: validStores[0].address,
       city: validStores[0].city,
@@ -144,8 +153,10 @@ export async function POST(request: NextRequest) {
         };
         geocodeRequests.push(request);
         storeGeocodingMap.set(index, geocodeIndex);
-        console.log(`🌍 [${ingestId}] Queuing geocode for "${store.name}":`, request);
-      } else {
+        if (DEBUG_LOGGING) {
+          console.log(`🌍 [${ingestId}] Queuing geocode for "${store.name}":`, request);
+        }
+      } else if (DEBUG_LOGGING) {
         console.log(`✓ [${ingestId}] Store "${store.name}" already has coordinates: (${store.latitude}, ${store.longitude})`);
       }
     });
@@ -159,7 +170,9 @@ export async function POST(request: NextRequest) {
         return await geocodingService.batchGeocode(geocodeRequests);
       }, geocodeRequests.length);
 
-      console.log(`📊 [${ingestId}] Geocoding results received: ${geocodeResults.length} results`);
+      if (DEBUG_LOGGING) {
+        console.log(`📊 [${ingestId}] Geocoding results received: ${geocodeResults.length} results`);
+      }
 
       // Apply geocoding results back to stores
       validStores.forEach((store, index) => {
@@ -169,7 +182,10 @@ export async function POST(request: NextRequest) {
           if (result.status === 'success') {
             store.latitude = result.latitude;
             store.longitude = result.longitude;
-            console.log(`✅ [${ingestId}] Geocoded "${store.name}" → (${store.latitude}, ${store.longitude}) via ${result.provider || 'unknown'}`);
+            // Reduced logging to avoid rate limits - only log every 10th success
+            if (geocodedCount % 10 === 0) {
+              console.log(`✅ [${ingestId}] Geocoded ${geocodedCount} stores (latest: "${store.name}" via ${result.provider || 'unknown'})`);
+            }
           } else {
             pendingGeocodeCount++;
             console.warn(`⚠️ [${ingestId}] Failed to geocode "${store.name}"`);
@@ -257,16 +273,20 @@ export async function POST(request: NextRequest) {
                 }
               });
               summary.updated++;
-              console.log(`📝 [${ingestId}] Updated store "${store.name}" (ID: ${updated.id})`);
-              console.log(`   Coordinates: (${updated.latitude}, ${updated.longitude})`);
+              if (DEBUG_LOGGING) {
+                console.log(`📝 [${ingestId}] Updated store "${store.name}" (ID: ${updated.id})`);
+                console.log(`   Coordinates: (${updated.latitude}, ${updated.longitude})`);
+              }
             } else {
               // Create new store
               const created = await tx.store.create({
                 data: storeData
               });
               summary.inserted++;
-              console.log(`➕ [${ingestId}] Created store "${store.name}" (ID: ${created.id})`);
-              console.log(`   Coordinates: (${created.latitude}, ${created.longitude})`);
+              if (DEBUG_LOGGING) {
+                console.log(`➕ [${ingestId}] Created store "${store.name}" (ID: ${created.id})`);
+                console.log(`   Coordinates: (${created.latitude}, ${created.longitude})`);
+              }
             }
 
           } catch (error) {
