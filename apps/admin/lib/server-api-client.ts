@@ -40,12 +40,17 @@ export async function createServerApiClient() {
         headers['Authorization'] = `Bearer ${accessToken}`;
       }
 
-      const response = await fetch(`${BFF_BASE_URL}${endpoint}`, {
+      const url = `${BFF_BASE_URL}${endpoint}`;
+      console.log(`🌐 Fetching from BFF: ${url}`);
+      
+      const response = await fetch(url, {
         ...options,
         headers,
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ BFF error response:`, errorText);
         throw new Error(`BFF request failed: ${response.status} ${response.statusText}`);
       }
 
