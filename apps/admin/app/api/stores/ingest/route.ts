@@ -13,12 +13,6 @@ import crypto from 'crypto';
 
 const DEBUG_LOGGING = process.env.DEBUG_INGEST_LOGGING === 'true';
 
-// Suppress all console.log to avoid Railway rate limits (unless debug mode is on)
-const originalLog = console.log;
-if (!DEBUG_LOGGING) {
-  console.log = () => {}; // Suppress all logs in production
-}
-
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
   let ingestId: string | undefined;
@@ -223,26 +217,18 @@ export async function POST(request: NextRequest) {
       console.log(`📝 [${ingestId}] ${pendingGeocodeCount} stores will be saved without coordinates (pending geocode)`);
     }
 
-    // Use transaction for data consistency with performance tracking
+    // Use batched operations for better performance
     await trackPhase(ingestId, 'upsert', async () => {
-      await prisma.$transaction(async (tx) => {
-        for (const store of validStores) {
-          try {
-            // Generate unique key for upsert
-            const uniqueKey = store.externalId || generateStoreKey(store);
-
-            // Check if store exists
-            const existingStore = store.externalId
-              ? await tx.store.findFirst({
-                where: {
-                  // Note: The current schema doesn't have externalId field
-                  // We'll use name + address + city combination for now
-                  name: store.name,
-                  city: store.city,
-                  country: store.country
-                }
-              })
-              : await tx.store.findFirst({
+      // Process in batches of 50 to avoid overwhelming the database
+      const BATCH_SIZE = 50;
+      for (let i = 0; i < validStores.length; i += BATCH_SIZE) {
+        const batch = validStores.slice(i, i + BATCH_SIZE);
+        
+        await prisma.$transaction(async (tx) => {
+          for (const store of batch) {
+            try {
+              // Check if store exists
+              const existingStore = await tx.store.findFirst({
                 where: {
                   name: store.name,
                   city: store.city,
@@ -479,11 +465,6 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json(errorResponse, { status: 500 });
-  } finally {
-    // Restore console.log
-    if (!DEBUG_LOGGING) {
-      console.log = originalLog;
-    }
   }
 }
 
