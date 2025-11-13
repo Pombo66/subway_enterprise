@@ -182,8 +182,9 @@ export async function POST(request: NextRequest) {
           if (result.status === 'success') {
             store.latitude = result.latitude;
             store.longitude = result.longitude;
-            // Reduced logging to avoid rate limits - only log every 10th success
-            if (geocodedCount % 10 === 0) {
+            geocodedCount++;
+            // Reduced logging to avoid rate limits - only log every 50th success
+            if (DEBUG_LOGGING && geocodedCount % 50 === 0) {
               console.log(`✅ [${ingestId}] Geocoded ${geocodedCount} stores (latest: "${store.name}" via ${result.provider || 'unknown'})`);
             }
           } else {
