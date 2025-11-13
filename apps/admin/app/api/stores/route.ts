@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createServerApiClient } from '@/lib/server-api-client';
+import { getFromBff } from '@/lib/server-api-client';
 
 export async function GET(request: Request) {
     try {
@@ -28,11 +28,8 @@ export async function GET(request: Request) {
         
         console.log('🔄 Proxying stores request to BFF:', endpoint);
         
-        // Create authenticated API client
-        const apiClient = await createServerApiClient();
-        
         // Fetch from BFF with authentication
-        const bffData = await apiClient.get<any>(endpoint);
+        const bffData = await getFromBff(endpoint);
 
         
         // BFF returns {success: true, data: [...]} format

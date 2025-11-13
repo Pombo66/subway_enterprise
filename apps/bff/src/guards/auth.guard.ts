@@ -1,25 +1,19 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+// apps/bff/src/guards/auth.guard.ts
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { createClient } from '@supabase/supabase-js';
+import type { Request } from 'express';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private supabase;
+  constructor(private reflector: Reflector) {}
 
-  constructor(private reflector: Reflector) {
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      console.warn('⚠️  Supabase credentials not configured - authentication disabled');
-      this.supabase = null;
-    } else {
-      this.supabase = createClient(supabaseUrl, supabaseKey);
-    }
-  }
-
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     // Check if route is marked as public
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -30,34 +24,37 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    // If Supabase is not configured, allow access (development mode)
-    if (!this.supabase) {
-      console.warn('⚠️  Request allowed without authentication (Supabase not configured)');
+    const request = context.switchToHttp().getRequest<Request>();
+
+    // 1) Optional dev bypass for local development
+    if (process.env.DEV_AUTH_BYPASS === 'true') {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const rawHeader = request.headers['authorization'] ?? request.headers['Authorization'];
+    if (!rawHeader || Array.isArray(rawHeader)) {
       throw new UnauthorizedException('Missing or invalid authorization header');
     }
 
-    const token = authHeader.substring(7);
-
-    try {
-      // Verify the JWT token with Supabase
-      const { data: { user }, error } = await this.supabase.auth.getUser(token);
-
-      if (error || !user) {
-        throw new UnauthorizedException('Invalid or expired token');
-      }
-
-      // Attach user to request for use in controllers
-      request.user = user;
-      return true;
-    } catch (error) {
-      throw new UnauthorizedException('Authentication failed');
+    const [scheme, token] = rawHeader.split(' ');
+    if (scheme !== 'Bearer' || !token) {
+      throw new UnauthorizedException('Missing or invalid authorization header');
     }
+
+    // 2) Internal Admin secret – used by the Next.js admin app when calling the BFF
+    const internalSecret = process.env.INTERNAL_ADMIN_SECRET;
+    if (internalSecret && token === internalSecret) {
+      // Optionally attach a fake "user" to the request for logging/audit
+      (request as any).user = {
+        id: 'admin-service',
+        role: 'system',
+        source: 'internal-admin',
+      };
+      return true;
+    }
+
+    // 3) TODO: Here is where you would verify a real user JWT (e.g. Supabase) if needed.
+    // For now, if it's not the internal secret, we treat it as invalid.
+    throw new UnauthorizedException('Invalid or unsupported token');
   }
 }
