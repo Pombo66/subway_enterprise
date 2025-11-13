@@ -123,17 +123,26 @@ export async function POST(request: NextRequest) {
       throw new ValidationError(errorMessage);
     }
 
-    console.log(`✅ [${ingestId}] Validation complete: ${validStores.length} valid, ${invalidCount} invalid`);
-    if (DEBUG_LOGGING && validStores[0]) {
-      console.log(`📊 [${ingestId}] Sample valid store:`, {
-        name: validStores[0].name,
-        address: validStores[0].address,
-        city: validStores[0].city,
-        postcode: validStores[0].postcode,
-        country: validStores[0].country,
-        hasCoordinates: !!(validStores[0].latitude && validStores[0].longitude)
-      });
-    }
+    // Step 1: Basic validation summary
+    const totalRows = rows.length;
+    const validCount = validStores.length;
+    const sampleStore = validStores.length > 0 ? validStores[0] : null;
+    
+    console.log(`[${ingestId}] Validation summary`, {
+      totalRows,
+      validCount,
+      invalidCount,
+      sampleLocation: sampleStore
+        ? {
+            name: sampleStore.name,
+            address: sampleStore.address,
+            city: sampleStore.city,
+            postcode: sampleStore.postcode,
+            country: sampleStore.country,
+            hasCoordinates: Boolean(sampleStore.latitude && sampleStore.longitude),
+          }
+        : 'none',
+    });
 
     // Step 2: Detect duplicates
     const duplicates = validationService.detectDuplicates(validStores);
