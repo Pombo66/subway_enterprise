@@ -12,6 +12,13 @@ import prisma from '../../../../lib/db';
 import crypto from 'crypto';
 
 const DEBUG_LOGGING = process.env.DEBUG_INGEST_LOGGING === 'true';
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
+// Suppress all console.log in production to avoid Railway rate limits
+const originalLog = console.log;
+if (IS_PRODUCTION && !DEBUG_LOGGING) {
+  console.log = () => {}; // Suppress all logs
+}
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
@@ -473,6 +480,11 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json(errorResponse, { status: 500 });
+  } finally {
+    // Restore console.log
+    if (IS_PRODUCTION && !DEBUG_LOGGING) {
+      console.log = originalLog;
+    }
   }
 }
 
