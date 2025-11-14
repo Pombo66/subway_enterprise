@@ -311,6 +311,7 @@ export async function POST(request: NextRequest) {
           }
         }
       });
+      }
     }, validStores.length);
 
     // Verify saved stores have coordinates (outside transaction)
