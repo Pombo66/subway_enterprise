@@ -184,6 +184,9 @@ export async function POST(request: NextRequest) {
       }
 
       // Apply geocoding results back to stores
+      let geocodedCount = 0;
+      let failedCount = 0;
+      
       validStores.forEach((store, index) => {
         const geocodeIndex = storeGeocodingMap.get(index);
         if (geocodeIndex !== undefined) {
@@ -192,22 +195,16 @@ export async function POST(request: NextRequest) {
             store.latitude = result.latitude;
             store.longitude = result.longitude;
             geocodedCount++;
-            // Reduced logging to avoid rate limits - only log every 50th success
-            if (DEBUG_LOGGING && geocodedCount % 50 === 0) {
-              console.log(`✅ [${ingestId}] Geocoded ${geocodedCount} stores (latest: "${store.name}" via ${result.provider || 'unknown'})`);
-            }
           } else {
-            pendingGeocodeCount++;
-            console.warn(`⚠️ [${ingestId}] Failed to geocode "${store.name}"`);
-            console.warn(`   Address: ${store.address}, ${store.city}, ${store.postcode}, ${store.country}`);
-            console.warn(`   Error: ${result.error || 'Unknown error'}`);
-            console.warn(`   Provider: ${result.provider || 'unknown'}`);
+            failedCount++;
+            // Only log failures
+            console.warn(`⚠️ [${ingestId}] Failed to geocode "${store.name}": ${store.address}, ${store.city}, ${store.postcode}, ${store.country}`);
           }
         }
       });
 
-      const successCount = geocodeResults.filter(r => r.status === 'success').length;
-      console.log(`✅ [${ingestId}] Geocoding summary: ${successCount}/${geocodeRequests.length} successful, ${pendingGeocodeCount} failed`);
+      pendingGeocodeCount = failedCount;
+      console.log(`✅ [${ingestId}] Geocoding complete: ${geocodedCount} successful, ${failedCount} failed`);
     } else {
       console.log(`✓ [${ingestId}] No geocoding needed - all stores have coordinates`);
     }
@@ -230,8 +227,14 @@ export async function POST(request: NextRequest) {
     await trackPhase(ingestId, 'upsert', async () => {
       // Process in batches of 50 to avoid overwhelming the database
       const BATCH_SIZE = 50;
+      const totalBatches = Math.ceil(validStores.length / BATCH_SIZE);
+      
       for (let i = 0; i < validStores.length; i += BATCH_SIZE) {
         const batch = validStores.slice(i, i + BATCH_SIZE);
+        const batchNum = Math.floor(i / BATCH_SIZE) + 1;
+        let batchInserted = 0;
+        let batchUpdated = 0;
+        let batchFailed = 0;
         
         await prisma.$transaction(async (tx) => {
           for (const store of batch) {
@@ -275,20 +278,14 @@ export async function POST(request: NextRequest) {
                 }
               });
               summary.updated++;
-              if (DEBUG_LOGGING) {
-                console.log(`📝 [${ingestId}] Updated store "${store.name}" (ID: ${updated.id})`);
-                console.log(`   Coordinates: (${updated.latitude}, ${updated.longitude})`);
-              }
+              batchUpdated++;
             } else {
               // Create new store
               const created = await tx.store.create({
                 data: storeData
               });
               summary.inserted++;
-              if (DEBUG_LOGGING) {
-                console.log(`➕ [${ingestId}] Created store "${store.name}" (ID: ${created.id})`);
-                console.log(`   Coordinates: (${created.latitude}, ${created.longitude})`);
-              }
+              batchInserted++;
             }
 
           } catch (error) {
@@ -308,9 +305,15 @@ export async function POST(request: NextRequest) {
               }
             });
             summary.failed++;
+            batchFailed++;
+            // Log individual failures
+            console.error(`❌ [${ingestId}] Failed to save "${store.name}": ${error instanceof Error ? error.message : String(error)}`);
           }
         }
       });
+        
+        // Log batch summary
+        console.log(`📦 [${ingestId}] Batch ${batchNum}/${totalBatches}: ${batchInserted} inserted, ${batchUpdated} updated, ${batchFailed} failed`);
       }
     }, validStores.length);
 
