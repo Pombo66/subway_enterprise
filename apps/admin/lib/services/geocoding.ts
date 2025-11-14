@@ -60,7 +60,7 @@ export class GeocodingService {
       };
     }
 
-    console.log(`🔄 Available providers: ${providers.join(', ')}`);
+    // Removed verbose logging - providers are logged at batch level
     let attemptCount = 0;
 
     // Try each provider in order with retry logic
@@ -71,7 +71,7 @@ export class GeocodingService {
         try {
           attemptCount++;
           const retryInfo = retryCount > 0 ? ` (retry ${retryCount}/${this.maxRetries - 1})` : '';
-          console.log(`🔄 Attempt ${attemptCount}: Trying ${provider}${retryInfo} for "${addressQuery}"`);
+          // Removed per-address logging
           
           await this.throttleRequest();
           
@@ -92,11 +92,7 @@ export class GeocodingService {
           }
           
           if (result.status === 'success') {
-            console.log(`✅ Geocoding successful with ${provider}${retryInfo}:`, {
-              address: addressQuery,
-              coordinates: { lat: result.latitude, lng: result.longitude },
-              accuracy: result.accuracy
-            });
+            // Success - no logging, handled at batch level
             return result;
           }
           
