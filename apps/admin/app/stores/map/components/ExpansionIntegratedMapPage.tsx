@@ -244,7 +244,7 @@ export default function ExpansionIntegratedMapPage() {
 
   // Helper function to poll job completion
   const pollJobCompletion = async (jobId: string, storageKey: string): Promise<any> => {
-    const maxAttempts = 60; // 5 minutes max (5s intervals)
+    const maxAttempts = 180; // 15 minutes max (5s intervals) - country-wide expansions can take 8-10 minutes
     let attempts = 0;
     
     while (attempts < maxAttempts) {
@@ -297,8 +297,15 @@ export default function ExpansionIntegratedMapPage() {
       }
     }
     
-    // Timeout reached
-    throw new Error('Job polling timeout - the job may still be running. Check back later.');
+    // Timeout reached - but job may still be running
+    console.warn(`⏰ Polling timeout for job ${jobId} after ${maxAttempts * 5}s. Job may still be processing.`);
+    
+    // Don't remove from recovery storage - user can check back later
+    throw new Error(
+      `Job is taking longer than expected (>${Math.floor(maxAttempts * 5 / 60)} minutes). ` +
+      `Large country-wide expansions can take 10-15 minutes. ` +
+      `The job is still running in the background. Please check back in a few minutes or refresh the page.`
+    );
   };
 
   const handleSaveScenario = useCallback(async (label: string, params: ExpansionParams) => {

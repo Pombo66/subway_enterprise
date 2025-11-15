@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 import { config } from '../config';
 
 export interface AuthContext {
@@ -33,22 +34,39 @@ export async function getAuthContext(request: NextRequest): Promise<AuthContext 
     return null;
   }
 
-  // TODO: Implement real authentication
-  // For now, check for a simple auth header
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader) {
+  // Production: Use Supabase authentication
+  try {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value;
+          },
+          set() {},
+          remove() {},
+        },
+      }
+    );
+
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      return null;
+    }
+
+    // Get user role from session metadata or default to ADMIN
+    const role = session.user.user_metadata?.role || 'ADMIN';
+
+    return {
+      userId: session.user.id,
+      role: role,
+    };
+  } catch (error) {
+    console.error('Auth error:', error);
     return null;
   }
-
-  // Simple token validation (replace with real auth)
-  if (authHeader.startsWith('Bearer ')) {
-    return {
-      userId: 'authenticated-user',
-      role: 'ADMIN'
-    };
-  }
-
-  return null;
 }
 
 export function hasExpansionAccess(role: string): boolean {
