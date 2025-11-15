@@ -157,26 +157,18 @@ export default function WorkingMapView({
     });
 
     // Add sparkle badge for high confidence suggestions (>0.70)
+    // Using a circle layer for better visibility
     map.addLayer({
       id: 'expansion-suggestions-sparkle',
-      type: 'symbol',
+      type: 'circle',
       source: 'expansion-suggestions',
       filter: ['>', ['get', 'confidence'], 0.70],
-      layout: {
-        'text-field': '✨',
-        'text-size': 16,
-        'text-offset': [0.9, -0.9],
-        'text-anchor': 'center',
-        'text-allow-overlap': true,
-        'icon-allow-overlap': true,
-        'symbol-placement': 'point',
-        'text-ignore-placement': true
-      },
       paint: {
-        'text-color': '#fbbf24',
-        'text-halo-color': '#ffffff',
-        'text-halo-width': 2,
-        'text-opacity': 1
+        'circle-radius': 8,
+        'circle-color': '#fbbf24', // Gold color
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff',
+        'circle-opacity': 0.9
       }
     });
     
