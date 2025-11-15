@@ -96,10 +96,10 @@ export class SimpleExpansionService {
       // Build the prompt with all store data
       const prompt = this.buildPrompt(request);
 
-      // Create custom agent with extended timeouts
+      // Create custom agent with extended timeouts for large requests
       const agent = new Agent({
-        headersTimeout: 600000, // 10 minutes
-        bodyTimeout: 600000,    // 10 minutes
+        headersTimeout: 900000, // 15 minutes (for 150-store requests)
+        bodyTimeout: 900000,    // 15 minutes
         connectTimeout: 60000   // 1 minute for initial connection
       });
 
