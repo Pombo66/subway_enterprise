@@ -150,6 +150,9 @@ export class SimpleExpansionService {
       const textContent = messageOutput.content[0].text;
       this.logger.log(`Response length: ${textContent.length} chars, Output tokens: ${outputTokens}`);
       
+      // Log first 500 chars to see what AI returned
+      this.logger.log(`📄 Response preview: ${textContent.substring(0, 500)}...`);
+      
       // Check if response was truncated
       if (!textContent.trim().endsWith('}')) {
         this.logger.warn('⚠️ Response appears truncated - does not end with }');
@@ -161,8 +164,7 @@ export class SimpleExpansionService {
         aiResponse = JSON.parse(textContent);
       } catch (parseError) {
         this.logger.error('❌ JSON parsing failed. Raw text length:', textContent.length);
-        this.logger.error('First 1000 chars:', textContent.substring(0, 1000));
-        this.logger.error('Last 500 chars:', textContent.substring(Math.max(0, textContent.length - 500)));
+        this.logger.error('Full response:', textContent);
         
         // Check if it looks like truncation
         if (!textContent.trim().endsWith('}')) {
@@ -171,6 +173,9 @@ export class SimpleExpansionService {
         
         throw new Error(`Failed to parse GPT response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
       }
+      
+      // Log what we got
+      this.logger.log(`📊 Parsed response keys: ${Object.keys(aiResponse).join(', ')}`);
 
       // Validate and format suggestions (with geocoding)
       this.logger.log(`📋 AI returned ${aiResponse.suggestions?.length || 0} suggestions`);
