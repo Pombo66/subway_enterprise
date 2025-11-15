@@ -338,7 +338,7 @@ Provide ${request.targetCount} strategically diverse suggestions with context-aw
   }
 
   /**
-   * Parse and validate GPT suggestions with geocoding
+   * Parse and validate GPT suggestions with geocoding (parallelized)
    */
   private async parseSuggestions(
     aiResponse: any,
@@ -348,79 +348,93 @@ Provide ${request.targetCount} strategically diverse suggestions with context-aw
       throw new Error('Invalid response format: missing suggestions array');
     }
 
+    this.logger.log(`🗺️ Starting parallel geocoding for ${aiResponse.suggestions.length} suggestions...`);
+    const startTime = Date.now();
+
+    // Process geocoding in parallel with concurrency limit
+    const CONCURRENCY_LIMIT = 10; // Process 10 at a time to avoid rate limits
     const suggestions: ExpansionSuggestion[] = [];
+    
+    for (let i = 0; i < aiResponse.suggestions.length; i += CONCURRENCY_LIMIT) {
+      const batch = aiResponse.suggestions.slice(i, i + CONCURRENCY_LIMIT);
+      const batchResults = await Promise.all(
+        batch.map(async (suggestion) => {
+          const claimedCity = suggestion.city || 'Unknown';
+          const searchQuery = suggestion.searchQuery || `${suggestion.specificLocation || claimedCity}, ${claimedCity}, Germany`;
+          
+          // Geocode the address to get accurate coordinates
+          let geocoded = await this.geocodeAddress(searchQuery, claimedCity);
+          let usedCityFallback = false;
+          
+          // If geocoding failed or city mismatch, try fallback to city center
+          if (!geocoded || !geocoded.cityMatch) {
+            if (geocoded && !geocoded.cityMatch) {
+              this.logger.warn(`⚠️ City mismatch: "${claimedCity}" → "${geocoded.actualCity}"`);
+            }
+            
+            // Try geocoding just the city name
+            const cityFallback = await this.geocodeAddress(`${claimedCity}, Germany`, claimedCity);
+            
+            if (cityFallback && cityFallback.cityMatch) {
+              geocoded = cityFallback;
+              usedCityFallback = true;
+            } else if (!geocoded) {
+              this.logger.warn(`❌ Geocoding failed: "${searchQuery}"`);
+              return null;
+            }
+          }
 
-    for (const suggestion of aiResponse.suggestions) {
-      const claimedCity = suggestion.city || 'Unknown';
-      const searchQuery = suggestion.searchQuery || `${suggestion.specificLocation || claimedCity}, ${claimedCity}, Germany`;
-      
-      // Geocode the address to get accurate coordinates
-      let geocoded = await this.geocodeAddress(searchQuery, claimedCity);
-      let usedCityFallback = false;
-      
-      // If geocoding failed or city mismatch, try fallback to city center
-      if (!geocoded || !geocoded.cityMatch) {
-        if (geocoded && !geocoded.cityMatch) {
-          this.logger.warn(`⚠️ City mismatch detected for "${searchQuery}"`);
-          this.logger.warn(`   GPT claimed: "${claimedCity}", Mapbox found: "${geocoded.actualCity}"`);
-          this.logger.warn(`   Falling back to city center: "${claimedCity}, Germany"`);
-        }
-        
-        // Try geocoding just the city name
-        const cityFallback = await this.geocodeAddress(`${claimedCity}, Germany`, claimedCity);
-        
-        if (cityFallback && cityFallback.cityMatch) {
-          geocoded = cityFallback;
-          usedCityFallback = true;
-          this.logger.log(`✅ Using city center fallback for ${claimedCity}`);
-        } else if (!geocoded) {
-          this.logger.warn(`❌ Skipping suggestion - geocoding failed: "${searchQuery}"`);
-          continue;
-        }
-        // If we have geocoded result but no fallback worked, we'll use the original (with flag)
-      }
-
-      const { lat, lng, actualCity } = geocoded;
-      
-      // Use the actual geocoded city name
-      const city = actualCity;
-
-      // Validate coordinates are in reasonable range
-      if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
-        this.logger.warn(`Skipping suggestion with out-of-range coordinates: ${lat}, ${lng}`);
-        continue;
-      }
-
-      // Validate minimum distance from existing stores (using accurate coordinates)
-      const nearestDistance = this.calculateNearestStoreDistance(
-        lat,
-        lng,
-        request.existingStores
+          return { suggestion, geocoded, usedCityFallback };
+        })
       );
 
-      if (nearestDistance < 500) {
-        this.logger.warn(`Skipping suggestion too close to existing store: ${nearestDistance}m at "${searchQuery}"`);
-        continue;
-      }
+      // Process batch results
+      for (const result of batchResults) {
+        if (!result || !result.geocoded) continue;
 
-      suggestions.push({
-        lat,
-        lng,
-        city,
-        address: suggestion.specificLocation || suggestion.address,
-        specificLocation: suggestion.specificLocation,
-        searchQuery,
-        nearestExistingStore: suggestion.nearestExistingStore,
-        rationale: suggestion.rationale || 'AI-generated location',
-        confidence: Math.min(1, Math.max(0, suggestion.confidence || 0.7)),
-        estimatedRevenue: suggestion.estimatedRevenue,
-        distanceToNearestStore: nearestDistance,
-        geocoded: true,
-        usedCityFallback
-      });
+        const { suggestion, geocoded, usedCityFallback } = result;
+        const { lat, lng, actualCity } = geocoded;
+        const searchQuery = suggestion.searchQuery || `${suggestion.specificLocation || actualCity}, ${actualCity}, Germany`;
+
+        // Validate coordinates are in reasonable range
+        if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+          this.logger.warn(`Skipping suggestion with out-of-range coordinates: ${lat}, ${lng}`);
+          continue;
+        }
+
+        // Validate minimum distance from existing stores (using accurate coordinates)
+        const nearestDistance = this.calculateNearestStoreDistance(
+          lat,
+          lng,
+          request.existingStores
+        );
+
+        if (nearestDistance < 500) {
+          this.logger.warn(`Skipping suggestion too close to existing store: ${nearestDistance}m at "${searchQuery}"`);
+          continue;
+        }
+
+        suggestions.push({
+          lat,
+          lng,
+          city: actualCity,
+          address: suggestion.specificLocation || suggestion.address,
+          specificLocation: suggestion.specificLocation,
+          searchQuery,
+          nearestExistingStore: suggestion.nearestExistingStore,
+          rationale: suggestion.rationale || 'AI-generated location',
+          confidence: Math.min(1, Math.max(0, suggestion.confidence || 0.7)),
+          estimatedRevenue: suggestion.estimatedRevenue,
+          distanceToNearestStore: nearestDistance,
+          geocoded: true,
+          usedCityFallback
+        });
+      }
     }
 
-    this.logger.log(`✅ Geocoded and validated ${suggestions.length}/${aiResponse.suggestions.length} suggestions`);
+    const duration = Date.now() - startTime;
+    this.logger.log(`✅ Geocoded ${suggestions.length}/${aiResponse.suggestions.length} suggestions in ${duration}ms (${Math.round(duration / suggestions.length)}ms avg)`);
+
 
     return suggestions;
   }
