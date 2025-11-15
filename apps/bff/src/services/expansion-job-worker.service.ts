@@ -121,11 +121,34 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
       // Import simple expansion service
       const { SimpleExpansionService } = await import('./ai/simple-expansion.service');
       
-      // Get existing OPEN stores for the region
+      // First, check what status values exist
+      const allStores = await this.prisma.store.findMany({
+        where: {
+          country: params.region.country || 'Germany'
+        },
+        select: {
+          status: true
+        }
+      });
+
+      const statusCounts = allStores.reduce((acc, store) => {
+        const status = store.status || 'null';
+        acc[status] = (acc[status] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      this.logger.log(`   Status distribution: ${JSON.stringify(statusCounts)}`);
+
+      // Get existing OPEN stores for the region (handle various status formats)
       const stores = await this.prisma.store.findMany({
         where: {
           country: params.region.country || 'Germany',
-          status: 'OPEN' // Only include open stores
+          OR: [
+            { status: 'OPEN' },
+            { status: 'Open' },
+            { status: 'open' },
+            { status: null } // Include stores with no status set
+          ]
         },
         select: {
           name: true,
