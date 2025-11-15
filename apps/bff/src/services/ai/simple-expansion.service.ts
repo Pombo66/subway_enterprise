@@ -70,9 +70,15 @@ export class SimpleExpansionService {
   async generateSuggestions(request: SimpleExpansionRequest): Promise<SimpleExpansionResult> {
     const startTime = Date.now();
 
+    this.logger.log('🚀 SimpleExpansionService.generateSuggestions() called');
+    this.logger.log(`   Request: ${JSON.stringify({ region: request.region, targetCount: request.targetCount, model: request.model })}`);
+
     if (!this.OPENAI_API_KEY) {
+      this.logger.error('❌ OPENAI_API_KEY not configured!');
       throw new Error('OPENAI_API_KEY not configured');
     }
+
+    this.logger.log(`✅ OPENAI_API_KEY is set (length: ${this.OPENAI_API_KEY.length})`);
 
     // Validate targetCount is provided (should be calculated from aggression)
     if (!request.targetCount || request.targetCount <= 0) {
@@ -82,9 +88,9 @@ export class SimpleExpansionService {
     // Use requested model or default to gpt-5-mini
     const model = request.model || this.DEFAULT_MODEL;
 
-    this.logger.log(`Generating ${request.targetCount} suggestions for ${request.region}`);
-    this.logger.log(`Using model: ${model}`);
-    this.logger.log(`Analyzing ${request.existingStores.length} existing stores`);
+    this.logger.log(`🎯 Generating ${request.targetCount} suggestions for ${request.region}`);
+    this.logger.log(`🤖 Using model: ${model}`);
+    this.logger.log(`📊 Analyzing ${request.existingStores.length} existing stores`);
 
     try {
       // Build the prompt with all store data
@@ -98,6 +104,9 @@ export class SimpleExpansionService {
       });
 
       // Single API call to GPT with extended timeout
+      this.logger.log(`🌐 Making OpenAI API call to /v1/responses with model: ${model}`);
+      this.logger.log(`📝 Prompt length: ${prompt.length} characters`);
+      
       const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
@@ -117,13 +126,16 @@ export class SimpleExpansionService {
         dispatcher: agent // Use custom agent with extended timeouts
       });
 
+      this.logger.log(`📡 OpenAI API response status: ${response.status}`);
+
       if (!response.ok) {
         const errorText = await response.text();
-        this.logger.error(`OpenAI API error: ${response.status}`);
-        this.logger.error(`Response body: ${errorText}`);
+        this.logger.error(`❌ OpenAI API error: ${response.status}`);
+        this.logger.error(`❌ Response body: ${errorText}`);
         throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
       }
 
+      this.logger.log(`✅ OpenAI API call successful, parsing response...`);
       const data: any = await response.json();
       const tokensUsed = data.usage?.total_tokens || 0;
       const outputTokens = data.usage?.output_tokens || 0;
