@@ -43,7 +43,7 @@ export default function AIIndicatorLegend({
             </div>
           </div>
           <div>
-            <div className="text-sm font-medium text-gray-800">High Confidence ({'>'}75%)</div>
+            <div className="text-sm font-medium text-gray-800">High Confidence ({'>'}70%)</div>
             <div className="text-xs text-gray-600">Strong expansion candidates with high viability scores</div>
           </div>
         </div>

@@ -71,10 +71,10 @@ export default function WorkingMapView({
 
     // Debug AI features and confidence
     const aiFeatures = geojsonData.features.filter(f => f.properties.hasAIAnalysis === true);
-    const highConfidenceFeatures = geojsonData.features.filter(f => f.properties.confidence > 0.75);
+    const highConfidenceFeatures = geojsonData.features.filter(f => f.properties.confidence > 0.70);
     
     console.log(`🗺️ Map: Adding ${suggestions.length} suggestions, ${aiFeatures.length} with AI analysis`);
-    console.log(`✨ High confidence (>0.75): ${highConfidenceFeatures.length} suggestions`);
+    console.log(`✨ High confidence (>70%): ${highConfidenceFeatures.length} suggestions`);
     console.log(`🔍 Confidence value types:`, suggestions.slice(0, 3).map(s => ({
       id: s.id,
       confidence: s.confidence,
@@ -156,12 +156,12 @@ export default function WorkingMapView({
       }
     });
 
-    // Add sparkle badge for high confidence suggestions (>0.75)
+    // Add sparkle badge for high confidence suggestions (>0.70)
     map.addLayer({
       id: 'expansion-suggestions-sparkle',
       type: 'symbol',
       source: 'expansion-suggestions',
-      filter: ['>', ['get', 'confidence'], 0.75],
+      filter: ['>', ['get', 'confidence'], 0.70],
       layout: {
         'text-field': '✨',
         'text-size': 16,
@@ -180,11 +180,11 @@ export default function WorkingMapView({
       }
     });
     
-    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.75).length;
-    console.log(`✨ Sparkle layer added for ${highConfCount} high confidence suggestions (>0.75)`);
+    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.70).length;
+    console.log(`✨ Sparkle layer added for ${highConfCount} high confidence suggestions (>70%)`);
     console.log(`✨ Sparkle layer config:`, {
       layerId: 'expansion-suggestions-sparkle',
-      filter: ['>', ['get', 'confidence'], 0.75],
+      filter: ['>', ['get', 'confidence'], 0.70],
       expectedCount: highConfCount,
       layerExists: map.getLayer('expansion-suggestions-sparkle') !== undefined
     });

@@ -173,7 +173,9 @@ export class SimpleExpansionService {
       }
 
       // Validate and format suggestions (with geocoding)
+      this.logger.log(`📋 AI returned ${aiResponse.suggestions?.length || 0} suggestions`);
       const suggestions = await this.parseSuggestions(aiResponse, request);
+      this.logger.log(`✅ After validation: ${suggestions.length} suggestions (${aiResponse.suggestions?.length - suggestions.length} filtered out)`);
 
       const processingTime = Date.now() - startTime;
       const cost = this.estimateCost(tokensUsed);
