@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { postToBff } from '@/lib/server-api-client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,22 +8,8 @@ export async function POST(request: NextRequest) {
 
     console.info('🔄 API: Recomputing expansion scores', { region });
 
-    // Call BFF service
-    const bffUrl = `${process.env.BFF_URL || 'http://localhost:3001'}/expansion/recompute`;
-    
-    const response = await fetch(bffUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ region }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`BFF request failed: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
+    // Call BFF service with authentication
+    const data = await postToBff('/expansion/recompute', { region });
     
     console.info('✅ API: Expansion scores recomputed successfully', {
       processed: data.processed

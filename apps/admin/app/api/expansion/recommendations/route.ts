@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getFromBff } from '@/lib/server-api-client';
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,25 +40,10 @@ export async function GET(request: NextRequest) {
     if (scope) bffParams.set('scope', scope);
     if (scopeType) bffParams.set('scopeType', scopeType);
 
-    // Try to call BFF service, fallback to mock data if unavailable
-    const bffUrl = `${process.env.BFF_URL || 'http://localhost:3001'}/expansion/recommendations?${bffParams.toString()}`;
-    
+    // Call BFF service with authentication
     let data;
     try {
-      const response = await fetch(bffUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        },
-        // Add timeout to prevent hanging
-        signal: AbortSignal.timeout(5000)
-      });
-
-      if (!response.ok) {
-        throw new Error(`BFF request failed: ${response.status} ${response.statusText}`);
+      data = await getFromBff(`/expansion/recommendations?${bffParams.toString()}`);
       }
 
       data = await response.json();
