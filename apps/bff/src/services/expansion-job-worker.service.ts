@@ -135,8 +135,8 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
         }
       });
 
-      // Calculate target count based on aggression
-      const targetCount = params.targetCount || Math.min(300, Math.round((params.aggression / 100) * 300));
+      // Calculate target count based on aggression (minimum 50, maximum 300)
+      const targetCount = params.targetCount || Math.max(50, Math.min(300, Math.round((params.aggression / 100) * 300)));
 
       // Use simple expansion service directly
       const simpleService = new SimpleExpansionService(this.prisma);
