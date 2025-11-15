@@ -93,7 +93,7 @@ export default function SuggestionInfoCard({
                     AI-Enhanced Analysis
                   </div>
                   <div style={{ fontSize: '12px', color: '#a16207' }}>
-                    Top {suggestion.aiProcessingRank || '20'}% candidate - Full AI insights available
+                    Rank #{suggestion.aiProcessingRank || 'N/A'} - Full AI insights available
                   </div>
                 </div>
               </div>

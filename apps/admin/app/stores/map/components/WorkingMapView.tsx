@@ -75,6 +75,13 @@ export default function WorkingMapView({
     
     console.log(`🗺️ Map: Adding ${suggestions.length} suggestions, ${aiFeatures.length} with AI analysis`);
     console.log(`✨ High confidence (>0.75): ${highConfidenceFeatures.length} suggestions`);
+    console.log(`🔍 Confidence value types:`, suggestions.slice(0, 3).map(s => ({
+      id: s.id,
+      confidence: s.confidence,
+      confidenceType: typeof s.confidence,
+      isNumber: typeof s.confidence === 'number',
+      greaterThan75: s.confidence > 0.75
+    })));
     
     if (highConfidenceFeatures.length > 0) {
       console.log(`✨ High confidence samples:`, highConfidenceFeatures.slice(0, 3).map(f => ({
@@ -175,6 +182,12 @@ export default function WorkingMapView({
     
     const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.75).length;
     console.log(`✨ Sparkle layer added for ${highConfCount} high confidence suggestions (>0.75)`);
+    console.log(`✨ Sparkle layer config:`, {
+      layerId: 'expansion-suggestions-sparkle',
+      filter: ['>', ['get', 'confidence'], 0.75],
+      expectedCount: highConfCount,
+      layerExists: map.getLayer('expansion-suggestions-sparkle') !== undefined
+    });
 
     // Add click handler for suggestions (both layers)
     if (onSelect) {
