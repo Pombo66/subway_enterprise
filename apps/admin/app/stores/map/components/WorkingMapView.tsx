@@ -157,18 +157,19 @@ export default function WorkingMapView({
     });
 
     // Add sparkle badge for high confidence suggestions (>0.70)
-    // Using a circle layer for better visibility
+    // Small gold badge positioned at top-right of marker (matches legend)
     map.addLayer({
       id: 'expansion-suggestions-sparkle',
       type: 'circle',
       source: 'expansion-suggestions',
       filter: ['>', ['get', 'confidence'], 0.70],
       paint: {
-        'circle-radius': 8,
-        'circle-color': '#fbbf24', // Gold color
-        'circle-stroke-width': 2,
+        'circle-radius': 4, // Small badge
+        'circle-color': '#fbbf24', // Amber-400 gold
+        'circle-stroke-width': 1,
         'circle-stroke-color': '#ffffff',
-        'circle-opacity': 0.9
+        'circle-opacity': 1,
+        'circle-translate': [6, -6] // Offset to top-right of marker
       }
     });
     
