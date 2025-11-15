@@ -44,9 +44,6 @@ export async function GET(request: NextRequest) {
     let data;
     try {
       data = await getFromBff(`/expansion/recommendations?${bffParams.toString()}`);
-      }
-
-      data = await response.json();
     } catch (error) {
       console.warn('⚠️ BFF service unavailable, using mock data:', error instanceof Error ? error.message : 'Unknown error');
       console.log('🎯 Generating deterministic mock data at:', new Date().toISOString());
