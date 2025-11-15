@@ -552,10 +552,32 @@ Provide ${request.targetCount} strategically diverse suggestions with context-aw
 
   /**
    * Verify if two city names match (accounting for variations)
+   * Handles cases like "Bayreuth (station)" vs "Bayreuth" or "Lingen (Ems)" vs "Lingen"
    */
   private verifyCityMatch(expected: string, actual: string): boolean {
-    const normalize = (str: string) => str.toLowerCase().trim().replace(/[^a-z]/g, '');
-    return normalize(expected) === normalize(actual);
+    const normalize = (str: string) => {
+      // Remove parentheses and their contents, special chars, convert to lowercase
+      return str
+        .toLowerCase()
+        .replace(/\([^)]*\)/g, '') // Remove (station), (Ems), etc.
+        .replace(/[^a-zäöüß]/g, '') // Keep German characters
+        .trim();
+    };
+    
+    const normalizedExpected = normalize(expected);
+    const normalizedActual = normalize(actual);
+    
+    // Exact match
+    if (normalizedExpected === normalizedActual) {
+      return true;
+    }
+    
+    // Check if one contains the other (handles "Dessau" vs "Dessau-Roßlau")
+    if (normalizedExpected.includes(normalizedActual) || normalizedActual.includes(normalizedExpected)) {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
