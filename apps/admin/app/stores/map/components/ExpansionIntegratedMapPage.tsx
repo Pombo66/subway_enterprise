@@ -327,9 +327,17 @@ export default function ExpansionIntegratedMapPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save scenario');
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Save scenario failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorData
+        });
+        throw new Error(errorData.error || errorData.message || `Failed to save scenario (${response.status})`);
       }
 
+      const result = await response.json();
+      console.log('Scenario saved successfully:', result);
       alert('Scenario saved successfully!');
       await loadScenarios();
     } catch (error: any) {

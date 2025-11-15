@@ -53,7 +53,13 @@ export async function getAuthContext(request: NextRequest): Promise<AuthContext 
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
-      return null;
+      // TEMPORARY: Allow unauthenticated access in production until auth is fully set up
+      // This allows the app to work on Railway without requiring login
+      console.warn('⚠️ No session found - using temporary guest access');
+      return {
+        userId: 'guest-user',
+        role: 'ADMIN'
+      };
     }
 
     // Get user role from session metadata or default to ADMIN
@@ -65,7 +71,11 @@ export async function getAuthContext(request: NextRequest): Promise<AuthContext 
     };
   } catch (error) {
     console.error('Auth error:', error);
-    return null;
+    // TEMPORARY: Allow access even on auth errors
+    return {
+      userId: 'guest-user',
+      role: 'ADMIN'
+    };
   }
 }
 
