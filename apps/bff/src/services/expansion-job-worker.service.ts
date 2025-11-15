@@ -162,9 +162,10 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
 
       this.logger.log(`   Found ${stores.length} open stores in ${params.region.country || 'Germany'}`);
 
-      // Calculate target count based on aggression (minimum 50, maximum 150)
+      // Calculate target count based on aggression (minimum 25, maximum 150)
+      // Scale: 0% = 25, 50% = 87, 100% = 150
       // Note: AI refuses to generate 300 in one call, caps at ~150 for quality
-      const targetCount = params.targetCount || Math.max(50, Math.min(150, Math.round((params.aggression / 100) * 150)));
+      const targetCount = params.targetCount || Math.max(25, Math.min(150, Math.round(25 + (params.aggression / 100) * 125)));
 
       // Use simple expansion service directly
       const simpleService = new SimpleExpansionService(this.prisma);
