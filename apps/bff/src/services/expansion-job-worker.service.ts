@@ -121,19 +121,23 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
       // Import simple expansion service
       const { SimpleExpansionService } = await import('./ai/simple-expansion.service');
       
-      // Get existing stores for the region
+      // Get existing OPEN stores for the region
       const stores = await this.prisma.store.findMany({
         where: {
-          country: params.region.country || 'Germany'
+          country: params.region.country || 'Germany',
+          status: 'OPEN' // Only include open stores
         },
         select: {
           name: true,
           city: true,
           latitude: true,
           longitude: true,
-          annualTurnover: true
+          annualTurnover: true,
+          status: true
         }
       });
+
+      this.logger.log(`   Found ${stores.length} open stores in ${params.region.country || 'Germany'}`);
 
       // Calculate target count based on aggression (minimum 50, maximum 300)
       const targetCount = params.targetCount || Math.max(50, Math.min(300, Math.round((params.aggression / 100) * 300)));
