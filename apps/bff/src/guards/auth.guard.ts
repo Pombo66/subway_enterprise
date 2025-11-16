@@ -25,9 +25,17 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<Request>();
+    const path = request.url || request.path || '';
 
     // 1) Optional dev bypass for local development
     if (process.env.DEV_AUTH_BYPASS === 'true') {
+      return true;
+    }
+
+    // 2) Public endpoints that don't require auth (telemetry, SubMind)
+    // These are called directly from the browser and cannot safely include secrets
+    const publicPaths = ['/telemetry', '/ai/submind'];
+    if (publicPaths.some((p) => path.startsWith(p))) {
       return true;
     }
 
@@ -41,7 +49,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Missing or invalid authorization header');
     }
 
-    // 2) Internal Admin secret – used by the Next.js admin app when calling the BFF
+    // 3) Internal Admin secret – used by the Next.js admin app when calling the BFF
     const internalSecret = process.env.INTERNAL_ADMIN_SECRET;
     if (internalSecret && token === internalSecret) {
       // Optionally attach a fake "user" to the request for logging/audit
@@ -53,7 +61,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    // 3) TODO: Here is where you would verify a real user JWT (e.g. Supabase) if needed.
+    // 4) TODO: Here is where you would verify a real user JWT (e.g. Supabase) if needed.
     // For now, if it's not the internal secret, we treat it as invalid.
     throw new UnauthorizedException('Invalid or unsupported token');
   }
