@@ -8,7 +8,6 @@ import { AuthProvider } from './components/AuthProvider';
 import { ToastProvider } from './components/ToastProvider';
 import { DesignGuardProvider } from './components/DesignGuardProvider';
 import { SubMindProvider } from './components/submind/SubMindProvider';
-import { SubMindDebug } from './components/SubMindDebug';
 import DebugToggle from './components/DebugToggle';
 import ValidationTestingSetup from './components/ValidationTestingSetup';
 import { config } from '@/lib/config';
@@ -43,7 +42,6 @@ function LayoutContent({ children, withAuth = false }: LayoutContentProps) {
               </div>
               {config.isDebugMode && <DebugToggle />}
               <ValidationTestingSetup />
-              <SubMindDebug />
             </SubMindProvider>
           </DesignGuardProvider>
         </ToastProvider>
