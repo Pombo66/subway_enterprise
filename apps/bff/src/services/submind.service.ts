@@ -1,22 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { OpenAI } from 'openai';
+import { fetch } from 'undici';
 import { SubMindQueryDto, SubMindResponseDto } from '../dto/submind.dto';
 import { SubMindSecurityUtil } from '../util/submind-security.util';
 
 @Injectable()
 export class SubMindService {
   private readonly logger = new Logger(SubMindService.name);
-  private openai: OpenAI | null = null;
+  private readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   private readonly isEnabled: boolean;
 
   constructor() {
-    const apiKey = process.env.OPENAI_API_KEY;
-    this.isEnabled = !!apiKey;
+    this.isEnabled = !!this.OPENAI_API_KEY;
     
     if (this.isEnabled) {
-      this.openai = new OpenAI({
-        apiKey: apiKey,
-      });
       this.logger.log('SubMind service initialized with OpenAI integration');
     } else {
       this.logger.warn('SubMind service disabled - OPENAI_API_KEY not found');
@@ -24,7 +20,7 @@ export class SubMindService {
   }
 
   async processQuery(query: SubMindQueryDto): Promise<SubMindResponseDto> {
-    if (!this.isEnabled || !this.openai) {
+    if (!this.isEnabled || !this.OPENAI_API_KEY) {
       // Return placeholder response for expansion analysis when AI is disabled
       if (this.isExpansionAnalysisQuery(query)) {
         return this.getExpansionAnalysisPlaceholder(query);
@@ -47,37 +43,52 @@ export class SubMindService {
     try {
       // Build context-aware prompt with sanitized context
       const enhancedPrompt = this.buildContextualPrompt(sanitizedPrompt, sanitizedContext);
+      const systemPrompt = this.getSystemPrompt();
       
-      // Call OpenAI API
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-5-mini',
-        messages: [
-          {
-            role: 'system',
-            content: this.getSystemPrompt(),
-          },
-          {
-            role: 'user',
-            content: enhancedPrompt,
-          },
-        ],
-        max_completion_tokens: 1000,
-        // Note: temperature parameter removed as GPT-5 models only support default (1.0)
+      // Combine system and user prompts for Responses API
+      const fullPrompt = `${systemPrompt}\n\n${enhancedPrompt}`;
+      
+      // Call OpenAI Responses API (same as expansion system)
+      const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-5-mini',
+          input: fullPrompt,
+          max_output_tokens: 1000,
+          reasoning: { effort: 'low' }
+        })
       });
 
-      const response = completion.choices[0]?.message?.content || 'No response generated';
+      if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.error(`OpenAI API error: ${response.status} - ${errorText}`);
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
+
+      const data: any = await response.json();
+      const tokensUsed = data.usage?.total_tokens || 0;
+
+      // Extract the response (same format as expansion system)
+      const messageOutput = data.output?.find((item: any) => item.type === 'message');
+      if (!messageOutput?.content?.[0]?.text) {
+        this.logger.error('No message output from GPT');
+        throw new Error('No message output from GPT');
+      }
+
+      const responseText = messageOutput.content[0].text;
       const latencyMs = Date.now() - startTime;
 
-      // Extract usage information
-      const tokens = completion.usage?.total_tokens || 0;
-
-      this.logger.debug(`Query processed in ${latencyMs}ms, used ${tokens} tokens`);
+      this.logger.debug(`Query processed in ${latencyMs}ms, used ${tokensUsed} tokens`);
 
       return {
-        message: response,
+        message: responseText,
         sources: this.extractSources(sanitizedContext),
         meta: {
-          tokens,
+          tokens: tokensUsed,
           latencyMs,
         },
       };
@@ -93,7 +104,7 @@ export class SubMindService {
   }
 
   async processExpansionAnalysis(region: string, reasons: string[]): Promise<SubMindResponseDto> {
-    if (!this.isEnabled || !this.openai) {
+    if (!this.isEnabled || !this.OPENAI_API_KEY) {
       return this.getExpansionAnalysisPlaceholder({ 
         prompt: `Analyze expansion opportunities in ${region}`,
         context: { 
@@ -109,38 +120,50 @@ export class SubMindService {
     try {
       // Build expansion-specific prompt
       const expansionPrompt = this.buildExpansionPrompt(region, reasons);
+      const systemPrompt = this.getExpansionSystemPrompt();
+      const fullPrompt = `${systemPrompt}\n\n${expansionPrompt}`;
       
-      // Call OpenAI API with expansion-specific system prompt
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-5-mini',
-        messages: [
-          {
-            role: 'system',
-            content: this.getExpansionSystemPrompt(),
-          },
-          {
-            role: 'user',
-            content: expansionPrompt,
-          },
-        ],
-        max_completion_tokens: 1200,
-        // Note: temperature parameter removed as GPT-5 models only support default (1.0)
+      // Call OpenAI Responses API
+      const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-5-mini',
+          input: fullPrompt,
+          max_output_tokens: 1200,
+          reasoning: { effort: 'low' }
+        })
       });
 
-      const response = completion.choices[0]?.message?.content || 'No expansion analysis generated';
-      const latencyMs = Date.now() - startTime;
-      const tokens = completion.usage?.total_tokens || 0;
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
 
-      this.logger.debug(`Expansion analysis processed in ${latencyMs}ms, used ${tokens} tokens`);
+      const data: any = await response.json();
+      const tokensUsed = data.usage?.total_tokens || 0;
+      const messageOutput = data.output?.find((item: any) => item.type === 'message');
+      
+      if (!messageOutput?.content?.[0]?.text) {
+        throw new Error('No message output from GPT');
+      }
+
+      const responseText = messageOutput.content[0].text;
+      const latencyMs = Date.now() - startTime;
+
+      this.logger.debug(`Expansion analysis processed in ${latencyMs}ms, used ${tokensUsed} tokens`);
 
       return {
-        message: response,
+        message: responseText,
         sources: [
           { type: 'note', ref: `Expansion analysis for ${region}` },
           { type: 'note', ref: 'Gravity model predictions and market data' }
         ],
         meta: {
-          tokens,
+          tokens: tokensUsed,
           latencyMs,
         },
       };
@@ -174,7 +197,7 @@ export class SubMindService {
     },
     reasons?: string[]
   ): Promise<SubMindResponseDto> {
-    if (!this.isEnabled || !this.openai) {
+    if (!this.isEnabled || !this.OPENAI_API_KEY) {
       return this.getScopeExpansionPlaceholder(scope, suggestion);
     }
 
@@ -183,32 +206,44 @@ export class SubMindService {
     try {
       // Build scope-aware expansion prompt
       const expansionPrompt = this.buildScopeExpansionPrompt(scope, suggestion, reasons);
+      const systemPrompt = this.getScopeExpansionSystemPrompt();
+      const fullPrompt = `${systemPrompt}\n\n${expansionPrompt}`;
       
-      // Call OpenAI API with enhanced system prompt
-      const completion = await this.openai.chat.completions.create({
-        model: 'gpt-5-mini',
-        messages: [
-          {
-            role: 'system',
-            content: this.getScopeExpansionSystemPrompt(),
-          },
-          {
-            role: 'user',
-            content: expansionPrompt,
-          },
-        ],
-        max_completion_tokens: 1500,
-        // Note: temperature parameter removed as GPT-5 models only support default (1.0)
+      // Call OpenAI Responses API
+      const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-5-mini',
+          input: fullPrompt,
+          max_output_tokens: 1500,
+          reasoning: { effort: 'low' }
+        })
       });
 
-      const response = completion.choices[0]?.message?.content || 'No scope expansion analysis generated';
-      const latencyMs = Date.now() - startTime;
-      const tokens = completion.usage?.total_tokens || 0;
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
 
-      this.logger.debug(`Scope expansion analysis processed in ${latencyMs}ms, used ${tokens} tokens`);
+      const data: any = await response.json();
+      const tokensUsed = data.usage?.total_tokens || 0;
+      const messageOutput = data.output?.find((item: any) => item.type === 'message');
+      
+      if (!messageOutput?.content?.[0]?.text) {
+        throw new Error('No message output from GPT');
+      }
+
+      const responseText = messageOutput.content[0].text;
+      const latencyMs = Date.now() - startTime;
+
+      this.logger.debug(`Scope expansion analysis processed in ${latencyMs}ms, used ${tokensUsed} tokens`);
 
       return {
-        message: response,
+        message: responseText,
         sources: [
           { type: 'note', ref: `Scope analysis: ${scope.type} - ${scope.value}` },
           { type: 'note', ref: `Location: ${suggestion.lat.toFixed(3)}°, ${suggestion.lng.toFixed(3)}°` },
@@ -216,7 +251,7 @@ export class SubMindService {
           { type: 'note', ref: 'Deterministic scoring model data' }
         ],
         meta: {
-          tokens,
+          tokens: tokensUsed,
           latencyMs,
         },
       };
