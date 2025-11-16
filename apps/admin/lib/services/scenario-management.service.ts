@@ -96,18 +96,18 @@ export class ScenarioManagementService {
         sourceDataVersion: new Date().toISOString(),
         createdBy: params.createdBy,
         suggestions: {
-          create: params.suggestions.map(s => ({
+          create: params.suggestions.map((s: any) => ({
             lat: s.lat,
             lng: s.lng,
-            confidence: s.confidence,
-            rationale: JSON.stringify(s.rationale),
-            rationaleText: s.rationaleText,
-            band: s.band,
+            confidence: s.confidence || 0.5,
+            rationale: JSON.stringify(s.rationale || {}),
+            rationaleText: (s.rationaleText || s.rationale || 'No rationale provided') as string,
+            band: s.band || 'MEDIUM',
             status: 'NEW',
-            urbanDensityIndex: s.urbanDensityIndex,
-            roadDistanceM: s.roadDistanceM,
-            buildingDistanceM: s.buildingDistanceM,
-            landuseType: s.landuseType,
+            urbanDensityIndex: s.urbanDensityIndex || null,
+            roadDistanceM: s.roadDistanceM || null,
+            buildingDistanceM: s.buildingDistanceM || null,
+            landuseType: s.landuseType || null,
             mapboxValidated: s.mapboxValidated || false,
             aiRationaleCached: false
           }))

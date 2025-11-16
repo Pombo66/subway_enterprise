@@ -12,7 +12,7 @@ export interface SimpleExpansionRequest {
     revenue?: number;
   }[];
   targetCount: number;
-  model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection, defaults to gpt-5-mini
+  model?: 'gpt-5.1' | 'gpt-5-mini'; // Optional model selection, defaults to gpt-5-mini
 }
 
 export interface ExpansionSuggestion {
@@ -61,7 +61,7 @@ export class SimpleExpansionService {
   private readonly MAX_OUTPUT_TOKENS = 64000; // High limit to handle large responses
 
   constructor(private readonly prisma: PrismaClient) {
-    this.logger.log('Simple Expansion Service initialized (supports GPT-5 and GPT-5-mini)');
+    this.logger.log('Simple Expansion Service initialized (supports GPT-5.1 and GPT-5-mini)');
   }
 
   /**

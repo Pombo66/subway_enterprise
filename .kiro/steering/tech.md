@@ -26,10 +26,54 @@
 - **ORM**: Prisma 5.x with migrations
 - **Schema Management**: Prisma migrations with seeding support
 
+## AI & Machine Learning
+- **OpenAI Integration**: GPT-5 family models for intelligent features
+  - **GPT-5.1**: Premium model for complex expansion analysis and strategic recommendations
+  - **GPT-5-mini**: Cost-effective model for SubMind assistant and general AI tasks
+  - **GPT-5-nano**: Ultra-efficient model for high-volume location discovery
+- **SubMind Service**: Context-aware AI assistant for operational insights
+- **Expansion Intelligence**: Multi-stage AI pipeline for location analysis and recommendations
+
 ## Development & Infrastructure
+- **Production Deployment**: Railway (live production environment)
 - **Containerization**: Docker Compose for local development
 - **Code Quality**: Prettier, ESLint, Husky pre-commit hooks
 - **Testing**: Smoke tests via custom scripts
+- **CI/CD**: Automatic deployment to Railway on code changes
+
+## Production Environment
+
+**⚠️ IMPORTANT: This is a LIVE PRODUCTION SYSTEM**
+
+### Railway Deployment
+- **BFF API**: `https://subwaybff-production.up.railway.app`
+- **Admin Dashboard**: Deployed on Railway
+- **Database**: PostgreSQL on Railway (production data)
+- **Environment Variables**: Managed in Railway dashboard
+
+### Production Configuration
+```bash
+# Production BFF URL (used in admin .env.local)
+NEXT_PUBLIC_BFF_URL=https://subwaybff-production.up.railway.app
+
+# AI Model Configuration (Production)
+EXPANSION_OPENAI_MODEL=gpt-5-mini
+MARKET_ANALYSIS_MODEL=gpt-5-mini
+LOCATION_DISCOVERY_MODEL=gpt-5-nano
+STRATEGIC_SCORING_MODEL=gpt-5-mini
+RATIONALE_GENERATION_MODEL=gpt-5-mini
+
+# Feature Flags (Production)
+NEXT_PUBLIC_FEATURE_SUBMIND=true
+NEXT_PUBLIC_FEATURE_EXPANSION_PREDICTOR=true
+```
+
+### Deployment Workflow
+1. Code changes pushed to repository
+2. Railway automatically detects changes
+3. Builds and deploys to production
+4. Zero-downtime deployment
+5. Environment variables persist across deployments
 
 ## Common Commands
 
