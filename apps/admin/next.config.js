@@ -10,9 +10,9 @@ module.exports = {
     // Force these environment variables to be available
     NEXT_PUBLIC_ENABLE_JOB_PROCESSING: 'true',
     NEXT_PUBLIC_ENABLE_OPENAI_CALLS: 'true',
-    // SubMind configuration - read from Railway environment
-    NEXT_PUBLIC_FEATURE_SUBMIND: process.env.NEXT_PUBLIC_FEATURE_SUBMIND || 'true',
-    NEXT_PUBLIC_BFF_URL: process.env.NEXT_PUBLIC_BFF_URL || 'http://localhost:3001',
+    // SubMind configuration - hardcoded for Railway deployment
+    NEXT_PUBLIC_FEATURE_SUBMIND: 'true',
+    NEXT_PUBLIC_BFF_URL: 'https://subwaybff-production.up.railway.app',
   },
   publicRuntimeConfig: {
     NEXT_PUBLIC_ENABLE_JOB_PROCESSING: 'true',
