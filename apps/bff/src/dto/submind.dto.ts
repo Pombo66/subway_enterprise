@@ -3,11 +3,16 @@ export interface SubMindQueryDto {
   context?: {
     screen?: string;
     selection?: any;
+    data?: any; // Real page data from context manager
     scope?: {
       region?: string;
       country?: string;
       storeId?: string;
       franchiseeId?: string;
+    };
+    metadata?: {
+      lastUpdated?: string;
+      dataSource?: string;
     };
   };
 }
