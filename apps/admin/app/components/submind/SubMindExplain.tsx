@@ -209,9 +209,10 @@ export function SubMindExplain() {
       {/* Response area */}
       <div className="flex-1 overflow-y-auto">
         {queryState.response && (
-          <div className="p-3 bg-gray-50 rounded-md text-sm">
+          <div className="p-3 rounded-md text-sm" style={{ background: '#1f2937', border: '1px solid #374151' }}>
             <div 
-              className="prose prose-sm max-w-none"
+              className="prose prose-sm max-w-none prose-invert"
+              style={{ color: '#e6edf3' }}
               dangerouslySetInnerHTML={{ 
                 __html: formatMarkdown(queryState.response.message) 
               }}
@@ -219,11 +220,11 @@ export function SubMindExplain() {
             
             {/* Sources */}
             {queryState.response.sources && queryState.response.sources.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-gray-200">
-                <div className="text-xs font-medium text-gray-700 mb-1">Sources:</div>
+              <div className="mt-3 pt-3" style={{ borderTop: '1px solid #374151' }}>
+                <div className="text-xs font-medium mb-1" style={{ color: '#9ca3af' }}>Sources:</div>
                 <div className="space-y-1">
                   {queryState.response.sources.map((source, index) => (
-                    <div key={index} className="text-xs text-gray-600">
+                    <div key={index} className="text-xs" style={{ color: '#6b7280' }}>
                       <span className="font-medium capitalize">{source.type}:</span> {source.ref}
                     </div>
                   ))}
@@ -233,7 +234,7 @@ export function SubMindExplain() {
 
             {/* Meta info */}
             {queryState.response.meta && (
-              <div className="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-500">
+              <div className="mt-2 pt-2 text-xs" style={{ borderTop: '1px solid #374151', color: '#6b7280' }}>
                 {queryState.response.meta.tokens && (
                   <span>Tokens: {queryState.response.meta.tokens}</span>
                 )}
@@ -264,13 +265,27 @@ export function SubMindExplain() {
       {queryState.response && (
         <div className="flex gap-2 mt-4">
           <button 
-            className="flex-1 text-xs py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+            className="flex-1 text-xs py-1 px-2 rounded transition-colors"
+            style={{ 
+              border: '1px solid #374151', 
+              color: '#e6edf3',
+              background: '#1f2937'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#374151'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#1f2937'}
             onClick={handleCopy}
           >
             Copy
           </button>
           <button 
-            className="flex-1 text-xs py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+            className="flex-1 text-xs py-1 px-2 rounded transition-colors"
+            style={{ 
+              border: '1px solid #374151', 
+              color: '#e6edf3',
+              background: '#1f2937'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#374151'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#1f2937'}
             onClick={handleCreateTask}
           >
             Create Task

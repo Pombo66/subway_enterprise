@@ -256,9 +256,9 @@ export function SubMindGenerate() {
             <div className="overflow-x-auto">
               <table className="min-w-full text-xs">
                 <thead>
-                  <tr className="bg-gray-50">
+                  <tr style={{ background: '#374151' }}>
                     {generationState.csvData[0]?.map((header, index) => (
-                      <th key={index} className="px-2 py-1 text-left font-medium text-gray-700 border-b">
+                      <th key={index} className="px-2 py-1 text-left font-medium" style={{ color: '#e6edf3', borderBottom: '1px solid #4b5563' }}>
                         {header}
                       </th>
                     ))}
@@ -266,9 +266,9 @@ export function SubMindGenerate() {
                 </thead>
                 <tbody>
                   {generationState.csvData.slice(1).map((row, rowIndex) => (
-                    <tr key={rowIndex} className="border-b">
+                    <tr key={rowIndex} style={{ borderBottom: '1px solid #374151' }}>
                       {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} className="px-2 py-1 text-gray-600">
+                        <td key={cellIndex} className="px-2 py-1" style={{ color: '#9ca3af' }}>
                           {cell}
                         </td>
                       ))}
