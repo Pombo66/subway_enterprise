@@ -158,14 +158,14 @@ export function SubMindExplain() {
 
   return (
     <div className="p-4 h-full flex flex-col">
-      <div className="text-sm text-gray-700 mb-4">
+      <div className="text-sm mb-4" style={{ color: '#9ca3af' }}>
         Get AI-powered explanations of your current screen&apos;s data and metrics.
       </div>
       
       {/* Current context info */}
-      <div className="mb-4 p-3 bg-blue-50 rounded-md border border-blue-200">
-        <div className="text-xs font-semibold text-blue-900 mb-1">Current Context</div>
-        <div className="text-xs text-blue-800">
+      <div className="mb-4 p-3 rounded-md" style={{ background: '#1f2937', border: '1px solid #374151' }}>
+        <div className="text-xs font-semibold mb-1" style={{ color: '#60a5fa' }}>Current Context</div>
+        <div className="text-xs" style={{ color: '#9ca3af' }}>
           Screen: {screenTitle}
           {currentContext?.scope?.region && ` • Region: ${currentContext.scope.region}`}
           {currentContext?.scope?.country && ` • Country: ${currentContext.scope.country}`}
@@ -176,9 +176,10 @@ export function SubMindExplain() {
 
       {/* Auto-generated prompt preview */}
       <div className="mb-4">
-        <label className="block text-xs font-semibold text-gray-900 mb-2">Generated Prompt (Editable)</label>
+        <label className="block text-xs font-semibold mb-2" style={{ color: '#e6edf3' }}>Generated Prompt (Editable)</label>
         <textarea
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+          className="w-full rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          style={{ background: '#1f2937', color: '#e6edf3', border: '1px solid #374151' }}
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -253,7 +254,7 @@ export function SubMindExplain() {
 
         {/* Placeholder when no response */}
         {!queryState.response && !queryState.error && !queryState.loading && (
-          <div className="p-3 bg-gray-100 rounded-md text-sm text-gray-700 italic border border-gray-200">
+          <div className="p-3 rounded-md text-sm italic" style={{ background: '#1f2937', color: '#9ca3af', border: '1px solid #374151' }}>
             Screen explanation will appear here after you click &quot;Explain Current Screen&quot;...
           </div>
         )}

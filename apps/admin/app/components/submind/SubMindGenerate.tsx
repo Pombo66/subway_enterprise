@@ -179,21 +179,21 @@ export function SubMindGenerate() {
 
   return (
     <div className="p-4 h-full flex flex-col">
-      <div className="text-sm text-gray-600 mb-4">
+      <div className="text-sm mb-4" style={{ color: '#9ca3af' }}>
         Generate actionable artifacts based on your current data and context.
       </div>
       
       {/* Generation Options */}
       <div className="space-y-4 mb-6">
         {/* Executive Summary CSV */}
-        <div className="border border-gray-200 rounded-lg p-4">
+        <div className="rounded-lg p-4" style={{ border: '1px solid #374151', background: '#1f2937' }}>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-900">Executive Summary (CSV)</h3>
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="text-sm font-medium" style={{ color: '#e6edf3' }}>Executive Summary (CSV)</h3>
+            <svg className="w-4 h-4" style={{ color: '#9ca3af' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <p className="text-xs text-gray-600 mb-3">
+          <p className="text-xs mb-3" style={{ color: '#9ca3af' }}>
             Generate a CSV with key metrics: Metric, Value, Change, Note
           </p>
           <button 
@@ -216,14 +216,14 @@ export function SubMindGenerate() {
         </div>
 
         {/* Action Checklist */}
-        <div className="border border-gray-200 rounded-lg p-4">
+        <div className="rounded-lg p-4" style={{ border: '1px solid #374151', background: '#1f2937' }}>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-900">Action Checklist</h3>
-            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="text-sm font-medium" style={{ color: '#e6edf3' }}>Action Checklist</h3>
+            <svg className="w-4 h-4" style={{ color: '#9ca3af' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
             </svg>
           </div>
-          <p className="text-xs text-gray-600 mb-3">
+          <p className="text-xs mb-3" style={{ color: '#9ca3af' }}>
             Create a numbered list of next actions based on current data
           </p>
           <button 
@@ -248,8 +248,8 @@ export function SubMindGenerate() {
 
       {/* Generated Content Area */}
       <div className="flex-1 overflow-y-auto">
-        <div className="border border-gray-200 rounded-md p-3">
-          <div className="text-xs font-medium text-gray-700 mb-2">Generated Content</div>
+        <div className="rounded-md p-3" style={{ border: '1px solid #374151', background: '#1f2937' }}>
+          <div className="text-xs font-medium mb-2" style={{ color: '#e6edf3' }}>Generated Content</div>
           
           {/* CSV Table Display */}
           {generationState.type === 'csv' && generationState.csvData && (
@@ -297,7 +297,7 @@ export function SubMindGenerate() {
 
           {/* Placeholder */}
           {!generationState.response && !generationState.error && !generationState.loading && (
-            <div className="text-sm text-gray-500 italic">
+            <div className="text-sm italic" style={{ color: '#9ca3af' }}>
               Generated artifacts will appear here...
             </div>
           )}
@@ -307,14 +307,20 @@ export function SubMindGenerate() {
       {/* Download/Action buttons */}
       <div className="flex gap-2 mt-4">
         <button 
-          className="flex-1 text-xs py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 text-xs py-1 px-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ border: '1px solid #374151', color: '#e6edf3' }}
+          onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = '#374151')}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           onClick={downloadCSV}
           disabled={!generationState.csvData}
         >
           Download CSV
         </button>
         <button 
-          className="flex-1 text-xs py-1 px-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 text-xs py-1 px-2 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ border: '1px solid #374151', color: '#e6edf3' }}
+          onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.background = '#374151')}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           onClick={copyChecklist}
           disabled={generationState.type !== 'checklist' || !generationState.response}
         >
