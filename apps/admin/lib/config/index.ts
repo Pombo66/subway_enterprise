@@ -1,3 +1,8 @@
+// Export BFF URL as a constant for guaranteed availability
+export const BFF_URL = process.env.NEXT_PUBLIC_BFF_URL || 'https://subwaybff-production.up.railway.app';
+
+console.log('[Config] BFF_URL constant:', BFF_URL);
+
 interface AppConfig {
   bff: {
     baseUrl: string;
@@ -17,14 +22,11 @@ class ConfigService {
 
   constructor() {
     console.log('[ConfigService] Constructor called');
-    console.log('[ConfigService] process.env.NEXT_PUBLIC_BFF_URL:', process.env.NEXT_PUBLIC_BFF_URL);
-    
-    const bffUrl = this.getString('NEXT_PUBLIC_BFF_URL', 'https://subwaybff-production.up.railway.app');
-    console.log('[ConfigService] Final BFF URL:', bffUrl);
+    console.log('[ConfigService] Using BFF_URL:', BFF_URL);
     
     this.config = {
       bff: {
-        baseUrl: bffUrl,
+        baseUrl: BFF_URL,
       },
       auth: {
         devBypass: this.getBoolean('NEXT_PUBLIC_DEV_AUTH_BYPASS', false),
@@ -64,17 +66,8 @@ class ConfigService {
   }
 
   get bffBaseUrl(): string {
-    // Always return production URL - env vars aren't working in browser
-    const hardcodedUrl = 'https://subwaybff-production.up.railway.app';
-    const url = this.config?.bff?.baseUrl;
-    
-    if (!url || url === 'undefined' || url === '') {
-      console.warn('[Config] BFF URL is invalid:', url, '- using hardcoded:', hardcodedUrl);
-      return hardcodedUrl;
-    }
-    
-    console.log('[Config] Using BFF URL:', url);
-    return url;
+    // Return the constant which is guaranteed to have a value
+    return BFF_URL;
   }
 
   get isDevAuthBypass(): boolean {
