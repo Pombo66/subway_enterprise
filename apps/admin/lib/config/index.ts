@@ -58,7 +58,13 @@ class ConfigService {
   }
 
   get bffBaseUrl(): string {
-    return this.config.bff.baseUrl;
+    // Fallback to hardcoded production URL if config is undefined
+    const url = this.config.bff.baseUrl;
+    if (!url || url === 'undefined') {
+      console.warn('[Config] BFF URL is undefined, using hardcoded production URL');
+      return 'https://subwaybff-production.up.railway.app';
+    }
+    return url;
   }
 
   get isDevAuthBypass(): boolean {
