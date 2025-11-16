@@ -16,9 +16,15 @@ class ConfigService {
   private config: AppConfig;
 
   constructor() {
+    console.log('[ConfigService] Constructor called');
+    console.log('[ConfigService] process.env.NEXT_PUBLIC_BFF_URL:', process.env.NEXT_PUBLIC_BFF_URL);
+    
+    const bffUrl = this.getString('NEXT_PUBLIC_BFF_URL', 'https://subwaybff-production.up.railway.app');
+    console.log('[ConfigService] Final BFF URL:', bffUrl);
+    
     this.config = {
       bff: {
-        baseUrl: this.getString('NEXT_PUBLIC_BFF_URL', 'https://subwaybff-production.up.railway.app'),
+        baseUrl: bffUrl,
       },
       auth: {
         devBypass: this.getBoolean('NEXT_PUBLIC_DEV_AUTH_BYPASS', false),
