@@ -17,8 +17,9 @@ export function SubMindProvider({ children }: SubMindProviderProps) {
   const [activeTab, setActiveTab] = useState<SubMindTab>('ask');
   const [isClient, setIsClient] = useState(false);
   
-  // Check if SubMind is enabled via feature flag
-  const isEnabled = config.isSubMindEnabled;
+  // Check if SubMind is enabled via feature flag - read directly from env
+  // Bypass ConfigService since it's not working properly in client-side
+  const isEnabled = process.env.NEXT_PUBLIC_FEATURE_SUBMIND === 'true';
 
   // Only render on client to avoid hydration mismatch
   useEffect(() => {
