@@ -22,8 +22,12 @@ export function SubMindProvider({ children }: SubMindProviderProps) {
 
   // Only render on client to avoid hydration mismatch
   useEffect(() => {
+    console.log('[SubMind] Client mounted');
+    console.log('[SubMind] isEnabled:', isEnabled);
+    console.log('[SubMind] config.isSubMindEnabled:', config.isSubMindEnabled);
+    console.log('[SubMind] process.env.NEXT_PUBLIC_FEATURE_SUBMIND:', process.env.NEXT_PUBLIC_FEATURE_SUBMIND);
     setIsClient(true);
-  }, []);
+  }, [isEnabled]);
 
   const openDrawer = useCallback(() => {
     setIsOpen(true);
@@ -60,6 +64,9 @@ export function SubMindProvider({ children }: SubMindProviderProps) {
     setActiveTab: handleSetActiveTab,
     isEnabled,
   };
+
+  // Log render conditions
+  console.log('[SubMind] Render - isClient:', isClient, 'isEnabled:', isEnabled, 'will render FAB:', isClient && isEnabled);
 
   return (
     <SubMindContext.Provider value={contextValue}>
