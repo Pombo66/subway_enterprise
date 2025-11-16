@@ -37,9 +37,9 @@ class ConfigService {
 
   private getBoolean(key: string, defaultValue: boolean): boolean {
     const value = process.env[key];
-    if (!value) return defaultValue;
+    if (value === undefined || value === null || value === '') return defaultValue;
     
-    const normalized = value.toLowerCase();
+    const normalized = String(value).toLowerCase();
     return ['true', '1', 'yes', 'on'].includes(normalized);
   }
 
