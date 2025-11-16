@@ -112,23 +112,43 @@ export async function querySubMind(query: SubMindQuery): Promise<{
 
 /**
  * Get current page context for SubMind queries
+ * Now uses the SubMind context manager for real page data
  */
 export function getCurrentPageContext(): {
   screen?: string;
+  data?: any;
   scope?: {
     region?: string;
     country?: string;
     storeId?: string;
     franchiseeId?: string;
   };
+  metadata?: {
+    lastUpdated?: string;
+    dataSource?: string;
+  };
 } {
   if (typeof window === 'undefined') {
     return {};
   }
 
+  // Try to get context from the context manager first (real page data)
+  try {
+    const { subMindContext } = require('./submind-context');
+    const registeredContext = subMindContext.getContext();
+    
+    if (registeredContext) {
+      // Page has registered its context - use it!
+      return registeredContext;
+    }
+  } catch (error) {
+    // Context manager not available, fall back to pathname detection
+    console.warn('SubMind context manager not available:', error);
+  }
+
+  // Fallback: Extract basic context from pathname (legacy behavior)
   const pathname = window.location.pathname;
   
-  // Extract screen context from pathname
   let screen: string | undefined;
   if (pathname === '/dashboard') {
     screen = 'dashboard';
@@ -146,12 +166,10 @@ export function getCurrentPageContext(): {
     screen = 'settings';
   }
 
-  // Try to extract scope from URL parameters or localStorage
-  // This is a simplified implementation - in a real app, you'd get this from your state management
+  // Try to extract scope from localStorage
   const scope: any = {};
   
   try {
-    // Check for stored filter state (this would depend on your actual filter implementation)
     const storedFilters = localStorage.getItem('subway_filters');
     if (storedFilters) {
       const filters = JSON.parse(storedFilters);

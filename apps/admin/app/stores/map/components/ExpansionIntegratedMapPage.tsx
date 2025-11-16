@@ -24,6 +24,7 @@ import { onStoresImported } from '../../../../lib/events/store-events';
 import { ExpansionJobRecovery } from '../../../../lib/utils/expansion-job-recovery';
 import NetworkStatusIndicator from './NetworkStatusIndicator';
 import JobStatusIndicator from './JobStatusIndicator';
+import { subMindContext, formatStoreDataForSubMind, formatExpansionDataForSubMind } from '../../../../lib/submind-context';
 
 
 export default function ExpansionIntegratedMapPage() {
@@ -72,6 +73,43 @@ export default function ExpansionIntegratedMapPage() {
 
     return () => clearTimeout(timer);
   }, [selectedSuggestion]); // Re-run when suggestion selection changes
+
+  // Register context with SubMind so it can see real page data
+  useEffect(() => {
+    const storeData = formatStoreDataForSubMind(stores);
+    const expansionData = expansionMode ? formatExpansionDataForSubMind(suggestions, filters.region) : null;
+    
+    subMindContext.setContext({
+      screen: expansionMode ? 'expansion_map' : 'stores_map',
+      data: {
+        stores: storeData,
+        expansion: expansionData,
+        filters: {
+          region: filters.region,
+          country: filters.country,
+          status: filters.status,
+        },
+        viewport: {
+          center: [viewport.longitude, viewport.latitude],
+          zoom: viewport.zoom,
+        },
+        quadrant: selectedQuadrant !== 'ALL' ? selectedQuadrant : null,
+      },
+      scope: {
+        region: filters.region,
+        country: filters.country,
+      },
+      metadata: {
+        lastUpdated: new Date().toISOString(),
+        dataSource: cacheStatus?.source || 'api',
+      },
+    });
+
+    return () => {
+      // Clear context when component unmounts
+      subMindContext.clearContext();
+    };
+  }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
   // Listen for store import events and refresh map data
   useEffect(() => {

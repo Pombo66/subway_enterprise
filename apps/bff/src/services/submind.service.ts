@@ -301,7 +301,57 @@ export class SubMindService {
         }
       }
 
-      if (context.selection) {
+      // NEW: Include real page data if available
+      if (context.data) {
+        contextParts.push('\n**REAL PAGE DATA:**');
+        
+        // Store data
+        if (context.data.stores) {
+          const stores = context.data.stores;
+          contextParts.push(`\nStores: ${stores.summary || stores.totalStores + ' stores visible'}`);
+          
+          if (stores.countries && stores.countries.length > 0) {
+            const countryList = stores.countries
+              .slice(0, 5)
+              .map((c: any) => `${c.country}: ${c.count}`)
+              .join(', ');
+            contextParts.push(`Countries: ${countryList}`);
+          }
+          
+          if (stores.topCities && stores.topCities.length > 0) {
+            const cityList = stores.topCities
+              .slice(0, 5)
+              .map((c: any) => `${c.city}: ${c.count}`)
+              .join(', ');
+            contextParts.push(`Top cities: ${cityList}`);
+          }
+          
+          if (stores.revenueStats) {
+            contextParts.push(`Avg monthly revenue: $${Math.round(stores.revenueStats.avgMonthlyRevenue / 1000)}k`);
+          }
+        }
+        
+        // Expansion data
+        if (context.data.expansion) {
+          const exp = context.data.expansion;
+          contextParts.push(`\nExpansion: ${exp.summary}`);
+          if (exp.cities && exp.cities.length > 0) {
+            contextParts.push(`Target cities: ${exp.cities.slice(0, 5).join(', ')}`);
+          }
+        }
+        
+        // Filters
+        if (context.data.filters) {
+          const activeFilters = Object.entries(context.data.filters)
+            .filter(([, value]) => value)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(', ');
+          if (activeFilters) {
+            contextParts.push(`Active filters: ${activeFilters}`);
+          }
+        }
+      } else if (context.selection) {
+        // Fallback to old selection format
         contextParts.push(`Selected data: ${JSON.stringify(context.selection).substring(0, 200)}`);
       }
 

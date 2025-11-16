@@ -172,6 +172,20 @@ export function SubMindExplain() {
           {currentContext?.scope?.storeId && ` • Store: ${currentContext.scope.storeId}`}
           {!currentContext?.scope && ' • No filters applied'}
         </div>
+        {currentContext?.data && (
+          <div className="mt-2 pt-2" style={{ borderTop: '1px solid #374151' }}>
+            <div className="text-xs font-semibold mb-1" style={{ color: '#10b981' }}>✓ Real Page Data Available</div>
+            <div className="text-xs" style={{ color: '#6b7280' }}>
+              {currentContext.data.stores?.summary && `${currentContext.data.stores.summary}`}
+              {currentContext.data.expansion?.summary && ` • ${currentContext.data.expansion.summary}`}
+            </div>
+          </div>
+        )}
+        {!currentContext?.data && (
+          <div className="mt-2 pt-2" style={{ borderTop: '1px solid #374151' }}>
+            <div className="text-xs" style={{ color: '#f59e0b' }}>⚠ Using generic context (page hasn&apos;t registered data)</div>
+          </div>
+        )}
       </div>
 
       {/* Auto-generated prompt preview */}
