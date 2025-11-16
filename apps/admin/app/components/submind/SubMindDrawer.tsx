@@ -21,14 +21,17 @@ export function SubMindDrawer({ onClose, activeTab, onTabChange }: SubMindDrawer
       />
       
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out">
+      <div className="fixed right-0 top-0 h-full w-96 shadow-xl z-50 transform transition-transform duration-300 ease-in-out" style={{ background: '#0f1724', color: '#e6edf3' }}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-900">SubMind Command Center</h2>
+          <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid #1f2937' }}>
+            <h2 className="text-lg font-semibold" style={{ color: '#e6edf3' }}>SubMind Command Center</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 rounded-full transition-colors"
+              style={{ color: '#e6edf3' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#1f2937'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
               aria-label="Close SubMind"
             >
               <svg
@@ -48,16 +51,29 @@ export function SubMindDrawer({ onClose, activeTab, onTabChange }: SubMindDrawer
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex border-b">
+          <div className="flex" style={{ borderBottom: '1px solid #1f2937' }}>
             {(['ask', 'explain', 'generate'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => onTabChange(tab)}
-                className={`flex-1 py-3 px-4 text-sm font-medium capitalize transition-colors ${
-                  activeTab === tab
-                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                }`}
+                className="flex-1 py-3 px-4 text-sm font-medium capitalize transition-colors"
+                style={{
+                  color: activeTab === tab ? '#60a5fa' : '#9ca3af',
+                  borderBottom: activeTab === tab ? '2px solid #60a5fa' : 'none',
+                  background: activeTab === tab ? '#1f2937' : 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab) {
+                    e.currentTarget.style.color = '#d1d5db';
+                    e.currentTarget.style.background = '#1f2937';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab) {
+                    e.currentTarget.style.color = '#9ca3af';
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
               >
                 {tab}
               </button>
