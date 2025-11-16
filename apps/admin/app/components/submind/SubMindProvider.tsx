@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, ReactNode } from 'react';
+import { useState, useCallback, useEffect, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { SubMindContext, SubMindTab } from './useSubMind';
 import { SubMindDrawer } from './SubMindDrawer';
@@ -15,9 +15,15 @@ interface SubMindProviderProps {
 export function SubMindProvider({ children }: SubMindProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<SubMindTab>('ask');
+  const [isClient, setIsClient] = useState(false);
   
   // Check if SubMind is enabled via feature flag
   const isEnabled = config.isSubMindEnabled;
+
+  // Only render on client to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const openDrawer = useCallback(() => {
     setIsOpen(true);
@@ -58,7 +64,7 @@ export function SubMindProvider({ children }: SubMindProviderProps) {
   return (
     <SubMindContext.Provider value={contextValue}>
       {children}
-      {isEnabled && (
+      {isClient && isEnabled && (
         <SubMindErrorBoundary>
           {/* Floating Action Button */}
           <FloatingActionButton onClick={openDrawer} />
