@@ -64,12 +64,16 @@ class ConfigService {
   }
 
   get bffBaseUrl(): string {
-    // Fallback to hardcoded production URL if config is undefined
-    const url = this.config.bff.baseUrl;
-    if (!url || url === 'undefined') {
-      console.warn('[Config] BFF URL is undefined, using hardcoded production URL');
-      return 'https://subwaybff-production.up.railway.app';
+    // Always return production URL - env vars aren't working in browser
+    const hardcodedUrl = 'https://subwaybff-production.up.railway.app';
+    const url = this.config?.bff?.baseUrl;
+    
+    if (!url || url === 'undefined' || url === '') {
+      console.warn('[Config] BFF URL is invalid:', url, '- using hardcoded:', hardcodedUrl);
+      return hardcodedUrl;
     }
+    
+    console.log('[Config] Using BFF URL:', url);
     return url;
   }
 
