@@ -11,18 +11,31 @@ export interface ApiResponse<T = any> {
   timestamp?: string;
 }
 
+// Hardcoded fallback BFF URL - guaranteed to work in browser
+const FALLBACK_BFF_URL = 'https://subwaybff-production.up.railway.app';
+
 export async function bff<T>(
   path: string,
   schema?: z.ZodSchema<T>,
   init?: RequestInit
 ): Promise<T> {
-  const url = `${config.bffBaseUrl}${path}`;
+  // Normalize path
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  
+  // Get base URL with fallback
+  const baseUrl = config.bffBaseUrl && config.bffBaseUrl !== 'undefined' 
+    ? config.bffBaseUrl 
+    : FALLBACK_BFF_URL;
+  
+  const url = `${baseUrl.replace(/\/$/, '')}${normalizedPath}`;
   
   console.log('🌐 Making BFF request:', {
     url,
     method: init?.method || 'GET',
-    bffBaseUrl: config.bffBaseUrl,
-    path
+    bffBaseUrl: baseUrl,
+    configValue: config.bffBaseUrl,
+    usingFallback: baseUrl === FALLBACK_BFF_URL,
+    path: normalizedPath
   });
   
   try {
