@@ -18,7 +18,7 @@ class ConfigService {
   constructor() {
     this.config = {
       bff: {
-        baseUrl: this.getString('NEXT_PUBLIC_BFF_URL', 'http://localhost:3001'),
+        baseUrl: this.getString('NEXT_PUBLIC_BFF_URL', 'https://subwaybff-production.up.railway.app'),
       },
       auth: {
         devBypass: this.getBoolean('NEXT_PUBLIC_DEV_AUTH_BYPASS', false),
@@ -32,7 +32,15 @@ class ConfigService {
   }
 
   private getString(key: string, defaultValue: string): string {
-    return process.env[key] || defaultValue;
+    // In browser, process.env values are replaced at build time by Next.js
+    // If undefined, use the default value
+    const value = process.env[key];
+    if (!value || value === 'undefined') {
+      console.log(`[Config] Using default for ${key}:`, defaultValue);
+      return defaultValue;
+    }
+    console.log(`[Config] Using env value for ${key}:`, value);
+    return value;
   }
 
   private getBoolean(key: string, defaultValue: boolean): boolean {
