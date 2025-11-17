@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BFF_BASE_URL = process.env.BFF_BASE_URL || 'http://localhost:3001';
+// Use NEXT_PUBLIC_BFF_URL for production, fallback to localhost for dev
+const BFF_BASE_URL = process.env.NEXT_PUBLIC_BFF_URL || process.env.BFF_BASE_URL || 'http://localhost:3001';
 
 export async function GET(
   request: NextRequest,
