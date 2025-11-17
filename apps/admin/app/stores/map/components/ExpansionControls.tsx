@@ -13,7 +13,7 @@ export interface ExpansionParams {
   turnoverBias?: number;
   minDistanceM?: number;
   seed: number;
-  model?: 'gpt-5' | 'gpt-5-mini'; // Optional model selection
+  model?: 'gpt-5.1' | 'gpt-5-mini'; // Model selection (always gpt-5.1 in UI)
 }
 
 export interface ExpansionControlsProps {
@@ -54,7 +54,7 @@ export default function ExpansionControls({
   
   const [country, setCountry] = useState('Germany');
   const [aggression, setAggression] = useState(50); // Changed default to 50 (Balanced)
-  const [model, setModel] = useState<'gpt-5' | 'gpt-5-mini'>('gpt-5-mini'); // Default to mini
+  const model = 'gpt-5.1'; // Always use GPT-5.1 (premium model)
   // Use proven defaults - no need to expose these to users
   const populationBias = 0.5;
   const proximityBias = 0.3;
@@ -152,31 +152,37 @@ export default function ExpansionControls({
         </select>
       </div>
 
-      {/* AI Model Selection */}
-      <div style={{ marginBottom: '16px' }}>
-        <label htmlFor="model-select" style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: 500 }}>
-          🤖 AI Model
-        </label>
-        <select
-          id="model-select"
-          value={model}
-          onChange={(e) => setModel(e.target.value as 'gpt-5' | 'gpt-5-mini')}
-          disabled={loading}
-          aria-label="Select AI model for expansion analysis"
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            color: '#1f2937',
-            fontSize: '14px'
-          }}
-        >
-          <option value="gpt-5-mini">GPT-5 Mini (Fast & Cost-effective)</option>
-          <option value="gpt-5">GPT-5 (Premium Quality)</option>
-        </select>
-        <div style={{ fontSize: '12px', color: 'var(--s-muted, #666)', marginTop: '4px' }}>
-          {model === 'gpt-5-mini' ? '⚡ Optimized for speed and cost' : '💎 Maximum reasoning capability'}
+      {/* AI Powered Badge */}
+      <div style={{ 
+        marginBottom: '16px',
+        padding: '12px',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px'
+      }}>
+        <div style={{
+          fontSize: '24px',
+          lineHeight: 1
+        }}>
+          ✨
+        </div>
+        <div>
+          <div style={{ 
+            fontSize: '14px', 
+            fontWeight: 600,
+            color: 'white',
+            marginBottom: '2px'
+          }}>
+            AI Powered
+          </div>
+          <div style={{ 
+            fontSize: '12px',
+            color: 'rgba(255, 255, 255, 0.9)'
+          }}>
+            Advanced intelligence for optimal site selection
+          </div>
         </div>
       </div>
 
