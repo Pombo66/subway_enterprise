@@ -34,6 +34,7 @@ model Store {
   annualTurnover      Float?
   openedAt            DateTime?
   cityPopulationBand  String?
+  isAISuggested       Boolean?        @default(false) // TRUE if saved from AI expansion suggestion
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   MenuItems           MenuItem[]
@@ -47,6 +48,7 @@ model Store {
   @@index([latitude, longitude])
   @@index([annualTurnover])
   @@index([postcode])
+  @@index([isAISuggested])
 }
 
 model MenuItem {

@@ -6,6 +6,7 @@ export interface SuggestionInfoCardProps {
   suggestion: ExpansionSuggestion;
   onClose: () => void;
   onStatusChange: (status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => Promise<void>;
+  onSaveAsPlannedStore?: () => Promise<void>;
   nearestStoreDistance?: number;
 }
 
@@ -13,10 +14,17 @@ export default function SuggestionInfoCard({
   suggestion,
   onClose,
   onStatusChange,
+  onSaveAsPlannedStore,
   nearestStoreDistance
 }: SuggestionInfoCardProps) {
   const handleStatusChange = async (status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => {
     await onStatusChange(status);
+  };
+
+  const handleSaveAsPlanned = async () => {
+    if (onSaveAsPlannedStore) {
+      await onSaveAsPlannedStore();
+    }
   };
 
   return (
@@ -642,6 +650,32 @@ export default function SuggestionInfoCard({
               Reset
             </button>
           </div>
+
+          {/* Save as Planned Store Button */}
+          {onSaveAsPlannedStore && (
+            <button
+              onClick={handleSaveAsPlanned}
+              style={{
+                width: '100%',
+                padding: '12px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+            >
+              <span>🟣</span>
+              <span>Save as Planned Store</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
