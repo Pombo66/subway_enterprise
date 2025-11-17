@@ -380,6 +380,7 @@ export class OptimizedLocationIntelligenceService {
           annualTurnover: true,
           openedAt: true,
           cityPopulationBand: true,
+          isAISuggested: true,
           createdAt: true,
           updatedAt: true
         }
