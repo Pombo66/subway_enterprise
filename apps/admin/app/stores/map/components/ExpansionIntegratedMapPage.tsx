@@ -413,7 +413,7 @@ export default function ExpansionIntegratedMapPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           suggestion: selectedSuggestion,
-          scenarioId: currentScenario?.id || null
+          scenarioId: null // Scenarios are separate from planned stores
         })
       });
 
@@ -435,7 +435,7 @@ export default function ExpansionIntegratedMapPage() {
       console.error('Save as planned store error:', error);
       alert(`Failed to save as planned store: ${error.message}`);
     }
-  }, [selectedSuggestion, currentScenario, refetch]);
+  }, [selectedSuggestion, refetch]);
 
   const handleStatusChange = useCallback(async (suggestionId: string, status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => {
     try {
