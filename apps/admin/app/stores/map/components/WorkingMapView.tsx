@@ -1044,6 +1044,14 @@ export default function WorkingMapView({
           </div>
         </div>
       )}
+
+      {/* Hide Mapbox attribution */}
+      <style jsx global>{`
+        .mapboxgl-ctrl-attrib,
+        .mapboxgl-ctrl-logo {
+          display: none !important;
+        }
+      `}</style>
     </div>
   );
 }
