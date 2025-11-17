@@ -139,7 +139,8 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
 
       this.logger.log(`   Status distribution: ${JSON.stringify(statusCounts)}`);
 
-      // Get existing OPEN stores for the region (handle various status formats)
+      // Get existing OPEN and PLANNED stores for the region (handle various status formats)
+      // Including planned stores ensures AI won't suggest locations too close to committed plans
       const stores = await this.prisma.store.findMany({
         where: {
           country: params.region.country || 'Germany',
@@ -147,6 +148,7 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
             { status: 'OPEN' },
             { status: 'Open' },
             { status: 'open' },
+            { status: 'Planned' }, // Include planned stores for better coverage
             { status: null } // Include stores with no status set
           ]
         },
@@ -156,11 +158,18 @@ export class ExpansionJobWorkerService implements OnModuleInit, OnModuleDestroy 
           latitude: true,
           longitude: true,
           annualTurnover: true,
-          status: true
+          status: true,
+          isAISuggested: true
         }
       });
 
-      this.logger.log(`   Found ${stores.length} open stores in ${params.region.country || 'Germany'}`);
+      const openCount = stores.filter(s => ['OPEN', 'Open', 'open', null].includes(s.status)).length;
+      const plannedCount = stores.filter(s => s.status === 'Planned').length;
+      const aiSuggestedCount = stores.filter(s => s.isAISuggested).length;
+
+      this.logger.log(`   Found ${stores.length} stores in ${params.region.country || 'Germany'}`);
+      this.logger.log(`   - ${openCount} open stores`);
+      this.logger.log(`   - ${plannedCount} planned stores (${aiSuggestedCount} AI-suggested)`);
 
       // Calculate target count based on aggression in 25-store increments
       // Scale: 0% = 25, 20% = 50, 40% = 75, 60% = 100, 80% = 125, 100% = 150

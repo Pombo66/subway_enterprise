@@ -404,6 +404,39 @@ export default function ExpansionIntegratedMapPage() {
     }
   }, []);
 
+  const handleSaveAsPlannedStore = useCallback(async () => {
+    if (!selectedSuggestion) return;
+
+    try {
+      const response = await fetch('/api/stores/planned', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          suggestion: selectedSuggestion,
+          scenarioId: currentScenario?.id || null
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save as planned store');
+      }
+
+      const data = await response.json();
+      console.log('✅ Saved as planned store:', data.store);
+
+      // Close the info card
+      setSelectedSuggestion(null);
+
+      // Refresh stores to show the new planned store
+      await refetch();
+
+      alert(`✅ Saved as planned store!\n\nThe location will now appear on the map with a purple ring and will be considered in future expansion analysis.`);
+    } catch (error: any) {
+      console.error('Save as planned store error:', error);
+      alert(`Failed to save as planned store: ${error.message}`);
+    }
+  }, [selectedSuggestion, currentScenario, refetch]);
+
   const handleStatusChange = useCallback(async (suggestionId: string, status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => {
     try {
       const response = await fetch(`/api/expansion/suggestions/${suggestionId}/status`, {
@@ -961,6 +994,7 @@ export default function ExpansionIntegratedMapPage() {
           suggestion={selectedSuggestion}
           onClose={() => setSelectedSuggestion(null)}
           onStatusChange={async (status) => await handleStatusChange(selectedSuggestion.id, status)}
+          onSaveAsPlannedStore={handleSaveAsPlannedStore}
         />
       )}
 

@@ -451,23 +451,19 @@ export default function ExpansionControls({
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 flexShrink: 0
               }} />
-              {/* Sparkle Badge */}
+              {/* Centered Yellow Dot */}
               <div style={{
                 position: 'absolute',
-                top: '-2px',
-                right: '-2px',
-                width: '8px',
-                height: '8px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '6px',
+                height: '6px',
                 background: '#f59e0b',
                 border: '1px solid white',
                 borderRadius: '50%',
-                fontSize: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                ✨
-              </div>
+                boxShadow: '0 0 4px rgba(245, 158, 11, 0.6)'
+              }} />
             </div>
             <span style={{ 
               fontSize: '13px',

@@ -113,28 +113,22 @@ const SuggestionMarker = React.memo(({ suggestion, onClick, selected }: Suggesti
           position: 'relative'
         }}
       >
-        {/* High Confidence Badge */}
+        {/* High Confidence Badge - Centered */}
         {isHighConfidence && (
           <div
             style={{
               position: 'absolute',
-              top: '-2px',
-              right: '-2px',
-              width: '8px',
-              height: '8px',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '6px',
+              height: '6px',
               background: '#f59e0b',
               border: '1px solid white',
               borderRadius: '50%',
-              fontSize: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 'bold'
+              boxShadow: '0 0 4px rgba(245, 158, 11, 0.6)'
             }}
-          >
-            ✨
-          </div>
+          />
         )}
       </div>
       

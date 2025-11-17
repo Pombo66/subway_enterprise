@@ -503,9 +503,17 @@ export default function WorkingMapView({
                 'case',
                 ['get', 'hasAnalysis'],
                 3,  // Thicker stroke for analyzed stores
+                ['get', 'isAISuggested'],
+                3,  // Thicker stroke for AI-suggested planned stores
                 2   // Default stroke
               ],
-              'circle-stroke-color': '#ffffff'
+              'circle-stroke-color': [
+                'case',
+                // Purple ring for AI-suggested planned stores
+                ['all', ['==', ['get', 'status'], 'Planned'], ['get', 'isAISuggested']],
+                '#a78bfa',  // Light purple ring
+                '#ffffff'   // White ring for all others
+              ]
             }
           });
 
