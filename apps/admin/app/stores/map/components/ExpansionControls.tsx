@@ -155,34 +155,21 @@ export default function ExpansionControls({
       {/* AI Powered Badge */}
       <div style={{ 
         marginBottom: '16px',
-        padding: '12px',
+        padding: '8px 12px',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        borderRadius: '8px',
+        borderRadius: '6px',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px'
+        justifyContent: 'center',
+        gap: '8px'
       }}>
-        <div style={{
-          fontSize: '24px',
-          lineHeight: 1
+        <div style={{ 
+          fontSize: '13px', 
+          fontWeight: 600,
+          color: 'white',
+          letterSpacing: '0.3px'
         }}>
-          ✨
-        </div>
-        <div>
-          <div style={{ 
-            fontSize: '14px', 
-            fontWeight: 600,
-            color: 'white',
-            marginBottom: '2px'
-          }}>
-            AI Powered
-          </div>
-          <div style={{ 
-            fontSize: '12px',
-            color: 'rgba(255, 255, 255, 0.9)'
-          }}>
-            Advanced intelligence for optimal site selection
-          </div>
+          AI Powered
         </div>
       </div>
 
