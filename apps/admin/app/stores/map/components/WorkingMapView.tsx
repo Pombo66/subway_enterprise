@@ -156,28 +156,28 @@ export default function WorkingMapView({
       }
     });
 
-    // Add sparkle badge for high confidence suggestions (>0.70)
-    // Small gold badge positioned at top-right of marker (matches legend)
+    // Add centered yellow dot for high confidence suggestions (>75%)
+    // Centered dot matching the legend design
     map.addLayer({
       id: 'expansion-suggestions-sparkle',
       type: 'circle',
       source: 'expansion-suggestions',
-      filter: ['>', ['get', 'confidence'], 0.70],
+      filter: ['>', ['get', 'confidence'], 0.75],
       paint: {
-        'circle-radius': 4, // Small badge
-        'circle-color': '#fbbf24', // Amber-400 gold
-        'circle-stroke-width': 1,
+        'circle-radius': 3, // Small centered dot
+        'circle-color': '#f59e0b', // Orange/gold
+        'circle-stroke-width': 0.5,
         'circle-stroke-color': '#ffffff',
-        'circle-opacity': 1,
-        'circle-translate': [6, -6] // Offset to top-right of marker
+        'circle-opacity': 1
+        // No translate - centered on the marker
       }
     });
     
-    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.70).length;
-    console.log(`✨ Sparkle layer added for ${highConfCount} high confidence suggestions (>70%)`);
-    console.log(`✨ Sparkle layer config:`, {
+    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.75).length;
+    console.log(`✨ Yellow dot layer added for ${highConfCount} high confidence suggestions (>75%)`);
+    console.log(`✨ Yellow dot layer config:`, {
       layerId: 'expansion-suggestions-sparkle',
-      filter: ['>', ['get', 'confidence'], 0.70],
+      filter: ['>', ['get', 'confidence'], 0.75],
       expectedCount: highConfCount,
       layerExists: map.getLayer('expansion-suggestions-sparkle') !== undefined
     });
