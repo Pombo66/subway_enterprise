@@ -88,7 +88,8 @@ function FloatingActionButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-24 right-6 z-50 s-btn s-btn--primary rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+      className="fixed bottom-6 right-6 s-btn s-btn--primary rounded-full w-14 h-14 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+      style={{ zIndex: 9999 }}
       aria-label="Ask SubMind"
       title="Ask SubMind"
     >
