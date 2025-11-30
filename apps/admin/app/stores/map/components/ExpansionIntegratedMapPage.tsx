@@ -634,39 +634,25 @@ export default function ExpansionIntegratedMapPage() {
                 Refresh
               </button>
               {expansionMode && suggestions.length > 0 && (
-                <>
-                  <button
-                    onClick={() => {
-                      setSuggestions([]);
-                      setSelectedSuggestion(null);
-                      setStrategicAnalysis(null);
-                      console.log('🧹 Cleared expansion suggestions');
-                    }}
-                    className="s-btn"
-                    title="Clear expansion suggestions (they will be lost unless saved as a scenario)"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      background: '#ef4444',
-                      color: 'white'
-                    }}
-                  >
-                    🗑️ Clear Suggestions ({suggestions.length})
-                  </button>
-                  <div style={{ 
-                    fontSize: '11px', 
-                    color: '#f59e0b', 
-                    padding: '4px 8px',
-                    background: '#fef3c7',
-                    borderRadius: '4px',
+                <button
+                  onClick={() => {
+                    setSuggestions([]);
+                    setSelectedSuggestion(null);
+                    setStrategicAnalysis(null);
+                    console.log('🧹 Cleared expansion suggestions');
+                  }}
+                  className="s-btn"
+                  title="Clear expansion suggestions (they will be lost unless saved as a scenario)"
+                  style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px'
-                  }}>
-                    ⚠️ Suggestions will be lost on page refresh - save as scenario to keep them
-                  </div>
-                </>
+                    gap: '8px',
+                    background: '#ef4444',
+                    color: 'white'
+                  }}
+                >
+                  🗑️ Clear Suggestions ({suggestions.length})
+                </button>
               )}
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button
