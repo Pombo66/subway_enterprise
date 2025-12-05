@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  role      String   @default("STAFF")
+  id        String       @id @default(cuid())
+  email     String       @unique
+  role      String       @default("STAFF")
   firstName String?
   lastName  String?
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  active    Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   Orders    Order[]
+  StoreStaff StoreStaff[]
 }
 
 model Store {
@@ -35,11 +36,16 @@ model Store {
   openedAt            DateTime?
   cityPopulationBand  String?
   isAISuggested       Boolean?        @default(false) // TRUE if saved from AI expansion suggestion
+  operatingHours      String?         // JSON: { monday: { open: "09:00", close: "21:00" }, ... }
+  phoneNumber         String?
+  email               String?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   MenuItems           MenuItem[]
   Orders              Order[]
   PriceOverrides      PriceOverride[]
+  Photos              StorePhoto[]
+  Staff               StoreStaff[]
 
   @@index([country])
   @@index([region])
@@ -49,6 +55,32 @@ model Store {
   @@index([annualTurnover])
   @@index([postcode])
   @@index([isAISuggested])
+}
+
+model StorePhoto {
+  id        String   @id @default(cuid())
+  storeId   String
+  url       String
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  Store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@index([storeId, sortOrder])
+}
+
+model StoreStaff {
+  id         String   @id @default(cuid())
+  storeId    String
+  userId     String
+  role       String   @default("STAFF") // MANAGER, STAFF
+  assignedAt DateTime @default(now())
+  Store      Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, userId])
+  @@index([storeId])
+  @@index([userId])
 }
 
 model MenuItem {
