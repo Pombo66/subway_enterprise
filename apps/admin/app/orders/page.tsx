@@ -285,6 +285,14 @@ export default function OrdersPage() {
               Monitor and manage customer orders across all locations
             </p>
           </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <a href="/orders" className="s-btn" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}>
+              Orders List
+            </a>
+            <a href="/orders/analytics" className="s-btn">
+              Analytics
+            </a>
+          </div>
         </div>
 
         {/* Filters Section */}

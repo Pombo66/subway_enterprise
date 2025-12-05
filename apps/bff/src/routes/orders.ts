@@ -306,6 +306,265 @@ export class OrdersController {
     }
   }
 
+  @Get('/orders/analytics/summary')
+  async getAnalyticsSummary(@Query() q: Record<string, unknown>) {
+    try {
+      const w = makeWhere(parseScope(q)) as Record<string, unknown>;
+      const where: Record<string, unknown> = { ...(w || {}) };
+
+      // Handle store filtering
+      if (where.store) {
+        where.Store = { is: where.store };
+        delete where.store;
+      }
+
+      // Handle date range
+      if (q.dateRange && q.dateRange !== 'all') {
+        const now = new Date();
+        let startDate: Date;
+
+        switch (q.dateRange) {
+          case 'today':
+            startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            break;
+          case '7days':
+            startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            break;
+          case '30days':
+            startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            break;
+          case '90days':
+            startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+            break;
+          default:
+            startDate = new Date(0);
+        }
+
+        where.createdAt = { gte: startDate };
+      }
+
+      // Get summary statistics
+      const [totalOrders, totalRevenue, ordersByStatus, recentOrders] = await Promise.all([
+        this.prisma.order.count({ where }),
+        this.prisma.order.aggregate({
+          where,
+          _sum: { total: true }
+        }),
+        this.prisma.order.groupBy({
+          by: ['status'],
+          where,
+          _count: true
+        }),
+        this.prisma.order.findMany({
+          where,
+          take: 10,
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            total: true,
+            status: true,
+            createdAt: true,
+            Store: {
+              select: { name: true, region: true }
+            }
+          }
+        })
+      ]);
+
+      const avgOrderValue = totalOrders > 0 
+        ? Number(totalRevenue._sum.total || 0) / totalOrders 
+        : 0;
+
+      return {
+        totalOrders,
+        totalRevenue: Number(totalRevenue._sum.total || 0),
+        avgOrderValue,
+        ordersByStatus: ordersByStatus.map(s => ({
+          status: s.status,
+          count: s._count
+        })),
+        recentOrders: recentOrders.map(o => ({
+          ...o,
+          total: Number(o.total)
+        }))
+      };
+    } catch (error) {
+      console.error('Error fetching analytics summary:', error);
+      throw new HttpException('Failed to fetch analytics', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('/orders/analytics/trends')
+  async getAnalyticsTrends(@Query() q: Record<string, unknown>) {
+    try {
+      const w = makeWhere(parseScope(q)) as Record<string, unknown>;
+      const where: Record<string, unknown> = { ...(w || {}) };
+
+      // Handle store filtering
+      if (where.store) {
+        where.Store = { is: where.store };
+        delete where.store;
+      }
+
+      // Default to last 30 days
+      const days = q.days ? parseInt(String(q.days), 10) : 30;
+      const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+      where.createdAt = { gte: startDate };
+
+      // Get orders grouped by date
+      const orders = await this.prisma.order.findMany({
+        where,
+        select: {
+          createdAt: true,
+          total: true,
+          status: true
+        },
+        orderBy: { createdAt: 'asc' }
+      });
+
+      // Group by date
+      const dailyData: Record<string, { date: string; orders: number; revenue: number }> = {};
+      
+      orders.forEach(order => {
+        const date = order.createdAt.toISOString().split('T')[0];
+        if (!dailyData[date]) {
+          dailyData[date] = { date, orders: 0, revenue: 0 };
+        }
+        dailyData[date].orders++;
+        dailyData[date].revenue += Number(order.total);
+      });
+
+      const trends = Object.values(dailyData).sort((a, b) => 
+        a.date.localeCompare(b.date)
+      );
+
+      return { trends };
+    } catch (error) {
+      console.error('Error fetching analytics trends:', error);
+      throw new HttpException('Failed to fetch trends', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('/orders/analytics/stores')
+  async getStorePerformance(@Query() q: Record<string, unknown>) {
+    try {
+      const w = makeWhere(parseScope(q)) as Record<string, unknown>;
+      const where: Record<string, unknown> = { ...(w || {}) };
+
+      // Handle date range
+      if (q.dateRange && q.dateRange !== 'all') {
+        const now = new Date();
+        let startDate: Date;
+
+        switch (q.dateRange) {
+          case 'today':
+            startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            break;
+          case '7days':
+            startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            break;
+          case '30days':
+            startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            break;
+          default:
+            startDate = new Date(0);
+        }
+
+        where.createdAt = { gte: startDate };
+      }
+
+      // Get orders grouped by store
+      const storeOrders = await this.prisma.order.groupBy({
+        by: ['storeId'],
+        where,
+        _count: true,
+        _sum: { total: true }
+      });
+
+      // Get store details
+      const storeIds = storeOrders.map(s => s.storeId);
+      const stores = await this.prisma.store.findMany({
+        where: { id: { in: storeIds } },
+        select: {
+          id: true,
+          name: true,
+          region: true,
+          country: true,
+          city: true
+        }
+      });
+
+      const storeMap = new Map(stores.map(s => [s.id, s]));
+
+      const performance = storeOrders.map(so => {
+        const store = storeMap.get(so.storeId);
+        const revenue = Number(so._sum.total || 0);
+        const avgOrderValue = so._count > 0 ? revenue / so._count : 0;
+
+        return {
+          storeId: so.storeId,
+          storeName: store?.name || 'Unknown',
+          region: store?.region || 'Unknown',
+          country: store?.country || 'Unknown',
+          city: store?.city || 'Unknown',
+          orderCount: so._count,
+          totalRevenue: revenue,
+          avgOrderValue
+        };
+      }).sort((a, b) => b.totalRevenue - a.totalRevenue);
+
+      return { stores: performance };
+    } catch (error) {
+      console.error('Error fetching store performance:', error);
+      throw new HttpException('Failed to fetch store performance', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('/orders/analytics/peak-hours')
+  async getPeakHours(@Query() q: Record<string, unknown>) {
+    try {
+      const w = makeWhere(parseScope(q)) as Record<string, unknown>;
+      const where: Record<string, unknown> = { ...(w || {}) };
+
+      // Handle store filtering
+      if (where.store) {
+        where.Store = { is: where.store };
+        delete where.store;
+      }
+
+      // Default to last 30 days
+      const days = q.days ? parseInt(String(q.days), 10) : 30;
+      const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+      where.createdAt = { gte: startDate };
+
+      const orders = await this.prisma.order.findMany({
+        where,
+        select: { createdAt: true }
+      });
+
+      // Group by hour
+      const hourlyData: Record<number, number> = {};
+      for (let i = 0; i < 24; i++) {
+        hourlyData[i] = 0;
+      }
+
+      orders.forEach(order => {
+        const hour = order.createdAt.getHours();
+        hourlyData[hour]++;
+      });
+
+      const peakHours = Object.entries(hourlyData).map(([hour, count]) => ({
+        hour: parseInt(hour),
+        orderCount: count
+      })).sort((a, b) => b.orderCount - a.orderCount);
+
+      return { peakHours };
+    } catch (error) {
+      console.error('Error fetching peak hours:', error);
+      throw new HttpException('Failed to fetch peak hours', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   @Patch('/orders/:id/status')
   async updateStatus(@Param('id') id: string, @Body() dto: UpdateOrderStatusDto) {
     try {
