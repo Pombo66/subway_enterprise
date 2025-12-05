@@ -353,7 +353,7 @@ export class ExpansionService implements IExpansionService {
 
   private async getExistingStores(region: RegionFilter) {
     const whereClause: any = {
-      status: 'Open',
+      status: { in: ['Open', 'Planned'] }, // Include both Open and Planned stores
       latitude: { not: null },
       longitude: { not: null }
     };

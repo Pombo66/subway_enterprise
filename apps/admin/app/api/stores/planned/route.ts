@@ -19,27 +19,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Extract location details from suggestion
+    const city = suggestion.city || suggestion.locationContext?.city || null;
+    const country = suggestion.country || 'Germany';
+    const region = suggestion.region || 'EMEA';
+    
     // Create store name from city or coordinates
-    const storeName = suggestion.city 
-      ? `${suggestion.city} - AI Suggested`
-      : `Location ${suggestion.lat.toFixed(4)}, ${suggestion.lng.toFixed(4)}`;
+    const storeName = city 
+      ? `${city} - Planned (AI)`
+      : `Planned Location ${suggestion.lat.toFixed(4)}, ${suggestion.lng.toFixed(4)}`;
 
     // Create the planned store
     const store = await prisma.store.create({
       data: {
         name: storeName,
-        city: suggestion.city || null,
+        city: city,
         address: suggestion.specificLocation || suggestion.address || null,
-        country: 'Germany', // TODO: Get from suggestion or context
-        region: 'EMEA', // TODO: Get from suggestion or context
+        country: country,
+        region: region,
         status: 'Planned',
         latitude: suggestion.lat,
         longitude: suggestion.lng,
         isAISuggested: true, // Mark as AI-suggested for purple ring
-        // Store AI metadata in available fields
-        ownerName: suggestion.rationaleText 
-          ? `AI: ${suggestion.rationaleText.substring(0, 100)}...`
-          : 'AI Suggested Location',
+        // Store confidence score in postcode field temporarily (we can add proper field later)
+        postcode: suggestion.confidence ? `AI-${(suggestion.confidence * 100).toFixed(0)}%` : null,
       }
     });
 
