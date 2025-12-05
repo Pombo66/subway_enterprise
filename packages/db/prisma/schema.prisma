@@ -64,6 +64,7 @@ model MenuItem {
   modifiers      MenuItemModifier[]
   categories     MenuItemCategory[]
   PriceOverrides PriceOverride[]
+  OrderItems     OrderItem[]
 
   @@index([storeId, active, createdAt])
   @@index([active, updatedAt])
@@ -72,19 +73,36 @@ model MenuItem {
 }
 
 model Order {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   storeId   String
   userId    String?
   total     Decimal
-  status    String   @default("PAID")
-  createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
-  Store     Store    @relation(fields: [storeId], references: [id])
+  status    String      @default("PENDING")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  User      User?       @relation(fields: [userId], references: [id])
+  Store     Store       @relation(fields: [storeId], references: [id])
+  items     OrderItem[]
 
   @@index([storeId, createdAt])
   @@index([status, createdAt])
   @@index([userId, createdAt])
   @@index([createdAt])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  menuItemId String
+  quantity   Int
+  price      Decimal
+  subtotal   Decimal
+  createdAt  DateTime @default(now())
+  Order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  MenuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+
+  @@index([orderId])
+  @@index([menuItemId])
 }
 
 model ModifierGroup {

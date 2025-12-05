@@ -1,6 +1,19 @@
-import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Inject, Query, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { parseScope, makeWhere } from '../util/scope';
+
+interface CreateOrderDto {
+  storeId: string;
+  userId?: string;
+  items: Array<{
+    menuItemId: string;
+    quantity: number;
+  }>;
+}
+
+interface UpdateOrderStatusDto {
+  status: 'PENDING' | 'PREPARING' | 'READY' | 'COMPLETED' | 'CANCELLED';
+}
 
 @Controller()
 export class OrdersController {
@@ -110,7 +123,7 @@ export class OrdersController {
   }
 
   @Get('/orders/:id')
-  async getById(@Query('id') id: string) {
+  async getById(@Param('id') id: string) {
     const order = await this.prisma.order.findUnique({
       where: { id },
       select: {
@@ -118,6 +131,7 @@ export class OrdersController {
         total: true,
         status: true,
         createdAt: true,
+        updatedAt: true,
         Store: { 
           select: { 
             id: true, 
@@ -133,16 +147,260 @@ export class OrdersController {
             email: true,
           }
         },
+        items: {
+          select: {
+            id: true,
+            quantity: true,
+            price: true,
+            subtotal: true,
+            MenuItem: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+              }
+            }
+          }
+        }
       },
     });
 
     if (!order) {
-      throw new Error('Order not found');
+      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
 
     return {
       ...order,
       total: Number(order.total ?? 0),
+      items: order.items.map(item => ({
+        ...item,
+        price: Number(item.price),
+        subtotal: Number(item.subtotal),
+        MenuItem: {
+          ...item.MenuItem,
+          price: Number(item.MenuItem.price),
+        }
+      }))
     };
+  }
+
+  @Post('/orders/create')
+  async create(@Body() dto: CreateOrderDto) {
+    try {
+      // Validate store exists
+      const store = await this.prisma.store.findUnique({
+        where: { id: dto.storeId }
+      });
+
+      if (!store) {
+        throw new HttpException('Store not found', HttpStatus.BAD_REQUEST);
+      }
+
+      // Validate and fetch menu items
+      const menuItems = await this.prisma.menuItem.findMany({
+        where: {
+          id: { in: dto.items.map(item => item.menuItemId) },
+          storeId: dto.storeId,
+          active: true
+        }
+      });
+
+      if (menuItems.length !== dto.items.length) {
+        throw new HttpException('One or more menu items not found or inactive', HttpStatus.BAD_REQUEST);
+      }
+
+      // Calculate order total
+      let total = 0;
+      const orderItems = dto.items.map(item => {
+        const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
+        if (!menuItem) {
+          throw new HttpException(`Menu item ${item.menuItemId} not found`, HttpStatus.BAD_REQUEST);
+        }
+
+        const price = Number(menuItem.price);
+        const subtotal = price * item.quantity;
+        total += subtotal;
+
+        return {
+          menuItemId: item.menuItemId,
+          quantity: item.quantity,
+          price: menuItem.price,
+          subtotal: subtotal
+        };
+      });
+
+      // Create order with items
+      const order = await this.prisma.order.create({
+        data: {
+          storeId: dto.storeId,
+          userId: dto.userId,
+          total: total,
+          status: 'PENDING',
+          items: {
+            create: orderItems
+          }
+        },
+        include: {
+          Store: {
+            select: {
+              id: true,
+              name: true,
+              region: true,
+              country: true,
+              city: true
+            }
+          },
+          User: {
+            select: {
+              id: true,
+              email: true
+            }
+          },
+          items: {
+            include: {
+              MenuItem: {
+                select: {
+                  id: true,
+                  name: true,
+                  price: true
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Emit telemetry event
+      await this.prisma.telemetryEvent.create({
+        data: {
+          eventType: 'order.created',
+          userId: dto.userId || 'guest',
+          properties: JSON.stringify({
+            orderId: order.id,
+            storeId: dto.storeId,
+            total: total,
+            itemCount: dto.items.length
+          })
+        }
+      });
+
+      return {
+        ...order,
+        total: Number(order.total),
+        items: order.items.map(item => ({
+          ...item,
+          price: Number(item.price),
+          subtotal: Number(item.subtotal),
+          MenuItem: {
+            ...item.MenuItem,
+            price: Number(item.MenuItem.price)
+          }
+        }))
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      console.error('Error creating order:', error);
+      throw new HttpException('Failed to create order', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Patch('/orders/:id/status')
+  async updateStatus(@Param('id') id: string, @Body() dto: UpdateOrderStatusDto) {
+    try {
+      // Validate order exists
+      const existingOrder = await this.prisma.order.findUnique({
+        where: { id }
+      });
+
+      if (!existingOrder) {
+        throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Validate status transition
+      const validTransitions: Record<string, string[]> = {
+        'PENDING': ['PREPARING', 'CANCELLED'],
+        'PREPARING': ['READY', 'CANCELLED'],
+        'READY': ['COMPLETED', 'CANCELLED'],
+        'COMPLETED': [],
+        'CANCELLED': []
+      };
+
+      const allowedStatuses = validTransitions[existingOrder.status] || [];
+      if (!allowedStatuses.includes(dto.status)) {
+        throw new HttpException(
+          `Cannot transition from ${existingOrder.status} to ${dto.status}`,
+          HttpStatus.BAD_REQUEST
+        );
+      }
+
+      // Update order status
+      const order = await this.prisma.order.update({
+        where: { id },
+        data: { status: dto.status },
+        include: {
+          Store: {
+            select: {
+              id: true,
+              name: true,
+              region: true,
+              country: true,
+              city: true
+            }
+          },
+          User: {
+            select: {
+              id: true,
+              email: true
+            }
+          },
+          items: {
+            include: {
+              MenuItem: {
+                select: {
+                  id: true,
+                  name: true,
+                  price: true
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Emit telemetry event
+      await this.prisma.telemetryEvent.create({
+        data: {
+          eventType: 'order.status_updated',
+          userId: order.userId || 'system',
+          properties: JSON.stringify({
+            orderId: id,
+            oldStatus: existingOrder.status,
+            newStatus: dto.status
+          })
+        }
+      });
+
+      return {
+        ...order,
+        total: Number(order.total),
+        items: order.items.map(item => ({
+          ...item,
+          price: Number(item.price),
+          subtotal: Number(item.subtotal),
+          MenuItem: {
+            ...item.MenuItem,
+            price: Number(item.MenuItem.price)
+          }
+        }))
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      console.error('Error updating order status:', error);
+      throw new HttpException('Failed to update order status', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
