@@ -14,11 +14,13 @@ import { SubMindController } from './routes/submind.controller';
 import { ExpansionController } from './routes/expansion.controller';
 import { AIIntelligenceController } from './routes/ai-intelligence.controller';
 import { PortfolioOptimizerController } from './routes/portfolio-optimizer.controller';
+import { ScenarioModelingController } from './routes/scenario-modeling.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { PortfolioOptimizerService } from './services/portfolio/portfolio-optimizer.service';
 import { ROICalculatorService } from './services/portfolio/roi-calculator.service';
 import { CannibalizationCalculatorService } from './services/portfolio/cannibalization-calculator.service';
+import { ScenarioModelingService } from './services/scenario/scenario-modeling.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -62,6 +64,7 @@ const prisma = new PrismaClient();
     ExpansionController,
     AIIntelligenceController,
     PortfolioOptimizerController,
+    ScenarioModelingController,
     // GeocodeController,
   ],
   providers: [
@@ -93,6 +96,8 @@ const prisma = new PrismaClient();
     PortfolioOptimizerService,
     ROICalculatorService,
     CannibalizationCalculatorService,
+    // Scenario Modeling Services
+    ScenarioModelingService,
     // GeocodeService,
     // Apply authentication globally
     {

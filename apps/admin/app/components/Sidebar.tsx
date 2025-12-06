@@ -20,6 +20,7 @@ export default function Sidebar() {
     users: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z"/></svg>),
     audit: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14v18l-7-3-7 3V3Z"/></svg>),
     portfolio: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>),
+    scenarios: (<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>),
   };
 
   return (
@@ -38,6 +39,7 @@ export default function Sidebar() {
         <Item href="/orders"     label="Orders"     svg={I.orders} />
         <Item href="/stores"     label="Stores"     svg={I.stores} />
         <Item href="/portfolio"  label="Portfolio"  svg={I.portfolio} />
+        <Item href="/scenarios"  label="Scenarios"  svg={I.scenarios} />
         <Item href="/analytics"  label="Analytics"  svg={I.analytics} />
         <Item href="/settings"   label="Settings"   svg={I.users} />
       </nav>
