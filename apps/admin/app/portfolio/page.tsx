@@ -94,7 +94,7 @@ export default function PortfolioOptimizerPage() {
       <div className="s-wrap">
         <div className="menu-header-section">
           <div>
-            <h1 className="s-h1">📊 Expansion Portfolio Optimizer</h1>
+            <h1 className="s-h1">Expansion Portfolio Optimizer</h1>
             <p style={{ color: 'var(--s-muted)', fontSize: '14px', marginTop: '8px' }}>
               Optimize store selection for maximum ROI within budget constraints
             </p>
@@ -202,7 +202,7 @@ export default function PortfolioOptimizerPage() {
                   className="s-btn s-btn--primary"
                   style={{ width: '100%' }}
                 >
-                  {loading ? 'Optimizing...' : '🚀 Run Optimization'}
+                  {loading ? 'Optimizing...' : 'Run Optimization'}
                 </button>
               </div>
             </div>
