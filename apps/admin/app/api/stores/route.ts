@@ -20,6 +20,12 @@ export async function GET(request: Request) {
         if (searchParams.get('country')) {
             params.append('country', searchParams.get('country')!);
         }
+        if (searchParams.get('city')) {
+            params.append('city', searchParams.get('city')!);
+        }
+        if (searchParams.get('status')) {
+            params.append('status', searchParams.get('status')!);
+        }
         
         // Note: BFF doesn't support pagination yet, so we don't send page/limit
         
