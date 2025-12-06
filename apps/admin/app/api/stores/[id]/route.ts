@@ -11,14 +11,29 @@ export async function GET(
     console.log('🔄 [API] Fetching store details for ID:', id);
     
     // Use the same authentication helper as the stores list
-    const data = await getFromBff(`/stores/${id}`);
+    const response = await getFromBff(`/stores/${id}`);
     
-    console.log('✅ [API] BFF returned data:', JSON.stringify(data, null, 2));
-    console.log('✅ [API] Data keys:', Object.keys(data || {}));
-    console.log('✅ [API] Store name:', data?.name);
-    console.log('✅ [API] Store city:', data?.city);
+    console.log('✅ [API] BFF returned response:', JSON.stringify(response, null, 2));
     
-    return NextResponse.json(data);
+    // Check if response is wrapped in {success, data} format
+    let store = response;
+    if (response && response.success && response.data) {
+      console.log('✅ [API] Unwrapping response.data');
+      store = response.data;
+    }
+    
+    // Validate store has required fields
+    if (!store || !store.id) {
+      console.error('❌ [API] Invalid store structure:', store);
+      return NextResponse.json(
+        { error: 'Invalid store data from BFF' },
+        { status: 500 }
+      );
+    }
+    
+    console.log('✅ [API] Returning store:', store.name, store.city);
+    
+    return NextResponse.json(store);
   } catch (error) {
     console.error('❌ [API] Error fetching store:', error);
     return NextResponse.json(
