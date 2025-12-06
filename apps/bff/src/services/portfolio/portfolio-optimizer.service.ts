@@ -360,7 +360,7 @@ Keep it brief and executive-focused.`;
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: process.env.PORTFOLIO_ANALYSIS_MODEL || 'gpt-4o-mini',
+        model: process.env.PORTFOLIO_ANALYSIS_MODEL || 'gpt-5-mini',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
         max_tokens: 300

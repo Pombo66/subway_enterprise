@@ -113,11 +113,11 @@ The **Expansion Portfolio Optimizer** is a sophisticated AI-powered system that 
 - Net gain assessment (prevents bad openings)
 
 ### **5. AI-Powered Insights**
-- GPT-4o-mini analyzes portfolio
+- GPT-5-mini analyzes portfolio
 - Strategic recommendations
 - Risk identification
 - Geographic distribution analysis
-- Cost: ~$0.01-0.02 per optimization
+- Cost: ~$0.001-0.002 per optimization
 
 ---
 
@@ -212,9 +212,9 @@ loss = storeRevenue * 0.40 * distanceFactor * marketOverlap
 ## 💰 Cost Analysis
 
 ### **Operational Costs**
-- **AI Analysis:** ~$0.01-0.02 per optimization
+- **AI Analysis:** ~$0.001-0.002 per optimization (GPT-5-mini)
 - **Infrastructure:** Included in existing Railway costs
-- **Total:** ~$10-20/month (assuming 100 optimizations)
+- **Total:** ~$1-2/month (assuming 100 optimizations)
 
 ### **Business Value**
 - **Single bad location prevented:** $500K+ saved
@@ -234,7 +234,7 @@ Go to Railway Dashboard → BFF Service → Variables:
 
 ```bash
 # Portfolio Optimizer
-PORTFOLIO_ANALYSIS_MODEL=gpt-4o-mini
+PORTFOLIO_ANALYSIS_MODEL=gpt-5-mini
 ```
 
 ### **Step 2: Commit and Push**

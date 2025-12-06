@@ -496,7 +496,7 @@ Be concise and actionable. Focus on executive-level insights.
 `;
 ```
 
-**Cost:** ~2,000-3,000 tokens per analysis = $0.01-0.015 per optimization
+**Cost:** ~2,000-3,000 tokens per analysis = $0.001-0.002 per optimization (GPT-5-mini)
 
 ---
 
@@ -591,9 +591,9 @@ Provide brief reasoning for each score.
 - **Total: 7-11 days**
 
 ### **Operational (per month):**
-- AI costs: ~$50-100 (assuming 100 optimizations/month)
+- AI costs: ~$1-2 (assuming 100 optimizations/month with GPT-5-mini)
 - Infrastructure: Included in existing Railway costs
-- **Total: ~$50-100/month**
+- **Total: ~$1-2/month**
 
 ### **ROI:**
 - Single optimization preventing one bad location: $500K+ saved
