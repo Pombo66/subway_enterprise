@@ -72,6 +72,13 @@ export async function postToBff(path: string, body?: any) {
   });
 }
 
+export async function putToBff(path: string, body?: any) {
+  return fetchFromBff(path, {
+    method: 'PUT',
+    body: body ? JSON.stringify(body) : undefined,
+  });
+}
+
 export async function patchToBff(path: string, body?: any) {
   return fetchFromBff(path, {
     method: 'PATCH',

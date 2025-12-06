@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const BFF_URL = process.env.NEXT_PUBLIC_BFF_URL || 'http://localhost:3001';
+import { getFromBff } from '@/lib/server-api-client';
 
 export async function GET(
   request: NextRequest,
@@ -9,26 +8,69 @@ export async function GET(
   try {
     const { id } = params;
     
-    // Forward to BFF
-    const response = await fetch(`${BFF_URL}/stores/${id}`, {
-      headers: {
-        'Authorization': request.headers.get('Authorization') || '',
-      },
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: 'Store not found' },
-        { status: response.status }
-      );
-    }
-
-    const data = await response.json();
+    console.log('🔄 Fetching store details for ID:', id);
+    
+    // Use the same authentication helper as the stores list
+    const data = await getFromBff(`/stores/${id}`);
+    
+    console.log('✅ Successfully fetched store:', data);
+    
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error fetching store:', error);
+    console.error('❌ Error fetching store:', error);
     return NextResponse.json(
       { error: 'Failed to fetch store' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+    const body = await request.json();
+    
+    console.log('🔄 Updating store:', id, body);
+    
+    // Forward to BFF with authentication
+    const { putToBff } = await import('@/lib/server-api-client');
+    const data = await putToBff(`/stores/${id}`, body);
+    
+    console.log('✅ Successfully updated store');
+    
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('❌ Error updating store:', error);
+    return NextResponse.json(
+      { error: 'Failed to update store' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = params;
+    
+    console.log('🔄 Deleting store:', id);
+    
+    // Forward to BFF with authentication
+    const { deleteFromBff } = await import('@/lib/server-api-client');
+    const data = await deleteFromBff(`/stores/${id}`);
+    
+    console.log('✅ Successfully deleted store');
+    
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('❌ Error deleting store:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete store' },
       { status: 500 }
     );
   }
