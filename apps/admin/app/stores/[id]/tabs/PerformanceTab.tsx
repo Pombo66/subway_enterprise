@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
-
-const BFF_URL = process.env.NEXT_PUBLIC_BFF_URL || 'http://localhost:3001';
 
 interface PerformanceData {
   summary: {
@@ -69,9 +66,12 @@ export function PerformanceTab({ storeId }: { storeId: string }) {
     const fetchAIAnalysis = async () => {
       setAiLoading(true);
       try {
-        const response = await axios.get(`${BFF_URL}/ai/intelligence/stores/${storeId}/latest`);
-        if (response.data.hasAnalysis) {
-          setAiAnalysis(response.data.analysis);
+        const response = await fetch(`/api/ai-intelligence/stores/${storeId}/latest`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.hasAnalysis) {
+            setAiAnalysis(data.analysis);
+          }
         }
       } catch (err) {
         console.error('Failed to fetch AI analysis:', err);
@@ -87,16 +87,26 @@ export function PerformanceTab({ storeId }: { storeId: string }) {
     setAnalyzing(true);
     setAiError(null);
     try {
-      const response = await axios.post(`${BFF_URL}/ai/intelligence/analyze/${storeId}`, {
-        userId: 'current-user', // TODO: Get from auth context
-        premium: false
+      const response = await fetch(`/api/ai-intelligence/analyze/${storeId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: 'current-user', // TODO: Get from auth context
+          premium: false
+        })
       });
       
-      if (response.data.success) {
-        // Refresh the analysis
-        const latestResponse = await axios.get(`${BFF_URL}/ai/intelligence/stores/${storeId}/latest`);
-        if (latestResponse.data.hasAnalysis) {
-          setAiAnalysis(latestResponse.data.analysis);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          // Refresh the analysis
+          const latestResponse = await fetch(`/api/ai-intelligence/stores/${storeId}/latest`);
+          if (latestResponse.ok) {
+            const latestData = await latestResponse.json();
+            if (latestData.hasAnalysis) {
+              setAiAnalysis(latestData.analysis);
+            }
+          }
         }
       }
     } catch (err: any) {
