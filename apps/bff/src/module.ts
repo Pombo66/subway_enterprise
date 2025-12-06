@@ -12,6 +12,7 @@ import { TelemetryController } from './routes/telemetry';
 import { SettingsController } from './routes/settings';
 import { SubMindController } from './routes/submind.controller';
 import { ExpansionController } from './routes/expansion.controller';
+import { AIIntelligenceController } from './routes/ai-intelligence.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { ExpansionService } from './services/expansion.service';
@@ -55,6 +56,7 @@ const prisma = new PrismaClient();
     SettingsController,
     SubMindController,
     ExpansionController,
+    AIIntelligenceController,
     // GeocodeController,
   ],
   providers: [

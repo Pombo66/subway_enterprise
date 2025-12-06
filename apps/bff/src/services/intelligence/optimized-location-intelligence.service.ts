@@ -381,6 +381,9 @@ export class OptimizedLocationIntelligenceService {
           openedAt: true,
           cityPopulationBand: true,
           isAISuggested: true,
+          operatingHours: true,
+          phoneNumber: true,
+          email: true,
           createdAt: true,
           updatedAt: true
         }
