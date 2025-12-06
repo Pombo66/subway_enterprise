@@ -44,7 +44,10 @@ export default function CompactFilters({ onFiltersChange, incompleteCount = 0 }:
   }, []);
 
   const updateFilters = (newFilters: FilterState) => {
+    console.log('🔄 Updating filters:', newFilters);
     setFilters(newFilters);
+    
+    // Notify parent component immediately
     onFiltersChange(newFilters);
     
     // Update URL
@@ -58,6 +61,9 @@ export default function CompactFilters({ onFiltersChange, incompleteCount = 0 }:
     const queryString = params.toString();
     const newUrl = queryString ? `?${queryString}` : '/stores';
     router.replace(newUrl, { scroll: false });
+    
+    // Close dropdown after applying filters
+    setShowDropdown(false);
   };
 
   const clearFilters = () => {
