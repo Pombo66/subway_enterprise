@@ -73,7 +73,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
 
       <div className="s-panel">
         <div className="s-panelCard">
-          <div className="s-panelHeader">
+          <div className="s-panelHeader" style={{ marginBottom: '0' }}>
             <p className="s-panelT">Store Information</p>
           </div>
           
@@ -239,7 +239,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
 
       <div className="s-panel">
         <div className="s-panelCard">
-          <div className="s-panelHeader">
+          <div className="s-panelHeader" style={{ marginBottom: '0' }}>
             <p className="s-panelT">Location</p>
           </div>
           
@@ -327,7 +327,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
 
       <div className="s-panel">
         <div className="s-panelCard">
-          <div className="s-panelHeader">
+          <div className="s-panelHeader" style={{ marginBottom: '0' }}>
             <p className="s-panelT">Metadata</p>
           </div>
           
