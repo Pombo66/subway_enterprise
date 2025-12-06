@@ -41,15 +41,29 @@ export default function StoreDetailsPage() {
 
   const fetchStore = async () => {
     try {
+      console.log('🔄 Fetching store:', storeId);
       const response = await fetch(`/api/stores/${storeId}`);
       
+      console.log('📡 Response status:', response.status);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Response not OK:', errorText);
         throw new Error('Store not found');
       }
       
       const data = await response.json();
+      console.log('✅ Store data received:', data);
+      
+      // Check if data has the expected structure
+      if (!data || !data.id) {
+        console.error('❌ Invalid store data structure:', data);
+        throw new Error('Invalid store data');
+      }
+      
       setStore(data);
     } catch (err) {
+      console.error('❌ Error fetching store:', err);
       setError(err instanceof Error ? err.message : 'Failed to load store');
     } finally {
       setLoading(false);

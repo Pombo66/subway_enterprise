@@ -8,16 +8,19 @@ export async function GET(
   try {
     const { id } = params;
     
-    console.log('🔄 Fetching store details for ID:', id);
+    console.log('🔄 [API] Fetching store details for ID:', id);
     
     // Use the same authentication helper as the stores list
     const data = await getFromBff(`/stores/${id}`);
     
-    console.log('✅ Successfully fetched store:', data);
+    console.log('✅ [API] BFF returned data:', JSON.stringify(data, null, 2));
+    console.log('✅ [API] Data keys:', Object.keys(data || {}));
+    console.log('✅ [API] Store name:', data?.name);
+    console.log('✅ [API] Store city:', data?.city);
     
     return NextResponse.json(data);
   } catch (error) {
-    console.error('❌ Error fetching store:', error);
+    console.error('❌ [API] Error fetching store:', error);
     return NextResponse.json(
       { error: 'Failed to fetch store' },
       { status: 500 }

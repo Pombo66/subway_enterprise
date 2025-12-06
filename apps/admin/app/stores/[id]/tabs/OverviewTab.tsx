@@ -77,7 +77,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
             <p className="s-panelT">Store Information</p>
           </div>
           
-          <div style={{ padding: '24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+          <div style={{ padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', rowGap: '28px' }}>
             <div>
               <label style={{ fontSize: '12px', color: 'var(--s-muted)', textTransform: 'uppercase', fontWeight: '500' }}>
                 Store Name
@@ -243,7 +243,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
             <p className="s-panelT">Location</p>
           </div>
           
-          <div style={{ padding: '24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+          <div style={{ padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', rowGap: '28px' }}>
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ fontSize: '12px', color: 'var(--s-muted)', textTransform: 'uppercase', fontWeight: '500' }}>
                 Street Address
@@ -331,7 +331,7 @@ export function OverviewTab({ store, onUpdate }: OverviewTabProps) {
             <p className="s-panelT">Metadata</p>
           </div>
           
-          <div style={{ padding: '24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+          <div style={{ padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', rowGap: '28px' }}>
             <div>
               <label style={{ fontSize: '12px', color: 'var(--s-muted)', textTransform: 'uppercase', fontWeight: '500' }}>
                 Created
