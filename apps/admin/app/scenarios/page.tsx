@@ -145,41 +145,117 @@ export default function ScenariosPage() {
               <button
                 onClick={() => handleQuickScenario('budget')}
                 disabled={loading}
-                className="s-btn s-btn--secondary"
-                style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
+                style={{ 
+                  padding: '20px',
+                  height: 'auto',
+                  textAlign: 'left',
+                  backgroundColor: 'var(--s-bg-secondary)',
+                  border: '2px solid var(--s-border)',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  opacity: loading ? 0.6 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.borderColor = '#3b82f6';
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--s-border)';
+                  e.currentTarget.style.backgroundColor = 'var(--s-bg-secondary)';
+                }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Budget</div>
-                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare $25M, $50M, $75M budgets</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px', color: 'var(--s-text)' }}>Budget</div>
+                <div style={{ fontSize: '12px', color: 'var(--s-muted)', lineHeight: '1.4' }}>Compare $25M, $50M, $75M budgets</div>
               </button>
 
               <button
                 onClick={() => handleQuickScenario('store_count')}
                 disabled={loading}
-                className="s-btn s-btn--secondary"
-                style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
+                style={{ 
+                  padding: '20px',
+                  height: 'auto',
+                  textAlign: 'left',
+                  backgroundColor: 'var(--s-bg-secondary)',
+                  border: '2px solid var(--s-border)',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  opacity: loading ? 0.6 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.borderColor = '#3b82f6';
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--s-border)';
+                  e.currentTarget.style.backgroundColor = 'var(--s-bg-secondary)';
+                }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Store Count</div>
-                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare 25, 50, 75 store targets</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px', color: 'var(--s-text)' }}>Store Count</div>
+                <div style={{ fontSize: '12px', color: 'var(--s-muted)', lineHeight: '1.4' }}>Compare 25, 50, 75 store targets</div>
               </button>
 
               <button
                 onClick={() => handleQuickScenario('timeline')}
                 disabled={loading}
-                className="s-btn s-btn--secondary"
-                style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
+                style={{ 
+                  padding: '20px',
+                  height: 'auto',
+                  textAlign: 'left',
+                  backgroundColor: 'var(--s-bg-secondary)',
+                  border: '2px solid var(--s-border)',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  opacity: loading ? 0.6 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.borderColor = '#3b82f6';
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--s-border)';
+                  e.currentTarget.style.backgroundColor = 'var(--s-bg-secondary)';
+                }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Timeline</div>
-                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare 1, 3, 5 year rollouts</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px', color: 'var(--s-text)' }}>Timeline</div>
+                <div style={{ fontSize: '12px', color: 'var(--s-muted)', lineHeight: '1.4' }}>Compare 1, 3, 5 year rollouts</div>
               </button>
 
               <button
                 onClick={() => handleQuickScenario('geographic')}
                 disabled={loading}
-                className="s-btn s-btn--secondary"
-                style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
+                style={{ 
+                  padding: '20px',
+                  height: 'auto',
+                  textAlign: 'left',
+                  backgroundColor: 'var(--s-bg-secondary)',
+                  border: '2px solid var(--s-border)',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s ease',
+                  opacity: loading ? 0.6 : 1
+                }}
+                onMouseEnter={(e) => {
+                  if (!loading) {
+                    e.currentTarget.style.borderColor = '#3b82f6';
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--s-border)';
+                  e.currentTarget.style.backgroundColor = 'var(--s-bg-secondary)';
+                }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Geographic</div>
-                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare EMEA, AMER, Global focus</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px', color: 'var(--s-text)' }}>Geographic</div>
+                <div style={{ fontSize: '12px', color: 'var(--s-muted)', lineHeight: '1.4' }}>Compare EMEA, AMER, Global focus</div>
               </button>
             </div>
           </div>
