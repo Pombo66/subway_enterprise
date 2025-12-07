@@ -15,12 +15,15 @@ import { ExpansionController } from './routes/expansion.controller';
 import { AIIntelligenceController } from './routes/ai-intelligence.controller';
 import { PortfolioOptimizerController } from './routes/portfolio-optimizer.controller';
 import { ScenarioModelingController } from './routes/scenario-modeling.controller';
+import { RevenueForecastingController } from './routes/revenue-forecasting.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { PortfolioOptimizerService } from './services/portfolio/portfolio-optimizer.service';
 import { ROICalculatorService } from './services/portfolio/roi-calculator.service';
 import { CannibalizationCalculatorService } from './services/portfolio/cannibalization-calculator.service';
 import { ScenarioModelingService } from './services/scenario/scenario-modeling.service';
+import { RevenueForecastingService } from './services/forecasting/revenue-forecasting.service';
+import { ForecastExplainerService } from './services/forecasting/forecast-explainer.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -65,6 +68,7 @@ const prisma = new PrismaClient();
     AIIntelligenceController,
     PortfolioOptimizerController,
     ScenarioModelingController,
+    RevenueForecastingController,
     // GeocodeController,
   ],
   providers: [
@@ -98,6 +102,9 @@ const prisma = new PrismaClient();
     CannibalizationCalculatorService,
     // Scenario Modeling Services
     ScenarioModelingService,
+    // Revenue Forecasting Services
+    RevenueForecastingService,
+    ForecastExplainerService,
     // GeocodeService,
     // Apply authentication globally
     {

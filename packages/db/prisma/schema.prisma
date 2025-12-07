@@ -702,3 +702,95 @@ model IntelligenceDemographicCache {
   @@index([expiresAt])
   @@index([dataSource])
 }
+
+// ============================================
+// REVENUE FORECASTING MODELS
+// ============================================
+
+model RevenueForecast {
+  id                String   @id @default(cuid())
+  storeId           String
+  
+  // Forecast period
+  forecastDate      DateTime
+  forecastMonth     Int      // 1-12
+  forecastYear      Int
+  
+  // Predictions
+  predictedRevenue  Float
+  confidenceLow     Float    // 80% confidence interval lower bound
+  confidenceHigh    Float    // 80% confidence interval upper bound
+  
+  // Components (for explainability)
+  baselineRevenue   Float
+  seasonalFactor    Float    // Multiplier (1.0 = average)
+  trendFactor       Float    // Growth/decline factor
+  
+  // Metadata
+  modelVersion      String   @default("1.0")
+  generatedAt       DateTime @default(now())
+  
+  @@unique([storeId, forecastDate])
+  @@index([storeId])
+  @@index([forecastDate])
+  @@index([forecastYear, forecastMonth])
+}
+
+model SeasonalPattern {
+  id                String   @id @default(cuid())
+  storeId           String
+  
+  // Pattern details
+  month             Int      // 1-12
+  dayOfWeek         Int?     // 0-6 (optional, for future daily patterns)
+  
+  // Factors
+  seasonalIndex     Float    // Multiplier (1.0 = average, 1.2 = 20% above average)
+  confidence        Float    // 0-1 confidence in pattern
+  
+  // Analysis metadata
+  detectedAt        DateTime @default(now())
+  sampleSize        Int      // Number of data points used
+  
+  @@unique([storeId, month])
+  @@index([storeId])
+  @@index([month])
+}
+
+model ForecastJob {
+  id                String   @id @default(cuid())
+  
+  // Scope
+  storeId           String?  // null = all stores
+  region            String?
+  country           String?
+  
+  // Configuration
+  horizonMonths     Int      @default(12)
+  includeConfidence Boolean  @default(true)
+  regenerate        Boolean  @default(false) // Force regeneration
+  
+  // Status
+  status            String   @default("queued") // queued, running, completed, failed
+  progress          Int      @default(0)       // 0-100
+  
+  // Results
+  storesProcessed   Int      @default(0)
+  forecastsGenerated Int     @default(0)
+  
+  // Timing
+  createdAt         DateTime @default(now())
+  startedAt         DateTime?
+  completedAt       DateTime?
+  
+  // Error handling
+  error             String?
+  
+  // AI metadata
+  tokensUsed        Int?
+  aiExplanations    Int      @default(0)
+  
+  @@index([status])
+  @@index([createdAt])
+  @@index([storeId])
+}
