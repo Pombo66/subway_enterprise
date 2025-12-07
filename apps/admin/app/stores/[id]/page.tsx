@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { OverviewTab } from './tabs/OverviewTab';
 import { PerformanceTab } from './tabs/PerformanceTab';
+import { ForecastTab } from './tabs/ForecastTab';
 import { OrdersTab } from './tabs/OrdersTab';
 import { StaffTab } from './tabs/StaffTab';
 import { PhotosTab } from './tabs/PhotosTab';
@@ -27,7 +28,7 @@ interface Store {
   updatedAt: string;
 }
 
-type TabType = 'overview' | 'performance' | 'orders' | 'staff' | 'photos' | 'hours';
+type TabType = 'overview' | 'performance' | 'forecast' | 'orders' | 'staff' | 'photos' | 'hours';
 
 export default function StoreDetailsPage() {
   const router = useRouter();
@@ -110,6 +111,7 @@ export default function StoreDetailsPage() {
   const tabs: { id: TabType; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'performance', label: 'Performance' },
+    { id: 'forecast', label: 'Forecast' },
     { id: 'orders', label: 'Orders' },
     { id: 'staff', label: 'Staff' },
     { id: 'photos', label: 'Photos' },
@@ -158,6 +160,7 @@ export default function StoreDetailsPage() {
         {/* Tab Content */}
         {activeTab === 'overview' && <OverviewTab store={store} onUpdate={fetchStore} />}
         {activeTab === 'performance' && <PerformanceTab storeId={storeId} />}
+        {activeTab === 'forecast' && <ForecastTab storeId={storeId} />}
         {activeTab === 'orders' && <OrdersTab storeId={storeId} />}
         {activeTab === 'staff' && <StaffTab storeId={storeId} />}
         {activeTab === 'photos' && <PhotosTab storeId={storeId} />}
