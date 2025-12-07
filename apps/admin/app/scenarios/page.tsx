@@ -148,8 +148,8 @@ export default function ScenariosPage() {
                 className="s-btn s-btn--secondary"
                 style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px' }}>Budget Scenarios</div>
-                <div style={{ fontSize: '12px', color: 'var(--s-muted)' }}>Compare $25M, $50M, $75M budgets</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Budget</div>
+                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare $25M, $50M, $75M budgets</div>
               </button>
 
               <button
@@ -158,8 +158,8 @@ export default function ScenariosPage() {
                 className="s-btn s-btn--secondary"
                 style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px' }}>Store Count</div>
-                <div style={{ fontSize: '12px', color: 'var(--s-muted)' }}>Compare 25, 50, 75 store targets</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Store Count</div>
+                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare 25, 50, 75 store targets</div>
               </button>
 
               <button
@@ -168,8 +168,8 @@ export default function ScenariosPage() {
                 className="s-btn s-btn--secondary"
                 style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px' }}>Timeline</div>
-                <div style={{ fontSize: '12px', color: 'var(--s-muted)' }}>Compare 1, 3, 5 year rollouts</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Timeline</div>
+                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare 1, 3, 5 year rollouts</div>
               </button>
 
               <button
@@ -178,8 +178,8 @@ export default function ScenariosPage() {
                 className="s-btn s-btn--secondary"
                 style={{ padding: '20px', height: 'auto', textAlign: 'left' }}
               >
-                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px' }}>Geographic</div>
-                <div style={{ fontSize: '12px', color: 'var(--s-muted)' }}>Compare EMEA, AMER, Global focus</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '4px', whiteSpace: 'nowrap' }}>Geographic</div>
+                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.6)' }}>Compare EMEA, AMER, Global focus</div>
               </button>
             </div>
           </div>
