@@ -18,6 +18,7 @@ import { ScenarioModelingController } from './routes/scenario-modeling.controlle
 import { RevenueForecastingController } from './routes/revenue-forecasting.controller';
 import { FranchiseeController } from './routes/franchisee.controller';
 import { AdvancedStoreAnalysisController } from './routes/advanced-store-analysis.controller';
+import { CompetitiveIntelligenceController } from './routes/competitive-intelligence.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { PortfolioOptimizerService } from './services/portfolio/portfolio-optimizer.service';
@@ -32,6 +33,9 @@ import { FranchiseeIntelligenceService } from './services/franchisee/franchisee-
 import { PeerBenchmarkingService } from './services/intelligence/peer-benchmarking.service';
 import { PerformanceClusteringService } from './services/intelligence/performance-clustering.service';
 import { TurnoverPredictionService } from './services/intelligence/turnover-prediction.service';
+import { CompetitorService } from './services/competitive/competitor.service';
+import { CompetitiveAnalysisService } from './services/competitive/competitive-analysis.service';
+import { GooglePlacesService } from './services/competitive/google-places.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -79,6 +83,7 @@ const prisma = new PrismaClient();
     RevenueForecastingController,
     FranchiseeController,
     AdvancedStoreAnalysisController,
+    CompetitiveIntelligenceController,
     // GeocodeController,
   ],
   providers: [
@@ -123,6 +128,10 @@ const prisma = new PrismaClient();
     PeerBenchmarkingService,
     PerformanceClusteringService,
     TurnoverPredictionService,
+    // Competitive Intelligence Services
+    CompetitorService,
+    CompetitiveAnalysisService,
+    GooglePlacesService,
     // GeocodeService,
     // Apply authentication globally
     {

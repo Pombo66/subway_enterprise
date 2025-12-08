@@ -799,6 +799,141 @@ model ForecastJob {
 }
 
 // ============================================
+// COMPETITIVE INTELLIGENCE MODELS
+// ============================================
+
+model CompetitorPlace {
+  id                String   @id @default(cuid())
+  
+  // Identity
+  brand             String   // e.g., "McDonald's", "KFC", "Burger King"
+  name              String   // e.g., "McDonald's Downtown"
+  category          String   // e.g., "qsr", "coffee", "pizza"
+  
+  // Location
+  latitude          Float
+  longitude         Float
+  address           String?
+  city              String?
+  country           String?
+  postcode          String?
+  
+  // Data Sources
+  googlePlaceId     String?  @unique
+  osmId             String?
+  sources           String   // JSON array: ["google", "osm", "manual"]
+  
+  // Metadata
+  firstSeen         DateTime @default(now())
+  lastVerified      DateTime @default(now())
+  lastUpdated       DateTime @updatedAt
+  
+  // Data Quality
+  reliabilityScore  Float    @default(1.0) // 0-1 confidence in data
+  isActive          Boolean  @default(true)
+  
+  // Additional Info
+  phoneNumber       String?
+  website           String?
+  rating            Float?
+  reviewCount       Int?
+  priceLevel        Int?     // 1-4
+  
+  // Competitive Analysis
+  threatLevel       String?  // LOW, MEDIUM, HIGH
+  marketShare       Float?   // Estimated local market share
+  
+  @@index([brand, category])
+  @@index([latitude, longitude])
+  @@index([country, city])
+  @@index([isActive])
+  @@index([lastVerified])
+}
+
+model CompetitorRefreshJob {
+  id                String   @id @default(cuid())
+  
+  // Scope
+  region            String?
+  country           String?
+  boundingBox       String?  // JSON: { north, south, east, west }
+  
+  // Configuration
+  sources           String   // JSON: ["google", "osm"]
+  categories        String   // JSON: ["qsr", "coffee", "pizza"]
+  
+  // Status
+  status            String   @default("queued") // queued, running, completed, failed
+  progress          Int      @default(0)        // 0-100
+  
+  // Results
+  placesFound       Int      @default(0)
+  placesAdded       Int      @default(0)
+  placesUpdated     Int      @default(0)
+  placesDeactivated Int      @default(0)
+  
+  // Timing
+  createdAt         DateTime @default(now())
+  startedAt         DateTime?
+  completedAt       DateTime?
+  
+  // Error handling
+  error             String?
+  
+  // API usage
+  googleApiCalls    Int      @default(0)
+  osmApiCalls       Int      @default(0)
+  
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CompetitiveAnalysis {
+  id                    String   @id @default(cuid())
+  
+  // Scope
+  storeId               String?  // If analyzing for specific store
+  region                String?  // If analyzing region
+  latitude              Float?
+  longitude             Float?
+  radiusKm              Float?
+  
+  // Analysis Results
+  analysisDate          DateTime @default(now())
+  
+  // Competitor Counts
+  totalCompetitors      Int
+  competitorsByBrand    String   // JSON: { "McDonald's": 5, "KFC": 3, ... }
+  competitorsByCategory String   // JSON: { "qsr": 8, "coffee": 4, ... }
+  
+  // Competitive Metrics
+  marketSaturation      Float    // 0-100
+  competitivePressure   Float    // 0-100
+  threatLevel           String   // LOW, MEDIUM, HIGH, EXTREME
+  
+  // Nearest Competitors
+  nearestCompetitor     String?  // Brand name
+  nearestDistance       Float?   // km
+  
+  // Market Share Estimates
+  estimatedMarketShare  Float?   // 0-100
+  dominantCompetitor    String?
+  
+  // AI Insights
+  aiSummary             String?
+  strategicRecommendations String? // JSON array
+  
+  // Metadata
+  model                 String?  @default("gpt-5.1")
+  tokensUsed            Int?
+  
+  @@index([storeId])
+  @@index([region])
+  @@index([analysisDate])
+  @@index([threatLevel])
+}
+
+// ============================================
 // FRANCHISEE INTELLIGENCE MODELS
 // ============================================
 
