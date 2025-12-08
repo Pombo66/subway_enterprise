@@ -39,6 +39,7 @@ model Store {
   operatingHours      String?         // JSON: { monday: { open: "09:00", close: "21:00" }, ... }
   phoneNumber         String?
   email               String?
+  franchiseeId        String?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   MenuItems           MenuItem[]
@@ -46,6 +47,7 @@ model Store {
   PriceOverrides      PriceOverride[]
   Photos              StorePhoto[]
   Staff               StoreStaff[]
+  Franchisee          Franchisee?     @relation(fields: [franchiseeId], references: [id])
 
   @@index([country])
   @@index([region])
@@ -55,6 +57,7 @@ model Store {
   @@index([annualTurnover])
   @@index([postcode])
   @@index([isAISuggested])
+  @@index([franchiseeId])
 }
 
 model StorePhoto {
@@ -793,4 +796,102 @@ model ForecastJob {
   @@index([status])
   @@index([createdAt])
   @@index([storeId])
+}
+
+// ============================================
+// FRANCHISEE INTELLIGENCE MODELS
+// ============================================
+
+model Franchisee {
+  id                String   @id @default(cuid())
+  
+  // Identity
+  name              String
+  email             String?
+  phone             String?
+  
+  // Business info
+  companyName       String?
+  taxId             String?
+  
+  // Experience
+  joinedDate        DateTime
+  yearsExperience   Int?
+  previousIndustry  String?
+  
+  // Performance
+  totalStores       Int      @default(0)
+  activeStores      Int      @default(0)
+  avgStoreRevenue   Float?
+  totalRevenue      Float?
+  
+  // Scores
+  performanceScore  Float?   // 0-100
+  expansionScore    Float?   // 0-100 (readiness for more stores)
+  riskScore         Float?   // 0-100 (churn risk)
+  
+  // Status
+  status            String   @default("ACTIVE") // ACTIVE, PROBATION, EXITED
+  
+  // Metadata
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  stores            Store[]
+  analyses          FranchiseeAnalysis[]
+  
+  @@index([performanceScore])
+  @@index([expansionScore])
+  @@index([status])
+  @@index([totalStores])
+}
+
+model FranchiseeAnalysis {
+  id                    String     @id @default(cuid())
+  franchiseeId          String
+  franchisee            Franchisee @relation(fields: [franchiseeId], references: [id])
+  
+  // Analysis date
+  analysisDate          DateTime   @default(now())
+  
+  // Performance metrics
+  avgRevenuePerStore    Float
+  revenueGrowthRate     Float
+  profitabilityIndex    Float
+  
+  // Operational metrics
+  avgStoreAge           Float      // months
+  storeOpeningRate      Float      // stores per year
+  storeClosureRate      Float
+  
+  // Quality metrics
+  customerSatisfaction  Float?
+  operationalCompliance Float?
+  brandStandards        Float?
+  
+  // Benchmarking
+  peerRanking           Int?       // 1-100 percentile
+  industryRanking       Int?
+  
+  // Expansion readiness
+  expansionReady        Boolean    @default(false)
+  recommendedStores     Int?       // How many more stores they can handle
+  expansionRationale    String?
+  
+  // Risk factors
+  churnRisk             String     // LOW, MEDIUM, HIGH
+  riskFactors           String     // JSON array
+  
+  // AI insights
+  aiSummary             String?
+  recommendations       String     // JSON array
+  
+  // Metadata
+  model                 String     @default("gpt-5-mini")
+  tokensUsed            Int?
+  
+  @@index([franchiseeId, analysisDate])
+  @@index([expansionReady])
+  @@index([churnRisk])
 }

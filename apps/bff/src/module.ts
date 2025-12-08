@@ -16,6 +16,8 @@ import { AIIntelligenceController } from './routes/ai-intelligence.controller';
 import { PortfolioOptimizerController } from './routes/portfolio-optimizer.controller';
 import { ScenarioModelingController } from './routes/scenario-modeling.controller';
 import { RevenueForecastingController } from './routes/revenue-forecasting.controller';
+import { FranchiseeController } from './routes/franchisee.controller';
+import { AdvancedStoreAnalysisController } from './routes/advanced-store-analysis.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { PortfolioOptimizerService } from './services/portfolio/portfolio-optimizer.service';
@@ -24,6 +26,12 @@ import { CannibalizationCalculatorService } from './services/portfolio/cannibali
 import { ScenarioModelingService } from './services/scenario/scenario-modeling.service';
 import { RevenueForecastingService } from './services/forecasting/revenue-forecasting.service';
 import { ForecastExplainerService } from './services/forecasting/forecast-explainer.service';
+import { FranchiseeService } from './services/franchisee/franchisee.service';
+import { FranchiseeAnalyticsService } from './services/franchisee/franchisee-analytics.service';
+import { FranchiseeIntelligenceService } from './services/franchisee/franchisee-intelligence.service';
+import { PeerBenchmarkingService } from './services/intelligence/peer-benchmarking.service';
+import { PerformanceClusteringService } from './services/intelligence/performance-clustering.service';
+import { TurnoverPredictionService } from './services/intelligence/turnover-prediction.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -69,6 +77,8 @@ const prisma = new PrismaClient();
     PortfolioOptimizerController,
     ScenarioModelingController,
     RevenueForecastingController,
+    FranchiseeController,
+    AdvancedStoreAnalysisController,
     // GeocodeController,
   ],
   providers: [
@@ -105,6 +115,14 @@ const prisma = new PrismaClient();
     // Revenue Forecasting Services
     RevenueForecastingService,
     ForecastExplainerService,
+    // Franchisee Intelligence Services
+    FranchiseeService,
+    FranchiseeAnalyticsService,
+    FranchiseeIntelligenceService,
+    // Advanced Store Analysis Services
+    PeerBenchmarkingService,
+    PerformanceClusteringService,
+    TurnoverPredictionService,
     // GeocodeService,
     // Apply authentication globally
     {
