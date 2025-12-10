@@ -8,7 +8,9 @@ export class HealthController {
   health() { 
     return { 
       ok: true, 
-      commit: process.env.COMMIT || 'dev' 
+      commit: process.env.COMMIT || 'dev',
+      timestamp: new Date().toISOString(),
+      version: '7.0.0' // Phase 7 complete
     }; 
   }
 }
