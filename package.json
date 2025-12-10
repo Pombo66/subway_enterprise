@@ -7,8 +7,6 @@
     "dev:safe": "node dev-safe.mjs",
     "safety-check": "node safety-check.mjs",
     "build": "turbo run build",
-    "build:bff": "pnpm -C packages/db prisma:generate && pnpm -C apps/bff build",
-    "start:bff": "cd apps/bff && node dist/main.js",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",

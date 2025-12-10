@@ -1,7 +1,11 @@
-[build]
-builder = "NIXPACKS"
+[service]
+builder = "railpack"
 
-[deploy]
-startCommand = "npm run start:bff"
-healthcheckPath = "/health"
-healthcheckTimeout = 300
+[railpack]
+packageManager = "pnpm"
+installCommand = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install"
+buildCommand = "pnpm -C packages/db prisma:generate && pnpm -C apps/bff build"
+
+# Ensure environment variables are available during build
+[build]
+watchPatterns = ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
