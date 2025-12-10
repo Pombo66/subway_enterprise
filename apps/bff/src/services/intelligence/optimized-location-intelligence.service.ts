@@ -384,6 +384,7 @@ export class OptimizedLocationIntelligenceService {
           operatingHours: true,
           phoneNumber: true,
           email: true,
+          franchiseeId: true,
           createdAt: true,
           updatedAt: true
         }

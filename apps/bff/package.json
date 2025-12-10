@@ -23,6 +23,7 @@
     "@subway/shared-expansion": "workspace:*",
     "@subway/shared-openai": "workspace:*",
     "@supabase/supabase-js": "^2.80.0",
+    "axios": "^1.7.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "dotenv": "^16.4.5",
