@@ -1,11 +1,7 @@
-[service]
-builder = "railpack"
-
-[railpack]
-packageManager = "pnpm"
-installCommand = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install"
-buildCommand = "pnpm -C packages/db prisma:generate && DISABLE_ESLINT_PLUGIN=true turbo run build --filter=@subway/admin"
-
-# Ensure environment variables are available during build
 [build]
-watchPatterns = ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm run start:bff"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
