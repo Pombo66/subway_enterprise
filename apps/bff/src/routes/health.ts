@@ -10,7 +10,8 @@ export class HealthController {
       ok: true, 
       commit: process.env.COMMIT || 'dev',
       timestamp: new Date().toISOString(),
-      version: '7.0.0' // Phase 7 complete
+      version: '7.0.0', // Phase 7 complete
+      deployTest: 'Railway webhook test - Dec 10, 2025 19:30'
     }; 
   }
 }
