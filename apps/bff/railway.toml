@@ -2,4 +2,4 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "pnpm -C apps/bff start"
+startCommand = "pnpm start"
