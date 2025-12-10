@@ -2,6 +2,4 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "node dist/main.js"
-healthcheckPath = "/healthz"
-healthcheckTimeout = 300
+startCommand = "pnpm -C apps/bff start"
