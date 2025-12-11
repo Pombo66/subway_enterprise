@@ -1,12 +1,14 @@
-import { Body, Controller, Get, Post, Put, Delete, Query, Param, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Delete, Query, Param, HttpException, HttpStatus, Inject, UseInterceptors } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { StoreService } from '../services/store.service';
 import { CreateStoreDto, UpdateStoreDto, StoreQueryDto } from '../dto/store.dto';
 import { ValidationError } from '../errors/validation.error';
 import { parseScope } from '../util/scope';
 import { createAuditUtil } from '../util/audit.util';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 @Controller()
+@UseInterceptors(ErrorInterceptor)
 export class StoresController {
   constructor(
     private readonly storeService: StoreService,
