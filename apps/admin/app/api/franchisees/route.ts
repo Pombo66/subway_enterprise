@@ -7,9 +7,15 @@ export async function GET(request: NextRequest) {
     const queryString = searchParams.toString();
     
     const endpoint = `/franchisees${queryString ? `?${queryString}` : ''}`;
-    const data = await getFromBff(endpoint);
+    const bffData = await getFromBff(endpoint);
     
-    return NextResponse.json(data);
+    // BFF returns {success: true, data: {franchisees: [...], summary: {...}}} format
+    // Extract the data for the frontend
+    if (bffData.success && bffData.data) {
+      return NextResponse.json(bffData.data);
+    } else {
+      throw new Error('Invalid BFF response format');
+    }
   } catch (error) {
     console.error('Franchisees API error:', error);
     return NextResponse.json(
