@@ -8,6 +8,7 @@ import { ImportSummary, NormalizedStore } from '../../../../lib/types/store-uplo
 import { startUploadTracking, trackPhase, endUploadTracking, uploadMetrics } from '../../../../lib/monitoring/upload-metrics';
 import { emitStoresImported } from '../../../../lib/events/store-events';
 import { invalidateStoreCache } from '../../../../lib/events/cache-events';
+import { FranchiseeProcessor } from '../../../../lib/services/franchisee-processor';
 import prisma from '../../../../lib/db';
 import crypto from 'crypto';
 
@@ -209,7 +210,19 @@ export async function POST(request: NextRequest) {
       console.log(`✓ [${ingestId}] No geocoding needed - all stores have coordinates`);
     }
 
-    // Step 4: Database operations with performance tracking
+    // Step 4: Process franchisees from ownerName data
+    console.log(`👥 [${ingestId}] Processing franchisees from ownerName data...`);
+    const ownerNames = validStores
+      .map(store => store.ownerName)
+      .filter(name => name && name.trim());
+    
+    const franchiseeMap = await trackPhase(ingestId, 'franchisees', async () => {
+      return await FranchiseeProcessor.batchProcessOwnerNames(ownerNames);
+    }, ownerNames.length);
+
+    console.log(`✅ [${ingestId}] Processed ${franchiseeMap.size} unique franchisees`);
+
+    // Step 5: Database operations with performance tracking
     // Note: Stores are saved even if geocoding fails - they will have null coordinates
     // and can be geocoded later or manually updated
     const summary: ImportSummary = {
@@ -255,6 +268,9 @@ export async function POST(request: NextRequest) {
               console.warn(`⚠️ [${ingestId}] Invalid coordinates for "${store.name}": (${store.latitude}, ${store.longitude})`);
             }
 
+            // Get franchiseeId from processed franchisees
+            const franchiseeId = store.ownerName ? franchiseeMap.get(store.ownerName) : null;
+
             const storeData = {
               name: store.name,
               address: store.address,
@@ -264,6 +280,7 @@ export async function POST(request: NextRequest) {
               city: store.city,
               status: store.status,
               ownerName: store.ownerName,
+              franchiseeId: franchiseeId || null,
               latitude: hasValidCoordinates ? store.latitude : null,
               longitude: hasValidCoordinates ? store.longitude : null
             };
@@ -316,6 +333,15 @@ export async function POST(request: NextRequest) {
         console.log(`📦 [${ingestId}] Batch ${batchNum}/${totalBatches}: ${batchInserted} inserted, ${batchUpdated} updated, ${batchFailed} failed`);
       }
     }, validStores.length);
+
+    // Step 6: Update franchisee metrics after all stores are processed
+    if (franchiseeMap.size > 0) {
+      console.log(`📊 [${ingestId}] Updating metrics for ${franchiseeMap.size} franchisees...`);
+      for (const franchiseeId of franchiseeMap.values()) {
+        await FranchiseeProcessor.updateFranchiseeMetrics(franchiseeId);
+      }
+      console.log(`✅ [${ingestId}] Franchisee metrics updated`);
+    }
 
     // Verify saved stores have coordinates (outside transaction)
     const savedStores = await prisma.store.findMany({
