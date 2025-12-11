@@ -1,7 +1,9 @@
-import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { PortfolioOptimizerService, OptimizationRequest, OptimizationResult } from '../services/portfolio/portfolio-optimizer.service';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 @Controller()
+@UseInterceptors(ErrorInterceptor)
 export class PortfolioOptimizerController {
   constructor(
     private readonly portfolioOptimizer: PortfolioOptimizerService

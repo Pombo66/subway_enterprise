@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Query, UseInterceptors } from '@nestjs/common';
 import { 
   FranchiseeService, 
   CreateFranchiseeDto, 
@@ -7,8 +7,10 @@ import {
 } from '../services/franchisee/franchisee.service';
 import { FranchiseeAnalyticsService } from '../services/franchisee/franchisee-analytics.service';
 import { FranchiseeIntelligenceService } from '../services/franchisee/franchisee-intelligence.service';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 @Controller('franchisees')
+@UseInterceptors(ErrorInterceptor)
 export class FranchiseeController {
   constructor(
     private franchiseeService: FranchiseeService,

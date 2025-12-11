@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Param, Query, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { RevenueForecastingService } from '../services/forecasting/revenue-forecasting.service';
 import { ForecastExplainerService } from '../services/forecasting/forecast-explainer.service';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 @Controller()
+@UseInterceptors(ErrorInterceptor)
 export class RevenueForecastingController {
   constructor(
     private readonly forecastingService: RevenueForecastingService,

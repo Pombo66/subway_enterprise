@@ -1,7 +1,9 @@
-import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { ScenarioModelingService, ScenarioConfig, ScenarioResult } from '../services/scenario/scenario-modeling.service';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 @Controller()
+@UseInterceptors(ErrorInterceptor)
 export class ScenarioModelingController {
   constructor(
     private readonly scenarioModeling: ScenarioModelingService

@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Patch, Inject, Query, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Inject, Query, Body, Param, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { parseScope, makeWhere } from '../util/scope';
+import { ErrorInterceptor } from '../interceptors/error.interceptor';
 
 interface CreateOrderDto {
   storeId: string;
@@ -16,6 +17,7 @@ interface UpdateOrderStatusDto {
 }
 
 @Controller()
+@UseInterceptors(ErrorInterceptor)
 export class OrdersController {
   constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
