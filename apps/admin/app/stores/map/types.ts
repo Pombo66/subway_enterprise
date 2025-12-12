@@ -27,7 +27,6 @@ export interface FilterState {
 // Available filter options
 export interface FilterOptions {
   franchisees: Array<{ id: string; name: string }>;
-  ownerNames: string[]; // List of unique owner names for filtering
   regions: string[];
   countries: string[];
 }

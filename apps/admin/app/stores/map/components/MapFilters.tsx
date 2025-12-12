@@ -228,17 +228,17 @@ export default function MapFilters({
           <select
             id="franchisee-filter"
             className="s-select map-filter-select"
-            value={filters.ownerName || ''}
-            onChange={(e) => handleFilterChange('ownerName', e.target.value || undefined)}
+            value={filters.franchiseeId || ''}
+            onChange={(e) => handleFilterChange('franchiseeId', e.target.value || undefined)}
             disabled={loading}
-            aria-label={`Filter stores by franchisee. Currently ${filters.ownerName ? `filtered to ${filters.ownerName}` : 'showing all franchisees'}`}
+            aria-label={`Filter stores by franchisee. Currently ${filters.franchiseeId ? `filtered to selected franchisee` : 'showing all franchisees'}`}
           >
             <option value="">
               {loading ? 'Loading franchisees...' : 'All franchisees'}
             </option>
-            {availableOptions.ownerNames?.map((ownerName) => (
-              <option key={ownerName} value={ownerName}>
-                {ownerName}
+            {availableOptions.franchisees?.map((franchisee) => (
+              <option key={franchisee.id} value={franchisee.id}>
+                {franchisee.name}
               </option>
             ))}
           </select>

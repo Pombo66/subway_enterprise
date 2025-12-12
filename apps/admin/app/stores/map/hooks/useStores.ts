@@ -62,7 +62,6 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
       if (filters.region && store.region !== filters.region) return false;
       if (filters.country && store.country !== filters.country) return false;
       if (filters.franchiseeId && store.franchiseeId !== filters.franchiseeId) return false;
-      if (filters.ownerName && store.ownerName !== filters.ownerName) return false;
       
       // Legacy single status filter (for list view compatibility)
       if (filters.status && store.status !== filters.status) return false;
@@ -91,23 +90,42 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
       
       return true;
     });
-  }, [rawStores, filters.region, filters.country, filters.franchiseeId, filters.ownerName, filters.status, filters.statusFilters]); // Explicit dependencies
+  }, [rawStores, filters.region, filters.country, filters.franchiseeId, filters.status, filters.statusFilters]); // Explicit dependencies
+
+  // State for franchisee data
+  const [franchisees, setFranchisees] = useState<Array<{id: string, name: string}>>([]);
+
+  // Fetch franchisees data
+  const loadFranchisees = useCallback(async () => {
+    try {
+      const response = await fetch('/api/franchisees');
+      if (!response.ok) return;
+      
+      const data = await response.json();
+      if (data.franchisees && Array.isArray(data.franchisees)) {
+        const franchiseeOptions = data.franchisees.map((f: any) => ({
+          id: f.id,
+          name: f.name
+        }));
+        setFranchisees(franchiseeOptions);
+      }
+    } catch (error) {
+      console.error('Failed to load franchisees:', error);
+    }
+  }, []);
+
+  // Load franchisees on mount
+  useEffect(() => {
+    loadFranchisees();
+  }, [loadFranchisees]);
 
   // Memoize available options to prevent unnecessary recalculations
   const availableOptions = useMemo(() => {
-    const franchisees = Array.from(
-      new Set(rawStores.map(store => store.franchiseeId).filter(Boolean))
-    ).map(id => ({ id: id!, name: `Franchise ${id}` }));
-    
-    const ownerNames = Array.from(
-      new Set(rawStores.map(store => store.ownerName).filter(Boolean))
-    ).sort() as string[];
-    
     const regions = Array.from(new Set(rawStores.map(store => store.region)));
     const countries = Array.from(new Set(rawStores.map(store => store.country)));
     
-    return { franchisees, ownerNames, regions, countries };
-  }, [rawStores]); // Only depends on rawStores
+    return { franchisees, regions, countries };
+  }, [rawStores, franchisees]); // Depends on rawStores and franchisees
 
   // Load stores from cache or API
   const loadStores = useCallback(async () => {
