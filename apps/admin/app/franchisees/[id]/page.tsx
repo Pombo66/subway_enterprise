@@ -71,9 +71,23 @@ export default function FranchiseeDetailsPage() {
       setLoading(true);
       const response = await fetch(`/api/franchisees/${franchiseeId}/portfolio`);
       const data = await response.json();
-      setPortfolio(data);
+      
+      if (!response.ok) {
+        console.error('Portfolio API error:', data);
+        setPortfolio(null);
+        return;
+      }
+      
+      // Validate the response structure
+      if (data && data.franchisee && data.stores && data.metrics) {
+        setPortfolio(data);
+      } else {
+        console.error('Invalid portfolio data structure:', data);
+        setPortfolio(null);
+      }
     } catch (error) {
       console.error('Failed to load portfolio:', error);
+      setPortfolio(null);
     } finally {
       setLoading(false);
     }
@@ -125,9 +139,27 @@ export default function FranchiseeDetailsPage() {
   if (!portfolio) {
     return (
       <div className="p-8">
+        <div className="mb-6">
+          <a
+            href="/franchisees"
+            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Back to Franchisees
+          </a>
+        </div>
         <div className="text-center py-12">
           <AlertTriangle className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-500">Franchisee not found</p>
+          <p className="text-gray-500">Failed to load franchisee portfolio</p>
+          <p className="text-sm text-gray-400 mt-2">
+            There may be a temporary issue with the API. Please try refreshing the page.
+          </p>
+          <button
+            onClick={loadPortfolio}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );

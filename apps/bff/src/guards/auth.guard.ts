@@ -38,6 +38,14 @@ export class AuthGuard implements CanActivate {
       console.warn('[AuthGuard] TEMPORARY: Bypassing auth due to missing INTERNAL_ADMIN_SECRET');
       return true;
     }
+    
+    // Debug logging for auth issues
+    console.log('[AuthGuard] Processing request:', {
+      path,
+      hasSecret: !!process.env.INTERNAL_ADMIN_SECRET,
+      hasAuthHeader: !!rawHeader,
+      authScheme: rawHeader ? rawHeader.split(' ')[0] : 'none'
+    });
 
     // 2) Public endpoints that don't require auth (telemetry, SubMind)
     // These are called directly from the browser and cannot safely include secrets
