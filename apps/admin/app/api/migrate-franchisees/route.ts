@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { FranchiseeProcessor } from '../../../lib/services/franchisee-processor';
 
+// Force dynamic rendering to avoid build-time database access
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     console.log('🚀 Starting franchisee migration...');
