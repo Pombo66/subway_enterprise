@@ -14,8 +14,6 @@ if (!BFF_BASE_URL) {
 
 if (!INTERNAL_ADMIN_SECRET) {
   console.warn('[server-api-client] INTERNAL_ADMIN_SECRET is not set – BFF auth will fail');
-} else {
-  console.log('[server-api-client] INTERNAL_ADMIN_SECRET is configured');
 }
 
 async function fetchFromBff(path: string, options: RequestInit = {}): Promise<any> {
