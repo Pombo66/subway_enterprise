@@ -45,14 +45,14 @@ export default function ExpansionIntegratedMapPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [strategicAnalysis, setStrategicAnalysis] = useState<{ marketGaps: string; recommendations: string } | null>(null);
   
-  // Competitor intelligence state
-  const [competitors, setCompetitors] = useState<any[]>([]);
-  const [competitorsLoading, setCompetitorsLoading] = useState(false);
-  const [showCompetitors, setShowCompetitors] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<string>('all');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [brands, setBrands] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  // Competitor intelligence state - TEMPORARILY DISABLED FOR DEBUGGING
+  // const [competitors, setCompetitors] = useState<any[]>([]);
+  // const [competitorsLoading, setCompetitorsLoading] = useState(false);
+  // const [showCompetitors, setShowCompetitors] = useState(false);
+  // const [selectedBrand, setSelectedBrand] = useState<string>('all');
+  // const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  // const [brands, setBrands] = useState<string[]>([]);
+  // const [categories, setCategories] = useState<string[]>([]);
   
   // Store analysis state
   const [analysisMode, setAnalysisMode] = useState(false);
@@ -120,73 +120,74 @@ export default function ExpansionIntegratedMapPage() {
     };
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
+  // COMPETITOR FUNCTIONALITY TEMPORARILY DISABLED FOR DEBUGGING
   // Use refs for stable references to break circular dependencies
-  const competitorsLoadingRef = useRef(competitorsLoading);
-  const viewportRef = useRef(viewport);
-  const loadCompetitorsRef = useRef(loadCompetitors);
+  // const competitorsLoadingRef = useRef(competitorsLoading);
+  // const viewportRef = useRef(viewport);
+  // const loadCompetitorsRef = useRef(loadCompetitors);
   
   // Update refs when values change
-  useEffect(() => {
-    competitorsLoadingRef.current = competitorsLoading;
-  }, [competitorsLoading]);
+  // useEffect(() => {
+  //   competitorsLoadingRef.current = competitorsLoading;
+  // }, [competitorsLoading]);
   
-  useEffect(() => {
-    viewportRef.current = viewport;
-  }, [viewport]);
+  // useEffect(() => {
+  //   viewportRef.current = viewport;
+  // }, [viewport]);
   
-  useEffect(() => {
-    loadCompetitorsRef.current = loadCompetitors;
-  }, []); // loadCompetitors is now stable with empty deps
+  // useEffect(() => {
+  //   loadCompetitorsRef.current = loadCompetitors;
+  // }, []); // loadCompetitors is now stable with empty deps
 
   // Handle competitor refresh - using refs to avoid circular dependencies
-  const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
-    if (competitorsLoadingRef.current) return;
+  // const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
+  //   if (competitorsLoadingRef.current) return;
     
-    // Check zoom level
-    if (viewportRef.current.zoom < 12) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewportRef.current.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
-      return;
-    }
+  //   // Check zoom level
+  //   if (viewportRef.current.zoom < 12) {
+  //     alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewportRef.current.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+  //     return;
+  //   }
     
-    const confirmed = confirm(
-      `Refresh competitor data for current map area?\n\n` +
-      `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
-      `Zoom level: ${viewportRef.current.zoom.toFixed(1)} (good for local search)`
-    );
+  //   const confirmed = confirm(
+  //     `Refresh competitor data for current map area?\n\n` +
+  //     `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
+  //     `Zoom level: ${viewportRef.current.zoom.toFixed(1)} (good for local search)`
+  //   );
     
-    if (!confirmed) return;
+  //   if (!confirmed) return;
     
-    setCompetitorsLoading(true);
-    try {
-      const response = await fetch('/api/competitors/refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          latitude: viewportRef.current.latitude,
-          longitude: viewportRef.current.longitude,
-          radiusMeters: Math.min(5000, Math.max(500, 10000 / viewportRef.current.zoom)), // Adaptive radius based on zoom
-        })
-      });
+  //   setCompetitorsLoading(true);
+  //   try {
+  //     const response = await fetch('/api/competitors/refresh', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         latitude: viewportRef.current.latitude,
+  //         longitude: viewportRef.current.longitude,
+  //         radiusMeters: Math.min(5000, Math.max(500, 10000 / viewportRef.current.zoom)), // Adaptive radius based on zoom
+  //       })
+  //     });
       
-      if (response.ok) {
-        const result = await response.json();
-        console.log('🏢 Competitor refresh result:', result);
-        alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log('🏢 Competitor refresh result:', result);
+  //       alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
         
-        // Reload competitors using ref
-        await loadCompetitorsRef.current();
-      } else {
-        const error = await response.json();
-        console.error('❌ Competitor refresh failed:', error);
-        alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('❌ Competitor refresh error:', error);
-      alert('❌ Network error during competitor refresh');
-    } finally {
-      setCompetitorsLoading(false);
-    }
-  }, []); // Empty dependency array - all dependencies are via refs
+  //       // Reload competitors using ref
+  //       await loadCompetitorsRef.current();
+  //     } else {
+  //       const error = await response.json();
+  //       console.error('❌ Competitor refresh failed:', error);
+  //       alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
+  //     }
+  //   } catch (error) {
+  //     console.error('❌ Competitor refresh error:', error);
+  //     alert('❌ Network error during competitor refresh');
+  //   } finally {
+  //     setCompetitorsLoading(false);
+  //   }
+  // }, []); // Empty dependency array - all dependencies are via refs
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -201,12 +202,12 @@ export default function ExpansionIntegratedMapPage() {
     };
 
     window.addEventListener('store-updated', handleStoreUpdate as EventListener);
-    window.addEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
+    // TEMPORARILY DISABLED: window.addEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
 
     return () => {
       unsubscribe();
       window.removeEventListener('store-updated', handleStoreUpdate as EventListener);
-      window.removeEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
+      // TEMPORARILY DISABLED: window.removeEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
     };
   }, [refetch]); // Removed handleRefreshCompetitors from dependencies to break circular reference
 
@@ -227,71 +228,72 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
+  // COMPETITOR LOADING FUNCTIONALITY TEMPORARILY DISABLED FOR DEBUGGING
   // Use refs for showCompetitors to avoid circular dependencies
-  const showCompetitorsRef = useRef(showCompetitors);
+  // const showCompetitorsRef = useRef(showCompetitors);
   
-  useEffect(() => {
-    showCompetitorsRef.current = showCompetitors;
-  }, [showCompetitors]);
+  // useEffect(() => {
+  //   showCompetitorsRef.current = showCompetitors;
+  // }, [showCompetitors]);
 
   // Load competitors data (only when zoomed in close enough) - using refs to avoid circular dependencies
-  const loadCompetitors = useCallback(async () => {
-    if (!showCompetitorsRef.current) return;
+  // const loadCompetitors = useCallback(async () => {
+  //   if (!showCompetitorsRef.current) return;
     
-    // Only load competitors when zoomed in to city/neighborhood level (zoom >= 12)
-    if (viewportRef.current.zoom < 12) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewportRef.current.zoom, '(need >= 12)');
-      setCompetitors([]);
-      return;
-    }
+  //   // Only load competitors when zoomed in to city/neighborhood level (zoom >= 12)
+  //   if (viewportRef.current.zoom < 12) {
+  //     console.log('🏢 Competitors hidden - zoom level too low:', viewportRef.current.zoom, '(need >= 12)');
+  //     setCompetitors([]);
+  //     return;
+  //   }
     
-    setCompetitorsLoading(true);
-    try {
-      console.log('🏢 Loading competitors at zoom level:', viewportRef.current.zoom);
-      const response = await fetch('/api/competitors', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const allCompetitors = data.competitors || [];
-        console.log('🏢 Loaded competitors:', allCompetitors.length);
-        console.log('🏢 Sample competitor data:', allCompetitors.slice(0, 2));
-        setCompetitors(allCompetitors);
+  //   setCompetitorsLoading(true);
+  //   try {
+  //     console.log('🏢 Loading competitors at zoom level:', viewportRef.current.zoom);
+  //     const response = await fetch('/api/competitors', {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       const allCompetitors = data.competitors || [];
+  //       console.log('🏢 Loaded competitors:', allCompetitors.length);
+  //       console.log('🏢 Sample competitor data:', allCompetitors.slice(0, 2));
+  //       setCompetitors(allCompetitors);
 
-        // Extract unique brands and categories
-        const uniqueBrands = [...new Set(allCompetitors.map((c: any) => c.brand).filter(Boolean))];
-        const uniqueCategories = [...new Set(allCompetitors.map((c: any) => c.category).filter(Boolean))];
-        setBrands(uniqueBrands);
-        setCategories(uniqueCategories);
+  //       // Extract unique brands and categories
+  //       const uniqueBrands = [...new Set(allCompetitors.map((c: any) => c.brand).filter(Boolean))];
+  //       const uniqueCategories = [...new Set(allCompetitors.map((c: any) => c.category).filter(Boolean))];
+  //       setBrands(uniqueBrands);
+  //       setCategories(uniqueCategories);
         
-        if (allCompetitors.length === 0) {
-          console.log('🏢 No competitors found - you may need to use the Refresh Competitors button to populate data');
-        }
-      } else {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        console.error('🏢 Failed to load competitors:', response.status, errorData);
-      }
-    } catch (error) {
-      console.error('Failed to load competitors:', error);
-    } finally {
-      setCompetitorsLoading(false);
-    }
-  }, []); // Empty dependency array - all dependencies are via refs
+  //       if (allCompetitors.length === 0) {
+  //         console.log('🏢 No competitors found - you may need to use the Refresh Competitors button to populate data');
+  //       }
+  //     } else {
+  //       const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+  //       console.error('🏢 Failed to load competitors:', response.status, errorData);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to load competitors:', error);
+  //   } finally {
+  //     setCompetitorsLoading(false);
+  //   }
+  // }, []); // Empty dependency array - all dependencies are via refs
 
   // Load competitors when toggled on
-  useEffect(() => {
-    const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
-    if (shouldShowCompetitors !== showCompetitors) {
-      setShowCompetitors(shouldShowCompetitors);
-    }
-  }, [filters.statusFilters?.showCompetitors, showCompetitors]);
+  // useEffect(() => {
+  //   const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
+  //   if (shouldShowCompetitors !== showCompetitors) {
+  //     setShowCompetitors(shouldShowCompetitors);
+  //   }
+  // }, [filters.statusFilters?.showCompetitors, showCompetitors]);
 
   // Load competitors when showCompetitors or viewport changes
-  useEffect(() => {
-    loadCompetitors();
-  }, [showCompetitors, viewport.zoom]); // Direct dependencies instead of function dependency
+  // useEffect(() => {
+  //   loadCompetitors();
+  // }, [showCompetitors, viewport.zoom]); // Direct dependencies instead of function dependency
 
   const handleGenerate = useCallback(async (params: ExpansionParams) => {
     setExpansionLoading(true);
@@ -1004,15 +1006,7 @@ export default function ExpansionIntegratedMapPage() {
                 }
                 onSuggestionSelect={setSelectedSuggestion}
                 storeAnalyses={analysisMode ? storeAnalyses : []}
-                competitors={
-                  filters.statusFilters?.showCompetitors !== false && competitors.length > 0
-                    ? competitors.filter(c => {
-                        if (filters.competitorBrand && c.brand !== filters.competitorBrand) return false;
-                        if (filters.competitorCategory && c.category !== filters.competitorCategory) return false;
-                        return true;
-                      })
-                    : []
-                }
+                competitors={[]} // TEMPORARILY DISABLED FOR DEBUGGING
                 onCompetitorSelect={(competitor) => {
                   console.log('🏢 Competitor selected:', competitor);
                   // Could open a competitor details modal here
