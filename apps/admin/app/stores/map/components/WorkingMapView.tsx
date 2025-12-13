@@ -559,14 +559,56 @@ export default function WorkingMapView({
 
           if (validStores.length < stores.length) {
             console.warn(`⚠️ ${stores.length - validStores.length} stores filtered out due to invalid coordinates`);
+            
+            // Log the filtered out stores for debugging
+            const filteredOut = stores.filter(store => {
+              return !(
+                typeof store.latitude === 'number' &&
+                typeof store.longitude === 'number' &&
+                !isNaN(store.latitude) &&
+                !isNaN(store.longitude) &&
+                store.latitude >= -90 &&
+                store.latitude <= 90 &&
+                store.longitude >= -180 &&
+                store.longitude <= 180
+              );
+            });
+            
+            console.warn('⚠️ Filtered out stores:', filteredOut.map(s => ({
+              name: s.name,
+              lat: s.latitude,
+              lng: s.longitude,
+              latType: typeof s.latitude,
+              lngType: typeof s.longitude
+            })));
           }
 
           if (validStores.length > 0) {
             console.log('📍 Sample valid stores:', validStores.slice(0, 3).map(s => ({
               name: s.name,
               lat: s.latitude,
-              lng: s.longitude
+              lng: s.longitude,
+              status: s.status
             })));
+            
+            // Check for duplicate coordinates
+            const coordMap = new Map();
+            validStores.forEach(store => {
+              const coordKey = `${store.latitude.toFixed(6)},${store.longitude.toFixed(6)}`;
+              if (!coordMap.has(coordKey)) {
+                coordMap.set(coordKey, []);
+              }
+              coordMap.get(coordKey).push(store.name);
+            });
+            
+            const duplicates = Array.from(coordMap.entries()).filter(([_, stores]) => stores.length > 1);
+            if (duplicates.length > 0) {
+              console.warn('⚠️ Stores with duplicate coordinates:', duplicates.map(([coord, stores]) => ({
+                coordinates: coord,
+                stores: stores,
+                count: stores.length
+              })));
+            }
           }
 
           const geojsonData = {
@@ -730,8 +772,29 @@ export default function WorkingMapView({
               layers: ['clusters']
             });
             const clusterId = features[0]?.properties?.cluster_id;
+            const pointCount = features[0]?.properties?.point_count;
+            
+            console.log('🔍 Cluster clicked:', {
+              clusterId,
+              pointCount,
+              coordinates: features[0]?.geometry?.coordinates
+            });
+            
             if (!clusterId) return;
             const source = map.getSource('stores') as any;
+            
+            // Get the actual stores in this cluster for debugging
+            source?.getClusterLeaves(clusterId, pointCount, 0, (err: any, leaves: any) => {
+              if (!err && leaves) {
+                console.log('🔍 Stores in cluster:', leaves.map((leaf: any) => ({
+                  id: leaf.properties.id,
+                  name: leaf.properties.name,
+                  status: leaf.properties.status,
+                  coordinates: leaf.geometry.coordinates
+                })));
+              }
+            });
+            
             source?.getClusterExpansionZoom(clusterId, (err: any, zoom: any) => {
               if (err) return;
               const geometry = features[0].geometry as GeoJSON.Point;
