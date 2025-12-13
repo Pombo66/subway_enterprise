@@ -132,7 +132,7 @@ export default function ExpansionIntegratedMapPage() {
       refetch();
     };
 
-    const handleRefreshCompetitors = async () => {
+    const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
       if (competitorsLoading) return;
       
       // Check zoom level
@@ -179,7 +179,7 @@ export default function ExpansionIntegratedMapPage() {
       } finally {
         setCompetitorsLoading(false);
       }
-    };
+    }, [competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
 
     window.addEventListener('store-updated', handleStoreUpdate as EventListener);
     window.addEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
@@ -189,7 +189,7 @@ export default function ExpansionIntegratedMapPage() {
       window.removeEventListener('store-updated', handleStoreUpdate as EventListener);
       window.removeEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
     };
-  }, [refetch, competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
+  }, [refetch, handleRefreshCompetitors]);
 
   const loadScenarios = async () => {
     try {

@@ -331,9 +331,13 @@ export default function MapFilters({
               <div className="map-filter-refresh-section">
                 <button
                   onClick={() => {
-                    // This will be handled by the parent component
-                    const event = new CustomEvent('refreshCompetitors');
-                    window.dispatchEvent(event);
+                    // Use a more stable event dispatch approach
+                    if (typeof window !== 'undefined') {
+                      const event = new CustomEvent('refreshCompetitors', { 
+                        detail: { timestamp: Date.now() } 
+                      });
+                      window.dispatchEvent(event);
+                    }
                   }}
                   disabled={loading}
                   className="map-filter-refresh-button"
