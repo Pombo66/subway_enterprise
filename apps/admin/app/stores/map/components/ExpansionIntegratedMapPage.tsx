@@ -120,6 +120,56 @@ export default function ExpansionIntegratedMapPage() {
     };
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
+  // Handle competitor refresh - defined outside useEffect to avoid circular dependencies
+  const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
+    if (competitorsLoading) return;
+    
+    // Check zoom level
+    if (viewport.zoom < 12) {
+      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+      return;
+    }
+    
+    const confirmed = confirm(
+      `Refresh competitor data for current map area?\n\n` +
+      `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
+      `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
+    );
+    
+    if (!confirmed) return;
+    
+    setCompetitorsLoading(true);
+    try {
+      const response = await fetch('/api/competitors/refresh', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          latitude: viewport.latitude,
+          longitude: viewport.longitude,
+          radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log('🏢 Competitor refresh result:', result);
+        alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
+        
+        // Reload competitors
+        await loadCompetitors();
+      } else {
+        const error = await response.json();
+        console.error('❌ Competitor refresh failed:', error);
+        alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('❌ Competitor refresh error:', error);
+      alert('❌ Network error during competitor refresh');
+    } finally {
+      setCompetitorsLoading(false);
+    }
+  }, [competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
+
   // Listen for store import events and refresh map data
   useEffect(() => {
     const unsubscribe = onStoresImported((event) => {
@@ -131,55 +181,6 @@ export default function ExpansionIntegratedMapPage() {
       console.log('🗺️ Expansion map: Received store-updated event');
       refetch();
     };
-
-    const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
-      if (competitorsLoading) return;
-      
-      // Check zoom level
-      if (viewport.zoom < 12) {
-        alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
-        return;
-      }
-      
-      const confirmed = confirm(
-        `Refresh competitor data for current map area?\n\n` +
-        `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
-        `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
-      );
-      
-      if (!confirmed) return;
-      
-      setCompetitorsLoading(true);
-      try {
-        const response = await fetch('/api/competitors/refresh', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            latitude: viewport.latitude,
-            longitude: viewport.longitude,
-            radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
-          })
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          console.log('🏢 Competitor refresh result:', result);
-          alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
-          
-          // Reload competitors
-          await loadCompetitors();
-        } else {
-          const error = await response.json();
-          console.error('❌ Competitor refresh failed:', error);
-          alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error('❌ Competitor refresh error:', error);
-        alert('❌ Network error during competitor refresh');
-      } finally {
-        setCompetitorsLoading(false);
-      }
-    }, [competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
 
     window.addEventListener('store-updated', handleStoreUpdate as EventListener);
     window.addEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
