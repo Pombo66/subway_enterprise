@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { CompetitorService, CompetitorFilters } from '../services/competitive/competitor.service';
 import { CompetitiveAnalysisService, CompetitiveAnalysisRequest } from '../services/competitive/competitive-analysis.service';
-import { GooglePlacesService, PlaceSearchRequest } from '../services/competitive/google-places.service';
+import { GooglePlacesService } from '../services/competitive/google-places.service';
+import { MapboxCompetitorsService, MapboxCompetitorRequest } from '../services/competitive/mapbox-competitors.service';
 import { PrismaClient } from '@prisma/client';
 
 @Controller('competitive-intelligence')
@@ -10,6 +11,7 @@ export class CompetitiveIntelligenceController {
     private competitorService: CompetitorService,
     private competitiveAnalysisService: CompetitiveAnalysisService,
     private googlePlacesService: GooglePlacesService,
+    private mapboxCompetitorsService: MapboxCompetitorsService,
     private prisma: PrismaClient
   ) {}
 
@@ -89,23 +91,23 @@ export class CompetitiveIntelligenceController {
   }
 
   @Post('competitors/refresh')
-  async refreshCompetitors(@Body() request: PlaceSearchRequest) {
+  async refreshCompetitors(@Body() request: MapboxCompetitorRequest) {
     // Create refresh job
     const job = await this.prisma.competitorRefreshJob.create({
       data: {
         region: request.latitude && request.longitude 
           ? `${request.latitude},${request.longitude}` 
           : undefined,
-        sources: JSON.stringify(['google']),
-        categories: JSON.stringify(request.categories || ['restaurant']),
+        sources: JSON.stringify(['mapbox']),
+        categories: JSON.stringify(['qsr', 'pizza', 'coffee', 'sandwich']),
         status: 'running',
         startedAt: new Date(),
       },
     });
 
     try {
-      // Refresh from Google Places
-      const result = await this.googlePlacesService.refreshCompetitors(request);
+      // Refresh from Mapbox Tilequery API
+      const result = await this.mapboxCompetitorsService.refreshCompetitors(request);
 
       // Update job
       await this.prisma.competitorRefreshJob.update({
@@ -116,7 +118,7 @@ export class CompetitiveIntelligenceController {
           placesFound: result.found,
           placesAdded: result.added,
           placesUpdated: result.updated,
-          googleApiCalls: 1,
+          googleApiCalls: 0, // Using Mapbox, not Google
         },
       });
 

@@ -36,6 +36,7 @@ import { TurnoverPredictionService } from './services/intelligence/turnover-pred
 import { CompetitorService } from './services/competitive/competitor.service';
 import { CompetitiveAnalysisService } from './services/competitive/competitive-analysis.service';
 import { GooglePlacesService } from './services/competitive/google-places.service';
+import { MapboxCompetitorsService } from './services/competitive/mapbox-competitors.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -132,6 +133,7 @@ const prisma = new PrismaClient();
     CompetitorService,
     CompetitiveAnalysisService,
     GooglePlacesService,
+    MapboxCompetitorsService,
     // GeocodeService,
     // Apply authentication globally
     {
