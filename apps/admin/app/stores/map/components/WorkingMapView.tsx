@@ -490,8 +490,8 @@ export default function WorkingMapView({
         
         const map = new MapboxMap({
           container: mapRef.current,
-          // Use clean, modern light style similar to Apple Maps
-          style: 'mapbox://styles/mapbox/light-v11',
+          // Use modern streets v12 - Mapbox's newest and most polished style
+          style: 'mapbox://styles/mapbox/streets-v12',
           center: [0, 20],
           zoom: 2,
           // Fix font loading issues
@@ -512,8 +512,8 @@ export default function WorkingMapView({
         map.on('load', () => {
           clearTimeout(loadTimeout);
           console.log('✅ Map loaded successfully');
-          console.log('🎨 Clean Apple Maps-inspired style loaded:', {
-            style: 'mapbox://styles/mapbox/light-v11',
+          console.log('🎨 Modern Mapbox Streets v12 style loaded:', {
+            style: 'mapbox://styles/mapbox/streets-v12',
             sources: Object.keys(map.getStyle().sources || {}),
             layers: (map.getStyle().layers || []).length
           });
