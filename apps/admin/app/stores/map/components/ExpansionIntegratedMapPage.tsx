@@ -119,7 +119,7 @@ export default function ExpansionIntegratedMapPage() {
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
   // Smart competitor refresh function - refreshes current viewport area only
-  const handleRefreshCompetitors = useCallback(async () => {
+  const handleRefreshCompetitors = async () => {
     if (competitorsLoading) {
       console.log('🏢 Competitor refresh already in progress, skipping');
       return;
@@ -183,7 +183,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [competitorsLoading, viewport.latitude, viewport.longitude, viewport.zoom]);
+  };
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -210,7 +210,7 @@ export default function ExpansionIntegratedMapPage() {
       window.removeEventListener('store-updated', handleStoreUpdate as EventListener);
       window.removeEventListener('refreshCompetitors', handleRefreshCompetitorsEvent as EventListener);
     };
-  }, [refetch, handleRefreshCompetitors]);
+  }, [refetch]);
 
   const loadScenarios = async () => {
     try {
