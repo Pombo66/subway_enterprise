@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMapState } from '../hooks/useMapState';
 import { useStores } from '../hooks/useStores';
@@ -120,20 +120,38 @@ export default function ExpansionIntegratedMapPage() {
     };
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
-  // Handle competitor refresh - defined outside useEffect to avoid circular dependencies
+  // Use refs for stable references to break circular dependencies
+  const competitorsLoadingRef = useRef(competitorsLoading);
+  const viewportRef = useRef(viewport);
+  const loadCompetitorsRef = useRef(loadCompetitors);
+  
+  // Update refs when values change
+  useEffect(() => {
+    competitorsLoadingRef.current = competitorsLoading;
+  }, [competitorsLoading]);
+  
+  useEffect(() => {
+    viewportRef.current = viewport;
+  }, [viewport]);
+  
+  useEffect(() => {
+    loadCompetitorsRef.current = loadCompetitors;
+  }, [loadCompetitors]);
+
+  // Handle competitor refresh - using refs to avoid circular dependencies
   const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
-    if (competitorsLoading) return;
+    if (competitorsLoadingRef.current) return;
     
     // Check zoom level
-    if (viewport.zoom < 12) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+    if (viewportRef.current.zoom < 12) {
+      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewportRef.current.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
       return;
     }
     
     const confirmed = confirm(
       `Refresh competitor data for current map area?\n\n` +
       `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
-      `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
+      `Zoom level: ${viewportRef.current.zoom.toFixed(1)} (good for local search)`
     );
     
     if (!confirmed) return;
@@ -144,9 +162,9 @@ export default function ExpansionIntegratedMapPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          latitude: viewport.latitude,
-          longitude: viewport.longitude,
-          radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
+          latitude: viewportRef.current.latitude,
+          longitude: viewportRef.current.longitude,
+          radiusMeters: Math.min(5000, Math.max(500, 10000 / viewportRef.current.zoom)), // Adaptive radius based on zoom
         })
       });
       
@@ -155,8 +173,8 @@ export default function ExpansionIntegratedMapPage() {
         console.log('🏢 Competitor refresh result:', result);
         alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
         
-        // Reload competitors
-        await loadCompetitors();
+        // Reload competitors using ref
+        await loadCompetitorsRef.current();
       } else {
         const error = await response.json();
         console.error('❌ Competitor refresh failed:', error);
@@ -168,7 +186,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
+  }, []); // Empty dependency array - all dependencies are via refs
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -190,7 +208,7 @@ export default function ExpansionIntegratedMapPage() {
       window.removeEventListener('store-updated', handleStoreUpdate as EventListener);
       window.removeEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
     };
-  }, [refetch, handleRefreshCompetitors]);
+  }, [refetch]); // Removed handleRefreshCompetitors from dependencies to break circular reference
 
   const loadScenarios = async () => {
     try {
