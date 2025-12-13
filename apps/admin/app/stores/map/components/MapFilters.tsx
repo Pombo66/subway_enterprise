@@ -298,6 +298,35 @@ export default function MapFilters({
           </div>
         )}
 
+        {/* Competitors Toggle - Always Visible */}
+        <div className="map-filter-group map-filter-group-full">
+          <label className="map-filter-label">Competitors</label>
+          <div className="map-filter-checkboxes">
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showCompetitors !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showCompetitors: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-competitors"></span>
+                Show Competitors
+              </span>
+            </label>
+          </div>
+        </div>
+
         {/* Visibility Toggles */}
         <div className="map-filter-group map-filter-group-full">
           <div 
@@ -306,7 +335,7 @@ export default function MapFilters({
             style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           >
             <label className="map-filter-label" style={{ cursor: 'pointer', margin: 0 }}>
-              Show on Map
+              Store Types
             </label>
             <svg 
               width="16" 
@@ -415,28 +444,7 @@ export default function MapFilters({
               </span>
             </label>
 
-            <label className="map-filter-checkbox-label">
-              <input
-                type="checkbox"
-                checked={filters.statusFilters?.showCompetitors !== false}
-                onChange={(e) => {
-                  const newFilters = {
-                    ...filters,
-                    statusFilters: {
-                      ...filters.statusFilters,
-                      showCompetitors: e.target.checked
-                    }
-                  };
-                  onFiltersChange(newFilters);
-                }}
-                disabled={loading}
-                className="map-filter-checkbox"
-              />
-              <span className="map-filter-checkbox-text">
-                <span className="status-indicator status-competitors"></span>
-                Competitors
-              </span>
-            </label>
+
           </div>
           )}
         </div>
