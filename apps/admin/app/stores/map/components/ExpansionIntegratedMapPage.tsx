@@ -132,13 +132,64 @@ export default function ExpansionIntegratedMapPage() {
       refetch();
     };
 
+    const handleRefreshCompetitors = async () => {
+      if (competitorsLoading) return;
+      
+      // Check zoom level
+      if (viewport.zoom < 12) {
+        alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+        return;
+      }
+      
+      const confirmed = confirm(
+        `Refresh competitor data for current map area?\n\n` +
+        `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
+        `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
+      );
+      
+      if (!confirmed) return;
+      
+      setCompetitorsLoading(true);
+      try {
+        const response = await fetch('/api/competitors/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            latitude: viewport.latitude,
+            longitude: viewport.longitude,
+            radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
+          })
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          console.log('🏢 Competitor refresh result:', result);
+          alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
+          
+          // Reload competitors
+          await loadCompetitors();
+        } else {
+          const error = await response.json();
+          console.error('❌ Competitor refresh failed:', error);
+          alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error('❌ Competitor refresh error:', error);
+        alert('❌ Network error during competitor refresh');
+      } finally {
+        setCompetitorsLoading(false);
+      }
+    };
+
     window.addEventListener('store-updated', handleStoreUpdate as EventListener);
+    window.addEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
 
     return () => {
       unsubscribe();
       window.removeEventListener('store-updated', handleStoreUpdate as EventListener);
+      window.removeEventListener('refreshCompetitors', handleRefreshCompetitors as EventListener);
     };
-  }, [refetch]);
+  }, [refetch, competitorsLoading, viewport.zoom, viewport.latitude, viewport.longitude, loadCompetitors]);
 
   const loadScenarios = async () => {
     try {
@@ -814,72 +865,7 @@ export default function ExpansionIntegratedMapPage() {
                 >
                   Analysis
                 </button>
-                {/* Competitor Refresh Button - only show when competitors are enabled and zoomed in */}
-                {filters.statusFilters?.showCompetitors !== false && viewport.zoom >= 12 && (
-                  <button
-                    onClick={async () => {
-                      if (competitorsLoading) return;
-                      
-                      const confirmed = confirm(
-                        `Refresh competitor data for current map area?\n\n` +
-                        `This will search for restaurants near the current viewport using Google Places API. ` +
-                        `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
-                      );
-                      
-                      if (!confirmed) return;
-                      
-                      setCompetitorsLoading(true);
-                      try {
-                        const response = await fetch('/api/competitors/refresh', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            latitude: viewport.latitude,
-                            longitude: viewport.longitude,
-                            radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
-                            categories: ['restaurant']
-                          })
-                        });
-                        
-                        if (response.ok) {
-                          const result = await response.json();
-                          console.log('🏢 Competitor refresh result:', result);
-                          alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} places\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors`);
-                          
-                          // Reload competitors
-                          await loadCompetitors();
-                        } else {
-                          const error = await response.json();
-                          console.error('❌ Competitor refresh failed:', error);
-                          alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
-                        }
-                      } catch (error) {
-                        console.error('❌ Competitor refresh error:', error);
-                        alert('❌ Network error during competitor refresh');
-                      } finally {
-                        setCompetitorsLoading(false);
-                      }
-                    }}
-                    disabled={competitorsLoading}
-                    style={{
-                      background: competitorsLoading ? 'rgba(107, 114, 128, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                      border: `1px solid ${competitorsLoading ? 'rgba(107, 114, 128, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                      color: competitorsLoading ? '#6b7280' : '#ef4444',
-                      padding: '6px 12px',
-                      fontSize: '13px',
-                      borderRadius: '4px',
-                      cursor: competitorsLoading ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.2s',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                    title={`Refresh competitor data for current area (zoom: ${viewport.zoom.toFixed(1)})`}
-                  >
-                    {competitorsLoading ? '🔄' : '🏢'} 
-                    {competitorsLoading ? 'Refreshing...' : 'Refresh Competitors'}
-                  </button>
-                )}
+
               </div>
             </div>
           </div>

@@ -298,32 +298,55 @@ export default function MapFilters({
           </div>
         )}
 
-        {/* Competitors Toggle - Always Visible */}
+        {/* Competitors Section - Always Visible */}
         <div className="map-filter-group map-filter-group-full">
-          <label className="map-filter-label">Competitors</label>
-          <div className="map-filter-checkboxes">
-            <label className="map-filter-checkbox-label">
-              <input
-                type="checkbox"
-                checked={filters.statusFilters?.showCompetitors !== false}
-                onChange={(e) => {
-                  const newFilters = {
-                    ...filters,
-                    statusFilters: {
-                      ...filters.statusFilters,
-                      showCompetitors: e.target.checked
-                    }
-                  };
-                  onFiltersChange(newFilters);
-                }}
-                disabled={loading}
-                className="map-filter-checkbox"
-              />
-              <span className="map-filter-checkbox-text">
-                <span className="status-indicator status-competitors"></span>
-                Show Competitors
-              </span>
-            </label>
+          <label className="map-filter-label">QSR Competitors</label>
+          <div className="map-filter-competitors-section">
+            <div className="map-filter-checkboxes">
+              <label className="map-filter-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={filters.statusFilters?.showCompetitors !== false}
+                  onChange={(e) => {
+                    const newFilters = {
+                      ...filters,
+                      statusFilters: {
+                        ...filters.statusFilters,
+                        showCompetitors: e.target.checked
+                      }
+                    };
+                    onFiltersChange(newFilters);
+                  }}
+                  disabled={loading}
+                  className="map-filter-checkbox"
+                />
+                <span className="map-filter-checkbox-text">
+                  <span className="status-indicator status-competitors"></span>
+                  Show Competitors (McDonald's, KFC, etc.)
+                </span>
+              </label>
+            </div>
+            {/* Refresh Competitors Button - show when competitors are enabled */}
+            {filters.statusFilters?.showCompetitors !== false && (
+              <div className="map-filter-refresh-section">
+                <button
+                  onClick={() => {
+                    // This will be handled by the parent component
+                    const event = new CustomEvent('refreshCompetitors');
+                    window.dispatchEvent(event);
+                  }}
+                  disabled={loading}
+                  className="map-filter-refresh-button"
+                  title="Refresh competitor data for current map area using Mapbox POI data"
+                >
+                  <span className="refresh-icon">🏢</span>
+                  Refresh Competitor Data
+                </button>
+                <div className="map-filter-note">
+                  Zoom in close (city level) to refresh competitor locations
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -601,6 +624,53 @@ export default function MapFilters({
 
         .status-competitors {
           background: #ef4444;
+        }
+
+        .map-filter-competitors-section {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .map-filter-refresh-section {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 12px;
+          background: var(--s-bg-secondary, #f8f9fa);
+          border: 1px solid var(--s-border);
+          border-radius: 6px;
+        }
+
+        .map-filter-refresh-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 12px;
+          background: var(--s-primary, #0066cc);
+          color: white;
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          align-self: flex-start;
+        }
+
+        .map-filter-refresh-button:hover:not(:disabled) {
+          background: var(--s-primary-dark, #0052a3);
+          transform: translateY(-1px);
+        }
+
+        .map-filter-refresh-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .refresh-icon {
+          font-size: 16px;
         }
 
         .map-filter-select {
