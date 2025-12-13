@@ -157,16 +157,25 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Load competitors data
+  // Load competitors data (only when zoomed in close enough)
   const loadCompetitors = useCallback(async () => {
     if (!showCompetitors) return;
     
+    // Only load competitors when zoomed in to city/neighborhood level (zoom >= 12)
+    if (viewport.zoom < 12) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 12)');
+      setCompetitors([]);
+      return;
+    }
+    
     setCompetitorsLoading(true);
     try {
+      console.log('🏢 Loading competitors at zoom level:', viewport.zoom);
       const response = await fetch('/api/competitors');
       if (response.ok) {
         const data = await response.json();
         const allCompetitors = data.competitors || [];
+        console.log('🏢 Loaded competitors:', allCompetitors.length);
         setCompetitors(allCompetitors);
 
         // Extract unique brands and categories
@@ -180,7 +189,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [showCompetitors]);
+  }, [showCompetitors, viewport.zoom]);
 
   // Load competitors when toggled on
   useEffect(() => {
@@ -793,6 +802,72 @@ export default function ExpansionIntegratedMapPage() {
                 >
                   Analysis
                 </button>
+                {/* Competitor Refresh Button - only show when competitors are enabled and zoomed in */}
+                {filters.statusFilters?.showCompetitors !== false && viewport.zoom >= 12 && (
+                  <button
+                    onClick={async () => {
+                      if (competitorsLoading) return;
+                      
+                      const confirmed = confirm(
+                        `Refresh competitor data for current map area?\n\n` +
+                        `This will search for restaurants near the current viewport using Google Places API. ` +
+                        `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
+                      );
+                      
+                      if (!confirmed) return;
+                      
+                      setCompetitorsLoading(true);
+                      try {
+                        const response = await fetch('/api/competitors/refresh', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            latitude: viewport.latitude,
+                            longitude: viewport.longitude,
+                            radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
+                            categories: ['restaurant']
+                          })
+                        });
+                        
+                        if (response.ok) {
+                          const result = await response.json();
+                          console.log('🏢 Competitor refresh result:', result);
+                          alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} places\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors`);
+                          
+                          // Reload competitors
+                          await loadCompetitors();
+                        } else {
+                          const error = await response.json();
+                          console.error('❌ Competitor refresh failed:', error);
+                          alert(`❌ Competitor refresh failed: ${error.error || 'Unknown error'}`);
+                        }
+                      } catch (error) {
+                        console.error('❌ Competitor refresh error:', error);
+                        alert('❌ Network error during competitor refresh');
+                      } finally {
+                        setCompetitorsLoading(false);
+                      }
+                    }}
+                    disabled={competitorsLoading}
+                    style={{
+                      background: competitorsLoading ? 'rgba(107, 114, 128, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                      border: `1px solid ${competitorsLoading ? 'rgba(107, 114, 128, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                      color: competitorsLoading ? '#6b7280' : '#ef4444',
+                      padding: '6px 12px',
+                      fontSize: '13px',
+                      borderRadius: '4px',
+                      cursor: competitorsLoading ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                    title={`Refresh competitor data for current area (zoom: ${viewport.zoom.toFixed(1)})`}
+                  >
+                    {competitorsLoading ? '🔄' : '🏢'} 
+                    {competitorsLoading ? 'Refreshing...' : 'Refresh Competitors'}
+                  </button>
+                )}
               </div>
             </div>
           </div>
