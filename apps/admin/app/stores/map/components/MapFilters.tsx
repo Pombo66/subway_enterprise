@@ -347,7 +347,7 @@ export default function MapFilters({
                   Refresh Competitor Data
                 </button>
                 <div className="map-filter-note">
-                  Competitors load automatically when zoomed in (zoom 10+). Use refresh to update data from Mapbox.
+                  Competitors load automatically when zoomed in. Use refresh to update data from Mapbox.
                 </div>
               </div>
             )}

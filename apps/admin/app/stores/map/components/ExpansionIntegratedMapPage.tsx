@@ -237,9 +237,9 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Auto-load competitors when zoomed in to city/neighborhood level (zoom >= 10)
-    if (viewport.zoom < 10) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 10 for auto-load)');
+    // Auto-load competitors when zoomed in (zoom >= 2) - adjusted for zoom detection issue
+    if (viewport.zoom < 2) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 2 for auto-load)');
       setCompetitors([]);
       return;
     }
