@@ -297,13 +297,76 @@ export default function WorkingMapView({
 
       map.on('click', 'competitors', handleCompetitorClick);
 
-      // Add hover effects
-      map.on('mouseenter', 'competitors', () => {
+      // Add hover effects with brand information tooltip
+      map.on('mouseenter', 'competitors', (e) => {
         map.getCanvas().style.cursor = 'pointer';
+        
+        const feature = e.features?.[0];
+        if (!feature) return;
+        
+        const properties = feature.properties as any;
+        if (!properties) return;
+        
+        const { brand, name, category, threatLevel } = properties;
+
+        // Create simple DOM tooltip for competitors
+        let tooltip = document.getElementById('map-tooltip');
+        if (!tooltip) {
+          tooltip = document.createElement('div');
+          tooltip.id = 'map-tooltip';
+          tooltip.style.cssText = `
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            z-index: 999999;
+            pointer-events: none;
+            max-width: 280px;
+            font-family: system-ui, -apple-system, sans-serif;
+          `;
+          document.body.appendChild(tooltip);
+        }
+
+        // Get category color for the tooltip
+        const categoryColors: Record<string, string> = {
+          'qsr': '#ef4444',        // Red for QSR
+          'pizza': '#f97316',      // Orange for pizza
+          'coffee': '#8b5cf6',     // Purple for coffee
+          'sandwich': '#3b82f6',   // Blue for sandwich
+        };
+        const categoryColor = categoryColors[category] || '#6b7280';
+        const categoryLabel = category?.toUpperCase() || 'COMPETITOR';
+
+        tooltip.innerHTML = `
+          <div style="font-weight: 600; margin-bottom: 6px; color: white;">${brand}</div>
+          ${name && name !== brand ? `<div style="font-size: 12px; color: #d1d5db; margin-bottom: 4px;">${name}</div>` : ''}
+          <div style="font-size: 12px; margin-bottom: 4px;">
+            <span style="color: ${categoryColor};">
+              ● ${categoryLabel}
+            </span>
+            ${threatLevel ? ` • ${threatLevel} threat` : ''}
+          </div>
+          <div style="font-size: 11px; color: #9ca3af;">
+            Click for details
+          </div>
+        `;
+
+        tooltip.style.display = 'block';
+        console.log('🏢 Competitor tooltip shown for:', brand);
       });
 
       map.on('mouseleave', 'competitors', () => {
         map.getCanvas().style.cursor = '';
+        
+        // Hide competitor tooltip
+        const tooltip = document.getElementById('map-tooltip');
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
       });
     }
   };
