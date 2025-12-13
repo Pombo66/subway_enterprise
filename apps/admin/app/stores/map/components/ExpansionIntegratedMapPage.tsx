@@ -136,7 +136,7 @@ export default function ExpansionIntegratedMapPage() {
   
   useEffect(() => {
     loadCompetitorsRef.current = loadCompetitors;
-  }, [loadCompetitors]);
+  }, []); // loadCompetitors is now stable with empty deps
 
   // Handle competitor refresh - using refs to avoid circular dependencies
   const handleRefreshCompetitors = useCallback(async (event?: CustomEvent) => {
@@ -227,20 +227,27 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Load competitors data (only when zoomed in close enough)
+  // Use refs for showCompetitors to avoid circular dependencies
+  const showCompetitorsRef = useRef(showCompetitors);
+  
+  useEffect(() => {
+    showCompetitorsRef.current = showCompetitors;
+  }, [showCompetitors]);
+
+  // Load competitors data (only when zoomed in close enough) - using refs to avoid circular dependencies
   const loadCompetitors = useCallback(async () => {
-    if (!showCompetitors) return;
+    if (!showCompetitorsRef.current) return;
     
     // Only load competitors when zoomed in to city/neighborhood level (zoom >= 12)
-    if (viewport.zoom < 12) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 12)');
+    if (viewportRef.current.zoom < 12) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewportRef.current.zoom, '(need >= 12)');
       setCompetitors([]);
       return;
     }
     
     setCompetitorsLoading(true);
     try {
-      console.log('🏢 Loading competitors at zoom level:', viewport.zoom);
+      console.log('🏢 Loading competitors at zoom level:', viewportRef.current.zoom);
       const response = await fetch('/api/competitors', {
         headers: {
           'Content-Type': 'application/json',
@@ -271,7 +278,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [showCompetitors, viewport.zoom]);
+  }, []); // Empty dependency array - all dependencies are via refs
 
   // Load competitors when toggled on
   useEffect(() => {
@@ -281,9 +288,10 @@ export default function ExpansionIntegratedMapPage() {
     }
   }, [filters.statusFilters?.showCompetitors, showCompetitors]);
 
+  // Load competitors when showCompetitors or viewport changes
   useEffect(() => {
     loadCompetitors();
-  }, [loadCompetitors]);
+  }, [showCompetitors, viewport.zoom]); // Direct dependencies instead of function dependency
 
   const handleGenerate = useCallback(async (params: ExpansionParams) => {
     setExpansionLoading(true);

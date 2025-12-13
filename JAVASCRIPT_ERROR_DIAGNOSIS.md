@@ -4,13 +4,21 @@
 
 ### Current Error
 ```
-ReferenceError: Cannot access 'eR' before initialization
-at I (4514-23806f326e244a6d.js:1:55504)
+ReferenceError: Cannot access 'eP' before initialization
+at I (4514-3c02e48359d974b8.js:1:54005)
 ```
 
 ### Previous Errors
 1. `ReferenceError: Cannot access 'eF' before initialization`
-2. `ReferenceError: handleRefreshCompetitors is not defined`
+2. `ReferenceError: Cannot access 'eR' before initialization`
+3. `ReferenceError: handleRefreshCompetitors is not defined`
+
+### Pattern Recognition
+- Error persists across multiple fixes
+- Minified variable names change: eF → eR → eP
+- Same file pattern: 4514-[hash].js
+- Same approximate line position: ~54000-55000
+- Suggests the same underlying issue with different variable names
 
 ## Root Cause Analysis
 
