@@ -52,6 +52,29 @@ interface Portfolio {
   };
 }
 
+interface FranchiseeAnalysis {
+  id: string;
+  franchiseeId: string;
+  analysisDate: string;
+  aiSummary: string;
+  recommendations: string[];
+  model: string;
+  tokensUsed: number;
+  // Parsed AI insights
+  insights?: {
+    summary: string;
+    strengths: string[];
+    weaknesses: string[];
+    riskFactors: string[];
+    opportunities: string[];
+    expansionReady: boolean;
+    recommendedStores: number;
+    expansionRationale: string;
+    churnRisk: 'LOW' | 'MEDIUM' | 'HIGH';
+    recommendations: string[];
+  };
+}
+
 type TabType = 'overview' | 'performance' | 'insights';
 
 export default function FranchiseeDetailsPage() {
@@ -59,12 +82,70 @@ export default function FranchiseeDetailsPage() {
   const franchiseeId = params.id as string;
   
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [analysis, setAnalysis] = useState<FranchiseeAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
   useEffect(() => {
     loadPortfolio();
   }, [franchiseeId]);
+
+  const loadAnalysis = async () => {
+    try {
+      setAnalysisLoading(true);
+      const response = await fetch(`/api/franchisees/${franchiseeId}/analysis`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Parse AI insights if they exist
+        if (data.aiSummary) {
+          try {
+            const insights = JSON.parse(data.aiSummary);
+            data.insights = insights;
+          } catch (e) {
+            console.warn('Could not parse AI insights:', e);
+          }
+        }
+        setAnalysis(data);
+      } else {
+        console.error('Analysis API error:', data);
+      }
+    } catch (error) {
+      console.error('Failed to load analysis:', error);
+    } finally {
+      setAnalysisLoading(false);
+    }
+  };
+
+  const generateNewAnalysis = async () => {
+    try {
+      setAnalysisLoading(true);
+      const response = await fetch(`/api/franchisees/${franchiseeId}/analysis`, {
+        method: 'POST'
+      });
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Parse AI insights if they exist
+        if (data.aiSummary) {
+          try {
+            const insights = JSON.parse(data.aiSummary);
+            data.insights = insights;
+          } catch (e) {
+            console.warn('Could not parse AI insights:', e);
+          }
+        }
+        setAnalysis(data);
+      } else {
+        console.error('Analysis generation error:', data);
+      }
+    } catch (error) {
+      console.error('Failed to generate analysis:', error);
+    } finally {
+      setAnalysisLoading(false);
+    }
+  };
 
   const loadPortfolio = async () => {
     try {
@@ -279,7 +360,12 @@ export default function FranchiseeDetailsPage() {
               Performance
             </button>
             <button
-              onClick={() => setActiveTab('insights')}
+              onClick={() => {
+                setActiveTab('insights');
+                if (!analysis && !analysisLoading) {
+                  loadAnalysis();
+                }
+              }}
               className={`px-6 py-3 text-sm font-medium border-b-2 ${
                 activeTab === 'insights'
                   ? 'border-blue-500 text-blue-600'
@@ -395,12 +481,196 @@ export default function FranchiseeDetailsPage() {
           )}
 
           {activeTab === 'insights' && (
-            <div className="text-center py-12">
-              <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-500">AI insights coming soon</p>
-              <p className="text-sm text-gray-400 mt-1">
-                Get AI-powered recommendations and risk analysis
-              </p>
+            <div className="space-y-6">
+              {analysisLoading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-3"></div>
+                  <p className="text-gray-500">Generating AI insights...</p>
+                  <p className="text-sm text-gray-400 mt-1">This may take a few moments</p>
+                </div>
+              ) : analysis && analysis.insights ? (
+                <>
+                  {/* Analysis Header */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">AI Analysis</h3>
+                      <p className="text-sm text-gray-500">
+                        Generated on {new Date(analysis.analysisDate).toLocaleDateString()} 
+                        using {analysis.model} ({analysis.tokensUsed} tokens)
+                      </p>
+                    </div>
+                    <button
+                      onClick={generateNewAnalysis}
+                      disabled={analysisLoading}
+                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      Refresh Analysis
+                    </button>
+                  </div>
+
+                  {/* Summary */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-900 mb-2">Executive Summary</h4>
+                    <p className="text-blue-800">{analysis.insights.summary}</p>
+                  </div>
+
+                  {/* Expansion Readiness */}
+                  <div className={`border rounded-lg p-4 ${
+                    analysis.insights.expansionReady 
+                      ? 'bg-green-50 border-green-200' 
+                      : 'bg-yellow-50 border-yellow-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className={`font-medium ${
+                        analysis.insights.expansionReady ? 'text-green-900' : 'text-yellow-900'
+                      }`}>
+                        Expansion Readiness
+                      </h4>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        analysis.insights.expansionReady 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {analysis.insights.expansionReady ? 'READY' : 'NOT READY'}
+                      </span>
+                    </div>
+                    <p className={`text-sm ${
+                      analysis.insights.expansionReady ? 'text-green-800' : 'text-yellow-800'
+                    }`}>
+                      Recommended stores: {analysis.insights.recommendedStores}
+                    </p>
+                    <p className={`text-sm mt-1 ${
+                      analysis.insights.expansionReady ? 'text-green-700' : 'text-yellow-700'
+                    }`}>
+                      {analysis.insights.expansionRationale}
+                    </p>
+                  </div>
+
+                  {/* Risk Assessment */}
+                  <div className={`border rounded-lg p-4 ${
+                    analysis.insights.churnRisk === 'HIGH' 
+                      ? 'bg-red-50 border-red-200'
+                      : analysis.insights.churnRisk === 'MEDIUM'
+                      ? 'bg-yellow-50 border-yellow-200'
+                      : 'bg-green-50 border-green-200'
+                  }`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className={`font-medium ${
+                        analysis.insights.churnRisk === 'HIGH' 
+                          ? 'text-red-900'
+                          : analysis.insights.churnRisk === 'MEDIUM'
+                          ? 'text-yellow-900'
+                          : 'text-green-900'
+                      }`}>
+                        Churn Risk Assessment
+                      </h4>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        analysis.insights.churnRisk === 'HIGH' 
+                          ? 'bg-red-100 text-red-800'
+                          : analysis.insights.churnRisk === 'MEDIUM'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-green-100 text-green-800'
+                      }`}>
+                        {analysis.insights.churnRisk} RISK
+                      </span>
+                    </div>
+                    {analysis.insights.riskFactors.length > 0 && (
+                      <div>
+                        <p className={`text-sm font-medium mb-1 ${
+                          analysis.insights.churnRisk === 'HIGH' 
+                            ? 'text-red-800'
+                            : analysis.insights.churnRisk === 'MEDIUM'
+                            ? 'text-yellow-800'
+                            : 'text-green-800'
+                        }`}>
+                          Risk Factors:
+                        </p>
+                        <ul className={`text-sm list-disc list-inside space-y-1 ${
+                          analysis.insights.churnRisk === 'HIGH' 
+                            ? 'text-red-700'
+                            : analysis.insights.churnRisk === 'MEDIUM'
+                            ? 'text-yellow-700'
+                            : 'text-green-700'
+                        }`}>
+                          {analysis.insights.riskFactors.map((factor, index) => (
+                            <li key={index}>{factor}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Strengths and Weaknesses */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="font-medium text-green-900 mb-2">Strengths</h4>
+                      <ul className="text-sm text-green-800 space-y-1">
+                        {analysis.insights.strengths.map((strength, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="text-green-600 mr-2">•</span>
+                            {strength}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <h4 className="font-medium text-red-900 mb-2">Areas for Improvement</h4>
+                      <ul className="text-sm text-red-800 space-y-1">
+                        {analysis.insights.weaknesses.map((weakness, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="text-red-600 mr-2">•</span>
+                            {weakness}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Opportunities */}
+                  {analysis.insights.opportunities.length > 0 && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <h4 className="font-medium text-blue-900 mb-2">Growth Opportunities</h4>
+                      <ul className="text-sm text-blue-800 space-y-1">
+                        {analysis.insights.opportunities.map((opportunity, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="text-blue-600 mr-2">•</span>
+                            {opportunity}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Recommendations */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h4 className="font-medium text-gray-900 mb-2">Recommended Actions</h4>
+                    <ul className="text-sm text-gray-800 space-y-2">
+                      {analysis.insights.recommendations.map((recommendation, index) => (
+                        <li key={index} className="flex items-start">
+                          <Target className="w-4 h-4 text-gray-600 mr-2 mt-0.5 flex-shrink-0" />
+                          {recommendation}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-12">
+                  <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-500">No AI analysis available</p>
+                  <p className="text-sm text-gray-400 mt-1 mb-4">
+                    Generate AI-powered insights and recommendations
+                  </p>
+                  <button
+                    onClick={generateNewAnalysis}
+                    disabled={analysisLoading}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    Generate Analysis
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
