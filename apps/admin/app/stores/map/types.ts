@@ -21,7 +21,10 @@ export interface FilterState {
     showClosed?: boolean;
     showPlanned?: boolean;
     showExpansions?: boolean;
+    showCompetitors?: boolean;
   };
+  competitorBrand?: string;
+  competitorCategory?: string;
 }
 
 // Available filter options
@@ -29,6 +32,8 @@ export interface FilterOptions {
   franchisees: Array<{ id: string; name: string }>;
   regions: string[];
   countries: string[];
+  competitorBrands?: string[];
+  competitorCategories?: string[];
 }
 
 // Store with activity indicators
@@ -118,6 +123,16 @@ export interface MapViewProps {
     performanceGapPercent: number;
     recommendationPriority: 'HIGH' | 'MEDIUM' | 'LOW';
   }>;
+  competitors?: Array<{
+    id: string;
+    brand: string;
+    name: string;
+    category: string;
+    latitude: number;
+    longitude: number;
+    threatLevel?: string;
+  }>;
+  onCompetitorSelect?: (competitor: any) => void;
 }
 
 export interface MapFiltersProps {

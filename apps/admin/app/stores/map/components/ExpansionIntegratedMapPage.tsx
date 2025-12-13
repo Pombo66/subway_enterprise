@@ -45,6 +45,15 @@ export default function ExpansionIntegratedMapPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [strategicAnalysis, setStrategicAnalysis] = useState<{ marketGaps: string; recommendations: string } | null>(null);
   
+  // Competitor intelligence state
+  const [competitors, setCompetitors] = useState<any[]>([]);
+  const [competitorsLoading, setCompetitorsLoading] = useState(false);
+  const [showCompetitors, setShowCompetitors] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [brands, setBrands] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  
   // Store analysis state
   const [analysisMode, setAnalysisMode] = useState(false);
   const [storeAnalyses, setStoreAnalyses] = useState<any[]>([]);
@@ -147,6 +156,43 @@ export default function ExpansionIntegratedMapPage() {
   useEffect(() => {
     loadScenarios();
   }, []);
+
+  // Load competitors data
+  const loadCompetitors = useCallback(async () => {
+    if (!showCompetitors) return;
+    
+    setCompetitorsLoading(true);
+    try {
+      const response = await fetch('/api/competitors');
+      if (response.ok) {
+        const data = await response.json();
+        const allCompetitors = data.competitors || [];
+        setCompetitors(allCompetitors);
+
+        // Extract unique brands and categories
+        const uniqueBrands = [...new Set(allCompetitors.map((c: any) => c.brand).filter(Boolean))];
+        const uniqueCategories = [...new Set(allCompetitors.map((c: any) => c.category).filter(Boolean))];
+        setBrands(uniqueBrands);
+        setCategories(uniqueCategories);
+      }
+    } catch (error) {
+      console.error('Failed to load competitors:', error);
+    } finally {
+      setCompetitorsLoading(false);
+    }
+  }, [showCompetitors]);
+
+  // Load competitors when toggled on
+  useEffect(() => {
+    const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
+    if (shouldShowCompetitors !== showCompetitors) {
+      setShowCompetitors(shouldShowCompetitors);
+    }
+  }, [filters.statusFilters?.showCompetitors, showCompetitors]);
+
+  useEffect(() => {
+    loadCompetitors();
+  }, [loadCompetitors]);
 
   const handleGenerate = useCallback(async (params: ExpansionParams) => {
     setExpansionLoading(true);
@@ -761,7 +807,11 @@ export default function ExpansionIntegratedMapPage() {
             <MapFilters
               filters={filters}
               onFiltersChange={setFilters}
-              availableOptions={availableOptions}
+              availableOptions={{
+                ...availableOptions,
+                competitorBrands: brands,
+                competitorCategories: categories
+              }}
               loading={storesLoading}
             />
           )}
@@ -854,6 +904,19 @@ export default function ExpansionIntegratedMapPage() {
                 }
                 onSuggestionSelect={setSelectedSuggestion}
                 storeAnalyses={analysisMode ? storeAnalyses : []}
+                competitors={
+                  filters.statusFilters?.showCompetitors !== false && competitors.length > 0
+                    ? competitors.filter(c => {
+                        if (filters.competitorBrand && c.brand !== filters.competitorBrand) return false;
+                        if (filters.competitorCategory && c.category !== filters.competitorCategory) return false;
+                        return true;
+                      })
+                    : []
+                }
+                onCompetitorSelect={(competitor) => {
+                  console.log('🏢 Competitor selected:', competitor);
+                  // Could open a competitor details modal here
+                }}
               />
             </SimpleErrorBoundary>
 
@@ -958,13 +1021,7 @@ export default function ExpansionIntegratedMapPage() {
         </div>
       </div>
 
-      {/* Store Performance Table */}
-      {!isFullscreen && (
-        <StorePerformanceTable
-          stores={stores}
-          onStoreSelect={handleStoreSelect}
-        />
-      )}
+
 
       {/* Store Details Drawer */}
       <StoreDrawer

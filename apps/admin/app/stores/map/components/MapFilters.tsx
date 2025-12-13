@@ -244,6 +244,60 @@ export default function MapFilters({
           </select>
         </div>
 
+        {/* Competitor Brand Filter - only show when competitors are enabled */}
+        {filters.statusFilters?.showCompetitors !== false && (
+          <div className="map-filter-group">
+            <label 
+              className="map-filter-label"
+              htmlFor="competitor-brand-filter"
+            >
+              Competitor Brand
+            </label>
+            <select
+              id="competitor-brand-filter"
+              className="s-select map-filter-select"
+              value={filters.competitorBrand || ''}
+              onChange={(e) => handleFilterChange('competitorBrand', e.target.value || undefined)}
+              disabled={loading}
+              aria-label={`Filter competitors by brand. Currently ${filters.competitorBrand ? `filtered to ${filters.competitorBrand}` : 'showing all brands'}`}
+            >
+              <option value="">All brands</option>
+              {availableOptions.competitorBrands?.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Competitor Category Filter - only show when competitors are enabled */}
+        {filters.statusFilters?.showCompetitors !== false && (
+          <div className="map-filter-group">
+            <label 
+              className="map-filter-label"
+              htmlFor="competitor-category-filter"
+            >
+              Competitor Category
+            </label>
+            <select
+              id="competitor-category-filter"
+              className="s-select map-filter-select"
+              value={filters.competitorCategory || ''}
+              onChange={(e) => handleFilterChange('competitorCategory', e.target.value || undefined)}
+              disabled={loading}
+              aria-label={`Filter competitors by category. Currently ${filters.competitorCategory ? `filtered to ${filters.competitorCategory}` : 'showing all categories'}`}
+            >
+              <option value="">All categories</option>
+              {availableOptions.competitorCategories?.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {/* Visibility Toggles */}
         <div className="map-filter-group map-filter-group-full">
           <div 
@@ -358,6 +412,29 @@ export default function MapFilters({
               <span className="map-filter-checkbox-text">
                 <span className="status-indicator status-expansion"></span>
                 Expansion Suggestions
+              </span>
+            </label>
+
+            <label className="map-filter-checkbox-label">
+              <input
+                type="checkbox"
+                checked={filters.statusFilters?.showCompetitors !== false}
+                onChange={(e) => {
+                  const newFilters = {
+                    ...filters,
+                    statusFilters: {
+                      ...filters.statusFilters,
+                      showCompetitors: e.target.checked
+                    }
+                  };
+                  onFiltersChange(newFilters);
+                }}
+                disabled={loading}
+                className="map-filter-checkbox"
+              />
+              <span className="map-filter-checkbox-text">
+                <span className="status-indicator status-competitors"></span>
+                Competitors
               </span>
             </label>
           </div>
@@ -512,6 +589,10 @@ export default function MapFilters({
 
         .status-expansion {
           background: #8b5cf6;
+        }
+
+        .status-competitors {
+          background: #ef4444;
         }
 
         .map-filter-select {

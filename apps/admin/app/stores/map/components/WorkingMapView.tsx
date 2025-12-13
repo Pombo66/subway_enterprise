@@ -15,7 +15,9 @@ export default function WorkingMapView({
   loading = false,
   expansionSuggestions = [],
   onSuggestionSelect,
-  storeAnalyses = []
+  storeAnalyses = [],
+  competitors = [],
+  onCompetitorSelect
 }: MapViewProps) {
   console.log('🎨 WorkingMapView component rendering with props:', {
     storesLength: stores?.length,
@@ -217,6 +219,92 @@ export default function WorkingMapView({
       map.on('mouseenter', 'expansion-suggestions-ai-glow', handleMouseEnter);
       map.on('mouseleave', 'expansion-suggestions', handleMouseLeave);
       map.on('mouseleave', 'expansion-suggestions-ai-glow', handleMouseLeave);
+    }
+  };
+
+  // Helper function to add competitors layer
+  const addCompetitorsLayer = (map: any, competitors: any[], onSelect?: (competitor: any) => void) => {
+    // Remove existing layers if they exist
+    if (map.getLayer('competitors')) {
+      map.removeLayer('competitors');
+    }
+    if (map.getSource('competitors')) {
+      map.removeSource('competitors');
+    }
+
+    if (competitors.length === 0) return;
+
+    const geojsonData = {
+      type: 'FeatureCollection' as const,
+      features: competitors.map(competitor => ({
+        type: 'Feature' as const,
+        properties: {
+          id: competitor.id,
+          brand: competitor.brand,
+          name: competitor.name,
+          category: competitor.category,
+          threatLevel: competitor.threatLevel
+        },
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [competitor.longitude, competitor.latitude]
+        }
+      }))
+    };
+
+    console.log(`🏢 Adding ${competitors.length} competitors to map`);
+
+    map.addSource('competitors', {
+      type: 'geojson',
+      data: geojsonData
+    });
+
+    // Add competitors layer with category-based colors
+    map.addLayer({
+      id: 'competitors',
+      type: 'circle',
+      source: 'competitors',
+      paint: {
+        'circle-color': [
+          'match',
+          ['get', 'category'],
+          'qsr', '#ef4444',        // Red for QSR
+          'pizza', '#f97316',      // Orange for pizza
+          'coffee', '#8b5cf6',     // Purple for coffee
+          'sandwich', '#3b82f6',   // Blue for sandwich
+          '#6b7280'                // Gray as default
+        ],
+        'circle-radius': 8,
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff',
+        'circle-opacity': 0.8
+      }
+    });
+
+    // Add click handler for competitors
+    if (onSelect) {
+      const handleCompetitorClick = (e: any) => {
+        const feature = e.features?.[0];
+        if (!feature) return;
+        
+        const competitorId = feature.properties.id;
+        const competitor = competitors.find(c => c.id === competitorId);
+        if (competitor) {
+          console.log('🏢 Selected competitor:', competitor);
+          onSelect(competitor);
+        }
+      };
+
+      map.on('click', 'competitors', handleCompetitorClick);
+
+      // Add hover effects
+      map.on('mouseenter', 'competitors', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'competitors', () => {
+        map.getCanvas().style.cursor = '';
+      });
     }
   };
 
@@ -921,6 +1009,34 @@ export default function WorkingMapView({
       }
     }
   }, [expansionSuggestions, mapLoaded, onSuggestionSelect]);
+
+  // Separate effect to update competitors when they change
+  useEffect(() => {
+    console.log('🔄 WorkingMapView competitors effect:', {
+      mapLoaded,
+      hasMapInstance: !!mapInstanceRef.current,
+      competitorsLength: competitors?.length || 0,
+      competitors: competitors?.slice(0, 2)
+    });
+    
+    if (mapInstanceRef.current && mapLoaded && competitors) {
+      console.log('🔄 Updating competitors:', competitors.length);
+      
+      if (competitors.length > 0) {
+        console.log('✅ Adding competitors layer:', competitors);
+        addCompetitorsLayer(mapInstanceRef.current, competitors, onCompetitorSelect);
+      } else {
+        console.log('🗑️ Removing competitors layer (no competitors)');
+        // Remove layer if no competitors
+        if (mapInstanceRef.current.getLayer('competitors')) {
+          mapInstanceRef.current.removeLayer('competitors');
+        }
+        if (mapInstanceRef.current.getSource('competitors')) {
+          mapInstanceRef.current.removeSource('competitors');
+        }
+      }
+    }
+  }, [competitors, mapLoaded, onCompetitorSelect]);
 
   if (error) {
     return (
