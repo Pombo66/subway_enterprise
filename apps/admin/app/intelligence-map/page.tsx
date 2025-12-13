@@ -1,10 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
 
 interface Store {
   id: string;
@@ -36,7 +33,7 @@ interface ExpansionSuggestion {
 
 export default function IntelligenceMapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const map = useRef<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
@@ -56,43 +53,99 @@ export default function IntelligenceMapPage() {
   const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || map.current) return;
 
-    // Check if Mapbox token is available
-    if (!mapboxgl.accessToken) {
-      setError('Mapbox token not configured. Please set NEXT_PUBLIC_MAPBOX_TOKEN environment variable.');
-      setLoading(false);
-      return;
-    }
+    const initializeMap = async () => {
+      try {
+        console.log('🗺️ Starting Mapbox GL initialization...');
 
-    try {
-      // Initialize map
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
-        center: [-0.1276, 51.5074], // London default
-        zoom: 6,
-      });
+        // Dynamic import of Mapbox GL to ensure it only runs client-side
+        const mapboxModule = await import('mapbox-gl');
+        const { Map: MapboxMap, NavigationControl } = mapboxModule;
 
-      map.current.on('load', () => {
+        console.log('📦 Mapbox GL modules loaded successfully');
+
+        if (!mapContainer.current) {
+          throw new Error('Map container not found');
+        }
+
+        // Get Mapbox token from environment
+        const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+        
+        console.log('🔑 Mapbox token check:', {
+          hasToken: !!mapboxToken,
+          tokenLength: mapboxToken?.length,
+          tokenPrefix: mapboxToken?.substring(0, 10)
+        });
+        
+        if (!mapboxToken) {
+          throw new Error('NEXT_PUBLIC_MAPBOX_TOKEN is required for Mapbox GL JS.');
+        }
+        
+        if (!mapboxToken.startsWith('pk.')) {
+          throw new Error('Invalid Mapbox token format. Token must start with "pk." for public access.');
+        }
+        
+        // Set Mapbox access token
+        mapboxModule.default.accessToken = mapboxToken;
+        
+        console.log('🔧 Creating Mapbox GL instance...');
+        
+        map.current = new MapboxMap({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/light-v11',
+          center: [-0.1276, 51.5074], // London default
+          zoom: 6,
+          localIdeographFontFamily: 'sans-serif'
+        });
+
+        console.log('✅ Mapbox GL instance created successfully');
+
+        // Add timeout to detect if map never loads
+        const loadTimeout = setTimeout(() => {
+          console.error('⏱️ Map load timeout - map did not fire load event within 10 seconds');
+          setError('Map loading timeout. Please check your internet connection and Mapbox token.');
+          setLoading(false);
+        }, 10000);
+
+        map.current.on('load', () => {
+          clearTimeout(loadTimeout);
+          console.log('✅ Map loaded successfully');
+          
+          // Add navigation controls
+          map.current!.addControl(new NavigationControl(), 'top-right');
+          
+          setLoading(false);
+          loadData();
+        });
+
+        map.current.on('error', (e) => {
+          clearTimeout(loadTimeout);
+          console.error('❌ Map error:', e);
+          
+          let errorMessage = e.error?.message || 'Unknown error';
+          if (errorMessage.includes('401') || errorMessage.includes('Unauthorized')) {
+            errorMessage = 'Invalid Mapbox token. Please check NEXT_PUBLIC_MAPBOX_TOKEN.';
+          } else if (errorMessage.includes('style')) {
+            errorMessage = 'Failed to load map style. Check your internet connection.';
+          }
+          
+          setError(`Map error: ${errorMessage}`);
+          setLoading(false);
+        });
+
+      } catch (err) {
+        console.error('❌ Failed to initialize Mapbox GL:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load map');
         setLoading(false);
-        loadData();
-      });
+      }
+    };
 
-      map.current.on('error', (e) => {
-        console.error('Mapbox error:', e);
-        setError('Failed to load map. Please check your Mapbox token.');
-        setLoading(false);
-      });
-
-    } catch (err) {
-      console.error('Map initialization error:', err);
-      setError('Failed to initialize map. Please check your Mapbox configuration.');
-      setLoading(false);
-    }
+    initializeMap();
 
     return () => {
       map.current?.remove();
+      map.current = null;
     };
   }, []);
 
