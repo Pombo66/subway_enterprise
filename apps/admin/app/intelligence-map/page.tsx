@@ -38,6 +38,7 @@ export default function IntelligenceMapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
   const [competitors, setCompetitors] = useState<Competitor[]>([]);
   const [expansionSuggestions, setExpansionSuggestions] = useState<ExpansionSuggestion[]>([]);
@@ -57,18 +58,38 @@ export default function IntelligenceMapPage() {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [-0.1276, 51.5074], // London default
-      zoom: 6,
-    });
-
-    map.current.on('load', () => {
+    // Check if Mapbox token is available
+    if (!mapboxgl.accessToken) {
+      setError('Mapbox token not configured. Please set NEXT_PUBLIC_MAPBOX_TOKEN environment variable.');
       setLoading(false);
-      loadData();
-    });
+      return;
+    }
+
+    try {
+      // Initialize map
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [-0.1276, 51.5074], // London default
+        zoom: 6,
+      });
+
+      map.current.on('load', () => {
+        setLoading(false);
+        loadData();
+      });
+
+      map.current.on('error', (e) => {
+        console.error('Mapbox error:', e);
+        setError('Failed to load map. Please check your Mapbox token.');
+        setLoading(false);
+      });
+
+    } catch (err) {
+      console.error('Map initialization error:', err);
+      setError('Failed to initialize map. Please check your Mapbox configuration.');
+      setLoading(false);
+    }
 
     return () => {
       map.current?.remove();
@@ -175,10 +196,10 @@ export default function IntelligenceMapPage() {
         new mapboxgl.Popup()
           .setLngLat((feature.geometry as any).coordinates)
           .setHTML(`
-            <div style="padding: 8px;">
-              <h3 style="margin: 0 0 8px 0; font-weight: 600;">Store: ${props?.name}</h3>
-              <p style="margin: 4px 0;">Status: ${props?.status || 'N/A'}</p>
-              <p style="margin: 4px 0;">Turnover: ${props?.turnover ? `$${(props.turnover / 1000).toFixed(0)}k` : 'N/A'}</p>
+            <div style="padding: 12px; min-width: 200px;">
+              <h3 style="margin: 0 0 8px 0; font-weight: 600; color: #111827; font-size: 14px;">Store: ${props?.name}</h3>
+              <p style="margin: 4px 0; color: #374151; font-size: 13px;"><strong>Status:</strong> ${props?.status || 'N/A'}</p>
+              <p style="margin: 4px 0; color: #374151; font-size: 13px;"><strong>Turnover:</strong> ${props?.turnover ? `£${(props.turnover / 1000).toFixed(0)}k` : 'N/A'}</p>
             </div>
           `)
           .addTo(map.current!);
@@ -254,11 +275,11 @@ export default function IntelligenceMapPage() {
         new mapboxgl.Popup()
           .setLngLat((feature.geometry as any).coordinates)
           .setHTML(`
-            <div style="padding: 8px;">
-              <h3 style="margin: 0 0 8px 0; font-weight: 600;">${props?.brand}</h3>
-              <p style="margin: 4px 0;">${props?.name}</p>
-              <p style="margin: 4px 0;">Category: ${props?.category}</p>
-              ${props?.threatLevel ? `<p style="margin: 4px 0;">Threat: ${props.threatLevel}</p>` : ''}
+            <div style="padding: 12px; min-width: 200px;">
+              <h3 style="margin: 0 0 8px 0; font-weight: 600; color: #111827; font-size: 14px;">${props?.brand}</h3>
+              <p style="margin: 4px 0; color: #374151; font-size: 13px;"><strong>Location:</strong> ${props?.name}</p>
+              <p style="margin: 4px 0; color: #374151; font-size: 13px;"><strong>Category:</strong> ${props?.category}</p>
+              ${props?.threatLevel ? `<p style="margin: 4px 0; color: #374151; font-size: 13px;"><strong>Threat:</strong> ${props.threatLevel}</p>` : ''}
             </div>
           `)
           .addTo(map.current!);
@@ -334,7 +355,7 @@ export default function IntelligenceMapPage() {
       {/* Header */}
       <div className="bg-white border-b px-6 py-4">
         <h1 className="text-2xl font-semibold text-gray-900">Unified Intelligence Map</h1>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm text-gray-700 mt-1">
           Comprehensive view of stores, competitors, expansion opportunities, and competitive zones
         </p>
       </div>
@@ -350,7 +371,7 @@ export default function IntelligenceMapPage() {
               onChange={(e) => setShowStores(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm">Stores</span>
+            <span className="text-sm font-medium text-gray-900">Stores</span>
             <span className="w-3 h-3 rounded-full bg-green-500"></span>
           </label>
 
@@ -361,7 +382,7 @@ export default function IntelligenceMapPage() {
               onChange={(e) => setShowCompetitors(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm">Competitors</span>
+            <span className="text-sm font-medium text-gray-900">Competitors</span>
             <span className="w-3 h-3 rounded-full bg-red-500"></span>
           </label>
 
@@ -372,7 +393,7 @@ export default function IntelligenceMapPage() {
               onChange={(e) => setShowExpansion(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm">Expansion</span>
+            <span className="text-sm font-medium text-gray-900">Expansion</span>
             <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
           </label>
 
@@ -383,7 +404,7 @@ export default function IntelligenceMapPage() {
               onChange={(e) => setShowCompetitionZones(e.target.checked)}
               className="rounded"
             />
-            <span className="text-sm">Competition Zones</span>
+            <span className="text-sm font-medium text-gray-900">Competition Zones</span>
           </label>
         </div>
 
@@ -394,7 +415,7 @@ export default function IntelligenceMapPage() {
             <select
               value={selectedBrand}
               onChange={(e) => setSelectedBrand(e.target.value)}
-              className="text-sm border rounded px-2 py-1"
+              className="text-sm border border-gray-300 rounded px-3 py-1 bg-white text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             >
               <option value="all">All Brands</option>
               {brands.map(brand => (
@@ -405,7 +426,7 @@ export default function IntelligenceMapPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="text-sm border rounded px-2 py-1"
+              className="text-sm border border-gray-300 rounded px-3 py-1 bg-white text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             >
               <option value="all">All Categories</option>
               {categories.map(cat => (
@@ -416,7 +437,7 @@ export default function IntelligenceMapPage() {
         )}
 
         {/* Stats */}
-        <div className="ml-auto flex items-center gap-4 text-sm text-gray-600">
+        <div className="ml-auto flex items-center gap-4 text-sm font-medium text-gray-900">
           <span>Stores: {stores.length}</span>
           <span>Competitors: {competitors.length}</span>
         </div>
@@ -430,38 +451,60 @@ export default function IntelligenceMapPage() {
           <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading intelligence map...</p>
+              <p className="mt-4 text-gray-800 font-medium">Loading intelligence map...</p>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="absolute inset-0 bg-white flex items-center justify-center">
+            <div className="text-center max-w-md mx-auto p-6">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Map Configuration Error</h3>
+              <p className="text-gray-700 mb-4">{error}</p>
+              <div className="bg-gray-50 rounded-lg p-4 text-left">
+                <p className="text-sm text-gray-800 font-medium mb-2">To fix this:</p>
+                <ol className="text-sm text-gray-700 space-y-1 list-decimal list-inside">
+                  <li>Get a Mapbox token from <a href="https://account.mapbox.com/access-tokens/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">mapbox.com</a></li>
+                  <li>Add it to your Railway environment variables as <code className="bg-gray-200 px-1 rounded">NEXT_PUBLIC_MAPBOX_TOKEN</code></li>
+                  <li>Redeploy your application</li>
+                </ol>
+              </div>
             </div>
           </div>
         )}
 
         {/* Legend */}
-        <div className="absolute bottom-6 left-6 bg-white rounded-lg shadow-lg p-4 max-w-xs">
-          <h3 className="font-semibold text-sm mb-3">Legend</h3>
+        <div className="absolute bottom-6 left-6 bg-white rounded-lg shadow-lg p-4 max-w-xs border border-gray-200">
+          <h3 className="font-semibold text-sm mb-3 text-gray-900">Legend</h3>
           <div className="space-y-2 text-xs">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-green-500"></span>
-              <span>Your Stores</span>
+              <span className="text-gray-800">Your Stores</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-red-500"></span>
-              <span>QSR Competitors</span>
+              <span className="text-gray-800">QSR Competitors</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-orange-500"></span>
-              <span>Pizza Competitors</span>
+              <span className="text-gray-800">Pizza Competitors</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-purple-500"></span>
-              <span>Coffee Competitors</span>
+              <span className="text-gray-800">Coffee Competitors</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-blue-500"></span>
-              <span>Sandwich Competitors</span>
+              <span className="text-gray-800">Sandwich Competitors</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-              <span>Expansion Opportunities</span>
+              <span className="text-gray-800">Expansion Opportunities</span>
             </div>
           </div>
         </div>
