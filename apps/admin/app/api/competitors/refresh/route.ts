@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const BFF_URL = process.env.NEXT_PUBLIC_BFF_URL || 'http://localhost:3001';
+import { postToBff } from '@/lib/server-api-client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,26 +7,7 @@ export async function POST(request: NextRequest) {
     
     console.log('🏢 Admin API: Refreshing competitors with params:', body);
     
-    const response = await fetch(
-      `${BFF_URL}/competitive-intelligence/competitors/refresh`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      }
-    );
-
-    const data = await response.json();
-    
-    if (!response.ok) {
-      console.error('❌ BFF competitor refresh failed:', data);
-      return NextResponse.json(
-        { success: false, error: data.error || data.message || 'Competitor refresh failed' },
-        { status: response.status }
-      );
-    }
+    const data = await postToBff('/competitive-intelligence/competitors/refresh', body);
     
     console.log('✅ Admin API: Competitor refresh successful:', data);
     return NextResponse.json(data);

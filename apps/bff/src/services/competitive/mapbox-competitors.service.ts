@@ -48,9 +48,14 @@ export class MapboxCompetitorsService {
   ];
 
   constructor(private prisma: PrismaClient) {
-    this.mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
+    // Try multiple Mapbox token environment variables (backend should use MAPBOX_ACCESS_TOKEN)
+    this.mapboxToken = process.env.MAPBOX_ACCESS_TOKEN || 
+                       process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 
+                       process.env.MAPBOX_SECRET_TOKEN || '';
     if (!this.mapboxToken) {
-      console.warn('NEXT_PUBLIC_MAPBOX_TOKEN not configured - competitor data will be limited');
+      console.warn('Mapbox token not configured - tried MAPBOX_ACCESS_TOKEN, NEXT_PUBLIC_MAPBOX_TOKEN, MAPBOX_SECRET_TOKEN');
+    } else {
+      console.log('🗺️ Mapbox token configured for competitor intelligence');
     }
   }
 
