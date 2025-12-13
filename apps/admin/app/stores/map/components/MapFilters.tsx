@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { FilterState, FilterOptions, MapFiltersProps } from '../types';
+import { FilterState, MapFiltersProps } from '../types';
 import { MapTelemetryHelpers, safeTrackEvent, getCurrentUserId } from '../telemetry';
 import { InlineLoadingIndicator } from './LoadingSkeletons';
 
