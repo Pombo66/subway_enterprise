@@ -911,8 +911,8 @@ export default function ExpansionIntegratedMapPage() {
               onFiltersChange={setFilters}
               availableOptions={{
                 ...availableOptions,
-                competitorBrands: brands,
-                competitorCategories: categories
+                competitorBrands: [], // TEMPORARILY DISABLED FOR DEBUGGING
+                competitorCategories: [] // TEMPORARILY DISABLED FOR DEBUGGING
               }}
               loading={storesLoading}
             />
