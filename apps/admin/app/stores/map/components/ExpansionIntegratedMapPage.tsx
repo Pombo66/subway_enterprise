@@ -183,7 +183,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [competitorsLoading, viewport.latitude, viewport.longitude, viewport.zoom, loadCompetitors]);
+  }, [competitorsLoading, viewport.latitude, viewport.longitude, viewport.zoom]);
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -229,8 +229,8 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Smart viewport-based competitor loading - only loads competitors in current view
-  const loadCompetitors = useCallback(async () => {
+  // Smart viewport-based competitor loading - direct function to avoid circular dependencies
+  const loadCompetitors = async () => {
     const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
     if (!shouldShowCompetitors) {
       setCompetitors([]);
@@ -247,8 +247,7 @@ export default function ExpansionIntegratedMapPage() {
     setCompetitorsLoading(true);
     try {
       // Calculate viewport-based radius (adaptive based on zoom level)
-      // Higher zoom = smaller radius for better performance
-      const radiusKm = Math.min(50, Math.max(2, 100 / viewport.zoom)); // 2-50km range
+      const radiusKm = Math.min(50, Math.max(2, 100 / viewport.zoom));
       
       console.log('🏢 Loading competitors in viewport:', {
         center: [viewport.latitude, viewport.longitude],
@@ -307,7 +306,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [filters.statusFilters?.showCompetitors, viewport.zoom, viewport.latitude, viewport.longitude, filters.competitorBrand, filters.competitorCategory]);
+  };
 
   // Update showCompetitors state when filter changes
   useEffect(() => {
@@ -323,7 +322,14 @@ export default function ExpansionIntegratedMapPage() {
     }, 500); // 500ms delay after user stops panning/zooming
     
     return () => clearTimeout(timeoutId);
-  }, [loadCompetitors]);
+  }, [
+    filters.statusFilters?.showCompetitors, 
+    viewport.zoom, 
+    viewport.latitude, 
+    viewport.longitude, 
+    filters.competitorBrand, 
+    filters.competitorCategory
+  ]);
 
   const handleGenerate = useCallback(async (params: ExpansionParams) => {
     setExpansionLoading(true);
