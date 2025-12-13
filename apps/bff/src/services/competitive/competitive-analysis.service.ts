@@ -38,7 +38,7 @@ export class CompetitiveAnalysisService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    this.model = process.env.COMPETITIVE_ANALYSIS_MODEL || 'gpt-5.1';
+    this.model = process.env.COMPETITIVE_ANALYSIS_MODEL || 'gpt-5.2';
   }
 
   async analyzeCompetition(request: CompetitiveAnalysisRequest): Promise<CompetitiveAnalysisResult> {

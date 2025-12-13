@@ -41,7 +41,7 @@ export class TurnoverPredictionService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    this.model = process.env.STORE_ANALYSIS_MODEL || 'gpt-5.1';
+    this.model = process.env.STORE_ANALYSIS_MODEL || 'gpt-5.2';
   }
 
   async predictTurnover(storeId: string): Promise<TurnoverPrediction> {

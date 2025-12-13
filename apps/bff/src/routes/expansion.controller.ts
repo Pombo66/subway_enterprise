@@ -433,7 +433,7 @@ export class ExpansionController {
     }[];
     targetCandidates: number;
     useSimpleApproach?: boolean;
-    model?: 'gpt-5.1' | 'gpt-5-mini'; // Optional model selection
+    model?: 'gpt-5.2' | 'gpt-5-mini'; // Optional model selection
     businessObjectives?: {
       riskTolerance: 'LOW' | 'MEDIUM' | 'HIGH';
       expansionSpeed: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE';

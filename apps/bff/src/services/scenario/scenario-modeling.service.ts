@@ -158,7 +158,7 @@ export class ScenarioModelingService {
     // Build comparison matrix
     const comparison = this.buildComparisonMatrix(results);
 
-    // Generate comparative recommendation using GPT-5.1
+    // Generate comparative recommendation using GPT-5.2
     const recommendation = await this.generateComparativeRecommendation(
       results,
       comparison
@@ -502,7 +502,7 @@ Provide a concise executive recommendation (2-3 sentences). Be specific, actiona
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: process.env.SCENARIO_ANALYSIS_MODEL || 'gpt-5.1',
+        model: process.env.SCENARIO_ANALYSIS_MODEL || 'gpt-5.2',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
         max_tokens: 250
@@ -546,7 +546,7 @@ Be decisive and strategic. Consider both financial returns and risk management.`
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: process.env.SCENARIO_ANALYSIS_MODEL || 'gpt-5.1',
+        model: process.env.SCENARIO_ANALYSIS_MODEL || 'gpt-5.2',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
         max_tokens: 300

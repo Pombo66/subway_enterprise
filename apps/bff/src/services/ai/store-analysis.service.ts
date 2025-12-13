@@ -16,7 +16,7 @@ export interface StoreAnalysisRequest {
     franchiseeExperience?: number;
     franchiseeStoreCount?: number;
   }[];
-  model?: 'gpt-5.1' | 'gpt-5-mini';
+  model?: 'gpt-5.2' | 'gpt-5-mini';
 }
 
 export interface StoreAnalysisResult {
@@ -67,7 +67,7 @@ export class StoreAnalysisService {
   private readonly MAX_OUTPUT_TOKENS = 64000;
 
   constructor(private readonly prisma: PrismaClient) {
-    this.logger.log('Store Analysis Service initialized (supports GPT-5.1 and GPT-5-mini)');
+    this.logger.log('Store Analysis Service initialized (supports GPT-5.2 and GPT-5-mini)');
   }
 
   /**

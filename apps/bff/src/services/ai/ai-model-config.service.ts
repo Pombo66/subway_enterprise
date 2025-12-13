@@ -6,7 +6,7 @@ import { Injectable, Logger } from '@nestjs/common';
  * Makes it easy to upgrade models or switch between them
  */
 
-export type AIModel = 'gpt-5.1' | 'gpt-5-mini' | 'gpt-5-nano' | 'o1' | 'o1-mini';
+export type AIModel = 'gpt-5.2' | 'gpt-5-mini' | 'gpt-5-nano' | 'o1' | 'o1-mini';
 
 export interface ModelConfig {
   model: AIModel;
@@ -28,7 +28,7 @@ export class AIModelConfigService {
 
   // Model pricing (USD per 1M tokens)
   private readonly PRICING: Record<AIModel, ModelPricing> = {
-    'gpt-5.1': {
+    'gpt-5.2': {
       inputPerMillion: 2.50,
       outputPerMillion: 10.00
     },
@@ -56,7 +56,7 @@ export class AIModelConfigService {
    */
   getStoreAnalysisModel(premium: boolean = false): ModelConfig {
     if (premium) {
-      const premiumModel = (process.env.AI_PREMIUM_ANALYSIS_MODEL || 'gpt-5.1') as AIModel;
+      const premiumModel = (process.env.AI_PREMIUM_ANALYSIS_MODEL || 'gpt-5.2') as AIModel;
       return this.getModelConfig(premiumModel, 'store_analysis');
     }
 
@@ -69,7 +69,7 @@ export class AIModelConfigService {
    */
   getNetworkAnalysisModel(premium: boolean = false): ModelConfig {
     if (premium) {
-      const premiumModel = (process.env.AI_PREMIUM_ANALYSIS_MODEL || 'gpt-5.1') as AIModel;
+      const premiumModel = (process.env.AI_PREMIUM_ANALYSIS_MODEL || 'gpt-5.2') as AIModel;
       return this.getModelConfig(premiumModel, 'network_analysis');
     }
 
@@ -98,7 +98,7 @@ export class AIModelConfigService {
    */
   private getModelConfig(model: AIModel, useCase: string): ModelConfig {
     const baseConfig: Record<AIModel, Omit<ModelConfig, 'model'>> = {
-      'gpt-5.1': {
+      'gpt-5.2': {
         maxTokens: 16000,
         temperature: 0.3,
         reasoning: { effort: 'medium' }
@@ -192,8 +192,8 @@ export class AIModelConfigService {
   }> {
     const models = [
       {
-        model: 'gpt-5.1' as AIModel,
-        cost: this.calculateCost('gpt-5.1', inputTokens, outputTokens),
+        model: 'gpt-5.2' as AIModel,
+        cost: this.calculateCost('gpt-5.2', inputTokens, outputTokens),
         quality: 'premium' as const,
         speed: 'medium' as const,
         recommended: false
@@ -276,7 +276,7 @@ export class AIModelConfigService {
     // Premium quality requirements
     if (requirements.quality === 'premium') {
       if (requirements.reasoning === 'deep') return 'o1';
-      if (requirements.budget === 'unlimited') return 'gpt-5.1';
+      if (requirements.budget === 'unlimited') return 'gpt-5.2';
       return 'o1-mini';
     }
 

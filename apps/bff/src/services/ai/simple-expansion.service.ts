@@ -12,7 +12,7 @@ export interface SimpleExpansionRequest {
     revenue?: number;
   }[];
   targetCount: number;
-  model?: 'gpt-5.1' | 'gpt-5-mini'; // Optional model selection, defaults to gpt-5.1
+  model?: 'gpt-5.2' | 'gpt-5-mini'; // Optional model selection, defaults to gpt-5.2
 }
 
 export interface ExpansionSuggestion {
@@ -57,11 +57,11 @@ export interface SimpleExpansionResult {
 export class SimpleExpansionService {
   private readonly logger = new Logger(SimpleExpansionService.name);
   private readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  private readonly DEFAULT_MODEL = 'gpt-5.1'; // Default model (premium)
+  private readonly DEFAULT_MODEL = 'gpt-5.2'; // Default model (premium)
   private readonly MAX_OUTPUT_TOKENS = 64000; // High limit to handle large responses
 
   constructor(private readonly prisma: PrismaClient) {
-    this.logger.log('Simple Expansion Service initialized (supports GPT-5.1 and GPT-5-mini)');
+    this.logger.log('Simple Expansion Service initialized (supports GPT-5.2 and GPT-5-mini)');
   }
 
   /**
