@@ -122,7 +122,7 @@ export default function WorkingMapView({
     
     console.log(`🟡 AI glow layer added with ${aiFeatures.length} potential AI features`);
 
-    // Add main suggestion circles SECOND (on top of glow)
+    // Add main suggestion circles with Apple Maps-inspired styling
     map.addLayer({
       id: 'expansion-suggestions',
       type: 'circle',
@@ -131,30 +131,59 @@ export default function WorkingMapView({
         'circle-color': [
           'match',
           ['get', 'status'],
-          'APPROVED', '#10b981',  // Green for approved
-          'HOLD', '#f59e0b',      // Yellow/Orange for on hold
+          'APPROVED', '#30d158',  // Apple green for approved
+          'HOLD', '#ff9500',      // Apple orange for on hold
           // Default to purple for all other statuses (NEW, PENDING, REJECTED, etc.)
-          '#8b5cf6'  // Purple default for all expansion suggestions
+          '#af52de'  // Apple purple default for all expansion suggestions
         ],
         'circle-radius': [
-          'case',
-          ['get', 'hasAIAnalysis'],
-          12,  // Larger radius for AI-enhanced suggestions
-          10   // Standard radius for deterministic suggestions
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          8, [
+            'case',
+            ['get', 'hasAIAnalysis'],
+            6,   // AI-enhanced at low zoom
+            5    // Standard at low zoom
+          ],
+          12, [
+            'case',
+            ['get', 'hasAIAnalysis'],
+            10,  // AI-enhanced at city zoom
+            8    // Standard at city zoom
+          ],
+          16, [
+            'case',
+            ['get', 'hasAIAnalysis'],
+            14,  // AI-enhanced at street zoom
+            12   // Standard at street zoom
+          ]
         ],
         'circle-stroke-width': [
-          'case',
-          ['get', 'hasAIAnalysis'],
-          3,   // Thicker stroke for AI-enhanced suggestions
-          2    // Standard stroke for deterministic suggestions
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          8, [
+            'case',
+            ['get', 'hasAIAnalysis'],
+            2,   // AI-enhanced stroke at low zoom
+            1.5  // Standard stroke at low zoom
+          ],
+          16, [
+            'case',
+            ['get', 'hasAIAnalysis'],
+            3,   // AI-enhanced stroke at high zoom
+            2    // Standard stroke at high zoom
+          ]
         ],
         'circle-stroke-color': [
           'case',
           ['get', 'hasAIAnalysis'],
-          '#FFD700',  // Gold stroke for AI-enhanced suggestions
+          '#ffcc02',  // Apple gold stroke for AI-enhanced suggestions
           '#ffffff'   // White stroke for deterministic suggestions
         ],
-        'circle-opacity': 0.9       // Slightly more opaque for better visibility
+        'circle-stroke-opacity': 0.9,
+        'circle-opacity': 0.85
       }
     });
 
@@ -259,7 +288,7 @@ export default function WorkingMapView({
       data: geojsonData
     });
 
-    // Add competitors layer with category-based colors
+    // Add competitors layer with Apple Maps-inspired styling
     map.addLayer({
       id: 'competitors',
       type: 'circle',
@@ -268,16 +297,31 @@ export default function WorkingMapView({
         'circle-color': [
           'match',
           ['get', 'category'],
-          'qsr', '#ef4444',        // Red for QSR
-          'pizza', '#f97316',      // Orange for pizza
-          'coffee', '#8b5cf6',     // Purple for coffee
-          'sandwich', '#3b82f6',   // Blue for sandwich
-          '#6b7280'                // Gray as default
+          'qsr', '#ff3b30',        // Apple red for QSR
+          'pizza', '#ff9500',      // Apple orange for pizza
+          'coffee', '#af52de',     // Apple purple for coffee
+          'sandwich', '#007aff',   // Apple blue for sandwich
+          '#8e8e93'                // Apple gray as default
         ],
-        'circle-radius': 8,
-        'circle-stroke-width': 2,
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          8, 3,   // Small at low zoom
+          12, 6,  // Medium at city zoom
+          16, 9   // Large at street zoom
+        ],
+        'circle-stroke-width': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          8, 1,   // Thin stroke at low zoom
+          12, 1.5, // Medium stroke at city zoom
+          16, 2   // Thick stroke at street zoom
+        ],
         'circle-stroke-color': '#ffffff',
-        'circle-opacity': 0.8
+        'circle-stroke-opacity': 0.9,
+        'circle-opacity': 0.85
       }
     });
 
@@ -446,8 +490,8 @@ export default function WorkingMapView({
         
         const map = new MapboxMap({
           container: mapRef.current,
-          // Use Streets v11 instead of v12 to avoid font issues
-          style: 'mapbox://styles/mapbox/streets-v11',
+          // Use clean, modern light style similar to Apple Maps
+          style: 'mapbox://styles/mapbox/light-v11',
           center: [0, 20],
           zoom: 2,
           // Fix font loading issues
@@ -468,8 +512,8 @@ export default function WorkingMapView({
         map.on('load', () => {
           clearTimeout(loadTimeout);
           console.log('✅ Map loaded successfully');
-          console.log('🎨 Beautiful Mapbox style loaded:', {
-            style: 'mapbox://styles/mapbox/streets-v11',
+          console.log('🎨 Clean Apple Maps-inspired style loaded:', {
+            style: 'mapbox://styles/mapbox/light-v11',
             sources: Object.keys(map.getStyle().sources || {}),
             layers: (map.getStyle().layers || []).length
           });
@@ -567,7 +611,7 @@ export default function WorkingMapView({
             clusterRadius: 50
           });
 
-          // Add cluster circles layer
+          // Add cluster circles layer with Apple Maps-inspired styling
           map.addLayer({
             id: 'clusters',
             type: 'circle',
@@ -577,23 +621,35 @@ export default function WorkingMapView({
               'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#3b82f6',  // Blue for small clusters
+                '#007aff',  // Apple blue for small clusters
                 10,
-                '#f59e0b',  // Orange for medium clusters
+                '#ff9500',  // Apple orange for medium clusters
                 30,
-                '#ef4444'   // Red for large clusters
+                '#ff3b30'   // Apple red for large clusters
               ],
               'circle-radius': [
-                'step',
-                ['get', 'point_count'],
-                15,  // Small clusters
-                10,
-                20,  // Medium clusters
-                30,
-                25   // Large clusters
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8, [
+                  'step',
+                  ['get', 'point_count'],
+                  12,  // Small clusters at low zoom
+                  10, 16,  // Medium clusters
+                  30, 20   // Large clusters
+                ],
+                16, [
+                  'step',
+                  ['get', 'point_count'],
+                  18,  // Small clusters at high zoom
+                  10, 24,  // Medium clusters
+                  30, 30   // Large clusters
+                ]
               ],
               'circle-stroke-width': 2,
-              'circle-stroke-color': '#ffffff'
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-opacity': 0.9,
+              'circle-opacity': 0.9
             }
           });
 
@@ -613,7 +669,7 @@ export default function WorkingMapView({
             }
           });
 
-          // Add individual store points layer
+          // Add individual store points layer with Apple Maps-inspired styling
           map.addLayer({
             id: 'unclustered-point',
             type: 'circle',
@@ -627,44 +683,42 @@ export default function WorkingMapView({
                 [
                   'case',
                   ['==', ['get', 'priority'], 'HIGH'],
-                  '#ef4444',  // Red - critical issues
+                  '#ff3b30',  // Apple red - critical issues
                   ['>', ['get', 'performanceGap'], 10],
-                  '#10b981',  // Green - overperforming
+                  '#30d158',  // Apple green - overperforming
                   ['>', ['get', 'performanceGap'], -10],
-                  '#f59e0b',  // Yellow - on target
-                  '#f97316'   // Orange - underperforming
+                  '#ff9500',  // Apple orange - on target
+                  '#ff6b35'   // Apple orange-red - underperforming
                 ],
-                // Default status colors
+                // Default status colors with Apple-inspired palette
                 [
                   'match',
                   ['get', 'status'],
-                  'Open', '#22c55e',    // Green for Open
-                  'Closed', '#6b7280',  // Grey for Closed
-                  'Planned', '#a855f7', // Purple for Planned
-                  '#3b82f6'             // Blue as default fallback
+                  'Open', '#30d158',    // Apple green for Open
+                  'Closed', '#8e8e93',  // Apple gray for Closed
+                  'Planned', '#af52de', // Apple purple for Planned
+                  '#007aff'             // Apple blue as default
                 ]
               ],
               'circle-radius': [
-                'case',
-                ['get', 'hasAnalysis'],
-                14,  // Larger for analyzed stores
-                12   // Default size
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8, 4,   // Small at low zoom
+                12, 8,  // Medium at city zoom
+                16, 12  // Large at street zoom
               ],
               'circle-stroke-width': [
-                'case',
-                ['get', 'hasAnalysis'],
-                3,  // Thicker stroke for analyzed stores
-                ['==', ['get', 'isAISuggested'], true],
-                3,  // Thicker stroke for AI-suggested planned stores
-                2   // Default stroke
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8, 1,   // Thin stroke at low zoom
+                12, 2,  // Medium stroke at city zoom
+                16, 3   // Thick stroke at street zoom
               ],
-              'circle-stroke-color': [
-                'case',
-                // Purple ring for AI-suggested planned stores
-                ['all', ['==', ['get', 'status'], 'Planned'], ['==', ['get', 'isAISuggested'], true]],
-                '#a78bfa',  // Light purple ring
-                '#ffffff'   // White ring for all others
-              ]
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-opacity': 0.8,
+              'circle-opacity': 0.9
             }
           });
 
