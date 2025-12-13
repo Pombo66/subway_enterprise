@@ -118,7 +118,7 @@ export default function ExpansionIntegratedMapPage() {
     };
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
-  // Simple competitor refresh function without circular dependencies
+  // Smart competitor refresh function - refreshes current viewport area only
   const handleRefreshCompetitors = useCallback(async () => {
     if (competitorsLoading) {
       console.log('🏢 Competitor refresh already in progress, skipping');
@@ -131,17 +131,25 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
+    // Calculate smart refresh radius based on zoom level
+    const refreshRadiusMeters = Math.min(5000, Math.max(500, 10000 / viewport.zoom));
+    const refreshRadiusKm = (refreshRadiusMeters / 1000).toFixed(1);
+    
     const confirmed = confirm(
-      `Refresh competitor data for current map area?\n\n` +
-      `This will search for QSR competitors (McDonald's, KFC, etc.) near the current viewport using Mapbox POI data. ` +
-      `Zoom level: ${viewport.zoom.toFixed(1)} (good for local search)`
+      `Refresh competitor data for current viewport?\n\n` +
+      `📍 Center: ${viewport.latitude.toFixed(4)}, ${viewport.longitude.toFixed(4)}\n` +
+      `📏 Search radius: ${refreshRadiusKm}km\n` +
+      `🔍 Zoom level: ${viewport.zoom.toFixed(1)}\n\n` +
+      `This will search for QSR competitors (McDonald's, KFC, etc.) using Mapbox POI data. ` +
+      `Only the visible area will be refreshed for optimal performance.`
     );
     
     if (!confirmed) return;
     
-    console.log('🏢 Starting competitor refresh...', {
-      latitude: viewport.latitude,
-      longitude: viewport.longitude,
+    console.log('🏢 Starting smart competitor refresh...', {
+      center: [viewport.latitude, viewport.longitude],
+      radiusMeters: refreshRadiusMeters,
+      radiusKm: refreshRadiusKm,
       zoom: viewport.zoom
     });
     
@@ -153,16 +161,16 @@ export default function ExpansionIntegratedMapPage() {
         body: JSON.stringify({
           latitude: viewport.latitude,
           longitude: viewport.longitude,
-          radiusMeters: Math.min(5000, Math.max(500, 10000 / viewport.zoom)), // Adaptive radius based on zoom
+          radiusMeters: refreshRadiusMeters,
         })
       });
       
       if (response.ok) {
         const result = await response.json();
-        console.log('🏢 Competitor refresh result:', result);
-        alert(`✅ Competitor refresh completed!\n\nFound: ${result.result?.found || 0} QSR locations\nAdded: ${result.result?.added || 0} new competitors\nUpdated: ${result.result?.updated || 0} existing competitors\n\nCompetitors include: McDonald's, KFC, Burger King, Starbucks, and other major QSR brands.`);
+        console.log('🏢 Smart competitor refresh result:', result);
+        alert(`✅ Competitor refresh completed!\n\n📊 Results for ${refreshRadiusKm}km radius:\n• Found: ${result.result?.found || 0} QSR locations\n• Added: ${result.result?.added || 0} new competitors\n• Updated: ${result.result?.updated || 0} existing competitors\n\n🏢 Brands: McDonald's, KFC, Burger King, Starbucks, and other major QSR chains.`);
         
-        // Reload competitors data
+        // Reload competitors for current viewport
         await loadCompetitors();
       } else {
         const error = await response.json();
@@ -175,7 +183,7 @@ export default function ExpansionIntegratedMapPage() {
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [competitorsLoading, viewport.latitude, viewport.longitude, viewport.zoom]); // Simple dependencies
+  }, [competitorsLoading, viewport.latitude, viewport.longitude, viewport.zoom, loadCompetitors]);
 
   // Listen for store import events and refresh map data
   useEffect(() => {
@@ -221,7 +229,7 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Simple competitor loading function without circular dependencies
+  // Smart viewport-based competitor loading - only loads competitors in current view
   const loadCompetitors = useCallback(async () => {
     const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
     if (!shouldShowCompetitors) {
@@ -238,38 +246,68 @@ export default function ExpansionIntegratedMapPage() {
     
     setCompetitorsLoading(true);
     try {
-      console.log('🏢 Loading competitors at zoom level:', viewport.zoom);
-      const response = await fetch('/api/competitors', {
+      // Calculate viewport-based radius (adaptive based on zoom level)
+      // Higher zoom = smaller radius for better performance
+      const radiusKm = Math.min(50, Math.max(2, 100 / viewport.zoom)); // 2-50km range
+      
+      console.log('🏢 Loading competitors in viewport:', {
+        center: [viewport.latitude, viewport.longitude],
+        zoom: viewport.zoom,
+        radiusKm: radiusKm.toFixed(1)
+      });
+      
+      // Build query parameters for viewport-based loading
+      const params = new URLSearchParams({
+        lat: viewport.latitude.toString(),
+        lng: viewport.longitude.toString(),
+        radius: radiusKm.toString()
+      });
+      
+      // Add brand/category filters if selected
+      if (filters.competitorBrand) {
+        params.append('brand', filters.competitorBrand);
+      }
+      if (filters.competitorCategory) {
+        params.append('category', filters.competitorCategory);
+      }
+      
+      const response = await fetch(`/api/competitors?${params.toString()}`, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      
       if (response.ok) {
         const data = await response.json();
-        const allCompetitors = data.competitors || [];
-        console.log('🏢 Loaded competitors:', allCompetitors.length);
-        console.log('🏢 Sample competitor data:', allCompetitors.slice(0, 2));
-        setCompetitors(allCompetitors);
+        const viewportCompetitors = data.competitors || [];
+        console.log('🏢 Loaded viewport competitors:', {
+          count: viewportCompetitors.length,
+          radiusKm: radiusKm.toFixed(1),
+          center: `${viewport.latitude.toFixed(4)}, ${viewport.longitude.toFixed(4)}`,
+          zoom: viewport.zoom.toFixed(1)
+        });
+        
+        setCompetitors(viewportCompetitors);
 
-        // Extract unique brands and categories
-        const uniqueBrands = [...new Set(allCompetitors.map((c: any) => c.brand).filter(Boolean))];
-        const uniqueCategories = [...new Set(allCompetitors.map((c: any) => c.category).filter(Boolean))];
+        // Extract unique brands and categories from viewport data
+        const uniqueBrands = [...new Set(viewportCompetitors.map((c: any) => c.brand).filter(Boolean))];
+        const uniqueCategories = [...new Set(viewportCompetitors.map((c: any) => c.category).filter(Boolean))];
         setBrands(uniqueBrands);
         setCategories(uniqueCategories);
         
-        if (allCompetitors.length === 0) {
-          console.log('🏢 No competitors found - you may need to use the Refresh Competitors button to populate data');
+        if (viewportCompetitors.length === 0) {
+          console.log('🏢 No competitors in viewport - try refreshing competitor data or zooming to a different area');
         }
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        console.error('🏢 Failed to load competitors:', response.status, errorData);
+        console.error('🏢 Failed to load viewport competitors:', response.status, errorData);
       }
     } catch (error) {
-      console.error('Failed to load competitors:', error);
+      console.error('Failed to load viewport competitors:', error);
     } finally {
       setCompetitorsLoading(false);
     }
-  }, [filters.statusFilters?.showCompetitors, viewport.zoom]);
+  }, [filters.statusFilters?.showCompetitors, viewport.zoom, viewport.latitude, viewport.longitude, filters.competitorBrand, filters.competitorCategory]);
 
   // Update showCompetitors state when filter changes
   useEffect(() => {
@@ -277,9 +315,14 @@ export default function ExpansionIntegratedMapPage() {
     setShowCompetitors(shouldShowCompetitors);
   }, [filters.statusFilters?.showCompetitors]);
 
-  // Load competitors when filters or viewport changes
+  // Debounced competitor loading to prevent excessive API calls during pan/zoom
   useEffect(() => {
-    loadCompetitors();
+    // Debounce viewport changes to avoid hammering the API
+    const timeoutId = setTimeout(() => {
+      loadCompetitors();
+    }, 500); // 500ms delay after user stops panning/zooming
+    
+    return () => clearTimeout(timeoutId);
   }, [loadCompetitors]);
 
   const handleGenerate = useCallback(async (params: ExpansionParams) => {

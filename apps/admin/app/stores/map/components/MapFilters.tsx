@@ -347,7 +347,7 @@ export default function MapFilters({
                   Refresh Competitor Data
                 </button>
                 <div className="map-filter-note">
-                  Zoom in close (city level) to refresh competitor locations
+                  Competitors load automatically for current viewport. Zoom in (city level) to refresh data.
                 </div>
               </div>
             )}
