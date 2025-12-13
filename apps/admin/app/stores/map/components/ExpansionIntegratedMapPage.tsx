@@ -171,11 +171,16 @@ export default function ExpansionIntegratedMapPage() {
     setCompetitorsLoading(true);
     try {
       console.log('🏢 Loading competitors at zoom level:', viewport.zoom);
-      const response = await fetch('/api/competitors');
+      const response = await fetch('/api/competitors', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         const allCompetitors = data.competitors || [];
         console.log('🏢 Loaded competitors:', allCompetitors.length);
+        console.log('🏢 Sample competitor data:', allCompetitors.slice(0, 2));
         setCompetitors(allCompetitors);
 
         // Extract unique brands and categories
@@ -183,6 +188,13 @@ export default function ExpansionIntegratedMapPage() {
         const uniqueCategories = [...new Set(allCompetitors.map((c: any) => c.category).filter(Boolean))];
         setBrands(uniqueBrands);
         setCategories(uniqueCategories);
+        
+        if (allCompetitors.length === 0) {
+          console.log('🏢 No competitors found - you may need to use the Refresh Competitors button to populate data');
+        }
+      } else {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('🏢 Failed to load competitors:', response.status, errorData);
       }
     } catch (error) {
       console.error('Failed to load competitors:', error);

@@ -307,9 +307,9 @@ export default function WorkingMapView({
           'interpolate',
           ['linear'],
           ['zoom'],
-          8, 3,   // Small at low zoom
-          12, 6,  // Medium at city zoom
-          16, 9   // Large at street zoom
+          8, 6,   // Larger at low zoom (was 3)
+          12, 10, // Larger at city zoom (was 6)
+          16, 14  // Larger at street zoom (was 9)
         ],
         'circle-stroke-width': [
           'interpolate',
@@ -704,17 +704,17 @@ export default function WorkingMapView({
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                8, 4,   // Small at low zoom
-                12, 8,  // Medium at city zoom
-                16, 12  // Large at street zoom
+                8, 8,   // Larger at low zoom (was 4)
+                12, 12, // Larger at city zoom (was 8)
+                16, 16  // Larger at street zoom (was 12)
               ],
               'circle-stroke-width': [
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                8, 1,   // Thin stroke at low zoom
-                12, 2,  // Medium stroke at city zoom
-                16, 3   // Thick stroke at street zoom
+                8, 2,   // Thicker stroke at low zoom (was 1)
+                12, 3,  // Thicker stroke at city zoom (was 2)
+                16, 4   // Thicker stroke at street zoom (was 3)
               ],
               'circle-stroke-color': '#ffffff',
               'circle-stroke-opacity': 0.8,
