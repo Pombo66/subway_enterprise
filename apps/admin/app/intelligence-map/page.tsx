@@ -112,8 +112,27 @@ export default function IntelligenceMapPage() {
           clearTimeout(loadTimeout);
           console.log('✅ Map loaded successfully');
           
+          // Debug container dimensions
+          if (mapContainer.current) {
+            const rect = mapContainer.current.getBoundingClientRect();
+            console.log('📐 Map container dimensions:', {
+              width: rect.width,
+              height: rect.height,
+              top: rect.top,
+              left: rect.left
+            });
+          }
+          
           // Add navigation controls
           map.current!.addControl(new NavigationControl(), 'top-right');
+          
+          // Force map resize to ensure it fills container
+          setTimeout(() => {
+            if (map.current) {
+              console.log('🔄 Forcing map resize...');
+              map.current.resize();
+            }
+          }, 100);
           
           setLoading(false);
           loadData();
@@ -498,7 +517,11 @@ export default function IntelligenceMapPage() {
 
       {/* Map */}
       <div className="flex-1 relative">
-        <div ref={mapContainer} className="absolute inset-0" />
+        <div 
+          ref={mapContainer} 
+          className="absolute inset-0 w-full h-full"
+          style={{ minHeight: '400px' }}
+        />
         
         {loading && (
           <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
