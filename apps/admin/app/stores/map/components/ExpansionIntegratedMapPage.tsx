@@ -125,9 +125,9 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Check zoom level
-    if (viewport.zoom < 12) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 12.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+    // Check zoom level - TEMPORARILY LOWERED FOR TESTING
+    if (viewport.zoom < 2) {
+      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 2.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
       return;
     }
     
@@ -237,9 +237,9 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Only load competitors when zoomed in to city/neighborhood level (zoom >= 12)
-    if (viewport.zoom < 12) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 12)');
+    // Only load competitors when zoomed in to city/neighborhood level (zoom >= 2) - TEMPORARILY LOWERED
+    if (viewport.zoom < 2) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 2)');
       setCompetitors([]);
       return;
     }
