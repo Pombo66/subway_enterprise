@@ -125,9 +125,9 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Check zoom level - TEMPORARILY LOWERED FOR TESTING
-    if (viewport.zoom < 2) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 2.0 or higher\n\nZoom in to city/neighborhood level to see competitor locations.`);
+    // Check zoom level for manual refresh
+    if (viewport.zoom < 8) {
+      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 8.0 or higher\n\nZoom in to city level to refresh competitor data from Mapbox.`);
       return;
     }
     
@@ -229,7 +229,7 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Smart viewport-based competitor loading - direct function to avoid circular dependencies
+  // Smart viewport-based competitor loading - automatic when zoomed in
   const loadCompetitors = async () => {
     const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
     if (!shouldShowCompetitors) {
@@ -237,9 +237,9 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Only load competitors when zoomed in to city/neighborhood level (zoom >= 2) - TEMPORARILY LOWERED
-    if (viewport.zoom < 2) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 2)');
+    // Auto-load competitors when zoomed in to city/neighborhood level (zoom >= 10)
+    if (viewport.zoom < 10) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 10 for auto-load)');
       setCompetitors([]);
       return;
     }
