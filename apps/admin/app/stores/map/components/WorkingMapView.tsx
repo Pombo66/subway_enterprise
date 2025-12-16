@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { MapViewProps } from '../types';
+import { useMapEventHandlers } from '../hooks/useMapEventHandlers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 /**
@@ -32,6 +33,9 @@ export default function WorkingMapView({
   const hasAutoFittedRef = useRef(false);
   const storesRef = useRef<typeof stores>([]);
   const initializingRef = useRef(false);
+  
+  // Map event handlers for viewport updates
+  const { attachEventHandlers, detachEventHandlers } = useMapEventHandlers();
 
   // Keep stores ref updated
   storesRef.current = stores;
@@ -1038,6 +1042,11 @@ export default function WorkingMapView({
 
         mapInstanceRef.current = map;
 
+        // Attach viewport change event handlers
+        attachEventHandlers(map, {
+          onViewportChange: onViewportChange
+        });
+
       } catch (err) {
         console.error('❌ Failed to initialize Mapbox GL:', err);
         console.error('❌ Error details:', {
@@ -1066,6 +1075,7 @@ export default function WorkingMapView({
     return () => {
       if (mapInstanceRef.current) {
         console.log('🧹 Cleaning up map');
+        detachEventHandlers(mapInstanceRef.current);
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
