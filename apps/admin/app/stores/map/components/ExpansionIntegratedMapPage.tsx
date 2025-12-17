@@ -118,16 +118,16 @@ export default function ExpansionIntegratedMapPage() {
     };
   }, [stores, suggestions, expansionMode, filters, viewport, selectedQuadrant, cacheStatus]);
 
-  // Smart competitor refresh function - refreshes current viewport area only
+  // Smart competitor refresh function - updates data for current viewport
   const handleRefreshCompetitors = async () => {
     if (competitorsLoading) {
       console.log('🏢 Competitor refresh already in progress, skipping');
       return;
     }
     
-    // Check zoom level for manual refresh - lowered threshold
-    if (viewport.zoom < 4) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 4.0 or higher\n\nZoom in to city level to refresh competitor data from Mapbox.`);
+    // Check zoom level for manual refresh - need to be zoomed in to see competitors
+    if (viewport.zoom < 8) {
+      alert(`Please zoom in to city level to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 8.0 or higher\n\nCompetitors appear automatically when you zoom in, just like Google Maps.`);
       return;
     }
     
@@ -168,7 +168,7 @@ export default function ExpansionIntegratedMapPage() {
       if (response.ok) {
         const result = await response.json();
         console.log('🏢 Smart competitor refresh result:', result);
-        alert(`✅ Competitor refresh completed!\n\n📊 Results for ${refreshRadiusKm}km radius:\n• Found: ${result.result?.found || 0} QSR locations\n• Added: ${result.result?.added || 0} new competitors\n• Updated: ${result.result?.updated || 0} existing competitors\n\n🏢 Brands: McDonald's, KFC, Burger King, Starbucks, and other major QSR chains.`);
+        alert(`✅ Competitor data updated!\n\n📊 Results for ${refreshRadiusKm}km radius:\n• Found: ${result.result?.found || 0} QSR locations\n• Added: ${result.result?.added || 0} new competitors\n• Updated: ${result.result?.updated || 0} existing competitors\n\n🏢 Competitors will now appear automatically as you navigate the map.\n\nBrands: McDonald's, KFC, Burger King, Starbucks, and other major QSR chains.`);
         
         // Reload competitors for current viewport
         await loadCompetitors();
@@ -229,25 +229,23 @@ export default function ExpansionIntegratedMapPage() {
     loadScenarios();
   }, []);
 
-  // Smart viewport-based competitor loading - automatic when zoomed in
+  // Automatic competitor surfacing - like Google Maps POI discovery
   const loadCompetitors = async () => {
-    const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
-    if (!shouldShowCompetitors) {
-      setCompetitors([]);
-      return;
-    }
+    // Always show competitors when zoomed in enough - no manual toggle needed
+    // This creates a natural discovery experience as users navigate the map
     
-    // Auto-load competitors when zoomed in (zoom >= 1) - lowered threshold for better visibility
-    if (viewport.zoom < 1) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 1 for auto-load)');
+    // Auto-surface competitors when zoomed to city level or closer
+    if (viewport.zoom < 8) {
+      console.log('🏢 Competitors hidden - zoom out to see broader view:', viewport.zoom, '(competitors appear at zoom >= 8)');
       setCompetitors([]);
       return;
     }
     
     setCompetitorsLoading(true);
     try {
-      // Calculate viewport-based radius (adaptive based on zoom level) - increased for better coverage
-      const radiusKm = Math.min(100, Math.max(5, 200 / viewport.zoom));
+      // Calculate smart radius for automatic discovery - like Google Maps POI loading
+      // Closer zoom = smaller radius for performance, wider zoom = larger radius for coverage
+      const radiusKm = Math.min(50, Math.max(2, 150 / viewport.zoom));
       
       console.log('🏢 Loading competitors in viewport:', {
         center: [viewport.latitude, viewport.longitude],
@@ -308,22 +306,21 @@ export default function ExpansionIntegratedMapPage() {
     }
   };
 
-  // Update showCompetitors state when filter changes
+  // Update showCompetitors state - now based on zoom level, not manual toggle
   useEffect(() => {
-    const shouldShowCompetitors = filters.statusFilters?.showCompetitors !== false;
+    const shouldShowCompetitors = viewport.zoom >= 8; // Auto-show when zoomed in
     setShowCompetitors(shouldShowCompetitors);
-  }, [filters.statusFilters?.showCompetitors]);
+  }, [viewport.zoom]);
 
-  // Debounced competitor loading to prevent excessive API calls during pan/zoom
+  // Automatic competitor discovery as you navigate - like Google Maps
   useEffect(() => {
     // Debounce viewport changes to avoid hammering the API
     const timeoutId = setTimeout(() => {
       loadCompetitors();
-    }, 500); // 500ms delay after user stops panning/zooming
+    }, 300); // Faster response for better UX (was 500ms)
     
     return () => clearTimeout(timeoutId);
   }, [
-    filters.statusFilters?.showCompetitors, 
     viewport.zoom, 
     viewport.latitude, 
     viewport.longitude, 

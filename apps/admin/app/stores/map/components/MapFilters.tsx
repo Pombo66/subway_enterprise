@@ -244,113 +244,92 @@ export default function MapFilters({
           </select>
         </div>
 
-        {/* Competitor Brand Filter - only show when competitors are enabled */}
-        {filters.statusFilters?.showCompetitors !== false && (
-          <div className="map-filter-group">
-            <label 
-              className="map-filter-label"
-              htmlFor="competitor-brand-filter"
-            >
-              Competitor Brand
-            </label>
-            <select
-              id="competitor-brand-filter"
-              className="s-select map-filter-select"
-              value={filters.competitorBrand || ''}
-              onChange={(e) => handleFilterChange('competitorBrand', e.target.value || undefined)}
-              disabled={loading}
-              aria-label={`Filter competitors by brand. Currently ${filters.competitorBrand ? `filtered to ${filters.competitorBrand}` : 'showing all brands'}`}
-            >
-              <option value="">All brands</option>
-              {availableOptions.competitorBrands?.map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        {/* Competitor Filters - Always Available */}
+        <div className="map-filter-group">
+          <label 
+            className="map-filter-label"
+            htmlFor="competitor-brand-filter"
+          >
+            Competitor Brand
+          </label>
+          <select
+            id="competitor-brand-filter"
+            className="s-select map-filter-select"
+            value={filters.competitorBrand || ''}
+            onChange={(e) => handleFilterChange('competitorBrand', e.target.value || undefined)}
+            disabled={loading}
+            aria-label={`Filter competitors by brand. Currently ${filters.competitorBrand ? `filtered to ${filters.competitorBrand}` : 'showing all brands'}`}
+          >
+            <option value="">All competitor brands</option>
+            {availableOptions.competitorBrands?.map((brand) => (
+              <option key={brand} value={brand}>
+                {brand}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {/* Competitor Category Filter - only show when competitors are enabled */}
-        {filters.statusFilters?.showCompetitors !== false && (
-          <div className="map-filter-group">
-            <label 
-              className="map-filter-label"
-              htmlFor="competitor-category-filter"
-            >
-              Competitor Category
-            </label>
-            <select
-              id="competitor-category-filter"
-              className="s-select map-filter-select"
-              value={filters.competitorCategory || ''}
-              onChange={(e) => handleFilterChange('competitorCategory', e.target.value || undefined)}
-              disabled={loading}
-              aria-label={`Filter competitors by category. Currently ${filters.competitorCategory ? `filtered to ${filters.competitorCategory}` : 'showing all categories'}`}
-            >
-              <option value="">All categories</option>
-              {availableOptions.competitorCategories?.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <div className="map-filter-group">
+          <label 
+            className="map-filter-label"
+            htmlFor="competitor-category-filter"
+          >
+            Competitor Category
+          </label>
+          <select
+            id="competitor-category-filter"
+            className="s-select map-filter-select"
+            value={filters.competitorCategory || ''}
+            onChange={(e) => handleFilterChange('competitorCategory', e.target.value || undefined)}
+            disabled={loading}
+            aria-label={`Filter competitors by category. Currently ${filters.competitorCategory ? `filtered to ${filters.competitorCategory}` : 'showing all categories'}`}
+          >
+            <option value="">All competitor types</option>
+            {availableOptions.competitorCategories?.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {/* Competitors Section - Always Visible */}
+        {/* Competitor Discovery Info */}
         <div className="map-filter-group map-filter-group-full">
-          <label className="map-filter-label">QSR Competitors</label>
+          <label className="map-filter-label">Competitor Discovery</label>
           <div className="map-filter-competitors-section">
-            <div className="map-filter-checkboxes">
-              <label className="map-filter-checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={filters.statusFilters?.showCompetitors !== false}
-                  onChange={(e) => {
-                    const newFilters = {
-                      ...filters,
-                      statusFilters: {
-                        ...filters.statusFilters,
-                        showCompetitors: e.target.checked
-                      }
-                    };
-                    onFiltersChange(newFilters);
-                  }}
-                  disabled={loading}
-                  className="map-filter-checkbox"
-                />
-                <span className="map-filter-checkbox-text">
-                  <span className="status-indicator status-competitors"></span>
-                  Show Competitors (McDonald's, KFC, etc.)
+            <div className="map-filter-discovery-info">
+              <div className="discovery-status">
+                <span className="status-indicator status-competitors"></span>
+                <span className="discovery-text">
+                  Competitors appear automatically when you zoom to city level (zoom ≥ 8)
                 </span>
-              </label>
-            </div>
-            {/* Refresh Competitors Button - show when competitors are enabled */}
-            {filters.statusFilters?.showCompetitors !== false && (
-              <div className="map-filter-refresh-section">
-                <button
-                  onClick={() => {
-                    // Use a more stable event dispatch approach
-                    if (typeof window !== 'undefined') {
-                      const event = new CustomEvent('refreshCompetitors', { 
-                        detail: { timestamp: Date.now() } 
-                      });
-                      window.dispatchEvent(event);
-                    }
-                  }}
-                  disabled={loading}
-                  className="map-filter-refresh-button"
-                  title="Refresh competitor data for current map area using Mapbox POI data"
-                >
-                  <span className="refresh-icon">🏢</span>
-                  Refresh Competitor Data
-                </button>
-                <div className="map-filter-note">
-                  Competitors load automatically when zoomed in. Use refresh to update data from Mapbox.
-                </div>
               </div>
-            )}
+              <div className="map-filter-note">
+                Navigate the map naturally - McDonald's, KFC, and other QSR competitors will surface as you explore, just like Google Maps.
+              </div>
+            </div>
+            <div className="map-filter-refresh-section">
+              <button
+                onClick={() => {
+                  // Use a more stable event dispatch approach
+                  if (typeof window !== 'undefined') {
+                    const event = new CustomEvent('refreshCompetitors', { 
+                      detail: { timestamp: Date.now() } 
+                    });
+                    window.dispatchEvent(event);
+                  }
+                }}
+                disabled={loading}
+                className="map-filter-refresh-button"
+                title="Refresh competitor data for current map area using Mapbox POI data"
+              >
+                <span className="refresh-icon">🏢</span>
+                Update Competitor Data
+              </button>
+              <div className="map-filter-note">
+                Refresh to get the latest competitor locations from Mapbox in the current area.
+              </div>
+            </div>
           </div>
         </div>
 
@@ -634,6 +613,27 @@ export default function MapFilters({
           display: flex;
           flex-direction: column;
           gap: 12px;
+        }
+
+        .map-filter-discovery-info {
+          padding: 12px;
+          background: var(--s-bg-secondary, #f8f9fa);
+          border: 1px solid var(--s-border);
+          border-radius: 6px;
+          margin-bottom: 8px;
+        }
+
+        .discovery-status {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 8px;
+        }
+
+        .discovery-text {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--s-text);
         }
 
         .map-filter-refresh-section {
