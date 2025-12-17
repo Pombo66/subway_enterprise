@@ -125,14 +125,14 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Check zoom level for manual refresh
-    if (viewport.zoom < 8) {
-      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 8.0 or higher\n\nZoom in to city level to refresh competitor data from Mapbox.`);
+    // Check zoom level for manual refresh - lowered threshold
+    if (viewport.zoom < 4) {
+      alert(`Please zoom in closer to refresh competitors.\n\nCurrent zoom: ${viewport.zoom.toFixed(1)}\nRequired: 4.0 or higher\n\nZoom in to city level to refresh competitor data from Mapbox.`);
       return;
     }
     
-    // Calculate smart refresh radius based on zoom level
-    const refreshRadiusMeters = Math.min(5000, Math.max(500, 10000 / viewport.zoom));
+    // Calculate smart refresh radius based on zoom level - increased coverage
+    const refreshRadiusMeters = Math.min(10000, Math.max(1000, 20000 / viewport.zoom));
     const refreshRadiusKm = (refreshRadiusMeters / 1000).toFixed(1);
     
     const confirmed = confirm(
@@ -237,17 +237,17 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
-    // Auto-load competitors when zoomed in (zoom >= 2) - adjusted for zoom detection issue
-    if (viewport.zoom < 2) {
-      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 2 for auto-load)');
+    // Auto-load competitors when zoomed in (zoom >= 1) - lowered threshold for better visibility
+    if (viewport.zoom < 1) {
+      console.log('🏢 Competitors hidden - zoom level too low:', viewport.zoom, '(need >= 1 for auto-load)');
       setCompetitors([]);
       return;
     }
     
     setCompetitorsLoading(true);
     try {
-      // Calculate viewport-based radius (adaptive based on zoom level)
-      const radiusKm = Math.min(50, Math.max(2, 100 / viewport.zoom));
+      // Calculate viewport-based radius (adaptive based on zoom level) - increased for better coverage
+      const radiusKm = Math.min(100, Math.max(5, 200 / viewport.zoom));
       
       console.log('🏢 Loading competitors in viewport:', {
         center: [viewport.latitude, viewport.longitude],
