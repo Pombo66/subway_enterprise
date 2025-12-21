@@ -38,7 +38,31 @@ export class CompetitiveIntelligenceController {
       filters.radiusKm = parseFloat(radius);
     }
 
-    const competitors = await this.competitorService.getCompetitors(filters);
+    // First, try to get competitors from database
+    let competitors = await this.competitorService.getCompetitors(filters);
+
+    // If no competitors in database for this viewport, auto-fetch from Mapbox
+    // This creates the "Google Maps-like" experience where POIs just appear
+    if (competitors.length === 0 && lat && lng) {
+      console.log('🏢 No competitors in database for viewport, auto-fetching from Mapbox...');
+      
+      try {
+        const radiusMeters = (parseFloat(radius || '10') * 1000); // Convert km to meters
+        const result = await this.mapboxCompetitorsService.refreshCompetitors({
+          latitude: parseFloat(lat),
+          longitude: parseFloat(lng),
+          radiusMeters: Math.min(radiusMeters, 5000), // Cap at 5km for Mapbox API
+        });
+        
+        console.log(`🏢 Auto-fetched ${result.found} competitors from Mapbox, added ${result.added} new`);
+        
+        // Re-query database to get the newly added competitors
+        competitors = await this.competitorService.getCompetitors(filters);
+      } catch (error) {
+        console.error('🏢 Auto-fetch from Mapbox failed:', error);
+        // Continue with empty results - user can manually refresh
+      }
+    }
 
     return {
       success: true,

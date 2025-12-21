@@ -1209,20 +1209,50 @@ export default function WorkingMapView({
       competitors: competitors?.slice(0, 2)
     });
     
-    if (mapInstanceRef.current && mapLoaded && competitors) {
-      console.log('🔄 Updating competitors:', competitors.length);
+    if (mapInstanceRef.current && mapLoaded) {
+      const map = mapInstanceRef.current;
       
-      if (competitors.length > 0) {
-        console.log('✅ Adding competitors layer:', competitors);
-        addCompetitorsLayer(mapInstanceRef.current, competitors, onCompetitorSelect);
+      if (competitors && competitors.length > 0) {
+        console.log('🔄 Updating competitors:', competitors.length);
+        
+        // Check if source already exists - update data instead of recreating
+        const existingSource = map.getSource('competitors');
+        
+        if (existingSource) {
+          // Update existing source data (no flicker!)
+          const geojsonData = {
+            type: 'FeatureCollection' as const,
+            features: competitors.map(competitor => ({
+              type: 'Feature' as const,
+              properties: {
+                id: competitor.id,
+                brand: competitor.brand,
+                name: competitor.name,
+                category: competitor.category,
+                threatLevel: competitor.threatLevel
+              },
+              geometry: {
+                type: 'Point' as const,
+                coordinates: [competitor.longitude, competitor.latitude]
+              }
+            }))
+          };
+          
+          (existingSource as any).setData(geojsonData);
+          console.log('✅ Updated competitors source data (no flicker):', competitors.length);
+        } else {
+          // First time - add the layer
+          console.log('✅ Adding competitors layer for first time:', competitors);
+          addCompetitorsLayer(map, competitors, onCompetitorSelect);
+        }
       } else {
         console.log('🗑️ Removing competitors layer (no competitors)');
         // Remove layer if no competitors
-        if (mapInstanceRef.current.getLayer('competitors')) {
-          mapInstanceRef.current.removeLayer('competitors');
+        if (map.getLayer('competitors')) {
+          map.removeLayer('competitors');
         }
-        if (mapInstanceRef.current.getSource('competitors')) {
-          mapInstanceRef.current.removeSource('competitors');
+        if (map.getSource('competitors')) {
+          map.removeSource('competitors');
         }
       }
     }
