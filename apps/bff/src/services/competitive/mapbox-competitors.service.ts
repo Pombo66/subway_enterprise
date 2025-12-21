@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
 
+/**
+ * @deprecated This interface is deprecated. Use NearbyCompetitorsRequest from GooglePlacesNearbyService instead.
+ * @see GooglePlacesNearbyService
+ */
 export interface MapboxCompetitorRequest {
   latitude: number;
   longitude: number;
@@ -9,6 +13,10 @@ export interface MapboxCompetitorRequest {
   brands?: string[];
 }
 
+/**
+ * @deprecated This interface is deprecated. Use CompetitorResult from GooglePlacesNearbyService instead.
+ * @see GooglePlacesNearbyService
+ */
 export interface MapboxCompetitorResult {
   id: string;
   name: string;
@@ -19,8 +27,27 @@ export interface MapboxCompetitorResult {
   address?: string;
 }
 
+/**
+ * @deprecated This service is deprecated and will be removed in a future version.
+ * Use GooglePlacesNearbyService for on-demand competitor discovery instead.
+ * 
+ * The new system:
+ * - Uses Google Places API instead of Mapbox Tilequery
+ * - Fetches competitors on-demand when user clicks "Show competitors"
+ * - Does not persist data to database (in-memory cache only)
+ * - Provides better accuracy and coverage
+ * 
+ * Migration guide:
+ * - Replace MapboxCompetitorsService with GooglePlacesNearbyService
+ * - Use POST /api/competitors/nearby endpoint instead of /api/competitors/refresh
+ * - Remove any auto-loading of competitors on viewport change
+ * 
+ * @see GooglePlacesNearbyService
+ * @see CompetitorsNearbyController
+ */
 @Injectable()
 export class MapboxCompetitorsService {
+  private readonly logger = new Logger(MapboxCompetitorsService.name);
   private mapboxToken: string;
 
   // Top QSR competitors for Subway - expanded list with variations
@@ -85,6 +112,12 @@ export class MapboxCompetitorsService {
   };
 
   constructor(private prisma: PrismaClient) {
+    this.logger.warn(
+      '⚠️ DEPRECATED: MapboxCompetitorsService is deprecated. ' +
+      'Use GooglePlacesNearbyService for on-demand competitor discovery instead. ' +
+      'See POST /api/competitors/nearby endpoint.'
+    );
+    
     // Try multiple Mapbox token environment variables (backend should use MAPBOX_ACCESS_TOKEN)
     this.mapboxToken = process.env.MAPBOX_ACCESS_TOKEN || 
                        process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 
@@ -92,11 +125,17 @@ export class MapboxCompetitorsService {
     if (!this.mapboxToken) {
       console.warn('Mapbox token not configured - tried MAPBOX_ACCESS_TOKEN, NEXT_PUBLIC_MAPBOX_TOKEN, MAPBOX_SECRET_TOKEN');
     } else {
-      console.log('🗺️ Mapbox token configured for competitor intelligence');
+      console.log('🗺️ Mapbox token configured for competitor intelligence (DEPRECATED)');
     }
   }
 
+  /**
+   * @deprecated Use GooglePlacesNearbyService.getNearbyCompetitors() instead.
+   * This method uses Mapbox Tilequery which has limited coverage.
+   */
   async getCompetitorsNearLocation(request: MapboxCompetitorRequest): Promise<MapboxCompetitorResult[]> {
+    this.logger.warn('⚠️ DEPRECATED: getCompetitorsNearLocation() called. Use GooglePlacesNearbyService instead.');
+    
     if (!this.mapboxToken) {
       console.warn('Mapbox token not configured');
       return [];
@@ -220,11 +259,18 @@ export class MapboxCompetitorsService {
     return Array.from(seen.values());
   }
 
+  /**
+   * @deprecated Use GooglePlacesNearbyService.getNearbyCompetitors() instead.
+   * This method persists data to database which is no longer the recommended approach.
+   * The new system uses in-memory caching only.
+   */
   async refreshCompetitors(request: MapboxCompetitorRequest): Promise<{
     found: number;
     added: number;
     updated: number;
   }> {
+    this.logger.warn('⚠️ DEPRECATED: refreshCompetitors() called. Use GooglePlacesNearbyService instead.');
+    
     const competitors = await this.getCompetitorsNearLocation(request);
     let added = 0;
     let updated = 0;

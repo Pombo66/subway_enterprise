@@ -2,3 +2,268 @@
 > @subway/admin@0.1.0 typecheck /Users/khalidgehlan/subway_enterprise-1/apps/admin
 > tsc -p tsconfig.json
 
+__tests__/api/expansion/generate.test.ts(1,61): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+__tests__/api/expansion/scenarios.test.ts(1,38): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+__tests__/menu/consolidated-modifier-workflow.test.tsx(4,23): error TS2307: Cannot find module '../../app/menu/components/MenuTable' or its corresponding type declarations.
+app/api/expansion/generate/route.ts(33,59): error TS2339: Property 'populationBias' does not exist on type 'Omit<GenerationParams, "seed">'.
+app/api/expansion/generate/route.ts(33,84): error TS2339: Property 'proximityBias' does not exist on type 'Omit<GenerationParams, "seed">'.
+app/api/expansion/generate/route.ts(33,108): error TS2339: Property 'turnoverBias' does not exist on type 'Omit<GenerationParams, "seed">'.
+app/api/expansion/generate/route.ts(86,77): error TS2345: Argument of type '{ region: any; aggression: number; populationBias: number; proximityBias: number; turnoverBias: number; minDistanceM: number; }' is not assignable to parameter of type 'Omit<GenerationParams, "seed">'.
+  Property 'enableAIRationale' is missing in type '{ region: any; aggression: number; populationBias: number; proximityBias: number; turnoverBias: number; minDistanceM: number; }' but required in type 'Omit<GenerationParams, "seed">'.
+app/api/expansion/generate/route.ts(93,7): error TS2353: Object literal may only specify known properties, and 'seed' does not exist in type 'GenerationParams'.
+app/api/expansion/generate/route.ts(210,29): error TS2339: Property 'enableMapboxFiltering' does not exist on type 'GenerationParams'.
+app/api/expansion/generate/route.ts(366,14): error TS2339: Property 'enableMapboxFiltering' does not exist on type 'GenerationParams'.
+app/api/expansion/scenarios/[id]/expand/route.ts(66,7): error TS2353: Object literal may only specify known properties, and 'populationBias' does not exist in type 'GenerationParams'.
+app/api/expansion/scenarios/[id]/expand/route.ts(105,19): error TS2339: Property 'band' does not exist on type 'ExpansionSuggestionData'.
+app/api/expansion/scenarios/[id]/expand/route.ts(107,32): error TS2339: Property 'urbanDensityIndex' does not exist on type 'ExpansionSuggestionData'.
+app/api/expansion/scenarios/[id]/expand/route.ts(108,28): error TS2339: Property 'roadDistanceM' does not exist on type 'ExpansionSuggestionData'.
+app/api/expansion/scenarios/[id]/expand/route.ts(109,32): error TS2339: Property 'buildingDistanceM' does not exist on type 'ExpansionSuggestionData'.
+app/api/expansion/scenarios/[id]/expand/route.ts(110,26): error TS2339: Property 'landuseType' does not exist on type 'ExpansionSuggestionData'.
+app/api/expansion/scenarios/[id]/expand/route.ts(111,30): error TS2339: Property 'mapboxValidated' does not exist on type 'ExpansionSuggestionData'.
+app/api/stores/ingest/route.ts(219,54): error TS2345: Argument of type '"franchisees"' is not assignable to parameter of type '"parse" | "validate" | "geocode" | "upsert"'.
+app/api/stores/ingest/route.ts(220,63): error TS2345: Argument of type '(string | undefined)[]' is not assignable to parameter of type 'string[]'.
+  Type 'string | undefined' is not assignable to type 'string'.
+    Type 'undefined' is not assignable to type 'string'.
+app/stores/map/__tests__/optimized-map.test.tsx(7,22): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+app/stores/map/__tests__/optimized-map.test.tsx(112,19): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+app/stores/map/__tests__/performance-integration.test.tsx(105,1): error TS2322: Type 'Mock<any, any, any>' is not assignable to type '{ new (callback: PerformanceObserverCallback): PerformanceObserver; prototype: PerformanceObserver; readonly supportedEntryTypes: readonly string[]; }'.
+app/stores/map/__tests__/performance-integration.test.tsx(145,35): error TS2345: Argument of type '{ stores: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }[]; loading: false; error: null; refetch: jest.Mock<any, any, any>; }' is not assignable to parameter of type 'UseStoresReturn & { cacheStatus: CacheStatus; invalidateCache: () => Promise<void>; }'.
+  Property 'availableOptions' is missing in type '{ stores: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }[]; loading: false; error: null; refetch: jest.Mock<any, any, any>; }' but required in type 'UseStoresReturn'.
+app/stores/map/__tests__/performance-integration.test.tsx(404,7): error TS2322: Type 'Mock<any, any, any>' is not assignable to type '{ new (callback: PerformanceObserverCallback): PerformanceObserver; prototype: PerformanceObserver; readonly supportedEntryTypes: readonly string[]; }'.
+app/stores/map/__tests__/performance.test.ts(44,1): error TS2741: Property 'supportedEntryTypes' is missing in type 'Mock<any, any, any>' but required in type '{ new (callback: PerformanceObserverCallback): PerformanceObserver; prototype: PerformanceObserver; readonly supportedEntryTypes: readonly string[]; }'.
+app/stores/map/components/__tests__/ClientTimeDisplay.test.tsx(25,37): error TS2345: Argument of type '(initial: any) => any[]' is not assignable to parameter of type '() => [unknown, Dispatch<unknown>]'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+app/stores/map/components/__tests__/ClientTimeDisplay.test.tsx(25,38): error TS7006: Parameter 'initial' implicitly has an 'any' type.
+app/stores/map/components/__tests__/ExpansionControls.test.tsx(1,44): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(4,28): error TS2614: Module '"../MapErrorBoundary"' has no exported member 'useMapErrorHandler'. Did you mean to use 'import useMapErrorHandler from "../MapErrorBoundary"' instead?
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(132,27): error TS2322: Type '{ children: Element; fallback: Element; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<MapErrorBoundary> & Readonly<MapErrorBoundaryProps>'.
+  Property 'fallback' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<MapErrorBoundary> & Readonly<MapErrorBoundaryProps>'.
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(459,19): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(469,19): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(474,19): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+app/stores/map/components/__tests__/MapErrorBoundary.test.tsx(484,19): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+app/stores/map/components/__tests__/MapView.test.tsx(6,10): error TS2614: Module '"../MapErrorBoundary"' has no exported member 'useMapErrorHandler'. Did you mean to use 'import useMapErrorHandler from "../MapErrorBoundary"' instead?
+app/stores/map/components/__tests__/MapView.test.tsx(566,22): error TS2339: Property 'panBy' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/MapView.test.tsx(569,22): error TS2339: Property 'panBy' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/MapView.test.tsx(572,22): error TS2339: Property 'panBy' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/MapView.test.tsx(575,22): error TS2339: Property 'panBy' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/MapView.test.tsx(579,22): error TS2339: Property 'zoomIn' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/MapView.test.tsx(582,22): error TS2339: Property 'zoomOut' does not exist on type '{ addControl: Mock<any, any, any>; on: Mock<any, any, any>; off: Mock<any, any, any>; remove: Mock<any, any, any>; getBounds: Mock<{ getNorth: () => 40.8; getSouth: () => 40.6; getEast: () => -73.9; getWest: () => -74.1; }, [], any>; ... 5 more ...; getContainer: Mock<...>; }'.
+app/stores/map/components/__tests__/SuggestionInfoCard.test.tsx(1,44): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+app/stores/map/components/expansion/__tests__/ExpansionOverlay.integration.test.tsx(7,30): error TS2307: Cannot find module '../ExpansionOverlay' or its corresponding type declarations.
+app/stores/map/components/ExpansionIntegratedMapPage.tsx(117,34): error TS2339: Property 'source' does not exist on type 'CacheStatus'.
+  Property 'source' does not exist on type '"hit"'.
+app/stores/map/components/WorkingMapView.tsx(354,44): error TS7006: Parameter 'e' implicitly has an 'any' type.
+app/stores/map/components/WorkingMapView.tsx(1036,51): error TS2339: Property 'coordinates' does not exist on type 'Geometry'.
+  Property 'coordinates' does not exist on type 'GeometryCollection<Geometry>'.
+app/stores/map/hooks/useCustomAreaDrawing.ts(54,42): error TS2307: Cannot find module '@mapbox/mapbox-gl-draw' or its corresponding type declarations.
+app/stores/map/hooks/useMapEventHandlers.ts(7,66): error TS2307: Cannot find module 'maplibre-gl' or its corresponding type declarations.
+app/stores/map/hooks/useMapEventHandlers.ts(75,56): error TS7006: Parameter 'err' implicitly has an 'any' type.
+app/stores/map/hooks/useMapEventHandlers.ts(75,61): error TS7006: Parameter 'zoom' implicitly has an 'any' type.
+app/stores/map/hooks/useMapInstance.ts(7,36): error TS2307: Cannot find module 'maplibre-gl' or its corresponding type declarations.
+app/stores/map/hooks/useScopeState.ts(38,49): error TS2345: Argument of type 'Polygon | undefined' is not assignable to parameter of type 'Polygon'.
+  Type 'undefined' is not assignable to type 'Polygon'.
+app/stores/map/hooks/useScopeState.ts(110,27): error TS2554: Expected 0 arguments, but got 1.
+app/stores/map/hooks/useStores.ts(201,40): error TS7006: Parameter 'store' implicitly has an 'any' type.
+app/stores/map/hooks/useStores.ts(208,38): error TS7006: Parameter 'store' implicitly has an 'any' type.
+app/stores/map/hooks/useStores.ts(229,29): error TS2339: Property 'annualTurnover' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(230,33): error TS2339: Property 'cityPopulationBand' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(231,24): error TS2339: Property 'createdAt' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(232,24): error TS2339: Property 'updatedAt' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(263,40): error TS7006: Parameter 'store' implicitly has an 'any' type.
+app/stores/map/hooks/useStores.ts(285,31): error TS2339: Property 'annualTurnover' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(286,35): error TS2339: Property 'cityPopulationBand' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(287,26): error TS2339: Property 'createdAt' does not exist on type 'StoreWithActivity'.
+app/stores/map/hooks/useStores.ts(288,26): error TS2339: Property 'updatedAt' does not exist on type 'StoreWithActivity'.
+app/stores/map/lib/SingletonMapManager.ts(6,70): error TS2307: Cannot find module 'maplibre-gl' or its corresponding type declarations.
+app/stores/map/lib/SingletonMapManager.ts(97,24): error TS7006: Parameter 'error' implicitly has an 'any' type.
+app/stores/map/lib/SingletonMapManager.ts(366,32): error TS7006: Parameter 'layer' implicitly has an 'any' type.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(125,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(169,9): error TS2322: Type '{ type: string; properties: { cluster: true; cluster_id: number; point_count: number; }; geometry: { type: string; coordinates: number[]; }; id: number; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(182,9): error TS2322: Type '{ type: string; properties: { cluster: false; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(237,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(287,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(332,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: { id: string; name: string; latitude: number; longitude: number; region: string; country: string; recentActivity: boolean; }; }; geometry: { ...; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(374,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(415,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(450,53): error TS2322: Type '{ type: string; properties: { cluster: boolean; cluster_id: number; point_count: number; }; geometry: { type: string; coordinates: number[]; }; id: number; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(506,52): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; cluster_id: number; point_count: number; }; geometry: { type: string; coordinates: number[]; }; id: number; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; cluster_id: number; point_count: number; }; geometry: { type: string; coordinates: number[]; }; id: number; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(522,9): error TS2322: Type '{ type: string; properties: { cluster: false; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(564,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/__tests__/MarkerRenderer.test.ts(645,9): error TS2345: Argument of type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }[]' is not assignable to parameter of type 'never[]'.
+  Type '{ type: string; properties: { cluster: boolean; storeId: string; store: StoreWithActivity; }; geometry: { type: string; coordinates: number[]; }; }' is not assignable to type 'never'.
+app/stores/map/utils/MarkerRenderer.ts(6,44): error TS2307: Cannot find module 'maplibre-gl' or its corresponding type declarations.
+app/stores/page.tsx(680,11): error TS2322: Type '(storeId: string) => void' is not assignable to type '(store: Store) => void'.
+  Types of parameters 'storeId' and 'store' are incompatible.
+    Type 'Store' is not assignable to type 'string'.
+components/import/CountryInferenceDisplay.tsx(82,34): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+e2e/menu-categories-crud.e2e.spec.ts(23,24): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/menu-categories-crud.e2e.spec.ts(258,77): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/menu-items-crud.e2e.spec.ts(242,45): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/menu-items-crud.e2e.spec.ts(262,47): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/menu-modifiers-crud.e2e.spec.ts(25,24): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/menu-modifiers-crud.e2e.spec.ts(272,82): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/store-pricing-overrides.e2e.spec.ts(23,24): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/store-pricing-overrides.e2e.spec.ts(36,73): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/store-pricing-overrides.e2e.spec.ts(40,73): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+e2e/store-pricing-overrides.e2e.spec.ts(112,24): error TS2339: Property 'toHaveCountGreaterThan' does not exist on type 'MakeMatchers<void, Locator, {}>'.
+hooks/useGeocodeImport.ts(231,5): error TS2322: Type '{ id: string; address: string | undefined; city: string | undefined; postcode: string | undefined; country: string; }[]' is not assignable to type '{ id: string; address: string; city: string; postcode: string; country: string; }[]'.
+  Type '{ id: string; address: string | undefined; city: string | undefined; postcode: string | undefined; country: string; }' is not assignable to type '{ id: string; address: string; city: string; postcode: string; country: string; }'.
+    Types of property 'address' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+lib/api-client.ts(37,7): error TS7053: Element implicitly has an 'any' type because expression of type '"Authorization"' can't be used to index type 'HeadersInit'.
+  Property 'Authorization' does not exist on type 'HeadersInit'.
+lib/api.ts(26,26): error TS2339: Property 'bffBaseUrl' does not exist on type '{ isDevelopment: boolean; isProduction: boolean; isDevAuthBypass: boolean; isDebugMode: boolean; bffUrl: string; features: { subMind: boolean; expansionPredictor: boolean; }; }'.
+lib/api.ts(26,47): error TS2339: Property 'bffBaseUrl' does not exist on type '{ isDevelopment: boolean; isProduction: boolean; isDevAuthBypass: boolean; isDebugMode: boolean; bffUrl: string; features: { subMind: boolean; expansionPredictor: boolean; }; }'.
+lib/api.ts(27,14): error TS2339: Property 'bffBaseUrl' does not exist on type '{ isDevelopment: boolean; isProduction: boolean; isDevAuthBypass: boolean; isDebugMode: boolean; bffUrl: string; features: { subMind: boolean; expansionPredictor: boolean; }; }'.
+lib/api.ts(36,25): error TS2339: Property 'bffBaseUrl' does not exist on type '{ isDevelopment: boolean; isProduction: boolean; isDevAuthBypass: boolean; isDebugMode: boolean; bffUrl: string; features: { subMind: boolean; expansionPredictor: boolean; }; }'.
+lib/errors/upload-errors.ts(163,9): error TS2353: Object literal may only specify known properties, and 'code' does not exist in type '{ name: string; message: string; stack: string | undefined; }'.
+lib/import/addressNormalizer.ts(81,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/addressNormalizer.ts(138,31): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/addressNormalizer.ts(284,70): error TS7006: Parameter 'c' implicitly has an 'any' type.
+lib/import/autoMap.ts(389,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/autoMap.ts(422,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/autoMap.ts(541,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/config.ts(49,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+lib/import/config.ts(50,9): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+lib/import/countryInference.ts(154,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/countryInference.ts(222,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/countryInference.ts(270,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/countryInference.ts(296,39): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+lib/import/countryInference.ts(296,85): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+  No index signature with a parameter of type 'string' was found on type '{ readonly DE: { readonly name: "Germany"; readonly flag: "🇩🇪"; }; readonly US: { readonly name: "United States"; readonly flag: "🇺🇸"; }; readonly UK: { readonly name: "United Kingdom"; readonly flag: "🇬🇧"; }; ... 6 more ...; readonly CH: { ...; }; }'.
+lib/import/countryInference.ts(332,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/errors.ts(248,18): error TS2339: Property 'code' does not exist on type '{ category: "unknown" | "validation" | "rate_limit" | "network" | "configuration"; severity: "medium" | "low" | "high"; retryable: boolean; timestamp: string; }'.
+lib/import/errors.ts(249,18): error TS2339: Property 'context' does not exist on type '{ category: "unknown" | "validation" | "rate_limit" | "network" | "configuration"; severity: "medium" | "low" | "high"; retryable: boolean; timestamp: string; }'.
+lib/import/index.ts(30,3): error TS2300: Duplicate identifier 'GeocodeError'.
+lib/import/index.ts(71,3): error TS2300: Duplicate identifier 'GeocodeError'.
+lib/import/index.ts(130,27): error TS2304: Cannot find name 'GeocodeProvider'.
+lib/import/index.ts(140,29): error TS2304: Cannot find name 'autoMapper'.
+lib/import/index.ts(141,7): error TS2304: Cannot find name 'telemetryService'.
+lib/import/index.ts(145,32): error TS2552: Cannot find name 'countryInferrer'. Did you mean 'countryInference'?
+lib/import/index.ts(150,7): error TS2304: Cannot find name 'telemetryService'.
+lib/import/index.ts(163,9): error TS2304: Cannot find name 'telemetryService'.
+lib/import/index.ts(166,11): error TS2304: Cannot find name 'smartImportConfig'.
+lib/import/index.ts(169,38): error TS2304: Cannot find name 'batchGeocodeProcessor'.
+lib/import/index.ts(172,12): error TS7006: Parameter 'progress' implicitly has an 'any' type.
+lib/import/index.ts(178,9): error TS2304: Cannot find name 'telemetryService'.
+lib/import/index.ts(202,7): error TS2304: Cannot find name 'errorTracker'.
+lib/import/index.ts(216,20): error TS2304: Cannot find name 'AutoMapResult'.
+lib/import/index.ts(217,23): error TS2304: Cannot find name 'CountryInference'.
+lib/import/index.ts(218,6): error TS2304: Cannot find name 'ImportRow'.
+lib/import/index.ts(220,24): error TS2304: Cannot find name 'ImportRow'.
+lib/import/index.ts(227,13): error TS18046: 'mapping' is of type 'unknown'.
+lib/import/index.ts(228,47): error TS18046: 'mapping' is of type 'unknown'.
+lib/import/index.ts(231,55): error TS2304: Cannot find name 'FieldAlias'.
+lib/import/index.ts(243,39): error TS2304: Cannot find name 'ImportRow'.
+lib/import/index.ts(243,57): error TS2304: Cannot find name 'FieldAlias'.
+lib/import/index.ts(278,33): error TS2304: Cannot find name 'geocodeProviderManager'.
+lib/import/index.ts(279,40): error TS2304: Cannot find name 'addressNormalizer'.
+lib/import/index.ts(283,18): error TS2304: Cannot find name 'featureFlags'.
+lib/import/index.ts(287,18): error TS2304: Cannot find name 'featureFlags'.
+lib/import/index.ts(291,18): error TS2304: Cannot find name 'featureFlags'.
+lib/import/index.ts(293,56): error TS18046: 'p' is of type 'unknown'.
+lib/import/index.ts(299,20): error TS2304: Cannot find name 'performanceMonitor'.
+lib/import/index.ts(300,15): error TS2304: Cannot find name 'errorTracker'.
+lib/import/providers/base.ts(78,5): error TS2322: Type 'string | undefined' is not assignable to type 'boolean'.
+  Type 'undefined' is not assignable to type 'boolean'.
+lib/import/providers/google.ts(196,31): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/providers/index.ts(77,32): error TS2339: Property 'isConfigured' does not exist on type 'GeocodeProvider'.
+lib/import/providers/index.ts(93,34): error TS2339: Property 'isConfigured' does not exist on type 'GeocodeProvider'.
+lib/import/providers/index.ts(190,30): error TS2339: Property 'isConfigured' does not exist on type 'GeocodeProvider'.
+lib/import/providers/index.ts(193,20): error TS2339: Property 'isConfigured' does not exist on type 'GeocodeProvider'.
+lib/import/providers/index.ts(195,65): error TS2339: Property 'testConnection' does not exist on type 'GeocodeProvider'.
+lib/import/providers/index.ts(228,30): error TS2339: Property 'isConfigured' does not exist on type 'GeocodeProvider'.
+lib/import/providers/nominatim.ts(143,31): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/rateLimiter.ts(146,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/import/telemetry.ts(202,29): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Error'.
+lib/services/__tests__/expansion-generation-integration.test.ts(167,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(168,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(169,30): error TS2339: Property 'featuresEnabled' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(190,30): error TS2339: Property 'featuresEnabled' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(191,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(213,16): error TS18048: 'suggestion.rationaleText' is possibly 'undefined'.
+lib/services/__tests__/expansion-generation-integration.test.ts(244,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(265,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(267,46): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(268,45): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(303,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation-integration.test.ts(341,30): error TS2339: Property 'openaiUsage' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/expansion-generation.test.ts(1,50): error TS2307: Cannot find module '@jest/globals' or its corresponding type declarations.
+lib/services/__tests__/expansion-generation.test.ts(23,28): error TS2339: Property 'createHexGrid' does not exist on type 'ExpansionGenerationService'.
+lib/services/__tests__/expansion-generation.test.ts(46,33): error TS2339: Property 'createHexGrid' does not exist on type 'ExpansionGenerationService'.
+lib/services/__tests__/expansion-generation.test.ts(47,33): error TS2339: Property 'createHexGrid' does not exist on type 'ExpansionGenerationService'.
+lib/services/__tests__/expansion-generation.test.ts(103,32): error TS2339: Property 'applyNMS' does not exist on type 'ExpansionGenerationService'.
+lib/services/__tests__/expansion-generation.test.ts(108,28): error TS7006: Parameter 'c' implicitly has an 'any' type.
+lib/services/__tests__/expansion-generation.test.ts(109,28): error TS7006: Parameter 'c' implicitly has an 'any' type.
+lib/services/__tests__/intelligent-expansion-integration.test.ts(83,30): error TS2339: Property 'seed' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/__tests__/intelligent-expansion-integration.test.ts(276,27): error TS2339: Property 'band' does not exist on type 'ExpansionSuggestionData'.
+lib/services/ai/market-analysis.service.ts(18,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(19,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(20,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(21,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(22,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(23,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(24,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/market-analysis.service.ts(25,3): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/ai/strategic-zone-identification.service.ts(62,54): error TS18046: 'error' is of type 'unknown'.
+lib/services/expansion-intensity-config.service.ts(139,7): error TS2322: Type 'string | ExpansionIntensity.LIGHT | ExpansionIntensity.MODERATE | ExpansionIntensity.MEDIUM | ExpansionIntensity.HIGH | ExpansionIntensity.AGGRESSIVE' is not assignable to type 'string'.
+  Type 'import("/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/services/types/intelligent-expansion.types").ExpansionIntensity' is not assignable to type 'string'.
+lib/services/expansion-job.service.ts(236,16): error TS2339: Property 'enableMapboxFiltering' does not exist on type 'GenerationParams'.
+lib/services/expansion-smoke-test.service.ts(132,29): error TS18046: 'error' is of type 'unknown'.
+lib/services/expansion-smoke-test.service.ts(134,36): error TS18046: 'error' is of type 'unknown'.
+lib/services/expansion-smoke-test.service.ts(211,27): error TS18046: 'error' is of type 'unknown'.
+lib/services/land-validation.service.ts(202,13): error TS2345: Argument of type 'Feature<LineString | MultiLineString, GeoJsonProperties> | FeatureCollection<LineString | MultiLineString, GeoJsonProperties>' is not assignable to parameter of type 'LineString | MultiLineString | Feature<LineString | MultiLineString, GeoJsonProperties>'.
+  Type 'FeatureCollection<LineString | MultiLineString, GeoJsonProperties>' is not assignable to type 'LineString | MultiLineString | Feature<LineString | MultiLineString, GeoJsonProperties>'.
+    Type 'FeatureCollection<LineString | MultiLineString, GeoJsonProperties>' is missing the following properties from type 'Feature<LineString | MultiLineString, GeoJsonProperties>': geometry, properties
+lib/services/openai-context-analysis.service.ts(194,30): error TS2339: Property 'settlementName' does not exist on type 'DemographicData'.
+lib/services/openai-context-analysis.service.ts(194,61): error TS2339: Property 'settlementName' does not exist on type 'LocationData'.
+lib/services/openai-rationale.service.ts(11,10): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/openai-rationale.service.ts(11,28): error TS1205: Re-exporting a type when 'isolatedModules' is enabled requires using 'export type'.
+lib/services/scenario-management.service.ts(162,7): error TS2353: Object literal may only specify known properties, and 'populationBias' does not exist in type 'GenerationParams'.
+lib/services/scenario-management.service.ts(178,7): error TS2322: Type '{ scenarioId: string; lat: number; lng: number; confidence: number; rationale: string; rationaleText: string | undefined; band: any; status: string; urbanDensityIndex: any; roadDistanceM: any; buildingDistanceM: any; landuseType: any; mapboxValidated: any; aiRationaleCached: false; }[]' is not assignable to type 'ExpansionSuggestionCreateManyInput | ExpansionSuggestionCreateManyInput[]'.
+  Type '{ scenarioId: string; lat: number; lng: number; confidence: number; rationale: string; rationaleText: string | undefined; band: any; status: string; urbanDensityIndex: any; roadDistanceM: any; buildingDistanceM: any; landuseType: any; mapboxValidated: any; aiRationaleCached: false; }[]' is not assignable to type 'ExpansionSuggestionCreateManyInput[]'.
+    Type '{ scenarioId: string; lat: number; lng: number; confidence: number; rationale: string; rationaleText: string | undefined; band: any; status: string; urbanDensityIndex: any; roadDistanceM: any; buildingDistanceM: any; landuseType: any; mapboxValidated: any; aiRationaleCached: false; }' is not assignable to type 'ExpansionSuggestionCreateManyInput'.
+      Types of property 'rationaleText' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string'.
+          Type 'undefined' is not assignable to type 'string'.
+lib/services/scenario-management.service.ts(185,17): error TS2339: Property 'band' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(187,30): error TS2339: Property 'urbanDensityIndex' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(188,26): error TS2339: Property 'roadDistanceM' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(189,30): error TS2339: Property 'buildingDistanceM' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(190,24): error TS2339: Property 'landuseType' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(191,28): error TS2339: Property 'mapboxValidated' does not exist on type 'ExpansionSuggestionData'.
+lib/services/scenario-management.service.ts(200,44): error TS2339: Property 'dataVersion' does not exist on type '{ generationTimeMs: number; enhancedRationaleEnabled: boolean; diversificationEnabled: boolean; aiCostLimitingEnabled: boolean; aiCandidatesCount: number; totalCandidatesCount: number; aiPercentage: number; pipelineStages?: string[] | undefined; aiPipelineUsed?: boolean | undefined; strategicAnalysis?: { ...; } | un...'.
+lib/services/scenario-persistence.service.ts(2,28): error TS2305: Module '"./expansion-generation.service"' has no exported member 'GenerationResult'.
+lib/services/scenario-persistence.service.ts(73,22): error TS2339: Property 'seed' does not exist on type 'GenerationParams'.
+lib/services/scenario-persistence.service.ts(75,35): error TS2339: Property 'enableDiagnostics' does not exist on type 'GenerationParams'.
+lib/services/scenario-persistence.service.ts(76,30): error TS2339: Property 'minDistanceM' does not exist on type 'GenerationParams'.
+lib/services/scenario-persistence.service.ts(178,20): error TS2339: Property 'seed' does not exist on type 'GenerationParams'.
+lib/services/snapping.service.ts(249,28): error TS2724: '"/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/@turf+turf@7.2.0/node_modules/@turf/turf/dist/esm/index"' has no exported member named 'Feature'. Did you mean 'feature'?
+lib/services/snapping.service.ts(249,41): error TS2724: '"/Users/khalidgehlan/subway_enterprise-1/node_modules/.pnpm/@turf+turf@7.2.0/node_modules/@turf/turf/dist/esm/index"' has no exported member named 'Point'. Did you mean 'point'?
+lib/submind-context.ts(103,29): error TS18046: 'b' is of type 'unknown'.
+lib/submind-context.ts(103,33): error TS18046: 'a' is of type 'unknown'.
+lib/submind-context.ts(123,14): error TS18046: 'countryStores' is of type 'unknown'.
+lib/types/store-upload.ts(85,52): error TS2694: Namespace '"/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/types/store-upload"' has no exported member 'GeocodeRequest'.
+lib/types/store-upload.ts(85,102): error TS2694: Namespace '"/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/types/store-upload"' has no exported member 'GeocodeResult'.
+lib/types/store-upload.ts(86,51): error TS2694: Namespace '"/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/types/store-upload"' has no exported member 'GeocodeRequest'.
+lib/types/store-upload.ts(86,103): error TS2694: Namespace '"/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/types/store-upload"' has no exported member 'GeocodeResult'.
+lib/types/store-upload.ts(90,91): error TS2694: Namespace '"/Users/khalidgehlan/subway_enterprise-1/apps/admin/lib/types/store-upload"' has no exported member 'ValidationResult'.
+lib/upload/index.ts(8,1): error TS2308: Module '../types/store-upload' has already exported a member named 'UploadError'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/upload/index.ts(11,1): error TS2308: Module '../types/store-upload' has already exported a member named 'FeatureFlags'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/upload/index.ts(11,1): error TS2308: Module '../types/store-upload' has already exported a member named 'UploadConfig'. Consider explicitly re-exporting to resolve the ambiguity.
+lib/upload/index.ts(58,53): error TS2304: Cannot find name 'UploadError'.
+ ELIFECYCLE  Command failed with exit code 2.

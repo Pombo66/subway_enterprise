@@ -18,12 +18,17 @@ export default function WorkingMapView({
   onSuggestionSelect,
   storeAnalyses = [],
   competitors = [],
-  onCompetitorSelect
+  onCompetitorSelect,
+  onDemandCompetitors = [],
+  onDemandCompetitorCenter = null,
+  showOnDemandCompetitors = false
 }: MapViewProps) {
   console.log('🎨 WorkingMapView component rendering with props:', {
     storesLength: stores?.length,
     loading,
-    expansionSuggestionsLength: expansionSuggestions?.length
+    expansionSuggestionsLength: expansionSuggestions?.length,
+    onDemandCompetitorsLength: onDemandCompetitors?.length,
+    showOnDemandCompetitors
   });
 
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -417,6 +422,253 @@ export default function WorkingMapView({
         }
       });
     }
+  };
+
+  // Helper function to add on-demand competitor overlay (new Google Places system)
+  const addOnDemandCompetitorLayer = (
+    map: any, 
+    competitors: Array<{ brand: string; lat: number; lng: number; distanceM: number; placeName?: string }>,
+    center: { lat: number; lng: number },
+    radiusKm: number = 5
+  ) => {
+    // Remove existing on-demand layers if they exist
+    const layerIds = ['on-demand-competitor-icons', 'on-demand-competitor-labels', 'on-demand-radius-ring', 'on-demand-radius-fill'];
+    const sourceIds = ['on-demand-competitors', 'on-demand-radius'];
+    
+    for (const layerId of layerIds) {
+      if (map.getLayer(layerId)) {
+        map.removeLayer(layerId);
+      }
+    }
+    for (const sourceId of sourceIds) {
+      if (map.getSource(sourceId)) {
+        map.removeSource(sourceId);
+      }
+    }
+
+    if (competitors.length === 0) return;
+
+    // Brand colors matching CompetitorPanel
+    const brandColors: Record<string, string> = {
+      "McDonald's": '#FFC72C',
+      "Burger King": '#D62300',
+      "KFC": '#F40027',
+      "Domino's": '#006491',
+      "Starbucks": '#00704A'
+    };
+
+    // Create GeoJSON for competitors
+    const competitorFeatures = competitors.map((c, index) => ({
+      type: 'Feature' as const,
+      properties: {
+        id: `on-demand-${index}`,
+        brand: c.brand,
+        placeName: c.placeName || c.brand,
+        distanceM: c.distanceM,
+        color: brandColors[c.brand] || '#6B7280'
+      },
+      geometry: {
+        type: 'Point' as const,
+        coordinates: [c.lng, c.lat]
+      }
+    }));
+
+    // Generate circle polygon for radius ring
+    const generateCirclePolygon = (centerLng: number, centerLat: number, radiusKm: number, points: number = 64) => {
+      const coords: [number, number][] = [];
+      const radiusInDegrees = radiusKm / 111.32;
+
+      for (let i = 0; i <= points; i++) {
+        const angle = (i / points) * 2 * Math.PI;
+        const lng = centerLng + radiusInDegrees * Math.cos(angle) / Math.cos(centerLat * Math.PI / 180);
+        const lat = centerLat + radiusInDegrees * Math.sin(angle);
+        coords.push([lng, lat]);
+      }
+
+      return {
+        type: 'Feature' as const,
+        properties: {},
+        geometry: {
+          type: 'Polygon' as const,
+          coordinates: [coords]
+        }
+      };
+    };
+
+    // Add competitor source
+    map.addSource('on-demand-competitors', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: competitorFeatures
+      }
+    });
+
+    // Add radius ring source
+    const radiusPolygon = generateCirclePolygon(center.lng, center.lat, radiusKm);
+    map.addSource('on-demand-radius', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [radiusPolygon]
+      }
+    });
+
+    // Add radius fill layer (very faint)
+    map.addLayer({
+      id: 'on-demand-radius-fill',
+      type: 'fill',
+      source: 'on-demand-radius',
+      paint: {
+        'fill-color': '#3B82F6',
+        'fill-opacity': 0.05
+      }
+    });
+
+    // Add radius ring layer
+    map.addLayer({
+      id: 'on-demand-radius-ring',
+      type: 'line',
+      source: 'on-demand-radius',
+      paint: {
+        'line-color': '#3B82F6',
+        'line-width': 2,
+        'line-opacity': 0.6,
+        'line-dasharray': [2, 2]
+      }
+    });
+
+    // Add competitor icons layer
+    map.addLayer({
+      id: 'on-demand-competitor-icons',
+      type: 'circle',
+      source: 'on-demand-competitors',
+      paint: {
+        'circle-color': ['get', 'color'],
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          10, 6,
+          14, 10,
+          18, 14
+        ],
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-opacity': 0.9,
+        'circle-opacity': 0.85
+      }
+    });
+
+    // Add competitor labels layer
+    map.addLayer({
+      id: 'on-demand-competitor-labels',
+      type: 'symbol',
+      source: 'on-demand-competitors',
+      minzoom: 13,
+      layout: {
+        'text-field': ['get', 'brand'],
+        'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+        'text-size': 11,
+        'text-offset': [0, 1.5],
+        'text-anchor': 'top',
+        'text-optional': true
+      },
+      paint: {
+        'text-color': '#374151',
+        'text-halo-color': '#ffffff',
+        'text-halo-width': 1.5
+      }
+    });
+
+    // Add hover tooltip
+    map.on('mouseenter', 'on-demand-competitor-icons', (e: any) => {
+      map.getCanvas().style.cursor = 'pointer';
+      
+      const feature = e.features?.[0];
+      if (!feature) return;
+
+      const { brand, placeName, distanceM, color } = feature.properties;
+
+      let tooltip = document.getElementById('on-demand-competitor-tooltip');
+      if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'on-demand-competitor-tooltip';
+        tooltip.style.cssText = `
+          position: fixed;
+          background: #1f2937;
+          color: white;
+          border: 1px solid #374151;
+          border-radius: 8px;
+          padding: 10px 14px;
+          font-size: 13px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 999999;
+          pointer-events: none;
+          max-width: 250px;
+          font-family: system-ui, -apple-system, sans-serif;
+        `;
+        document.body.appendChild(tooltip);
+      }
+
+      const distanceText = distanceM < 1000 
+        ? `${Math.round(distanceM)}m away`
+        : `${(distanceM / 1000).toFixed(1)}km away`;
+
+      tooltip.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: ${color};"></span>
+          ${brand}
+        </div>
+        ${placeName !== brand ? `<div style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;">${placeName}</div>` : ''}
+        <div style="font-size: 12px; color: #60a5fa;">${distanceText}</div>
+      `;
+
+      tooltip.style.display = 'block';
+    });
+
+    map.on('mousemove', 'on-demand-competitor-icons', (e: any) => {
+      const tooltip = document.getElementById('on-demand-competitor-tooltip');
+      if (tooltip) {
+        tooltip.style.left = `${e.originalEvent.clientX + 15}px`;
+        tooltip.style.top = `${e.originalEvent.clientY + 15}px`;
+      }
+    });
+
+    map.on('mouseleave', 'on-demand-competitor-icons', () => {
+      map.getCanvas().style.cursor = '';
+      const tooltip = document.getElementById('on-demand-competitor-tooltip');
+      if (tooltip) {
+        tooltip.style.display = 'none';
+      }
+    });
+
+    console.log(`🏢 On-demand competitor overlay rendered: ${competitors.length} competitors, ${radiusKm}km radius`);
+  };
+
+  // Helper function to clear on-demand competitor overlay
+  const clearOnDemandCompetitorLayer = (map: any) => {
+    const layerIds = ['on-demand-competitor-icons', 'on-demand-competitor-labels', 'on-demand-radius-ring', 'on-demand-radius-fill'];
+    const sourceIds = ['on-demand-competitors', 'on-demand-radius'];
+    
+    for (const layerId of layerIds) {
+      if (map.getLayer(layerId)) {
+        map.removeLayer(layerId);
+      }
+    }
+    for (const sourceId of sourceIds) {
+      if (map.getSource(sourceId)) {
+        map.removeSource(sourceId);
+      }
+    }
+
+    // Remove tooltip if it exists
+    const tooltip = document.getElementById('on-demand-competitor-tooltip');
+    if (tooltip) {
+      tooltip.remove();
+    }
+
+    console.log('🏢 On-demand competitor overlay cleared');
   };
 
   console.log('🗺️ WorkingMapView render:', {
@@ -1257,6 +1509,21 @@ export default function WorkingMapView({
       }
     }
   }, [competitors, mapLoaded, onCompetitorSelect]);
+
+  // Effect to manage on-demand competitor overlay (new Google Places system)
+  useEffect(() => {
+    if (!mapInstanceRef.current || !mapLoaded) return;
+    
+    const map = mapInstanceRef.current;
+    
+    if (showOnDemandCompetitors && onDemandCompetitors.length > 0 && onDemandCompetitorCenter) {
+      console.log('🏢 Rendering on-demand competitors:', onDemandCompetitors.length);
+      addOnDemandCompetitorLayer(map, onDemandCompetitors, onDemandCompetitorCenter, 5);
+    } else {
+      // Clear overlay when not showing
+      clearOnDemandCompetitorLayer(map);
+    }
+  }, [showOnDemandCompetitors, onDemandCompetitors, onDemandCompetitorCenter, mapLoaded]);
 
   if (error) {
     return (

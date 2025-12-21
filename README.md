@@ -109,6 +109,40 @@ Click the 🔄 Refresh button in the header to force a cache refresh and fetch t
 
 The Expansion Predictor helps identify optimal locations for new store openings using geographic and demographic analysis with AI-powered strategic selection.
 
+### On-Demand Competitor Discovery
+
+The Intelligence Map includes on-demand competitor discovery powered by Google Places API. This feature allows users to see nearby QSR competitors when evaluating expansion locations or existing stores.
+
+#### How to Use
+1. Navigate to the Intelligence Map (`/stores/map` with expansion feature enabled)
+2. Click on any store marker or expansion suggestion
+3. In the detail panel, click **"Show competitors (5km)"**
+4. Competitor markers appear on the map with a 5km radius ring
+5. Hover over competitor markers to see brand, name, and distance
+6. View summary statistics showing total count and nearest distance per brand
+
+#### Supported Brands
+- McDonald's (yellow)
+- Burger King (red)
+- KFC (red)
+- Domino's (blue)
+- Starbucks (green)
+
+#### Configuration
+```bash
+# Google Places API key (required for competitor discovery)
+# Get from: https://console.cloud.google.com/apis/credentials
+# Required APIs: Places API (New) - Text Search
+GOOGLE_PLACES_API_KEY=your-google-places-api-key-here
+```
+
+#### Features
+- **On-demand loading**: Competitors only fetched when requested (no auto-loading)
+- **30-minute cache**: Results cached to reduce API calls
+- **Deduplication**: Removes duplicate locations within 50m
+- **Rate limiting**: 10 requests per minute per session
+- **Brand-specific colors**: Easy visual identification on map
+
 ### Required Configuration
 - `DATABASE_URL`: PostgreSQL connection string (required for all features)
 

@@ -1,6 +1,8 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import { ExpansionSuggestion } from './SuggestionMarker';
+import CompetitorPanel, { CompetitorResult, NearbyCompetitorsResponse } from './CompetitorPanel';
 
 export interface SuggestionInfoCardProps {
   suggestion: ExpansionSuggestion;
@@ -8,6 +10,12 @@ export interface SuggestionInfoCardProps {
   onStatusChange: (status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => Promise<void>;
   onSaveAsPlannedStore?: () => Promise<void>;
   nearestStoreDistance?: number;
+  /** Callback when competitors are loaded - used to render overlay on map */
+  onCompetitorsLoaded?: (results: CompetitorResult[], center: { lat: number; lng: number }) => void;
+  /** Callback when competitors are cleared */
+  onCompetitorsCleared?: () => void;
+  /** Whether to show the competitor panel (only on Intelligence Map) */
+  showCompetitorPanel?: boolean;
 }
 
 export default function SuggestionInfoCard({
@@ -15,7 +23,10 @@ export default function SuggestionInfoCard({
   onClose,
   onStatusChange,
   onSaveAsPlannedStore,
-  nearestStoreDistance
+  nearestStoreDistance,
+  onCompetitorsLoaded,
+  onCompetitorsCleared,
+  showCompetitorPanel = false
 }: SuggestionInfoCardProps) {
   const handleStatusChange = async (status: 'NEW' | 'APPROVED' | 'REJECTED' | 'HOLD') => {
     await onStatusChange(status);
@@ -26,6 +37,20 @@ export default function SuggestionInfoCard({
       await onSaveAsPlannedStore();
     }
   };
+
+  // Handle competitor data loaded
+  const handleCompetitorsLoaded = useCallback((results: CompetitorResult[], response: NearbyCompetitorsResponse) => {
+    if (onCompetitorsLoaded) {
+      onCompetitorsLoaded(results, { lat: suggestion.lat, lng: suggestion.lng });
+    }
+  }, [onCompetitorsLoaded, suggestion.lat, suggestion.lng]);
+
+  // Handle competitors cleared
+  const handleCompetitorsCleared = useCallback(() => {
+    if (onCompetitorsCleared) {
+      onCompetitorsCleared();
+    }
+  }, [onCompetitorsCleared]);
 
   return (
     <div style={{
@@ -569,6 +594,23 @@ export default function SuggestionInfoCard({
                suggestion.status === 'REJECTED' ? '❌ Rejected' :
                suggestion.status === 'HOLD' ? '⚠️ Hold' : suggestion.status}
             </div>
+          </div>
+        )}
+
+        {/* Competitor Analysis Panel - Only shown on Intelligence Map */}
+        {showCompetitorPanel && (
+          <div style={{ 
+            marginBottom: '16px',
+            padding: '12px',
+            background: '#1f2937',
+            borderRadius: '8px',
+            border: '1px solid #374151'
+          }}>
+            <CompetitorPanel
+              selectedLocation={{ lat: suggestion.lat, lng: suggestion.lng }}
+              onCompetitorsLoaded={handleCompetitorsLoaded}
+              onCompetitorsCleared={handleCompetitorsCleared}
+            />
           </div>
         )}
 

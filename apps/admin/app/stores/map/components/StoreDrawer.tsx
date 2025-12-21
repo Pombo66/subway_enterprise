@@ -7,6 +7,7 @@ import { StoreDrawerProps } from '../types';
 import { useStoreKPIs } from '../hooks/useStoreKPIs';
 import { DrawerLoadingSkeleton, ErrorStateWithRetry } from './LoadingSkeletons';
 import ClientTimeDisplay from './ClientTimeDisplay';
+import CompetitorPanel, { CompetitorResult, NearbyCompetitorsResponse } from './CompetitorPanel';
 import styles from './StoreDrawer.module.css';
 
 /**
@@ -17,13 +18,30 @@ export default function StoreDrawer({
   store, 
   isOpen, 
   onClose, 
-  onNavigateToDetails 
+  onNavigateToDetails,
+  onCompetitorsLoaded,
+  onCompetitorsCleared,
+  showCompetitorPanel = false
 }: StoreDrawerProps) {
   const router = useRouter();
   const drawerRef = useRef<HTMLDivElement>(null);
   
   // Fetch KPIs for the selected store
   const { kpis, loading: loadingKpis, error: kpisError, refetch } = useStoreKPIs(store?.id || null);
+
+  // Handle competitor data loaded
+  const handleCompetitorsLoaded = useCallback((results: CompetitorResult[], response: NearbyCompetitorsResponse) => {
+    if (onCompetitorsLoaded && store) {
+      onCompetitorsLoaded(results, { lat: store.latitude, lng: store.longitude });
+    }
+  }, [onCompetitorsLoaded, store]);
+
+  // Handle competitors cleared
+  const handleCompetitorsCleared = useCallback(() => {
+    if (onCompetitorsCleared) {
+      onCompetitorsCleared();
+    }
+  }, [onCompetitorsCleared]);
 
   // Handle keyboard navigation and focus management
   useEffect(() => {
@@ -340,6 +358,23 @@ export default function StoreDrawer({
               </div>
             ) : null}
           </div>
+
+          {/* Competitor Analysis Panel - Only shown on Intelligence Map */}
+          {showCompetitorPanel && store && (
+            <div className={styles['store-competitor-section']} style={{
+              marginTop: '16px',
+              padding: '16px',
+              background: '#1f2937',
+              borderRadius: '8px',
+              border: '1px solid #374151'
+            }}>
+              <CompetitorPanel
+                selectedLocation={{ lat: store.latitude, lng: store.longitude }}
+                onCompetitorsLoaded={handleCompetitorsLoaded}
+                onCompetitorsCleared={handleCompetitorsCleared}
+              />
+            </div>
+          )}
 
           {/* Actions */}
           <div className={styles['store-actions-section']}>

@@ -19,6 +19,7 @@ import { RevenueForecastingController } from './routes/revenue-forecasting.contr
 import { FranchiseeController } from './routes/franchisee.controller';
 import { AdvancedStoreAnalysisController } from './routes/advanced-store-analysis.controller';
 import { CompetitiveIntelligenceController } from './routes/competitive-intelligence.controller';
+import { CompetitorsNearbyController } from './routes/competitors-nearby.controller';
 // import { GeocodeController } from './routes/geocode';
 import { StoreService } from './services/store.service';
 import { PortfolioOptimizerService } from './services/portfolio/portfolio-optimizer.service';
@@ -37,6 +38,7 @@ import { CompetitorService } from './services/competitive/competitor.service';
 import { CompetitiveAnalysisService } from './services/competitive/competitive-analysis.service';
 import { GooglePlacesService } from './services/competitive/google-places.service';
 import { MapboxCompetitorsService } from './services/competitive/mapbox-competitors.service';
+import { GooglePlacesNearbyService } from './services/competitive/google-places-nearby.service';
 import { ExpansionService } from './services/expansion.service';
 import { AIPipelineController } from './services/ai/ai-pipeline-controller.service';
 import { MarketAnalysisService } from './services/ai/market-analysis.service';
@@ -85,6 +87,7 @@ const prisma = new PrismaClient();
     FranchiseeController,
     AdvancedStoreAnalysisController,
     CompetitiveIntelligenceController,
+    CompetitorsNearbyController,
     // GeocodeController,
   ],
   providers: [
@@ -134,6 +137,7 @@ const prisma = new PrismaClient();
     CompetitiveAnalysisService,
     GooglePlacesService,
     MapboxCompetitorsService,
+    GooglePlacesNearbyService,
     // GeocodeService,
     // Apply authentication globally
     {

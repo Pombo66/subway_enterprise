@@ -1,12 +1,23 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Logger, HttpStatus, HttpException } from '@nestjs/common';
 import { CompetitorService, CompetitorFilters } from '../services/competitive/competitor.service';
 import { CompetitiveAnalysisService, CompetitiveAnalysisRequest } from '../services/competitive/competitive-analysis.service';
 import { GooglePlacesService } from '../services/competitive/google-places.service';
 import { MapboxCompetitorsService, MapboxCompetitorRequest } from '../services/competitive/mapbox-competitors.service';
 import { PrismaClient } from '@prisma/client';
 
+/**
+ * Controller for competitive intelligence features.
+ * 
+ * NOTE: Several endpoints in this controller are deprecated.
+ * Use the new on-demand competitor system instead:
+ * - POST /api/competitors/nearby - Fetch competitors on-demand for a specific location
+ * 
+ * @see CompetitorsNearbyController
+ */
 @Controller('competitive-intelligence')
 export class CompetitiveIntelligenceController {
+  private readonly logger = new Logger(CompetitiveIntelligenceController.name);
+
   constructor(
     private competitorService: CompetitorService,
     private competitiveAnalysisService: CompetitiveAnalysisService,
@@ -15,6 +26,11 @@ export class CompetitiveIntelligenceController {
     private prisma: PrismaClient
   ) {}
 
+  /**
+   * @deprecated Use POST /api/competitors/nearby instead.
+   * This endpoint queries the database and auto-fetches from Mapbox, which is deprecated.
+   * The new system uses Google Places API for on-demand discovery.
+   */
   @Get('competitors')
   async getCompetitors(
     @Query('brand') brand?: string,
@@ -25,6 +41,8 @@ export class CompetitiveIntelligenceController {
     @Query('lng') lng?: string,
     @Query('radius') radius?: string
   ) {
+    this.logger.warn('⚠️ DEPRECATED: GET /competitive-intelligence/competitors called. Use POST /api/competitors/nearby instead.');
+    
     const filters: CompetitorFilters = {};
 
     if (brand) filters.brand = brand;
@@ -114,59 +132,41 @@ export class CompetitiveIntelligenceController {
     };
   }
 
+  /**
+   * @deprecated This endpoint is deprecated and returns 410 Gone.
+   * Use POST /api/competitors/nearby instead for on-demand competitor discovery.
+   * 
+   * The new system:
+   * - Uses Google Places API instead of Mapbox Tilequery
+   * - Does not persist data to database
+   * - Provides better accuracy and coverage
+   */
   @Post('competitors/refresh')
   async refreshCompetitors(@Body() request: MapboxCompetitorRequest) {
-    // Create refresh job
-    const job = await this.prisma.competitorRefreshJob.create({
-      data: {
-        region: request.latitude && request.longitude 
-          ? `${request.latitude},${request.longitude}` 
-          : undefined,
-        sources: JSON.stringify(['mapbox']),
-        categories: JSON.stringify(['qsr', 'pizza', 'coffee', 'sandwich']),
-        status: 'running',
-        startedAt: new Date(),
-      },
-    });
-
-    try {
-      // Refresh from Mapbox Tilequery API
-      const result = await this.mapboxCompetitorsService.refreshCompetitors(request);
-
-      // Update job
-      await this.prisma.competitorRefreshJob.update({
-        where: { id: job.id },
-        data: {
-          status: 'completed',
-          completedAt: new Date(),
-          placesFound: result.found,
-          placesAdded: result.added,
-          placesUpdated: result.updated,
-          googleApiCalls: 0, // Using Mapbox, not Google
-        },
-      });
-
-      return {
-        success: true,
-        jobId: job.id,
-        result,
-      };
-    } catch (error: any) {
-      // Update job with error
-      await this.prisma.competitorRefreshJob.update({
-        where: { id: job.id },
-        data: {
-          status: 'failed',
-          completedAt: new Date(),
-          error: error.message,
-        },
-      });
-
-      return {
+    this.logger.warn('⚠️ DEPRECATED: POST /competitive-intelligence/competitors/refresh called. Returning 410 Gone.');
+    
+    throw new HttpException(
+      {
         success: false,
-        error: error.message,
-      };
-    }
+        error: 'This endpoint is deprecated',
+        message: 'The competitor refresh endpoint has been deprecated. Use POST /api/competitors/nearby instead for on-demand competitor discovery.',
+        migration: {
+          newEndpoint: 'POST /api/competitors/nearby',
+          documentation: 'The new system uses Google Places API for on-demand competitor discovery with in-memory caching.',
+          example: {
+            url: '/api/competitors/nearby',
+            method: 'POST',
+            body: {
+              lat: request.latitude,
+              lng: request.longitude,
+              radiusKm: 5,
+              brands: ["McDonald's", "Burger King", "KFC", "Domino's", "Starbucks"]
+            }
+          }
+        }
+      },
+      HttpStatus.GONE
+    );
   }
 
   @Post('analyze')

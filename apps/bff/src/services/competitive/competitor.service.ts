@@ -1,6 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
+/**
+ * Filters for querying competitors from the database.
+ * @deprecated Database-based competitor storage is deprecated.
+ * Use GooglePlacesNearbyService for on-demand competitor discovery instead.
+ */
 export interface CompetitorFilters {
   brand?: string;
   category?: string;
@@ -17,11 +22,34 @@ export interface CompetitorFilters {
   centerLng?: number;
 }
 
+/**
+ * Service for managing competitor data in the database.
+ * 
+ * @deprecated This service is partially deprecated. The following methods are deprecated:
+ * - getCompetitors() - Use GooglePlacesNearbyService.getNearbyCompetitors() instead
+ * - createCompetitor() - No longer needed, competitors are fetched on-demand
+ * - updateCompetitor() - No longer needed, competitors are fetched on-demand
+ * 
+ * The new competitor system:
+ * - Uses Google Places API for on-demand discovery
+ * - Does not persist competitor data to database
+ * - Uses in-memory caching with 30-minute TTL
+ * 
+ * @see GooglePlacesNearbyService
+ */
 @Injectable()
 export class CompetitorService {
+  private readonly logger = new Logger(CompetitorService.name);
+
   constructor(private prisma: PrismaClient) {}
 
+  /**
+   * @deprecated Use GooglePlacesNearbyService.getNearbyCompetitors() instead.
+   * This method queries the database which is no longer the recommended approach.
+   */
   async getCompetitors(filters: CompetitorFilters = {}) {
+    this.logger.warn('⚠️ DEPRECATED: getCompetitors() called. Use GooglePlacesNearbyService instead.');
+    
     const where: any = {
       isActive: true,
     };
@@ -69,13 +97,22 @@ export class CompetitorService {
     return competitors;
   }
 
+  /**
+   * @deprecated Database-based competitor storage is deprecated.
+   */
   async getCompetitorById(id: string) {
+    this.logger.warn('⚠️ DEPRECATED: getCompetitorById() called.');
     return this.prisma.competitorPlace.findUnique({
       where: { id },
     });
   }
 
+  /**
+   * @deprecated Database-based competitor storage is deprecated.
+   * Competitors are now fetched on-demand from Google Places API.
+   */
   async createCompetitor(data: any) {
+    this.logger.warn('⚠️ DEPRECATED: createCompetitor() called. Competitors should not be persisted to database.');
     return this.prisma.competitorPlace.create({
       data: {
         ...data,
@@ -84,7 +121,11 @@ export class CompetitorService {
     });
   }
 
+  /**
+   * @deprecated Database-based competitor storage is deprecated.
+   */
   async updateCompetitor(id: string, data: any) {
+    this.logger.warn('⚠️ DEPRECATED: updateCompetitor() called.');
     return this.prisma.competitorPlace.update({
       where: { id },
       data: {
@@ -94,14 +135,22 @@ export class CompetitorService {
     });
   }
 
+  /**
+   * @deprecated Database-based competitor storage is deprecated.
+   */
   async deactivateCompetitor(id: string) {
+    this.logger.warn('⚠️ DEPRECATED: deactivateCompetitor() called.');
     return this.prisma.competitorPlace.update({
       where: { id },
       data: { isActive: false },
     });
   }
 
+  /**
+   * @deprecated Use GooglePlacesNearbyService response summary instead.
+   */
   async getCompetitorStats(filters: CompetitorFilters = {}) {
+    this.logger.warn('⚠️ DEPRECATED: getCompetitorStats() called. Use GooglePlacesNearbyService response summary instead.');
     const competitors = await this.getCompetitors(filters);
 
     const byBrand: Record<string, number> = {};

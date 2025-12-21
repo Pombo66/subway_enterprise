@@ -133,6 +133,18 @@ export interface MapViewProps {
     threatLevel?: string;
   }>;
   onCompetitorSelect?: (competitor: any) => void;
+  /** On-demand competitors from Google Places API (new system) */
+  onDemandCompetitors?: Array<{
+    brand: string;
+    lat: number;
+    lng: number;
+    distanceM: number;
+    placeName?: string;
+  }>;
+  /** Center point for on-demand competitor radius ring */
+  onDemandCompetitorCenter?: { lat: number; lng: number } | null;
+  /** Whether to show on-demand competitor overlay */
+  showOnDemandCompetitors?: boolean;
 }
 
 export interface MapFiltersProps {
@@ -149,6 +161,12 @@ export interface StoreDrawerProps {
   onNavigateToDetails: (storeId: string) => void;
   kpis?: StoreKPIs;
   loadingKpis?: boolean;
+  /** Callback when competitors are loaded - used to render overlay on map */
+  onCompetitorsLoaded?: (results: any[], center: { lat: number; lng: number }) => void;
+  /** Callback when competitors are cleared */
+  onCompetitorsCleared?: () => void;
+  /** Whether to show the competitor panel (only on Intelligence Map) */
+  showCompetitorPanel?: boolean;
 }
 
 // Hook return types
