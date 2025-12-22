@@ -126,6 +126,22 @@ export function CompetitorPanel({
 
       const data: NearbyCompetitorsResponse = await response.json();
       
+      console.log('🏢 CompetitorPanel received data:', {
+        hasResults: !!data?.results,
+        resultsLength: data?.results?.length,
+        hasCenter: !!data?.center,
+        center: data?.center,
+        hasSummary: !!data?.summary,
+        cached: data?.cached,
+        fullData: data
+      });
+      
+      // Validate response structure
+      if (!data || !data.results) {
+        console.error('🏢 Invalid response structure:', data);
+        throw new Error('Invalid response from competitor service');
+      }
+      
       setSummary(data.summary);
       setCached(data.cached);
       setShowCompetitors(true);
