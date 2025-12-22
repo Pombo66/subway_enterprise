@@ -592,10 +592,18 @@ export default function ExpansionIntegratedMapPage() {
   }, []);
 
   // On-demand competitor overlay handlers
-  const handleOnDemandCompetitorsLoaded = useCallback((results: CompetitorResult[], centerOrResponse: any) => {
-    // Handle both formats:
-    // 1. Direct center: { lat, lng } from StoreDrawer/SuggestionInfoCard
-    // 2. Response object: { center: { lat, lng }, ... } from CompetitorPanel
+  const handleOnDemandCompetitorsCleared = useCallback(() => {
+    console.log('🏢 On-demand competitors cleared');
+    setOnDemandCompetitors([]);
+    setCompetitorOverlayCenter(null);
+    setShowOnDemandCompetitors(false);
+  }, []);
+
+  // Track the location that competitors were loaded for
+  const [competitorLocationId, setCompetitorLocationId] = useState<string | null>(null);
+
+  // Update competitor location ID when competitors are loaded
+  const handleOnDemandCompetitorsLoadedWithTracking = useCallback((results: CompetitorResult[], centerOrResponse: any) => {
     const center = centerOrResponse?.center || centerOrResponse;
     
     console.log('🏢 On-demand competitors loaded:', results?.length, 'center:', center);
@@ -605,25 +613,26 @@ export default function ExpansionIntegratedMapPage() {
       return;
     }
     
+    // Track which location these competitors are for
+    const locationId = selectedStoreId || selectedSuggestion?.id || null;
+    setCompetitorLocationId(locationId);
+    
     setOnDemandCompetitors(results);
     setCompetitorOverlayCenter(center);
     setShowOnDemandCompetitors(true);
-  }, []);
-
-  const handleOnDemandCompetitorsCleared = useCallback(() => {
-    console.log('🏢 On-demand competitors cleared');
-    setOnDemandCompetitors([]);
-    setCompetitorOverlayCenter(null);
-    setShowOnDemandCompetitors(false);
-  }, []);
-
-  // Clear on-demand competitors when selection changes
-  useEffect(() => {
-    // Clear competitors when store or suggestion selection changes
-    if (showOnDemandCompetitors) {
-      handleOnDemandCompetitorsCleared();
-    }
   }, [selectedStoreId, selectedSuggestion?.id]);
+
+  // Clear on-demand competitors only when selecting a DIFFERENT store/suggestion
+  useEffect(() => {
+    const currentLocationId = selectedStoreId || selectedSuggestion?.id || null;
+    
+    // Only clear if we have competitors showing AND the location has changed to a different one
+    if (showOnDemandCompetitors && competitorLocationId && currentLocationId !== competitorLocationId) {
+      console.log('🏢 Clearing competitors - location changed from', competitorLocationId, 'to', currentLocationId);
+      handleOnDemandCompetitorsCleared();
+      setCompetitorLocationId(null);
+    }
+  }, [selectedStoreId, selectedSuggestion?.id, showOnDemandCompetitors, competitorLocationId, handleOnDemandCompetitorsCleared]);
 
   // Store selection handlers
   const handleStoreSelect = (store: any) => {
@@ -1080,7 +1089,7 @@ export default function ExpansionIntegratedMapPage() {
         onClose={handleCloseDrawer}
         onNavigateToDetails={handleNavigateToDetails}
         showCompetitorPanel={true}
-        onCompetitorsLoaded={handleOnDemandCompetitorsLoaded}
+        onCompetitorsLoaded={handleOnDemandCompetitorsLoadedWithTracking}
         onCompetitorsCleared={handleOnDemandCompetitorsCleared}
       />
 
@@ -1092,7 +1101,7 @@ export default function ExpansionIntegratedMapPage() {
           onStatusChange={async (status) => await handleStatusChange(selectedSuggestion.id, status)}
           onSaveAsPlannedStore={handleSaveAsPlannedStore}
           showCompetitorPanel={true}
-          onCompetitorsLoaded={handleOnDemandCompetitorsLoaded}
+          onCompetitorsLoaded={handleOnDemandCompetitorsLoadedWithTracking}
           onCompetitorsCleared={handleOnDemandCompetitorsCleared}
         />
       )}
