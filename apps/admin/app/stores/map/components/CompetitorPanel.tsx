@@ -124,21 +124,22 @@ export function CompetitorPanel({
         throw new Error(errorData.error || 'Failed to load competitors');
       }
 
-      const data: NearbyCompetitorsResponse = await response.json();
+      const responseJson = await response.json();
       
       console.log('🏢 CompetitorPanel received data:', {
-        hasResults: !!data?.results,
-        resultsLength: data?.results?.length,
-        hasCenter: !!data?.center,
-        center: data?.center,
-        hasSummary: !!data?.summary,
-        cached: data?.cached,
-        fullData: data
+        hasData: !!responseJson?.data,
+        hasResults: !!responseJson?.results || !!responseJson?.data?.results,
+        topLevelKeys: Object.keys(responseJson || {}),
+        fullResponse: responseJson
       });
+      
+      // Handle wrapped response: { data: { results, ... }, success, timestamp }
+      // or direct response: { results, ... }
+      const data: NearbyCompetitorsResponse = responseJson?.data || responseJson;
       
       // Validate response structure
       if (!data || !data.results) {
-        console.error('🏢 Invalid response structure:', data);
+        console.error('🏢 Invalid response structure:', responseJson);
         throw new Error('Invalid response from competitor service');
       }
       
