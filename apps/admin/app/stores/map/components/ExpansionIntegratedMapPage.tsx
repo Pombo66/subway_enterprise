@@ -640,8 +640,24 @@ export default function ExpansionIntegratedMapPage() {
   };
 
   const handleCloseDrawer = () => {
+    // If competitors are showing, also clear them when closing the drawer
+    if (showOnDemandCompetitors) {
+      handleOnDemandCompetitorsCleared();
+    }
     setSelectedStoreId(null);
   };
+  
+  // Handle map background click - only close if competitors are NOT showing
+  const handleMapBackgroundClick = useCallback(() => {
+    // Don't deselect if competitors are actively showing - user may want to explore the map
+    if (showOnDemandCompetitors) {
+      console.log('🗺️ Map click ignored - competitors overlay is active');
+      return;
+    }
+    // Otherwise, deselect the store/suggestion
+    setSelectedStoreId(null);
+    setSelectedSuggestion(null);
+  }, [showOnDemandCompetitors]);
 
   const handleNavigateToDetails = (storeId: string) => {
     router.push(`/stores/${storeId}`);
@@ -976,6 +992,7 @@ export default function ExpansionIntegratedMapPage() {
                 onDemandCompetitors={onDemandCompetitors}
                 onDemandCompetitorCenter={competitorOverlayCenter}
                 showOnDemandCompetitors={showOnDemandCompetitors}
+                onMapBackgroundClick={handleMapBackgroundClick}
               />
             </SimpleErrorBoundary>
 

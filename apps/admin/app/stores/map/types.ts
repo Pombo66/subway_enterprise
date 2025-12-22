@@ -145,6 +145,8 @@ export interface MapViewProps {
   onDemandCompetitorCenter?: { lat: number; lng: number } | null;
   /** Whether to show on-demand competitor overlay */
   showOnDemandCompetitors?: boolean;
+  /** Callback when user clicks on empty map space (not on a store/suggestion/competitor) */
+  onMapBackgroundClick?: () => void;
 }
 
 export interface MapFiltersProps {

@@ -21,7 +21,8 @@ export default function WorkingMapView({
   onCompetitorSelect,
   onDemandCompetitors = [],
   onDemandCompetitorCenter = null,
-  showOnDemandCompetitors = false
+  showOnDemandCompetitors = false,
+  onMapBackgroundClick
 }: MapViewProps) {
   console.log('🎨 WorkingMapView component rendering with props:', {
     storesLength: stores?.length,
@@ -679,6 +680,16 @@ export default function WorkingMapView({
     storesSample: stores.slice(0, 2).map(s => ({ name: s.name, lat: s.latitude, lng: s.longitude }))
   });
 
+  // Set up background click handler on window for map to call
+  useEffect(() => {
+    if (onMapBackgroundClick) {
+      (window as any).__mapBackgroundClickHandler = onMapBackgroundClick;
+    }
+    return () => {
+      delete (window as any).__mapBackgroundClickHandler;
+    };
+  }, [onMapBackgroundClick]);
+
   // Initialize map once on mount
   useEffect(() => {
     console.log('🗺️ Map initialization effect triggered!');
@@ -1249,6 +1260,33 @@ export default function WorkingMapView({
               // Position tooltip close to cursor
               tooltip.style.left = (pageX + 15) + 'px';
               tooltip.style.top = (pageY - 60) + 'px';
+            }
+          });
+
+          // Handle clicks on empty map space (background)
+          // This fires for ALL clicks, so we check if it hit any interactive layer
+          map.on('click', (e) => {
+            // Check if click was on any interactive layer
+            const interactiveLayers = [
+              'clusters', 
+              'unclustered-point', 
+              'expansion-suggestions', 
+              'expansion-suggestions-ai-glow',
+              'competitors',
+              'on-demand-competitor-icons'
+            ];
+            
+            const features = map.queryRenderedFeatures(e.point, {
+              layers: interactiveLayers.filter(layer => map.getLayer(layer))
+            });
+            
+            // If no features were clicked, this is a background click
+            if (features.length === 0) {
+              console.log('🗺️ Map background clicked (no features)');
+              // Call the background click handler if provided
+              if (typeof (window as any).__mapBackgroundClickHandler === 'function') {
+                (window as any).__mapBackgroundClickHandler();
+              }
             }
           });
 
