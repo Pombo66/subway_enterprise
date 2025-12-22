@@ -592,11 +592,20 @@ export default function ExpansionIntegratedMapPage() {
   }, []);
 
   // On-demand competitor overlay handlers
-  const handleOnDemandCompetitorsLoaded = useCallback((results: CompetitorResult[], response: any) => {
-    // Extract center from the response object
-    const center = response?.center || null;
-    console.log('🏢 On-demand competitors loaded:', results?.length, 'at', center);
-    setOnDemandCompetitors(results || []);
+  const handleOnDemandCompetitorsLoaded = useCallback((results: CompetitorResult[], centerOrResponse: any) => {
+    // Handle both formats:
+    // 1. Direct center: { lat, lng } from StoreDrawer/SuggestionInfoCard
+    // 2. Response object: { center: { lat, lng }, ... } from CompetitorPanel
+    const center = centerOrResponse?.center || centerOrResponse;
+    
+    console.log('🏢 On-demand competitors loaded:', results?.length, 'center:', center);
+    
+    if (!results || !center || typeof center.lat !== 'number' || typeof center.lng !== 'number') {
+      console.error('🏢 Invalid competitor data:', { results: results?.length, center });
+      return;
+    }
+    
+    setOnDemandCompetitors(results);
     setCompetitorOverlayCenter(center);
     setShowOnDemandCompetitors(true);
   }, []);
