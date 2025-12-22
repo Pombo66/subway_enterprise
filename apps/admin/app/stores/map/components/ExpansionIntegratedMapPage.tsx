@@ -592,9 +592,11 @@ export default function ExpansionIntegratedMapPage() {
   }, []);
 
   // On-demand competitor overlay handlers
-  const handleOnDemandCompetitorsLoaded = useCallback((results: CompetitorResult[], center: { lat: number; lng: number }) => {
-    console.log('🏢 On-demand competitors loaded:', results.length, 'at', center);
-    setOnDemandCompetitors(results);
+  const handleOnDemandCompetitorsLoaded = useCallback((results: CompetitorResult[], response: any) => {
+    // Extract center from the response object
+    const center = response?.center || null;
+    console.log('🏢 On-demand competitors loaded:', results?.length, 'at', center);
+    setOnDemandCompetitors(results || []);
     setCompetitorOverlayCenter(center);
     setShowOnDemandCompetitors(true);
   }, []);

@@ -1512,15 +1512,24 @@ export default function WorkingMapView({
 
   // Effect to manage on-demand competitor overlay (new Google Places system)
   useEffect(() => {
+    console.log('🔄 WorkingMapView competitors effect:', {
+      hasMap: !!mapInstanceRef.current,
+      mapLoaded,
+      showOnDemandCompetitors,
+      onDemandCompetitorsLength: onDemandCompetitors?.length,
+      hasCenter: !!onDemandCompetitorCenter
+    });
+    
     if (!mapInstanceRef.current || !mapLoaded) return;
     
     const map = mapInstanceRef.current;
     
-    if (showOnDemandCompetitors && onDemandCompetitors.length > 0 && onDemandCompetitorCenter) {
+    if (showOnDemandCompetitors && onDemandCompetitors && onDemandCompetitors.length > 0 && onDemandCompetitorCenter) {
       console.log('🏢 Rendering on-demand competitors:', onDemandCompetitors.length);
       addOnDemandCompetitorLayer(map, onDemandCompetitors, onDemandCompetitorCenter, 5);
     } else {
       // Clear overlay when not showing
+      console.log('🗑️ Removing competitors layer (no competitors)');
       clearOnDemandCompetitorLayer(map);
     }
   }, [showOnDemandCompetitors, onDemandCompetitors, onDemandCompetitorCenter, mapLoaded]);
