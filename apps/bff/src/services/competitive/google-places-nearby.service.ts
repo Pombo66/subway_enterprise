@@ -170,7 +170,7 @@ export class GooglePlacesNearbyService {
   }
 
   /**
-   * Search for a specific brand using Google Places Text Search
+   * Search for a specific brand using Google Places API (New) - Text Search
    */
   private async searchBrand(
     brand: string, 
@@ -184,38 +184,45 @@ export class GooglePlacesNearbyService {
     
     while (retries < this.MAX_RETRIES) {
       try {
-        // Use Text Search API for better brand matching
-        const response = await axios.get(
-          'https://maps.googleapis.com/maps/api/place/textsearch/json',
+        // Use Places API (New) - Text Search endpoint
+        const response = await axios.post(
+          'https://places.googleapis.com/v1/places:searchText',
           {
-            params: {
-              query: brand,
-              location: `${lat},${lng}`,
-              radius: radiusM,
-              type: 'restaurant',
-              key: this.apiKey
+            textQuery: `${brand} restaurant`,
+            locationBias: {
+              circle: {
+                center: {
+                  latitude: lat,
+                  longitude: lng
+                },
+                radius: radiusM
+              }
+            },
+            maxResultCount: this.MAX_PER_BRAND
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Goog-Api-Key': this.apiKey,
+              'X-Goog-FieldMask': 'places.displayName,places.location,places.formattedAddress'
             },
             timeout: this.REQUEST_TIMEOUT_MS
           }
         );
         
-        if (response.data.status === 'ZERO_RESULTS') {
+        const places = response.data.places || [];
+        
+        if (places.length === 0) {
           return [];
         }
-        
-        if (response.data.status !== 'OK') {
-          throw new Error(`Google Places API error: ${response.data.status}`);
-        }
-        
-        const places = response.data.results || [];
         
         for (const place of places) {
           if (results.length >= this.MAX_PER_BRAND) {
             break;
           }
           
-          const placeLat = place.geometry?.location?.lat;
-          const placeLng = place.geometry?.location?.lng;
+          const placeLat = place.location?.latitude;
+          const placeLng = place.location?.longitude;
           
           if (typeof placeLat !== 'number' || typeof placeLng !== 'number') {
             continue;
@@ -230,7 +237,7 @@ export class GooglePlacesNearbyService {
               lat: placeLat,
               lng: placeLng,
               distanceM: Math.round(distanceM),
-              placeName: place.name
+              placeName: place.displayName?.text || place.formattedAddress
             });
           }
         }
@@ -241,9 +248,15 @@ export class GooglePlacesNearbyService {
         lastError = error as Error;
         retries++;
         
-        if (error instanceof AxiosError && error.response?.status === 429) {
-          // Rate limited - don't retry
-          throw new Error('Google Places API rate limit exceeded');
+        if (error instanceof AxiosError) {
+          // Log the actual error for debugging
+          const errorMessage = error.response?.data?.error?.message || error.message;
+          this.logger.error(`Places API error for ${brand}: ${errorMessage}`);
+          
+          if (error.response?.status === 429) {
+            // Rate limited - don't retry
+            throw new Error('Google Places API rate limit exceeded');
+          }
         }
         
         if (retries < this.MAX_RETRIES) {
