@@ -433,8 +433,15 @@ export default function WorkingMapView({
     radiusKm: number = 5
   ) => {
     // Remove existing on-demand layers if they exist
-    const layerIds = ['on-demand-competitor-icons', 'on-demand-competitor-labels', 'on-demand-radius-ring', 'on-demand-radius-fill'];
-    const sourceIds = ['on-demand-competitors', 'on-demand-radius'];
+    const layerIds = [
+      'on-demand-competitor-icons', 
+      'on-demand-competitor-labels', 
+      'on-demand-radius-ring', 
+      'on-demand-radius-fill',
+      'on-demand-center-highlight-pulse',
+      'on-demand-center-highlight'
+    ];
+    const sourceIds = ['on-demand-competitors', 'on-demand-radius', 'on-demand-center'];
     
     for (const layerId of layerIds) {
       if (map.getLayer(layerId)) {
@@ -449,30 +456,62 @@ export default function WorkingMapView({
 
     if (competitors.length === 0) return;
 
-    // Brand colors matching CompetitorPanel
-    const brandColors: Record<string, string> = {
-      "McDonald's": '#FFC72C',
-      "Burger King": '#D62300',
-      "KFC": '#F40027',
-      "Domino's": '#006491',
-      "Starbucks": '#00704A'
+    // Brand colors and logo paths
+    const brandConfig: Record<string, { color: string; logo: string }> = {
+      "McDonald's": { color: '#FFC72C', logo: '/logos/mcdonalds.svg' },
+      "Burger King": { color: '#D62300', logo: '/logos/burgerking.svg' },
+      "KFC": { color: '#F40027', logo: '/logos/kfc.svg' },
+      "Domino's": { color: '#006491', logo: '/logos/dominos.svg' },
+      "Starbucks": { color: '#00704A', logo: '/logos/starbucks.svg' }
+    };
+
+    // Load brand logo images
+    const loadBrandImages = async () => {
+      for (const [brand, config] of Object.entries(brandConfig)) {
+        const imageId = `brand-logo-${brand.toLowerCase().replace(/[^a-z]/g, '')}`;
+        if (!map.hasImage(imageId)) {
+          try {
+            const img = new Image(32, 32);
+            img.crossOrigin = 'anonymous';
+            await new Promise<void>((resolve, reject) => {
+              img.onload = () => {
+                if (!map.hasImage(imageId)) {
+                  map.addImage(imageId, img);
+                }
+                resolve();
+              };
+              img.onerror = () => {
+                console.warn(`Failed to load logo for ${brand}`);
+                resolve(); // Don't reject, just continue without logo
+              };
+              img.src = config.logo;
+            });
+          } catch (e) {
+            console.warn(`Error loading logo for ${brand}:`, e);
+          }
+        }
+      }
     };
 
     // Create GeoJSON for competitors
-    const competitorFeatures = competitors.map((c, index) => ({
-      type: 'Feature' as const,
-      properties: {
-        id: `on-demand-${index}`,
-        brand: c.brand,
-        placeName: c.placeName || c.brand,
-        distanceM: c.distanceM,
-        color: brandColors[c.brand] || '#6B7280'
-      },
-      geometry: {
-        type: 'Point' as const,
-        coordinates: [c.lng, c.lat]
-      }
-    }));
+    const competitorFeatures = competitors.map((c, index) => {
+      const config = brandConfig[c.brand] || { color: '#6B7280', logo: '' };
+      return {
+        type: 'Feature' as const,
+        properties: {
+          id: `on-demand-${index}`,
+          brand: c.brand,
+          placeName: c.placeName || c.brand,
+          distanceM: c.distanceM,
+          color: config.color,
+          logoId: `brand-logo-${c.brand.toLowerCase().replace(/[^a-z]/g, '')}`
+        },
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [c.lng, c.lat]
+        }
+      };
+    });
 
     // Generate circle polygon for radius ring
     const generateCirclePolygon = (centerLng: number, centerLat: number, radiusKm: number, points: number = 64) => {
@@ -515,6 +554,51 @@ export default function WorkingMapView({
       }
     });
 
+    // Add center point source for highlight
+    map.addSource('on-demand-center', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [{
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Point',
+            coordinates: [center.lng, center.lat]
+          }
+        }]
+      }
+    });
+
+    // Add pulsing highlight ring around the center store/suggestion
+    map.addLayer({
+      id: 'on-demand-center-highlight-pulse',
+      type: 'circle',
+      source: 'on-demand-center',
+      paint: {
+        'circle-radius': 25,
+        'circle-color': '#3B82F6',
+        'circle-opacity': 0.3,
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#3B82F6',
+        'circle-stroke-opacity': 0.6
+      }
+    });
+
+    // Add solid highlight ring
+    map.addLayer({
+      id: 'on-demand-center-highlight',
+      type: 'circle',
+      source: 'on-demand-center',
+      paint: {
+        'circle-radius': 18,
+        'circle-color': 'transparent',
+        'circle-stroke-width': 3,
+        'circle-stroke-color': '#2563EB',
+        'circle-stroke-opacity': 1
+      }
+    });
+
     // Add radius fill layer (very faint)
     map.addLayer({
       id: 'on-demand-radius-fill',
@@ -539,47 +623,80 @@ export default function WorkingMapView({
       }
     });
 
-    // Add competitor icons layer
-    map.addLayer({
-      id: 'on-demand-competitor-icons',
-      type: 'circle',
-      source: 'on-demand-competitors',
-      paint: {
-        'circle-color': ['get', 'color'],
-        'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          10, 6,
-          14, 10,
-          18, 14
-        ],
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff',
-        'circle-stroke-opacity': 0.9,
-        'circle-opacity': 0.85
-      }
-    });
+    // Load brand images then add symbol layer
+    loadBrandImages().then(() => {
+      // Check if we have any images loaded
+      const hasImages = Object.keys(brandConfig).some(brand => {
+        const imageId = `brand-logo-${brand.toLowerCase().replace(/[^a-z]/g, '')}`;
+        return map.hasImage(imageId);
+      });
 
-    // Add competitor labels layer
-    map.addLayer({
-      id: 'on-demand-competitor-labels',
-      type: 'symbol',
-      source: 'on-demand-competitors',
-      minzoom: 13,
-      layout: {
-        'text-field': ['get', 'brand'],
-        'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-        'text-size': 11,
-        'text-offset': [0, 1.5],
-        'text-anchor': 'top',
-        'text-optional': true
-      },
-      paint: {
-        'text-color': '#374151',
-        'text-halo-color': '#ffffff',
-        'text-halo-width': 1.5
+      if (hasImages) {
+        // Add competitor icons as symbols with logos
+        map.addLayer({
+          id: 'on-demand-competitor-icons',
+          type: 'symbol',
+          source: 'on-demand-competitors',
+          layout: {
+            'icon-image': ['get', 'logoId'],
+            'icon-size': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              10, 0.6,
+              14, 0.9,
+              18, 1.2
+            ],
+            'icon-allow-overlap': true,
+            'icon-ignore-placement': true
+          }
+        });
+      } else {
+        // Fallback to circles if images didn't load
+        map.addLayer({
+          id: 'on-demand-competitor-icons',
+          type: 'circle',
+          source: 'on-demand-competitors',
+          paint: {
+            'circle-color': ['get', 'color'],
+            'circle-radius': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              10, 8,
+              14, 12,
+              18, 16
+            ],
+            'circle-stroke-width': 2,
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-opacity': 0.9,
+            'circle-opacity': 0.85
+          }
+        });
       }
+
+      // Add competitor labels layer
+      map.addLayer({
+        id: 'on-demand-competitor-labels',
+        type: 'symbol',
+        source: 'on-demand-competitors',
+        minzoom: 13,
+        layout: {
+          'text-field': ['get', 'brand'],
+          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+          'text-size': 11,
+          'text-offset': [0, 1.8],
+          'text-anchor': 'top',
+          'text-optional': true
+        },
+        paint: {
+          'text-color': '#374151',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 1.5
+        }
+      });
+
+      console.log(`🏢 On-demand competitor overlay rendered: ${competitors.length} competitors, ${radiusKm}km radius, logos: ${hasImages}`);
     });
 
     // Add hover tooltip
@@ -643,14 +760,19 @@ export default function WorkingMapView({
         tooltip.style.display = 'none';
       }
     });
-
-    console.log(`🏢 On-demand competitor overlay rendered: ${competitors.length} competitors, ${radiusKm}km radius`);
   };
 
   // Helper function to clear on-demand competitor overlay
   const clearOnDemandCompetitorLayer = (map: any) => {
-    const layerIds = ['on-demand-competitor-icons', 'on-demand-competitor-labels', 'on-demand-radius-ring', 'on-demand-radius-fill'];
-    const sourceIds = ['on-demand-competitors', 'on-demand-radius'];
+    const layerIds = [
+      'on-demand-competitor-icons', 
+      'on-demand-competitor-labels', 
+      'on-demand-radius-ring', 
+      'on-demand-radius-fill',
+      'on-demand-center-highlight-pulse',
+      'on-demand-center-highlight'
+    ];
+    const sourceIds = ['on-demand-competitors', 'on-demand-radius', 'on-demand-center'];
     
     for (const layerId of layerIds) {
       if (map.getLayer(layerId)) {
