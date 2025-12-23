@@ -58,6 +58,15 @@ export function useStores(filters: FilterState, options?: { enableCache?: boolea
         return false;
       }
       
+      // Filter out stores in the Americas (seed data cleanup)
+      // Americas roughly: longitude between -170 and -30
+      // This filters out the seed stores from New York, Toronto, Los Angeles, etc.
+      const isInAmericas = store.longitude < -30 && store.longitude > -170;
+      if (isInAmericas) {
+        console.log(`📍 Filtering out Americas store (seed data): ${store.name} (${store.latitude}, ${store.longitude})`);
+        return false;
+      }
+      
       // Region/country/franchisee filters
       if (filters.region && store.region !== filters.region) return false;
       if (filters.country && store.country !== filters.country) return false;
