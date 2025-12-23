@@ -458,11 +458,11 @@ export default function WorkingMapView({
 
     // Brand colors and logo paths
     const brandConfig: Record<string, { color: string; logo: string }> = {
-      "McDonald's": { color: '#FFC72C', logo: '/logos/mcdonalds.svg' },
-      "Burger King": { color: '#D62300', logo: '/logos/burgerking.svg' },
-      "KFC": { color: '#F40027', logo: '/logos/kfc.svg' },
-      "Domino's": { color: '#006491', logo: '/logos/dominos.svg' },
-      "Starbucks": { color: '#00704A', logo: '/logos/starbucks.svg' }
+      "McDonald's": { color: '#FFC72C', logo: '/logos/mcdonalds.png' },
+      "Burger King": { color: '#D62300', logo: '/logos/burgerking.png' },
+      "KFC": { color: '#F40027', logo: '/logos/kfc.png' },
+      "Domino's": { color: '#006491', logo: '/logos/dominos.png' },
+      "Starbucks": { color: '#00704A', logo: '/logos/starbucks.png' }
     };
 
     // Load brand logo images
