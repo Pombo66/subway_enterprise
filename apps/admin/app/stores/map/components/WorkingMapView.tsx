@@ -46,9 +46,16 @@ export default function WorkingMapView({
   // Keep stores ref updated
   storesRef.current = stores;
 
-  // Helper function to add expansion suggestions layer
+  // Helper function to add expansion suggestions as teardrop markers
   const addExpansionLayer = (map: any, suggestions: any[], onSelect?: (suggestion: any) => void) => {
-    // Remove existing layers if they exist
+    // Remove existing HTML markers
+    const markersKey = '__expansionSuggestionMarkers';
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+    }
+    (map as any)[markersKey] = [];
+
+    // Remove existing layers if they exist (legacy cleanup)
     if (map.getLayer('expansion-suggestions-sparkle')) {
       map.removeLayer('expansion-suggestions-sparkle');
     }
@@ -62,202 +69,178 @@ export default function WorkingMapView({
       map.removeSource('expansion-suggestions');
     }
 
-    const geojsonData = {
-      type: 'FeatureCollection' as const,
-      features: suggestions.map(suggestion => ({
-        type: 'Feature' as const,
-        properties: {
-          id: suggestion.id,
-          band: suggestion.band,
-          confidence: suggestion.confidence,
-          status: suggestion.status || 'NEW',
-          hasAIAnalysis: suggestion.hasAIAnalysis || false,
-          aiProcessingRank: suggestion.aiProcessingRank || null
-        },
-        geometry: {
-          type: 'Point' as const,
-          coordinates: [suggestion.lng, suggestion.lat]
-        }
-      }))
-    };
+    console.log(`🗺️ Map: Adding ${suggestions.length} expansion suggestion teardrop markers`);
 
-    // Debug AI features and confidence
-    const aiFeatures = geojsonData.features.filter(f => f.properties.hasAIAnalysis === true);
-    const highConfidenceFeatures = geojsonData.features.filter(f => f.properties.confidence > 0.70);
-    
-    console.log(`🗺️ Map: Adding ${suggestions.length} suggestions, ${aiFeatures.length} with AI analysis`);
-    console.log(`✨ High confidence (>70%): ${highConfidenceFeatures.length} suggestions`);
-    console.log(`🔍 Confidence value types:`, suggestions.slice(0, 3).map(s => ({
-      id: s.id,
-      confidence: s.confidence,
-      confidenceType: typeof s.confidence,
-      isNumber: typeof s.confidence === 'number',
-      greaterThan75: s.confidence > 0.75
-    })));
-    
-    if (highConfidenceFeatures.length > 0) {
-      console.log(`✨ High confidence samples:`, highConfidenceFeatures.slice(0, 3).map(f => ({
-        id: f.properties.id,
-        confidence: f.properties.confidence,
-        band: f.properties.band
-      })));
-    }
-    
-    if (aiFeatures.length > 0) {
-      console.log(`🤖 AI features sample:`, aiFeatures.slice(0, 2).map(f => ({
-        id: f.properties.id,
-        hasAIAnalysis: f.properties.hasAIAnalysis,
-        aiProcessingRank: f.properties.aiProcessingRank
-      })));
-    }
-
-    map.addSource('expansion-suggestions', {
-      type: 'geojson',
-      data: geojsonData
-    });
-
-    // Add AI enhancement glow effect FIRST (behind main circles)
-    map.addLayer({
-      id: 'expansion-suggestions-ai-glow',
-      type: 'circle',
-      source: 'expansion-suggestions',
-      filter: ['all', ['has', 'hasAIAnalysis'], ['==', ['get', 'hasAIAnalysis'], true]],
-      paint: {
-        'circle-color': '#FFD700',  // Gold glow
-        'circle-radius': 20,        // Even larger for visibility
-        'circle-opacity': 0.4,      // More visible
-        'circle-blur': 1            // Subtle blur for glow effect
+    // Create HTML teardrop markers for each expansion suggestion
+    suggestions.forEach((suggestion, index) => {
+      // Determine teardrop color based on status
+      const status = suggestion.status || 'NEW';
+      let teardropColor = '#af52de'; // Default purple for expansion suggestions
+      let statusRingColor = '';
+      
+      if (status === 'APPROVED') {
+        statusRingColor = '#30d158'; // Green ring for approved
+      } else if (status === 'HOLD') {
+        statusRingColor = '#ff9500'; // Orange ring for on hold
       }
-    });
-    
-    console.log(`🟡 AI glow layer added with ${aiFeatures.length} potential AI features`);
+      
+      // Check for high confidence (>75%)
+      const isHighConfidence = suggestion.confidence > 0.75;
+      
+      // Create teardrop marker element
+      const el = document.createElement('div');
+      el.className = 'expansion-teardrop-marker';
+      el.dataset.suggestionId = suggestion.id;
+      
+      // Build the SVG with optional status ring and confidence dot
+      const statusRingSvg = statusRingColor ? `
+        <circle cx="18" cy="18" r="16" fill="none" stroke="${statusRingColor}" stroke-width="3" opacity="0.9"/>
+      ` : '';
+      
+      const confidenceDotSvg = isHighConfidence ? `
+        <circle cx="18" cy="8" r="4" fill="#f59e0b" stroke="white" stroke-width="1"/>
+      ` : '';
+      
+      el.innerHTML = `
+        <div style="
+          position: relative;
+          width: 36px;
+          height: 48px;
+          cursor: pointer;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        ">
+          <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 0C8.059 0 0 8.059 0 18c0 13.5 18 30 18 30s18-16.5 18-30C36 8.059 27.941 0 18 0z" fill="${teardropColor}"/>
+            <circle cx="18" cy="18" r="14" fill="white"/>
+            ${statusRingSvg}
+            ${confidenceDotSvg}
+          </svg>
+          <img 
+            src="/logos/subway.png" 
+            alt="Subway"
+            style="
+              position: absolute;
+              top: 6px;
+              left: 6px;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              object-fit: cover;
+              background: white;
+            "
+            onerror="this.style.display='none'"
+          />
+        </div>
+      `;
 
-    // Add main suggestion circles with Apple Maps-inspired styling
-    map.addLayer({
-      id: 'expansion-suggestions',
-      type: 'circle',
-      source: 'expansion-suggestions',
-      paint: {
-        'circle-color': [
-          'match',
-          ['get', 'status'],
-          'APPROVED', '#30d158',  // Apple green for approved
-          'HOLD', '#ff9500',      // Apple orange for on hold
-          // Default to purple for all other statuses (NEW, PENDING, REJECTED, etc.)
-          '#af52de'  // Apple purple default for all expansion suggestions
-        ],
-        'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          8, [
-            'case',
-            ['get', 'hasAIAnalysis'],
-            6,   // AI-enhanced at low zoom
-            5    // Standard at low zoom
-          ],
-          12, [
-            'case',
-            ['get', 'hasAIAnalysis'],
-            10,  // AI-enhanced at city zoom
-            8    // Standard at city zoom
-          ],
-          16, [
-            'case',
-            ['get', 'hasAIAnalysis'],
-            14,  // AI-enhanced at street zoom
-            12   // Standard at street zoom
-          ]
-        ],
-        'circle-stroke-width': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          8, [
-            'case',
-            ['get', 'hasAIAnalysis'],
-            2,   // AI-enhanced stroke at low zoom
-            1.5  // Standard stroke at low zoom
-          ],
-          16, [
-            'case',
-            ['get', 'hasAIAnalysis'],
-            3,   // AI-enhanced stroke at high zoom
-            2    // Standard stroke at high zoom
-          ]
-        ],
-        'circle-stroke-color': [
-          'case',
-          ['get', 'hasAIAnalysis'],
-          '#ffcc02',  // Apple gold stroke for AI-enhanced suggestions
-          '#ffffff'   // White stroke for deterministic suggestions
-        ],
-        'circle-stroke-opacity': 0.9,
-        'circle-opacity': 0.85
-      }
-    });
-
-    // Add centered yellow dot for high confidence suggestions (>75%)
-    // Centered dot matching the legend design
-    map.addLayer({
-      id: 'expansion-suggestions-sparkle',
-      type: 'circle',
-      source: 'expansion-suggestions',
-      filter: ['>', ['get', 'confidence'], 0.75],
-      paint: {
-        'circle-radius': 3, // Small centered dot
-        'circle-color': '#f59e0b', // Orange/gold
-        'circle-stroke-width': 0.5,
-        'circle-stroke-color': '#ffffff',
-        'circle-opacity': 1
-        // No translate - centered on the marker
-      }
-    });
-    
-    const highConfCount = geojsonData.features.filter(f => f.properties.confidence > 0.75).length;
-    console.log(`✨ Yellow dot layer added for ${highConfCount} high confidence suggestions (>75%)`);
-    console.log(`✨ Yellow dot layer config:`, {
-      layerId: 'expansion-suggestions-sparkle',
-      filter: ['>', ['get', 'confidence'], 0.75],
-      expectedCount: highConfCount,
-      layerExists: map.getLayer('expansion-suggestions-sparkle') !== undefined
-    });
-
-    // Add click handler for suggestions (both layers)
-    if (onSelect) {
-      const handleSuggestionClick = (e: any) => {
-        const feature = e.features?.[0];
-        if (!feature) return;
-        
-        const suggestionId = feature.properties.id;
-        const suggestion = suggestions.find(s => s.id === suggestionId);
-        if (suggestion) {
-          console.log('🔍 Selected suggestion data:', suggestion);
-          console.log('🔍 Has AI Analysis:', !!suggestion.hasAIAnalysis);
-          console.log('🔍 AI Processing Rank:', suggestion.aiProcessingRank);
-          console.log('🔍 Has locationContext:', !!suggestion.locationContext);
-          console.log('🔍 Has aiInsights:', !!suggestion.aiInsights);
-          console.log('🔍 Has intensityMetadata:', !!suggestion.intensityMetadata);
+      // Add click handler
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (onSelect) {
+          console.log('🔍 Selected expansion suggestion:', suggestion);
           onSelect(suggestion);
         }
-      };
+      });
 
-      map.on('click', 'expansion-suggestions', handleSuggestionClick);
-      map.on('click', 'expansion-suggestions-ai-glow', handleSuggestionClick);
+      // Add tooltip on hover
+      el.addEventListener('mouseenter', (e) => {
+        let tooltip = document.getElementById('expansion-tooltip');
+        if (!tooltip) {
+          tooltip = document.createElement('div');
+          tooltip.id = 'expansion-tooltip';
+          tooltip.style.cssText = `
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999999;
+            pointer-events: none;
+            max-width: 280px;
+            font-family: system-ui, -apple-system, sans-serif;
+          `;
+          document.body.appendChild(tooltip);
+        }
 
-      const handleMouseEnter = () => {
-        map.getCanvas().style.cursor = 'pointer';
-      };
+        const confidencePercent = Math.round((suggestion.confidence || 0) * 100);
+        const statusLabel = status === 'APPROVED' ? '✓ Approved' : 
+                           status === 'HOLD' ? '⏸ On Hold' : 
+                           status === 'REJECTED' ? '✗ Rejected' : '● New';
+        const statusColor = status === 'APPROVED' ? '#30d158' : 
+                           status === 'HOLD' ? '#ff9500' : 
+                           status === 'REJECTED' ? '#ff3b30' : '#af52de';
 
-      const handleMouseLeave = () => {
-        map.getCanvas().style.cursor = '';
-      };
+        tooltip.innerHTML = `
+          <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: ${teardropColor};"></span>
+            Expansion Suggestion
+          </div>
+          ${suggestion.locationName ? `<div style="font-size: 12px; color: #d1d5db; margin-bottom: 4px;">${suggestion.locationName}</div>` : ''}
+          <div style="font-size: 12px; margin-bottom: 4px;">
+            <span style="color: ${statusColor};">${statusLabel}</span>
+            ${isHighConfidence ? ' • <span style="color: #f59e0b;">★ High Confidence</span>' : ''}
+          </div>
+          <div style="font-size: 12px; color: #60a5fa;">${confidencePercent}% confidence</div>
+          <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">Click for details</div>
+        `;
 
-      // Add mouse handlers for both layers
-      map.on('mouseenter', 'expansion-suggestions', handleMouseEnter);
-      map.on('mouseenter', 'expansion-suggestions-ai-glow', handleMouseEnter);
-      map.on('mouseleave', 'expansion-suggestions', handleMouseLeave);
-      map.on('mouseleave', 'expansion-suggestions-ai-glow', handleMouseLeave);
+        const rect = el.getBoundingClientRect();
+        tooltip.style.left = `${rect.right + 10}px`;
+        tooltip.style.top = `${rect.top}px`;
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        const tooltip = document.getElementById('expansion-tooltip');
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      // Create Mapbox marker using dynamic import
+      import('mapbox-gl').then((mapboxgl) => {
+        const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+          .setLngLat([suggestion.lng, suggestion.lat])
+          .addTo(map);
+
+        (map as any)[markersKey].push(marker);
+      }).catch(err => {
+        console.error('Failed to create expansion marker:', err);
+      });
+    });
+
+    console.log(`✅ Added ${suggestions.length} expansion teardrop markers`);
+  };
+
+  // Helper function to clear expansion suggestion markers
+  const clearExpansionLayer = (map: any) => {
+    const markersKey = '__expansionSuggestionMarkers';
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey] = [];
+    }
+
+    // Remove tooltip if it exists
+    const tooltip = document.getElementById('expansion-tooltip');
+    if (tooltip) {
+      tooltip.remove();
+    }
+
+    // Legacy cleanup
+    if (map.getLayer('expansion-suggestions-sparkle')) {
+      map.removeLayer('expansion-suggestions-sparkle');
+    }
+    if (map.getLayer('expansion-suggestions-ai-glow')) {
+      map.removeLayer('expansion-suggestions-ai-glow');
+    }
+    if (map.getLayer('expansion-suggestions')) {
+      map.removeLayer('expansion-suggestions');
+    }
+    if (map.getSource('expansion-suggestions')) {
+      map.removeSource('expansion-suggestions');
     }
   };
 
@@ -352,7 +335,7 @@ export default function WorkingMapView({
       map.on('click', 'competitors', handleCompetitorClick);
 
       // Add hover effects with brand information tooltip
-      map.on('mouseenter', 'competitors', (e) => {
+      map.on('mouseenter', 'competitors', (e: any) => {
         map.getCanvas().style.cursor = 'pointer';
         
         const feature = e.features?.[0];
@@ -1081,7 +1064,7 @@ export default function WorkingMapView({
             console.log('🔍 Cluster clicked:', {
               clusterId,
               pointCount,
-              coordinates: features[0]?.geometry?.coordinates
+              coordinates: (features[0]?.geometry as GeoJSON.Point)?.coordinates
             });
             
             if (!clusterId) return;
@@ -1506,23 +1489,11 @@ export default function WorkingMapView({
       console.log('🔄 Updating expansion suggestions:', expansionSuggestions.length);
       
       if (expansionSuggestions.length > 0) {
-        console.log('✅ Adding expansion layer with suggestions:', expansionSuggestions);
+        console.log('✅ Adding expansion teardrop markers:', expansionSuggestions.length);
         addExpansionLayer(mapInstanceRef.current, expansionSuggestions, onSuggestionSelect);
       } else {
-        console.log('🗑️ Removing expansion layer (no suggestions)');
-        // Remove layer if no suggestions
-        if (mapInstanceRef.current.getLayer('expansion-suggestions-sparkle')) {
-          mapInstanceRef.current.removeLayer('expansion-suggestions-sparkle');
-        }
-        if (mapInstanceRef.current.getLayer('expansion-suggestions-ai-glow')) {
-          mapInstanceRef.current.removeLayer('expansion-suggestions-ai-glow');
-        }
-        if (mapInstanceRef.current.getLayer('expansion-suggestions')) {
-          mapInstanceRef.current.removeLayer('expansion-suggestions');
-        }
-        if (mapInstanceRef.current.getSource('expansion-suggestions')) {
-          mapInstanceRef.current.removeSource('expansion-suggestions');
-        }
+        console.log('🗑️ Removing expansion markers (no suggestions)');
+        clearExpansionLayer(mapInstanceRef.current);
       }
     }
   }, [expansionSuggestions, mapLoaded, onSuggestionSelect]);
