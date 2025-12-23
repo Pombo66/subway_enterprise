@@ -86,22 +86,13 @@ export default function StoreDrawer({
         closeButton?.focus();
       }, 100);
       
-      // Prevent body scroll when drawer is open
-      document.body.style.overflow = 'hidden';
+      // Don't prevent body scroll - allow map interaction while drawer is open
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
-
-  // Handle click outside to close
-  const handleBackdropClick = useCallback((event: React.MouseEvent) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  }, [onClose]);
 
   // Handle navigation to store details
   const handleNavigateToDetails = useCallback(() => {
@@ -123,7 +114,6 @@ export default function StoreDrawer({
   return (
     <div 
       className={styles['store-drawer-backdrop']}
-      onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="store-drawer-title"

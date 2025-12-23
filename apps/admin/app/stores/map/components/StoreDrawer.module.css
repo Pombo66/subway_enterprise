@@ -10,6 +10,8 @@
   display: flex;
   justify-content: flex-end;
   animation: fadeIn 0.2s ease-out;
+  /* Allow clicks to pass through to the map */
+  pointer-events: none;
 }
 
 /* High contrast mode support */
@@ -30,6 +32,8 @@
   flex-direction: column;
   animation: slideIn 0.3s ease-out;
   overflow: hidden;
+  /* Re-enable pointer events on the drawer itself */
+  pointer-events: auto;
 }
 
 .store-drawer-header {
