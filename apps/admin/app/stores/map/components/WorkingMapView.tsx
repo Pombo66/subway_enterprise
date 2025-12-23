@@ -556,13 +556,16 @@ export default function WorkingMapView({
         }
       });
 
-      // Create Mapbox marker
-      const mapboxgl = (window as any).mapboxgl || map.__proto__.constructor;
-      const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
-        .setLngLat([c.lng, c.lat])
-        .addTo(map);
+      // Create Mapbox marker using dynamic import
+      import('mapbox-gl').then((mapboxgl) => {
+        const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+          .setLngLat([c.lng, c.lat])
+          .addTo(map);
 
-      (map as any)[markersKey].push(marker);
+        (map as any)[markersKey].push(marker);
+      }).catch(err => {
+        console.error('Failed to create marker:', err);
+      });
     });
 
     // Generate circle polygon for radius ring
