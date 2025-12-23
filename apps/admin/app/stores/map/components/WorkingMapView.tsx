@@ -692,6 +692,159 @@ export default function WorkingMapView({
     console.log('🏢 On-demand competitor overlay cleared');
   };
 
+  // Helper function to create store teardrop markers (replaces unclustered-point circle layer)
+  const updateStoreTeardropMarkers = (map: any, storesData: typeof stores, onSelect: typeof onStoreSelect) => {
+    const markersKey = '__storeTeardropMarkers';
+    
+    // Clear existing markers
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+    }
+    (map as any)[markersKey] = [];
+
+    // Query for unclustered points currently visible
+    const features = map.querySourceFeatures('stores', {
+      filter: ['!', ['has', 'point_count']]
+    });
+
+    console.log(`🏪 Creating ${features.length} store teardrop markers`);
+
+    features.forEach((feature: any) => {
+      const props = feature.properties;
+      const coords = feature.geometry.coordinates;
+      
+      // Determine teardrop color based on status
+      const status = props.status || 'Unknown';
+      let teardropColor = '#007aff'; // Default blue
+      
+      if (status === 'Open') {
+        teardropColor = '#30d158'; // Green
+      } else if (status === 'Closed') {
+        teardropColor = '#8e8e93'; // Gray
+      } else if (status === 'Planned') {
+        teardropColor = '#af52de'; // Purple
+      }
+
+      // Create teardrop marker element
+      const el = document.createElement('div');
+      el.className = 'store-teardrop-marker';
+      el.dataset.storeId = props.id;
+      
+      el.innerHTML = `
+        <div style="
+          position: relative;
+          width: 36px;
+          height: 48px;
+          cursor: pointer;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        ">
+          <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 0C8.059 0 0 8.059 0 18c0 13.5 18 30 18 30s18-16.5 18-30C36 8.059 27.941 0 18 0z" fill="${teardropColor}"/>
+            <circle cx="18" cy="18" r="14" fill="white"/>
+          </svg>
+          <img 
+            src="/logos/subway.png" 
+            alt="Subway"
+            style="
+              position: absolute;
+              top: 6px;
+              left: 6px;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              object-fit: cover;
+              background: white;
+            "
+            onerror="this.style.display='none'"
+          />
+        </div>
+      `;
+
+      // Add click handler
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const store = storesRef.current.find(s => s.id === props.id);
+        if (store) {
+          console.log('🏪 Store teardrop clicked:', store.name);
+          // Hide tooltip
+          const tooltip = document.getElementById('store-tooltip');
+          if (tooltip) tooltip.style.display = 'none';
+          onSelect(store);
+        }
+      });
+
+      // Add tooltip on hover
+      el.addEventListener('mouseenter', () => {
+        let tooltip = document.getElementById('store-tooltip');
+        if (!tooltip) {
+          tooltip = document.createElement('div');
+          tooltip.id = 'store-tooltip';
+          tooltip.style.cssText = `
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999999;
+            pointer-events: none;
+            max-width: 280px;
+            font-family: system-ui, -apple-system, sans-serif;
+          `;
+          document.body.appendChild(tooltip);
+        }
+
+        const statusColor = status === 'Open' ? '#30d158' : 
+                           status === 'Closed' ? '#8e8e93' : 
+                           status === 'Planned' ? '#af52de' : '#007aff';
+
+        tooltip.innerHTML = `
+          <div style="font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: ${teardropColor};"></span>
+            ${props.name}
+          </div>
+          ${props.city ? `<div style="font-size: 12px; color: #d1d5db; margin-bottom: 2px;">${props.city}</div>` : ''}
+          <div style="font-size: 12px; color: #d1d5db; margin-bottom: 4px;">${props.country}${props.region ? `, ${props.region}` : ''}</div>
+          <div style="font-size: 12px;">
+            <span style="color: ${statusColor};">● ${status}</span>
+          </div>
+          <div style="font-size: 11px; color: #9ca3af; margin-top: 4px;">Click for details</div>
+        `;
+
+        const rect = el.getBoundingClientRect();
+        tooltip.style.left = `${rect.right + 10}px`;
+        tooltip.style.top = `${rect.top}px`;
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        const tooltip = document.getElementById('store-tooltip');
+        if (tooltip) tooltip.style.display = 'none';
+      });
+
+      // Create Mapbox marker
+      import('mapbox-gl').then((mapboxgl) => {
+        const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+          .setLngLat(coords)
+          .addTo(map);
+        (map as any)[markersKey].push(marker);
+      });
+    });
+  };
+
+  // Helper function to clear store teardrop markers
+  const clearStoreTeardropMarkers = (map: any) => {
+    const markersKey = '__storeTeardropMarkers';
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey] = [];
+    }
+    const tooltip = document.getElementById('store-tooltip');
+    if (tooltip) tooltip.remove();
+  };
+
   console.log('🗺️ WorkingMapView render:', {
     mapLoaded,
     error,
@@ -998,56 +1151,23 @@ export default function WorkingMapView({
             }
           });
 
-          // Add individual store points layer with Apple Maps-inspired styling
-          map.addLayer({
-            id: 'unclustered-point',
-            type: 'circle',
-            source: 'stores',
-            filter: ['!', ['has', 'point_count']],
-            paint: {
-              'circle-color': [
-                'case',
-                // Analysis mode colors (performance-based)
-                ['get', 'hasAnalysis'],
-                [
-                  'case',
-                  ['==', ['get', 'priority'], 'HIGH'],
-                  '#ff3b30',  // Apple red - critical issues
-                  ['>', ['get', 'performanceGap'], 10],
-                  '#30d158',  // Apple green - overperforming
-                  ['>', ['get', 'performanceGap'], -10],
-                  '#ff9500',  // Apple orange - on target
-                  '#ff6b35'   // Apple orange-red - underperforming
-                ],
-                // Default status colors with Apple-inspired palette
-                [
-                  'match',
-                  ['get', 'status'],
-                  'Open', '#30d158',    // Apple green for Open
-                  'Closed', '#8e8e93',  // Apple gray for Closed
-                  'Planned', '#af52de', // Apple purple for Planned
-                  '#007aff'             // Apple blue as default
-                ]
-              ],
-              'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8, 8,   // Larger at low zoom (was 4)
-                12, 12, // Larger at city zoom (was 8)
-                16, 16  // Larger at street zoom (was 12)
-              ],
-              'circle-stroke-width': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8, 2,   // Thicker stroke at low zoom (was 1)
-                12, 3,  // Thicker stroke at city zoom (was 2)
-                16, 4   // Thicker stroke at street zoom (was 3)
-              ],
-              'circle-stroke-color': '#ffffff',
-              'circle-stroke-opacity': 0.8,
-              'circle-opacity': 0.9
+          // Individual stores will use HTML teardrop markers instead of circle layer
+          // Initial render of store teardrop markers
+          updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+
+          // Update teardrop markers when map moves/zooms (clusters change)
+          map.on('moveend', () => {
+            updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+          });
+
+          map.on('zoomend', () => {
+            updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+          });
+
+          // Also update when source data changes
+          map.on('data', (e: any) => {
+            if (e.sourceId === 'stores' && e.isSourceLoaded) {
+              updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
             }
           });
 
@@ -1092,40 +1212,7 @@ export default function WorkingMapView({
             });
           });
 
-          // Store click handler - uses ref to access current stores
-          const handleStoreClick = (e: any) => {
-            console.log('🖱️ Pin clicked, features:', e.features?.length);
-            const feature = e.features?.[0];
-            if (!feature) {
-              console.warn('⚠️ No feature found in click event');
-              return;
-            }
-            const storeId = feature.properties.id;
-            console.log('🔍 Looking for store with ID:', storeId);
-            
-            // Access current stores from ref
-            const currentStores = storesRef.current;
-            console.log('📊 Available stores in ref:', currentStores.length);
-            
-            const store = currentStores.find(s => s.id === storeId);
-            
-            if (store) {
-              console.log('🏪 Store clicked:', store.name);
-
-              // Hide tooltip on click
-              const tooltip = document.getElementById('map-tooltip');
-              if (tooltip) {
-                tooltip.style.display = 'none';
-              }
-
-              onStoreSelect(store);
-            } else {
-              console.error('❌ Store not found in stores array. ID:', storeId);
-              console.error('Available store IDs:', currentStores.map(s => s.id));
-            }
-          };
-          
-          map.on('click', 'unclustered-point', handleStoreClick);
+          // Note: Store click handling is now done via HTML teardrop marker click events
 
           // Hover state management
           let hoverTimeout: NodeJS.Timeout | null = null;
@@ -1193,82 +1280,9 @@ export default function WorkingMapView({
             }, 100);
           });
 
-          map.on('mouseenter', 'unclustered-point', (e) => {
-            console.log('🖱️ Store hover enter');
-            isHovering = true;
-            if (hoverTimeout) {
-              clearTimeout(hoverTimeout);
-              hoverTimeout = null;
-            }
+          // Note: Store hover handling is now done via HTML teardrop marker events
 
-            map.getCanvas().style.cursor = 'pointer';
-            const feature = e.features?.[0];
-            if (!feature) return;
-            const properties = feature.properties as any;
-            if (!properties) return;
-            const { name, recentActivity, region, country, city, latitude, longitude } = properties;
-
-            // Create simple DOM tooltip
-            let tooltip = document.getElementById('map-tooltip');
-            if (!tooltip) {
-              tooltip = document.createElement('div');
-              tooltip.id = 'map-tooltip';
-              tooltip.style.cssText = `
-                position: fixed;
-                background: #1f2937;
-                color: white;
-                border: 1px solid #374151;
-                border-radius: 8px;
-                padding: 12px 16px;
-                font-size: 14px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-                z-index: 999999;
-                pointer-events: none;
-                max-width: 280px;
-                font-family: system-ui, -apple-system, sans-serif;
-              `;
-              document.body.appendChild(tooltip);
-            }
-
-            const statusColor = properties.status === 'Open' ? '#22c55e' : 
-                                properties.status === 'Closed' ? '#6b7280' : 
-                                properties.status === 'Planned' ? '#a855f7' : '#3b82f6';
-            const statusLabel = properties.status || 'Unknown';
-
-            tooltip.innerHTML = `
-              <div style="font-weight: 600; margin-bottom: 6px; color: white;">${name}</div>
-              ${city ? `<div style="font-size: 12px; color: #d1d5db; margin-bottom: 2px;">${city}</div>` : ''}
-              <div style="font-size: 12px; color: #d1d5db; margin-bottom: 4px;">${country}${region ? `, ${region}` : ''}</div>
-              <div style="font-size: 11px; color: #9ca3af; margin-bottom: 4px; font-family: monospace;">
-                ${latitude.toFixed(4)}, ${longitude.toFixed(4)}
-              </div>
-              <div style="font-size: 12px;">
-                <span style="color: ${statusColor};">
-                  ● ${statusLabel}
-                </span>
-              </div>
-            `;
-
-            tooltip.style.display = 'block';
-
-            console.log('📍 DOM tooltip shown for:', name);
-          });
-
-          map.on('mouseleave', 'unclustered-point', () => {
-            console.log('🖱️ Store hover leave');
-            isHovering = false;
-            map.getCanvas().style.cursor = '';
-
-            // Hide DOM tooltip
-            const tooltip = document.getElementById('map-tooltip');
-            if (tooltip) {
-              tooltip.style.display = 'none';
-            }
-
-            console.log('📍 DOM tooltip hidden');
-          });
-
-          // Update tooltip position on mouse move
+          // Update tooltip position on mouse move (for cluster tooltips)
           map.on('mousemove', (e) => {
             const tooltip = document.getElementById('map-tooltip');
             if (tooltip && tooltip.style.display === 'block' && mapRef.current) {
@@ -1286,10 +1300,9 @@ export default function WorkingMapView({
           // Handle clicks on empty map space (background)
           // This fires for ALL clicks, so we check if it hit any interactive layer
           map.on('click', (e) => {
-            // Check if click was on any interactive layer
+            // Check if click was on any interactive layer (note: unclustered-point removed, using HTML markers)
             const interactiveLayers = [
               'clusters', 
-              'unclustered-point', 
               'expansion-suggestions', 
               'expansion-suggestions-ai-glow',
               'competitors',
