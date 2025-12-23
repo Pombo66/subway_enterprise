@@ -61,7 +61,7 @@ export default function SuggestionInfoCard({
       background: 'white',
       borderRadius: '8px',
       boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-      zIndex: 1001,
+      zIndex: 10001, /* Higher than fullscreen map (9999) and drawer (10000) */
       maxHeight: 'calc(100vh - 40px)',
       overflowY: 'auto'
     }}>
