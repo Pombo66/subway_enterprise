@@ -692,26 +692,47 @@ export default function WorkingMapView({
     console.log('🏢 On-demand competitor overlay cleared');
   };
 
+  // Debounce helper
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   // Helper function to create store teardrop markers (replaces unclustered-point circle layer)
   const updateStoreTeardropMarkers = (map: any, storesData: typeof stores, onSelect: typeof onStoreSelect) => {
     const markersKey = '__storeTeardropMarkers';
+    const markerMapKey = '__storeMarkerMap'; // Track markers by store ID to avoid duplicates
     
-    // Clear existing markers
-    if ((map as any)[markersKey]) {
-      (map as any)[markersKey].forEach((m: any) => m.remove());
+    // Initialize marker tracking if needed
+    if (!(map as any)[markersKey]) {
+      (map as any)[markersKey] = [];
     }
-    (map as any)[markersKey] = [];
+    if (!(map as any)[markerMapKey]) {
+      (map as any)[markerMapKey] = new Map();
+    }
 
-    // Query for unclustered points currently visible
-    const features = map.querySourceFeatures('stores', {
-      filter: ['!', ['has', 'point_count']]
+    const existingMarkerMap = (map as any)[markerMapKey] as Map<string, any>;
+
+    // Query for unclustered points currently RENDERED (visible on screen)
+    const features = map.queryRenderedFeatures({ layers: ['stores-invisible'] });
+    
+    // Get set of currently visible store IDs
+    const visibleStoreIds = new Set(features.map((f: any) => f.properties.id));
+
+    // Remove markers that are no longer visible
+    existingMarkerMap.forEach((marker, storeId) => {
+      if (!visibleStoreIds.has(storeId)) {
+        marker.remove();
+        existingMarkerMap.delete(storeId);
+      }
     });
 
-    console.log(`🏪 Creating ${features.length} store teardrop markers`);
-
+    // Add markers for newly visible stores
     features.forEach((feature: any) => {
       const props = feature.properties;
       const coords = feature.geometry.coordinates;
+      
+      // Skip if marker already exists for this store
+      if (existingMarkerMap.has(props.id)) {
+        return;
+      }
       
       // Determine teardrop color based on status
       const status = props.status || 'Unknown';
@@ -824,12 +845,13 @@ export default function WorkingMapView({
         if (tooltip) tooltip.style.display = 'none';
       });
 
-      // Create Mapbox marker
+      // Create Mapbox marker and track it
       import('mapbox-gl').then((mapboxgl) => {
         const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
           .setLngLat(coords)
           .addTo(map);
         (map as any)[markersKey].push(marker);
+        existingMarkerMap.set(props.id, marker);
       });
     });
   };
@@ -837,9 +859,13 @@ export default function WorkingMapView({
   // Helper function to clear store teardrop markers
   const clearStoreTeardropMarkers = (map: any) => {
     const markersKey = '__storeTeardropMarkers';
+    const markerMapKey = '__storeMarkerMap';
     if ((map as any)[markersKey]) {
       (map as any)[markersKey].forEach((m: any) => m.remove());
       (map as any)[markersKey] = [];
+    }
+    if ((map as any)[markerMapKey]) {
+      (map as any)[markerMapKey].clear();
     }
     const tooltip = document.getElementById('store-tooltip');
     if (tooltip) tooltip.remove();
@@ -1151,23 +1177,42 @@ export default function WorkingMapView({
             }
           });
 
+          // Add invisible layer for unclustered stores (used for queryRenderedFeatures)
+          map.addLayer({
+            id: 'stores-invisible',
+            type: 'circle',
+            source: 'stores',
+            filter: ['!', ['has', 'point_count']],
+            paint: {
+              'circle-radius': 1,
+              'circle-opacity': 0
+            }
+          });
+
           // Individual stores will use HTML teardrop markers instead of circle layer
-          // Initial render of store teardrop markers
-          updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+          // Debounced update function to prevent excessive marker recreation
+          const debouncedUpdateMarkers = () => {
+            if (debounceTimerRef.current) {
+              clearTimeout(debounceTimerRef.current);
+            }
+            debounceTimerRef.current = setTimeout(() => {
+              updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+            }, 100);
+          };
 
-          // Update teardrop markers when map moves/zooms (clusters change)
-          map.on('moveend', () => {
+          // Initial render of store teardrop markers (after a short delay to let map settle)
+          setTimeout(() => {
             updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
-          });
+          }, 200);
 
-          map.on('zoomend', () => {
-            updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
-          });
+          // Update teardrop markers when map stops moving (debounced)
+          map.on('moveend', debouncedUpdateMarkers);
+          map.on('zoomend', debouncedUpdateMarkers);
 
           // Also update when source data changes
           map.on('data', (e: any) => {
             if (e.sourceId === 'stores' && e.isSourceLoaded) {
-              updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
+              debouncedUpdateMarkers();
             }
           });
 
