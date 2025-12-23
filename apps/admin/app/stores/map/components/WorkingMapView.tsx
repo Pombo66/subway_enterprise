@@ -434,14 +434,12 @@ export default function WorkingMapView({
   ) => {
     // Remove existing on-demand layers if they exist
     const layerIds = [
-      'on-demand-competitor-icons', 
-      'on-demand-competitor-labels', 
       'on-demand-radius-ring', 
       'on-demand-radius-fill',
       'on-demand-center-highlight-pulse',
       'on-demand-center-highlight'
     ];
-    const sourceIds = ['on-demand-competitors', 'on-demand-radius', 'on-demand-center'];
+    const sourceIds = ['on-demand-radius', 'on-demand-center'];
     
     for (const layerId of layerIds) {
       if (map.getLayer(layerId)) {
@@ -456,61 +454,115 @@ export default function WorkingMapView({
 
     if (competitors.length === 0) return;
 
-    // Brand colors and logo paths
+    // Brand colors and logo paths (mixed png/jpeg)
     const brandConfig: Record<string, { color: string; logo: string }> = {
-      "McDonald's": { color: '#FFC72C', logo: '/logos/mcdonalds.png' },
+      "McDonald's": { color: '#FFC72C', logo: '/logos/mcdonalds.jpeg' },
       "Burger King": { color: '#D62300', logo: '/logos/burgerking.png' },
       "KFC": { color: '#F40027', logo: '/logos/kfc.png' },
       "Domino's": { color: '#006491', logo: '/logos/dominos.png' },
-      "Starbucks": { color: '#00704A', logo: '/logos/starbucks.png' }
+      "Starbucks": { color: '#00704A', logo: '/logos/starbucks.jpeg' }
     };
 
-    // Load brand logo images
-    const loadBrandImages = async () => {
-      for (const [brand, config] of Object.entries(brandConfig)) {
-        const imageId = `brand-logo-${brand.toLowerCase().replace(/[^a-z]/g, '')}`;
-        if (!map.hasImage(imageId)) {
-          try {
-            const img = new Image(32, 32);
-            img.crossOrigin = 'anonymous';
-            await new Promise<void>((resolve, reject) => {
-              img.onload = () => {
-                if (!map.hasImage(imageId)) {
-                  map.addImage(imageId, img);
-                }
-                resolve();
-              };
-              img.onerror = () => {
-                console.warn(`Failed to load logo for ${brand}`);
-                resolve(); // Don't reject, just continue without logo
-              };
-              img.src = config.logo;
-            });
-          } catch (e) {
-            console.warn(`Error loading logo for ${brand}:`, e);
-          }
-        }
-      }
-    };
+    // Store HTML markers for cleanup
+    const markersKey = '__onDemandCompetitorMarkers';
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+    }
+    (map as any)[markersKey] = [];
 
-    // Create GeoJSON for competitors
-    const competitorFeatures = competitors.map((c, index) => {
+    // Create HTML teardrop markers for each competitor
+    competitors.forEach((c, index) => {
       const config = brandConfig[c.brand] || { color: '#6B7280', logo: '' };
-      return {
-        type: 'Feature' as const,
-        properties: {
-          id: `on-demand-${index}`,
-          brand: c.brand,
-          placeName: c.placeName || c.brand,
-          distanceM: c.distanceM,
-          color: config.color,
-          logoId: `brand-logo-${c.brand.toLowerCase().replace(/[^a-z]/g, '')}`
-        },
-        geometry: {
-          type: 'Point' as const,
-          coordinates: [c.lng, c.lat]
+      
+      // Create teardrop marker element
+      const el = document.createElement('div');
+      el.className = 'competitor-teardrop-marker';
+      el.innerHTML = `
+        <div style="
+          position: relative;
+          width: 36px;
+          height: 48px;
+          cursor: pointer;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        ">
+          <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 0C8.059 0 0 8.059 0 18c0 13.5 18 30 18 30s18-16.5 18-30C36 8.059 27.941 0 18 0z" fill="${config.color}"/>
+            <circle cx="18" cy="18" r="14" fill="white"/>
+          </svg>
+          <img 
+            src="${config.logo}" 
+            alt="${c.brand}"
+            style="
+              position: absolute;
+              top: 6px;
+              left: 6px;
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              object-fit: cover;
+              background: white;
+            "
+            onerror="this.style.display='none'"
+          />
+        </div>
+      `;
+
+      // Add tooltip on hover
+      el.addEventListener('mouseenter', (e) => {
+        let tooltip = document.getElementById('on-demand-competitor-tooltip');
+        if (!tooltip) {
+          tooltip = document.createElement('div');
+          tooltip.id = 'on-demand-competitor-tooltip';
+          tooltip.style.cssText = `
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999999;
+            pointer-events: none;
+            max-width: 250px;
+            font-family: system-ui, -apple-system, sans-serif;
+          `;
+          document.body.appendChild(tooltip);
         }
-      };
+
+        const distanceText = c.distanceM < 1000 
+          ? `${Math.round(c.distanceM)}m away`
+          : `${(c.distanceM / 1000).toFixed(1)}km away`;
+
+        tooltip.innerHTML = `
+          <div style="font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: ${config.color};"></span>
+            ${c.brand}
+          </div>
+          ${c.placeName && c.placeName !== c.brand ? `<div style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;">${c.placeName}</div>` : ''}
+          <div style="font-size: 12px; color: #60a5fa;">${distanceText}</div>
+        `;
+
+        const rect = el.getBoundingClientRect();
+        tooltip.style.left = `${rect.right + 10}px`;
+        tooltip.style.top = `${rect.top}px`;
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        const tooltip = document.getElementById('on-demand-competitor-tooltip');
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      // Create Mapbox marker
+      const mapboxgl = (window as any).mapboxgl || map.__proto__.constructor;
+      const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+        .setLngLat([c.lng, c.lat])
+        .addTo(map);
+
+      (map as any)[markersKey].push(marker);
     });
 
     // Generate circle polygon for radius ring
@@ -534,15 +586,6 @@ export default function WorkingMapView({
         }
       };
     };
-
-    // Add competitor source
-    map.addSource('on-demand-competitors', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: competitorFeatures
-      }
-    });
 
     // Add radius ring source
     const radiusPolygon = generateCirclePolygon(center.lng, center.lat, radiusKm);
@@ -623,156 +666,25 @@ export default function WorkingMapView({
       }
     });
 
-    // Load brand images then add symbol layer
-    loadBrandImages().then(() => {
-      // Check if we have any images loaded
-      const hasImages = Object.keys(brandConfig).some(brand => {
-        const imageId = `brand-logo-${brand.toLowerCase().replace(/[^a-z]/g, '')}`;
-        return map.hasImage(imageId);
-      });
-
-      if (hasImages) {
-        // Add competitor icons as symbols with logos
-        map.addLayer({
-          id: 'on-demand-competitor-icons',
-          type: 'symbol',
-          source: 'on-demand-competitors',
-          layout: {
-            'icon-image': ['get', 'logoId'],
-            'icon-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              10, 0.6,
-              14, 0.9,
-              18, 1.2
-            ],
-            'icon-allow-overlap': true,
-            'icon-ignore-placement': true
-          }
-        });
-      } else {
-        // Fallback to circles if images didn't load
-        map.addLayer({
-          id: 'on-demand-competitor-icons',
-          type: 'circle',
-          source: 'on-demand-competitors',
-          paint: {
-            'circle-color': ['get', 'color'],
-            'circle-radius': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              10, 8,
-              14, 12,
-              18, 16
-            ],
-            'circle-stroke-width': 2,
-            'circle-stroke-color': '#ffffff',
-            'circle-stroke-opacity': 0.9,
-            'circle-opacity': 0.85
-          }
-        });
-      }
-
-      // Add competitor labels layer
-      map.addLayer({
-        id: 'on-demand-competitor-labels',
-        type: 'symbol',
-        source: 'on-demand-competitors',
-        minzoom: 13,
-        layout: {
-          'text-field': ['get', 'brand'],
-          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-          'text-size': 11,
-          'text-offset': [0, 1.8],
-          'text-anchor': 'top',
-          'text-optional': true
-        },
-        paint: {
-          'text-color': '#374151',
-          'text-halo-color': '#ffffff',
-          'text-halo-width': 1.5
-        }
-      });
-
-      console.log(`🏢 On-demand competitor overlay rendered: ${competitors.length} competitors, ${radiusKm}km radius, logos: ${hasImages}`);
-    });
-
-    // Add hover tooltip
-    map.on('mouseenter', 'on-demand-competitor-icons', (e: any) => {
-      map.getCanvas().style.cursor = 'pointer';
-      
-      const feature = e.features?.[0];
-      if (!feature) return;
-
-      const { brand, placeName, distanceM, color } = feature.properties;
-
-      let tooltip = document.getElementById('on-demand-competitor-tooltip');
-      if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.id = 'on-demand-competitor-tooltip';
-        tooltip.style.cssText = `
-          position: fixed;
-          background: #1f2937;
-          color: white;
-          border: 1px solid #374151;
-          border-radius: 8px;
-          padding: 10px 14px;
-          font-size: 13px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-          z-index: 999999;
-          pointer-events: none;
-          max-width: 250px;
-          font-family: system-ui, -apple-system, sans-serif;
-        `;
-        document.body.appendChild(tooltip);
-      }
-
-      const distanceText = distanceM < 1000 
-        ? `${Math.round(distanceM)}m away`
-        : `${(distanceM / 1000).toFixed(1)}km away`;
-
-      tooltip.innerHTML = `
-        <div style="font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: ${color};"></span>
-          ${brand}
-        </div>
-        ${placeName !== brand ? `<div style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;">${placeName}</div>` : ''}
-        <div style="font-size: 12px; color: #60a5fa;">${distanceText}</div>
-      `;
-
-      tooltip.style.display = 'block';
-    });
-
-    map.on('mousemove', 'on-demand-competitor-icons', (e: any) => {
-      const tooltip = document.getElementById('on-demand-competitor-tooltip');
-      if (tooltip) {
-        tooltip.style.left = `${e.originalEvent.clientX + 15}px`;
-        tooltip.style.top = `${e.originalEvent.clientY + 15}px`;
-      }
-    });
-
-    map.on('mouseleave', 'on-demand-competitor-icons', () => {
-      map.getCanvas().style.cursor = '';
-      const tooltip = document.getElementById('on-demand-competitor-tooltip');
-      if (tooltip) {
-        tooltip.style.display = 'none';
-      }
-    });
+    console.log(`🏢 On-demand competitor overlay rendered: ${competitors.length} teardrop markers, ${radiusKm}km radius`);
   };
 
   // Helper function to clear on-demand competitor overlay
   const clearOnDemandCompetitorLayer = (map: any) => {
+    // Remove HTML markers
+    const markersKey = '__onDemandCompetitorMarkers';
+    if ((map as any)[markersKey]) {
+      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey] = [];
+    }
+
     const layerIds = [
-      'on-demand-competitor-icons', 
-      'on-demand-competitor-labels', 
       'on-demand-radius-ring', 
       'on-demand-radius-fill',
       'on-demand-center-highlight-pulse',
       'on-demand-center-highlight'
     ];
-    const sourceIds = ['on-demand-competitors', 'on-demand-radius', 'on-demand-center'];
+    const sourceIds = ['on-demand-radius', 'on-demand-center'];
     
     for (const layerId of layerIds) {
       if (map.getLayer(layerId)) {
