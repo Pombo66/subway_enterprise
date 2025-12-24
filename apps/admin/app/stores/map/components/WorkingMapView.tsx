@@ -92,8 +92,8 @@ export default function WorkingMapView({
       markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
         if (!markerData.marker || !markerData.lngLat) return;
         const point = map.project(markerData.lngLat);
-        const isVisible = point.x >= -50 && point.x <= width + 50 &&
-                         point.y >= -50 && point.y <= height + 50;
+        const isVisible = point.x >= 0 && point.x <= width &&
+                         point.y >= 0 && point.y <= height;
         const el = markerData.marker.getElement();
         if (el) {
           el.style.display = isVisible ? 'block' : 'none';
@@ -525,8 +525,8 @@ export default function WorkingMapView({
       markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
         const point = map.project(markerData.lngLat);
         // Add padding to prevent markers from disappearing too early at edges
-        const isVisible = point.x >= -50 && point.x <= width + 50 &&
-                         point.y >= -50 && point.y <= height + 50;
+        const isVisible = point.x >= 0 && point.x <= width &&
+                         point.y >= 0 && point.y <= height;
         const el = markerData.marker.getElement();
         if (el) {
           el.style.display = isVisible ? 'block' : 'none';
@@ -855,8 +855,8 @@ export default function WorkingMapView({
         // Update visibility of existing marker
         const markerData = existingMarkerMap.get(props.id)!;
         const point = map.project(markerData.lngLat);
-        const isVisible = point.x >= -50 && point.x <= width + 50 &&
-                         point.y >= -50 && point.y <= height + 50;
+        const isVisible = point.x >= 0 && point.x <= width &&
+                         point.y >= 0 && point.y <= height;
         const el = markerData.marker.getElement();
         if (el) {
           el.style.display = isVisible ? 'block' : 'none';
@@ -989,8 +989,8 @@ export default function WorkingMapView({
         const canvas = map.getCanvas();
         const w = canvas.width / (window.devicePixelRatio || 1);
         const h = canvas.height / (window.devicePixelRatio || 1);
-        const isVisible = point.x >= -50 && point.x <= w + 50 &&
-                         point.y >= -50 && point.y <= h + 50;
+        const isVisible = point.x >= 0 && point.x <= w &&
+                         point.y >= 0 && point.y <= h;
         el.style.display = isVisible ? 'block' : 'none';
       });
     });
@@ -1363,8 +1363,8 @@ export default function WorkingMapView({
             markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
               if (!markerData.marker || !markerData.lngLat) return;
               const point = map.project(markerData.lngLat);
-              const isVisible = point.x >= -50 && point.x <= width + 50 &&
-                               point.y >= -50 && point.y <= height + 50;
+              const isVisible = point.x >= 0 && point.x <= width &&
+                               point.y >= 0 && point.y <= height;
               const el = markerData.marker.getElement();
               if (el) {
                 el.style.display = isVisible ? 'block' : 'none';
