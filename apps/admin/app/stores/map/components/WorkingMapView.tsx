@@ -1105,14 +1105,9 @@ export default function WorkingMapView({
           center: [0, 20],
           zoom: 2,
           // Fix font loading issues
-          localIdeographFontFamily: 'sans-serif',
-          // Zoom toward mouse pointer position
-          scrollZoom: true
+          localIdeographFontFamily: 'sans-serif'
+          // Note: scrollZoom defaults to true and zooms around mouse pointer
         });
-        
-        // Enable scroll zoom around mouse pointer (not map center)
-        map.scrollZoom.setWheelZoomRate(1 / 200);
-        map.scrollZoom.setZoomRate(1 / 200);
 
         console.log('✅ Mapbox GL instance created successfully');
 
