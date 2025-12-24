@@ -293,46 +293,6 @@ export default function MapFilters({
           </select>
         </div>
 
-        {/* Competitor Discovery Info */}
-        <div className="map-filter-group map-filter-group-full">
-          <label className="map-filter-label">Competitor Discovery</label>
-          <div className="map-filter-competitors-section">
-            <div className="map-filter-discovery-info">
-              <div className="discovery-status">
-                <span className="status-indicator status-competitors"></span>
-                <span className="discovery-text">
-                  Competitors appear automatically when you zoom to city level (zoom ≥ 8)
-                </span>
-              </div>
-              <div className="map-filter-note">
-                Navigate the map naturally - McDonald's, KFC, and other QSR competitors will surface as you explore, just like Google Maps.
-              </div>
-            </div>
-            <div className="map-filter-refresh-section">
-              <button
-                onClick={() => {
-                  // Use a more stable event dispatch approach
-                  if (typeof window !== 'undefined') {
-                    const event = new CustomEvent('refreshCompetitors', { 
-                      detail: { timestamp: Date.now() } 
-                    });
-                    window.dispatchEvent(event);
-                  }
-                }}
-                disabled={loading}
-                className="map-filter-refresh-button"
-                title="Refresh competitor data for current map area using Mapbox POI data"
-              >
-                <span className="refresh-icon">🏢</span>
-                Update Competitor Data
-              </button>
-              <div className="map-filter-note">
-                Refresh to get the latest competitor locations from Mapbox in the current area.
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Visibility Toggles */}
         <div className="map-filter-group map-filter-group-full">
           <div 
