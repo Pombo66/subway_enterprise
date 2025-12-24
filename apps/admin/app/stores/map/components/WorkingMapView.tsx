@@ -539,6 +539,16 @@ export default function WorkingMapView({
         }
       });
 
+      // Add click handler to hide tooltip and log
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const tooltip = document.getElementById('on-demand-competitor-tooltip');
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+        console.log('🏢 Competitor marker clicked:', c.brand, c.placeName);
+      });
+
       // Create Mapbox marker using dynamic import
       import('mapbox-gl').then((mapboxgl) => {
         const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
@@ -1761,11 +1771,22 @@ export default function WorkingMapView({
         </div>
       )}
 
-      {/* Hide Mapbox attribution */}
+      {/* Hide Mapbox attribution and clip marker overflow */}
       <style jsx global>{`
         .mapboxgl-ctrl-attrib,
         .mapboxgl-ctrl-logo {
           display: none !important;
+        }
+        
+        /* Ensure markers are clipped to map container */
+        .mapboxgl-canvas-container,
+        .mapboxgl-marker {
+          overflow: visible;
+        }
+        
+        /* The map container clips all content including markers */
+        .mapboxgl-map {
+          overflow: hidden !important;
         }
       `}</style>
     </div>
