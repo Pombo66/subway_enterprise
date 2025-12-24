@@ -1105,8 +1105,14 @@ export default function WorkingMapView({
           center: [0, 20],
           zoom: 2,
           // Fix font loading issues
-          localIdeographFontFamily: 'sans-serif'
+          localIdeographFontFamily: 'sans-serif',
+          // Zoom toward mouse pointer position
+          scrollZoom: true
         });
+        
+        // Enable scroll zoom around mouse pointer (not map center)
+        map.scrollZoom.setWheelZoomRate(1 / 200);
+        map.scrollZoom.setZoomRate(1 / 200);
 
         console.log('✅ Mapbox GL instance created successfully');
 
@@ -1371,8 +1377,9 @@ export default function WorkingMapView({
             updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
           }, 200);
 
-          // Update marker visibility continuously during drag/pan
+          // Update marker visibility continuously during drag/pan/zoom
           map.on('move', updateStoreMarkerVisibility);
+          map.on('zoom', updateStoreMarkerVisibility);
           
           // Update teardrop markers when map stops moving (debounced) - adds new markers
           map.on('moveend', debouncedUpdateMarkers);
