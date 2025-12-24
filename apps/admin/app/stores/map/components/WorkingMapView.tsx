@@ -1680,7 +1680,7 @@ export default function WorkingMapView({
       width: '100%',
       height: '100%',
       borderRadius: '8px',
-      overflow: 'visible',
+      overflow: 'hidden',
       border: '1px solid var(--s-border)'
     }}>
       {/* Always render map container */}
