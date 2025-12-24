@@ -48,12 +48,23 @@ export default function WorkingMapView({
 
   // Helper function to add expansion suggestions as teardrop markers
   const addExpansionLayer = (map: any, suggestions: any[], onSelect?: (suggestion: any) => void) => {
-    // Remove existing HTML markers
+    // Remove existing HTML markers and event handlers
     const markersKey = '__expansionSuggestionMarkers';
+    const visibilityHandlerKey = '__expansionVisibilityHandler';
+    
     if ((map as any)[markersKey]) {
-      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey].forEach((m: any) => {
+        const marker = m.marker || m;
+        marker.remove();
+      });
     }
     (map as any)[markersKey] = [];
+    
+    // Remove existing visibility handler
+    if ((map as any)[visibilityHandlerKey]) {
+      map.off('move', (map as any)[visibilityHandlerKey]);
+      map.off('zoom', (map as any)[visibilityHandlerKey]);
+    }
 
     // Remove existing layers if they exist (legacy cleanup)
     if (map.getLayer('expansion-suggestions-sparkle')) {
@@ -70,6 +81,32 @@ export default function WorkingMapView({
     }
 
     console.log(`🗺️ Map: Adding ${suggestions.length} expansion suggestion teardrop markers`);
+
+    // Function to update visibility of all expansion markers based on map bounds
+    const updateAllMarkerVisibility = () => {
+      const markers = (map as any)[markersKey] || [];
+      const canvas = map.getCanvas();
+      const width = canvas.width / (window.devicePixelRatio || 1);
+      const height = canvas.height / (window.devicePixelRatio || 1);
+      
+      markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
+        if (!markerData.marker || !markerData.lngLat) return;
+        const point = map.project(markerData.lngLat);
+        const isVisible = point.x >= -50 && point.x <= width + 50 &&
+                         point.y >= -50 && point.y <= height + 50;
+        const el = markerData.marker.getElement();
+        if (el) {
+          el.style.display = isVisible ? 'block' : 'none';
+        }
+      });
+    };
+    
+    // Store the handler reference for cleanup
+    (map as any)[visibilityHandlerKey] = updateAllMarkerVisibility;
+    
+    // Attach visibility update to map move/zoom events
+    map.on('move', updateAllMarkerVisibility);
+    map.on('zoom', updateAllMarkerVisibility);
 
     // Create HTML teardrop markers for each expansion suggestion
     suggestions.forEach((suggestion, index) => {
@@ -206,7 +243,11 @@ export default function WorkingMapView({
           .setLngLat([suggestion.lng, suggestion.lat])
           .addTo(map);
 
-        (map as any)[markersKey].push(marker);
+        const lngLat: [number, number] = [suggestion.lng, suggestion.lat];
+        (map as any)[markersKey].push({ marker, lngLat });
+        
+        // Update visibility after adding marker
+        updateAllMarkerVisibility();
       }).catch(err => {
         console.error('Failed to create expansion marker:', err);
       });
@@ -218,9 +259,21 @@ export default function WorkingMapView({
   // Helper function to clear expansion suggestion markers
   const clearExpansionLayer = (map: any) => {
     const markersKey = '__expansionSuggestionMarkers';
+    const visibilityHandlerKey = '__expansionVisibilityHandler';
+    
     if ((map as any)[markersKey]) {
-      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey].forEach((m: any) => {
+        const marker = m.marker || m;
+        marker.remove();
+      });
       (map as any)[markersKey] = [];
+    }
+    
+    // Remove visibility event handlers
+    if ((map as any)[visibilityHandlerKey]) {
+      map.off('move', (map as any)[visibilityHandlerKey]);
+      map.off('zoom', (map as any)[visibilityHandlerKey]);
+      (map as any)[visibilityHandlerKey] = null;
     }
 
     // Remove tooltip if it exists
@@ -448,14 +501,50 @@ export default function WorkingMapView({
 
     // Store HTML markers for cleanup
     const markersKey = '__onDemandCompetitorMarkers';
+    const visibilityHandlerKey = '__onDemandVisibilityHandler';
+    
+    // Remove existing markers and event handlers
     if ((map as any)[markersKey]) {
       (map as any)[markersKey].forEach((m: any) => m.remove());
     }
     (map as any)[markersKey] = [];
+    
+    // Remove existing visibility handler
+    if ((map as any)[visibilityHandlerKey]) {
+      map.off('move', (map as any)[visibilityHandlerKey]);
+      map.off('zoom', (map as any)[visibilityHandlerKey]);
+    }
+
+    // Function to update visibility of all competitor markers based on map bounds
+    const updateAllMarkerVisibility = () => {
+      const markers = (map as any)[markersKey] || [];
+      const canvas = map.getCanvas();
+      const width = canvas.width / (window.devicePixelRatio || 1);
+      const height = canvas.height / (window.devicePixelRatio || 1);
+      
+      markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
+        const point = map.project(markerData.lngLat);
+        // Add padding to prevent markers from disappearing too early at edges
+        const isVisible = point.x >= -50 && point.x <= width + 50 &&
+                         point.y >= -50 && point.y <= height + 50;
+        const el = markerData.marker.getElement();
+        if (el) {
+          el.style.display = isVisible ? 'block' : 'none';
+        }
+      });
+    };
+    
+    // Store the handler reference for cleanup
+    (map as any)[visibilityHandlerKey] = updateAllMarkerVisibility;
+    
+    // Attach visibility update to map move/zoom events
+    map.on('move', updateAllMarkerVisibility);
+    map.on('zoom', updateAllMarkerVisibility);
 
     // Create HTML teardrop markers for each competitor
     competitors.forEach((c, index) => {
       const config = brandConfig[c.brand] || { color: '#6B7280', logo: '' };
+      const lngLat: [number, number] = [c.lng, c.lat];
       
       // Create teardrop marker element
       const el = document.createElement('div');
@@ -555,7 +644,11 @@ export default function WorkingMapView({
           .setLngLat([c.lng, c.lat])
           .addTo(map);
 
-        (map as any)[markersKey].push(marker);
+        // Store marker with its coordinates for visibility checking
+        (map as any)[markersKey].push({ marker, lngLat: [c.lng, c.lat] as [number, number] });
+        
+        // Initial visibility check
+        updateAllMarkerVisibility();
       }).catch(err => {
         console.error('Failed to create marker:', err);
       });
@@ -669,9 +762,22 @@ export default function WorkingMapView({
   const clearOnDemandCompetitorLayer = (map: any) => {
     // Remove HTML markers
     const markersKey = '__onDemandCompetitorMarkers';
+    const visibilityHandlerKey = '__onDemandVisibilityHandler';
+    
     if ((map as any)[markersKey]) {
-      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey].forEach((m: any) => {
+        // Handle both old format (just marker) and new format ({ marker, lngLat })
+        const marker = m.marker || m;
+        marker.remove();
+      });
       (map as any)[markersKey] = [];
+    }
+    
+    // Remove visibility event handlers
+    if ((map as any)[visibilityHandlerKey]) {
+      map.off('move', (map as any)[visibilityHandlerKey]);
+      map.off('zoom', (map as any)[visibilityHandlerKey]);
+      (map as any)[visibilityHandlerKey] = null;
     }
 
     const layerIds = [
@@ -718,7 +824,7 @@ export default function WorkingMapView({
       (map as any)[markerMapKey] = new Map();
     }
 
-    const existingMarkerMap = (map as any)[markerMapKey] as Map<string, any>;
+    const existingMarkerMap = (map as any)[markerMapKey] as Map<string, { marker: any; lngLat: [number, number] }>;
 
     // Query for unclustered points currently RENDERED (visible on screen)
     const features = map.queryRenderedFeatures({ layers: ['stores-invisible'] });
@@ -727,12 +833,17 @@ export default function WorkingMapView({
     const visibleStoreIds = new Set(features.map((f: any) => f.properties.id));
 
     // Remove markers that are no longer visible
-    existingMarkerMap.forEach((marker, storeId) => {
+    existingMarkerMap.forEach((markerData, storeId) => {
       if (!visibleStoreIds.has(storeId)) {
-        marker.remove();
+        markerData.marker.remove();
         existingMarkerMap.delete(storeId);
       }
     });
+
+    // Get canvas dimensions for visibility check
+    const canvas = map.getCanvas();
+    const width = canvas.width / (window.devicePixelRatio || 1);
+    const height = canvas.height / (window.devicePixelRatio || 1);
 
     // Add markers for newly visible stores
     features.forEach((feature: any) => {
@@ -741,6 +852,15 @@ export default function WorkingMapView({
       
       // Skip if marker already exists for this store
       if (existingMarkerMap.has(props.id)) {
+        // Update visibility of existing marker
+        const markerData = existingMarkerMap.get(props.id)!;
+        const point = map.project(markerData.lngLat);
+        const isVisible = point.x >= -50 && point.x <= width + 50 &&
+                         point.y >= -50 && point.y <= height + 50;
+        const el = markerData.marker.getElement();
+        if (el) {
+          el.style.display = isVisible ? 'block' : 'none';
+        }
         return;
       }
       
@@ -860,8 +980,18 @@ export default function WorkingMapView({
         const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
           .setLngLat(coords)
           .addTo(map);
-        (map as any)[markersKey].push(marker);
-        existingMarkerMap.set(props.id, marker);
+        const lngLat: [number, number] = [coords[0], coords[1]];
+        (map as any)[markersKey].push({ marker, lngLat });
+        existingMarkerMap.set(props.id, { marker, lngLat });
+        
+        // Initial visibility check for this marker
+        const point = map.project(lngLat);
+        const canvas = map.getCanvas();
+        const w = canvas.width / (window.devicePixelRatio || 1);
+        const h = canvas.height / (window.devicePixelRatio || 1);
+        const isVisible = point.x >= -50 && point.x <= w + 50 &&
+                         point.y >= -50 && point.y <= h + 50;
+        el.style.display = isVisible ? 'block' : 'none';
       });
     });
   };
@@ -871,7 +1001,11 @@ export default function WorkingMapView({
     const markersKey = '__storeTeardropMarkers';
     const markerMapKey = '__storeMarkerMap';
     if ((map as any)[markersKey]) {
-      (map as any)[markersKey].forEach((m: any) => m.remove());
+      (map as any)[markersKey].forEach((m: any) => {
+        // Handle both old format (just marker) and new format ({ marker, lngLat })
+        const marker = m.marker || m;
+        marker.remove();
+      });
       (map as any)[markersKey] = [];
     }
     if ((map as any)[markerMapKey]) {
@@ -1210,12 +1344,37 @@ export default function WorkingMapView({
             }, 100);
           };
 
+          // Real-time visibility update for store markers during drag/pan
+          const updateStoreMarkerVisibility = () => {
+            const markersKey = '__storeTeardropMarkers';
+            const markers = (map as any)[markersKey] || [];
+            if (markers.length === 0) return;
+            
+            const canvas = map.getCanvas();
+            const width = canvas.width / (window.devicePixelRatio || 1);
+            const height = canvas.height / (window.devicePixelRatio || 1);
+            
+            markers.forEach((markerData: { marker: any; lngLat: [number, number] }) => {
+              if (!markerData.marker || !markerData.lngLat) return;
+              const point = map.project(markerData.lngLat);
+              const isVisible = point.x >= -50 && point.x <= width + 50 &&
+                               point.y >= -50 && point.y <= height + 50;
+              const el = markerData.marker.getElement();
+              if (el) {
+                el.style.display = isVisible ? 'block' : 'none';
+              }
+            });
+          };
+
           // Initial render of store teardrop markers (after a short delay to let map settle)
           setTimeout(() => {
             updateStoreTeardropMarkers(map, storesRef.current, onStoreSelect);
           }, 200);
 
-          // Update teardrop markers when map stops moving (debounced)
+          // Update marker visibility continuously during drag/pan
+          map.on('move', updateStoreMarkerVisibility);
+          
+          // Update teardrop markers when map stops moving (debounced) - adds new markers
           map.on('moveend', debouncedUpdateMarkers);
           map.on('zoomend', debouncedUpdateMarkers);
 
