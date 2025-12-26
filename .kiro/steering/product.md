@@ -10,7 +10,7 @@ Subway Enterprise Baseline is a multi-tenant restaurant management system design
 - **Menu Management**: Store-specific menu items with pricing and availability controls
 - **AI-Powered Features**:
   - **SubMind Assistant**: Context-aware AI assistant using GPT-5-mini for operational insights and expansion analysis
-  - **Expansion Intelligence**: AI-driven location discovery and market analysis using GPT-5.1 and GPT-5-mini models
+  - **Expansion Intelligence**: AI-driven location discovery and market analysis using GPT-5.2 and GPT-5-mini models
   - **Strategic Recommendations**: Automated site scoring and viability assessment
 
 ## Deployment Status

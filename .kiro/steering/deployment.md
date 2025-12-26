@@ -80,8 +80,8 @@ CORS_ORIGIN=<your-admin-url>
 | Feature | Model | Purpose | Cost |
 |---------|-------|---------|------|
 | SubMind Assistant | gpt-5-mini | Interactive Q&A, explanations | $0.25/$2.00 per 1M tokens |
-| Simple Expansion | gpt-5.1 or gpt-5-mini | Single-call expansion generation | Configurable |
-| Store Analysis | gpt-5.1 or gpt-5-mini | Performance analysis | Configurable |
+| Simple Expansion | gpt-5.2 or gpt-5-mini | Single-call expansion generation | Configurable |
+| Store Analysis | gpt-5.2 or gpt-5-mini | Performance analysis | Configurable |
 | Location Discovery | gpt-5-nano | High-volume candidate generation | $0.05/$0.40 per 1M tokens |
 | Market Analysis | gpt-5-mini | Strategic market intelligence | $0.25/$2.00 per 1M tokens |
 | Strategic Scoring | gpt-5-mini | Candidate ranking | $0.25/$2.00 per 1M tokens |
@@ -101,7 +101,7 @@ CORS_ORIGIN=<your-admin-url>
 - General analysis and recommendations
 - Most production workloads
 
-**Use gpt-5.1 when:**
+**Use gpt-5.2 when:**
 - Complex strategic analysis required
 - Deep reasoning needed
 - Executive-level recommendations

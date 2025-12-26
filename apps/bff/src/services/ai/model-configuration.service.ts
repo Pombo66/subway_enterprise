@@ -34,7 +34,7 @@ export class ModelConfigurationManager {
   private readonly SUPPORTED_MODELS = [
     'gpt-5-nano',
     'gpt-5-mini',
-    'gpt-5.1'
+    'gpt-5.2'
   ];
 
   private readonly MODEL_PRICING: Record<string, ModelPricing> = {
@@ -48,7 +48,7 @@ export class ModelConfigurationManager {
       outputTokensPerMillion: 2000, // $2.00 per 1M output tokens (actual pricing)
       currency: 'USD'
     },
-    'gpt-5.1': {
+    'gpt-5.2': {
       inputTokensPerMillion: 1250, // $1.25 per 1M input tokens (actual pricing)
       outputTokensPerMillion: 10000, // $10.00 per 1M output tokens (actual pricing)
       currency: 'USD'
