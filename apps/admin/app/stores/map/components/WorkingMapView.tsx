@@ -1106,7 +1106,12 @@ export default function WorkingMapView({
           zoom: 2,
           // Fix font loading issues
           localIdeographFontFamily: 'sans-serif'
-          // Note: scrollZoom defaults to true and zooms around mouse pointer
+        });
+        
+        // Log scroll zoom configuration
+        console.log('🔍 ScrollZoom handler:', {
+          isEnabled: map.scrollZoom.isEnabled(),
+          // Default behavior should zoom around mouse pointer
         });
 
         console.log('✅ Mapbox GL instance created successfully');
@@ -1932,7 +1937,7 @@ export default function WorkingMapView({
         </div>
       )}
 
-      {/* Hide Mapbox attribution and clip marker overflow */}
+      {/* Hide Mapbox attribution and ensure proper zoom behavior */}
       <style jsx global>{`
         .mapboxgl-ctrl-attrib,
         .mapboxgl-ctrl-logo {
@@ -1948,6 +1953,13 @@ export default function WorkingMapView({
         /* The map container clips all content including markers */
         .mapboxgl-map {
           overflow: hidden !important;
+        }
+        
+        /* Ensure canvas receives mouse events properly for zoom-around-pointer */
+        .mapboxgl-canvas {
+          position: absolute;
+          top: 0;
+          left: 0;
         }
       `}</style>
     </div>
