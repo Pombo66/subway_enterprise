@@ -9,7 +9,6 @@ import UploadStoreData from './components/UploadStoreData';
 import UploadErrorBoundary from './components/UploadErrorBoundary';
 import { useToast } from '../components/ToastProvider';
 import { onStoresImported } from '../../lib/events/store-events';
-import StorePerformanceAnalysis from './components/StorePerformanceAnalysis';
 
 interface Store {
   id: string;
@@ -44,7 +43,6 @@ function StoresPageContent() {
   const [loading, setLoading] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [editingStore, setEditingStore] = useState<Store | null>(null);
-  const [showPerformanceAnalysis, setShowPerformanceAnalysis] = useState(false);
   const [filters, setFilters] = useState<FilterState>({});
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -406,20 +404,6 @@ function StoresPageContent() {
                 Delete All ({searchFilteredStores.length})
               </button>
             )}
-            <button 
-              onClick={() => setShowPerformanceAnalysis(true)}
-              className="s-btn"
-              style={{ 
-                background: 'var(--s-accent)', 
-                color: 'white',
-                border: 'none'
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 3v18h18v-2H5V3H3Zm4 14h2V9H7v8Zm4 0h2V7h-2v10Zm4 0h2V5h-2v12Z"/>
-              </svg>
-              Performance Analysis
-            </button>
             <UploadErrorBoundary>
               <UploadStoreData 
                 onUploadSuccess={handleUploadSuccess}
@@ -673,13 +657,6 @@ function StoresPageContent() {
           store={editingStore}
           onClose={() => setEditingStore(null)}
           onSave={handleEditStore}
-        />
-
-        <StorePerformanceAnalysis
-          stores={stores}
-          onStoreSelect={handleViewStore}
-          isOpen={showPerformanceAnalysis}
-          onClose={() => setShowPerformanceAnalysis(false)}
         />
       </div>
     </main>
